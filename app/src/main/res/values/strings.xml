@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">PickMall</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="account">Have an account?</string>
+    <string name="signin">SignIn</string>
 </resources>
