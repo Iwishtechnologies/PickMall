@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:weightSum="4"
     android:orientation="vertical"
-    tools:context=".Signup">
+    tools:context=".activity.Signup">
 
 
     <LinearLayout
@@ -67,6 +67,7 @@
 
 
          <Button
+             android:id="@+id/createAccountButton"
              android:layout_width="match_parent"
              android:layout_marginTop="30dp"
              android:layout_height="wrap_content"
@@ -109,17 +110,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:src="@drawable/facebook"/>
+                android:src="@drawable/fb_icon"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/twitter"/>
+                android:src="@drawable/twitter_icon"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/google"/>
+                android:src="@drawable/google_plus_icon"/>
 
 
         </LinearLayout>
