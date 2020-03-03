@@ -6,7 +6,11 @@
     <color name="tint">#C5C2C2</color>
     <color name="signin_color">#00BCD4</color>
     <color name="black">#000</color>
+    <color name="silderColor">#F2F2F2</color>
+    <color name="lightsilverColor">#707070</color>
 
     <color name="redColor">#FF4747</color>
     <color name="whiteColor">#FFFFFF</color>
+    <color name="orangeColor">#FA6600</color>
+    <color name="lightorangeColor">#ED7C2E</color>
 </resources>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.ProductDetailsActivity">
+
+    <ScrollView
+        android:layout_above="@+id/button_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/productImageDetailsViewpager"
+                android:layout_width="match_parent"
+                android:layout_height="400dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/whiteColor"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:id="@+id/priceEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:text="299"
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="( Tax include )"
+                        android:textSize="12sp"
+                        app:fonttype="light" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="3dp"
+                    android:weightSum="1">
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:id="@+id/dicount_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="9dp"
+                        android:text="1299"
+                        android:textSize="12sp" />
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_weight="1"
+                        android:text="50%"
+                        android:textColor="@color/redColor"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:id="@+id/title_name_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Title"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="5dp"
+                        android:gravity="center"
+                        android:text="2000"
+                        android:textColor="@color/redColor"
+                        android:textSize="10sp" />
+
+                    <RatingBar
+                        android:id="@+id/ratingcheck"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:gravity="center"
+                        android:progressTint="@color/orangeColor" />
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="5dp"
+                        android:gravity="center"
+                        android:text="3.3"
+                        android:textColor="@color/redColor"
+                        android:textSize="10sp" />
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:gravity="center"
+                        android:text="(172)"
+                        android:textColor="@color/redColor"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/whiteColor"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/whiteColor"
+                    android:orientation="horizontal"
+                    android:padding="7dp"
+                    android:weightSum="2">
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Color , Size"
+                        android:textColor="@color/black"
+                        app:fonttype="light" />
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:id="@+id/select_size_color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:drawableRight="@drawable/right_arrow"
+                        android:gravity="end|center"
+                        android:text="Select"
+                        android:textColor="@color/black"
+                        app:fonttype="light" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/color_size_image_recycle_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/whiteColor"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:layout_weight="1"
+            android:text="Buy Now" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:layout_weight="1"
+            android:text="Add Card" />
+    </LinearLayout>
+
+</RelativeLayout>

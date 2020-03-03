@@ -13,11 +13,13 @@
         android:gravity="center"
         android:layout_gravity="center">
         <ImageView
+            android:id="@+id/HomeBottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/home_icon"/>
         <ImageView
+            android:id="@+id/FeedBottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -28,11 +30,13 @@
             android:layout_weight="1"
             android:src="@drawable/message_icon"/>
         <ImageView
+            android:id="@+id/CardBottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/cart_icon"/>
         <ImageView
+            android:id="@+id/AccountBottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
