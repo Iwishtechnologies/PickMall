@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainproduct"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/mainproduct">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/product_layout"
@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/product_img"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:layout_margin="10dp" />
 
         <LinearLayout
@@ -41,8 +41,8 @@
                     android:layout_weight="1"
                     android:text="255"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
-                    app:fonttype="text_semi_bold" />
+                    android:textSize="16sp"
+                    app:fonttype="black" />
 
                 <tech.iwish.pickmall.extended.TextViewFont
                     android:layout_width="wrap_content"
@@ -58,27 +58,62 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:orientation="horizontal">
 
                 <tech.iwish.pickmall.extended.TextViewFont
+                    android:id="@+id/discount_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2550"
-                    android:textColor="@color/black"
+                    android:textColor="@color/lightsilverColor"
                     android:textSize="10sp"
                     app:fonttype="text_semi_bold" />
 
                 <tech.iwish.pickmall.extended.TextViewFont
+                    android:id="@+id/per_dicount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="400 + sold"
+                    android:text="-50%"
+                    android:textColor="@color/redColor"
+                    android:textSize="10sp"
+                    app:fonttype="text_semi_bold" />
+            </LinearLayout>
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:id="@+id/product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text=""
+                android:textColor="@color/club_back_single_text_color"
+                android:textSize="11sp"
+                app:fonttype="regular" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RatingBar
+                    android:id="@+id/product_rationg"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:progressTint="@color/orangeColor" />
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text="(50)"
                     android:textColor="@color/redColor"
                     android:textSize="10sp"
                     app:fonttype="text_semi_bold" />
             </LinearLayout>
 
         </LinearLayout>
-
     </LinearLayout>
 </LinearLayout>

@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.ProductDetailsActivity">
+    tools:context=".activity.ProductDetailsActivity"
+    android:background="@color/club_back_color">
 
     <ScrollView
-        android:layout_above="@+id/button_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/button_layout"
         android:scrollbars="none">
 
         <LinearLayout
@@ -21,14 +22,17 @@
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/productImageDetailsViewpager"
                 android:layout_width="match_parent"
-                android:layout_height="400dp" />
+                android:layout_height="360dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/whiteColor"
                 android:orientation="vertical"
-                android:padding="8dp">
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="30dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -39,18 +43,10 @@
                         android:id="@+id/priceEdit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp"
+                        android:layout_marginEnd="2dp"
                         android:text="299"
                         android:textColor="@color/black"
                         android:textSize="20sp" />
-
-                    <tech.iwish.pickmall.extended.TextViewFont
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="( Tax include )"
-                        android:textSize="12sp"
-                        app:fonttype="light" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -64,7 +60,7 @@
                         android:id="@+id/dicount_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="9dp"
+                        android:layout_marginEnd="2dp"
                         android:text="1299"
                         android:textSize="12sp" />
 
@@ -98,8 +94,7 @@
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="5dp"
                         android:gravity="center"
-                        android:text="2000"
-                        android:textColor="@color/redColor"
+                        android:text="2000 sold"
                         android:textSize="10sp" />
 
                     <RatingBar
@@ -115,7 +110,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:layout_marginEnd="5dp"
+                        android:layout_marginEnd="2dp"
                         android:gravity="center"
                         android:text="3.3"
                         android:textColor="@color/redColor"
@@ -124,7 +119,6 @@
                     <tech.iwish.pickmall.extended.TextViewFont
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
                         android:gravity="center"
                         android:text="(172)"
                         android:textColor="@color/redColor"
@@ -138,7 +132,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@color/whiteColor"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -165,16 +161,16 @@
                         android:drawableRight="@drawable/right_arrow"
                         android:gravity="end|center"
                         android:text="Select"
-                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textColor="@color/club_back_single_text_color"
                         app:fonttype="light" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:orientation="horizontal"
-                    android:padding="4dp">
+                    android:padding="2dp">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/color_size_image_recycle_view"
@@ -182,6 +178,12 @@
                         android:layout_height="wrap_content" />
                 </LinearLayout>
             </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/product_overview_frame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
 
         </LinearLayout>
     </ScrollView>
@@ -192,21 +194,86 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/whiteColor"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:padding="5dp"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginEnd="10dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/shop_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Store"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/heart_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Like"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </LinearLayout>
 
         <Button
+            android:id="@+id/add_card_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="10dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_weight="1"
-            android:text="Buy Now" />
+            android:background="@drawable/add_to_card_button_design"
+            android:gravity="center"
+            android:text="Add to card"
+            android:textColor="@color/silderColor" />
+
         <Button
+            android:id="@+id/buy_now_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="10dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
             android:layout_weight="1"
-            android:text="Add Card" />
+            android:background="@drawable/buy_now_button_design"
+            android:gravity="center"
+            android:text="Buy now"
+            android:textColor="@color/redColor" />
+
+
     </LinearLayout>
 
 </RelativeLayout>

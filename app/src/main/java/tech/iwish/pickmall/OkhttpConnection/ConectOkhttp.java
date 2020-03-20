@@ -20,10 +20,10 @@ import okhttp3.Response;
 public class ConectOkhttp {
 
 
-    private void formdata(){
+    private void formdata() {
         //        Form data
         OkHttpClient okHttpClient = new OkHttpClient();
-        RequestBody requestBody = new FormBody.Builder().add("item_id","38").build();
+        RequestBody requestBody = new FormBody.Builder().add("item_id", "38").build();
         Request request1 = new Request.Builder().url("http://173.212.226.143:8086/categoryapi").post(requestBody).build();
         okHttpClient.newCall(request1).enqueue(new Callback() {
             @Override
@@ -39,7 +39,7 @@ public class ConectOkhttp {
     }
 
 
-    private void OkhttpAll_request(){
+    private void OkhttpAll_request() {
         //  OkHttp   get
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -53,16 +53,11 @@ public class ConectOkhttp {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     Log.e("response", response.body().string());
                 }
             }
         });
-
-
-
-
-
 
 
 //        okhttps post request
@@ -70,7 +65,7 @@ public class ConectOkhttp {
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("item_id","7");
+            jsonObject.put("item_id", "7");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -84,7 +79,7 @@ public class ConectOkhttp {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     Log.e("response", response.body().string());
                 }
             }

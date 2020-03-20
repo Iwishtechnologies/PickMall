@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.RatingBar;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -35,6 +36,7 @@ public class ProductActivity extends AppCompatActivity {
     private List<ProductList> productListList = new ArrayList<>();
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,6 @@ public class ProductActivity extends AppCompatActivity {
         product_recycleview.setLayoutManager(layoutManager);
 
         datafetchProduct();
-
 
     }
 
@@ -86,7 +87,7 @@ public class ProductActivity extends AppCompatActivity {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
 //
-                                productListList.add(new ProductList(jsonHelper.GetResult("product_id"),jsonHelper.GetResult("ProductName"),jsonHelper.GetResult("item_id"),jsonHelper.GetResult("catagory_id"),jsonHelper.GetResult("subcategory_id"),jsonHelper.GetResult("SIze"),jsonHelper.GetResult("Colors"),jsonHelper.GetResult("Qty"),jsonHelper.GetResult("actual_price"),jsonHelper.GetResult("discount_price"),jsonHelper.GetResult("status"),jsonHelper.GetResult("pimg")));
+                                productListList.add(new ProductList(jsonHelper.GetResult("product_id"),jsonHelper.GetResult("ProductName"),jsonHelper.GetResult("item_id"),jsonHelper.GetResult("catagory_id"),jsonHelper.GetResult("actual_price"),jsonHelper.GetResult("discount_price"),jsonHelper.GetResult("discount_price_per"),jsonHelper.GetResult("status"),jsonHelper.GetResult("pimg"),jsonHelper.GetResult("vendor_id")));
 
                             }
                             ProductActivity.this.runOnUiThread(new Runnable() {

@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,17 +18,25 @@ import java.util.List;
 
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.ProductDetailsActivity;
-import tech.iwish.pickmall.other.ProductDetailsList;
+import tech.iwish.pickmall.config.Constants;
+import tech.iwish.pickmall.other.ProductDetailsImageList;
+import tech.iwish.pickmall.other.ProductSizeColorList;
 
 public class ColorSizeImageAdapter extends RecyclerView.Adapter<ColorSizeImageAdapter.Viewholder> {
 
     private Context context;
-    private List<ProductDetailsList> productDetailsListList;
+    private String dubledata;
+    private List<ProductSizeColorList> productSizeColorLists;
+    private List<ProductDetailsImageList> productDetailsListImageList;
+    private Boolean checks = true;
 
-    public ColorSizeImageAdapter(ProductDetailsActivity productDetailsActivity, List<ProductDetailsList> productDetailsListList) {
+    public ColorSizeImageAdapter(ProductDetailsActivity productDetailsActivity, List<ProductSizeColorList> productSizeColorLists, List<ProductDetailsImageList> productDetailsListImageList) {
+        this.productSizeColorLists = productSizeColorLists;
         this.context = productDetailsActivity;
-        this.productDetailsListList = productDetailsListList;
+        this.productDetailsListImageList = productDetailsListImageList;
+
     }
+
 
     @NonNull
     @Override
@@ -38,24 +48,53 @@ public class ColorSizeImageAdapter extends RecyclerView.Adapter<ColorSizeImageAd
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        String a = "http://173.212.226.143:8086/img/" + productDetailsListList.get(position).getImgname();
-        Glide.with(context).load(a).into(holder.color_image);
+
+
+        if(checks){
+            this.checks = false ;
+            String a = Constants.IMAGES+ productDetailsListImageList.get(position).getImage();
+            Glide.with(context).load(a).into(holder.color_image);
+        }
+
+//        String val = productSizeColorLists.get(position).getColor();
+//        if (dubledata != null) {
+//            if (dubledata.equals(val)) {
+//
+//                holder.main_layout.setVisibility(View.GONE);
+//                holder.main_layout.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+//
+//            } else {
+//
+////                String a = "http://173.212.226.143:8086/img/" + productSizeColorLists.get(position).getImgname();
+////                Glide.with(context).load(a).into(holder.color_image);
+//
+//            }
+//        } else {
+//
+//            String a = "http://173.212.226.143:8086/img/" + productSizeColorLists.get(position).getImgname();
+//            Glide.with(context).load(a).into(holder.color_image);
+//        }
+//        this.dubledata = productSizeColorLists.get(position).getColor();
+
+
+
     }
 
     @Override
     public int getItemCount() {
-        return productDetailsListList.size();
+        return productSizeColorLists.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
 
         private ImageView color_image;
+        private LinearLayout main_layout;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
 
             color_image = (ImageView) itemView.findViewById(R.id.color_image);
-
+            main_layout = (LinearLayout) itemView.findViewById(R.id.main_layout);
         }
     }
 }

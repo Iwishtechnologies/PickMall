@@ -4,7 +4,9 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center">
+    android:gravity="center"
+    android:paddingEnd="2dp"
+    android:id="@+id/flash_product_linear">
     <ImageView
         android:id="@+id/image_flash_sale"
         android:layout_width="150dp"
@@ -14,21 +16,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginTop="3dp">
         <TextView
+            android:id="@+id/actual_price_flash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="3dp"
             android:text="200"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textColor="@color/redColor"
+            android:textSize="14sp" />
         <TextView
+            android:id="@+id/dicount_price_flash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:text="2000"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
 
     </LinearLayout>
 </LinearLayout>

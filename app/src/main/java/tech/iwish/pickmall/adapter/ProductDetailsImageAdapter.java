@@ -12,27 +12,26 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.ProductDetailsActivity;
-import tech.iwish.pickmall.other.ProductDetailsList;
+import tech.iwish.pickmall.other.ProductDetailsImageList;
 
 public class ProductDetailsImageAdapter extends PagerAdapter {
 
-    private List<ProductDetailsList> productDetailsListList ;
+    private List<ProductDetailsImageList> productDetailsListImageList;
     private Context context ;
     private LayoutInflater layoutInflater;
 
-    public ProductDetailsImageAdapter(ProductDetailsActivity productDetailsActivity, List<ProductDetailsList> productDetailsListList) {
-        this.productDetailsListList = productDetailsListList ;
+    public ProductDetailsImageAdapter(ProductDetailsActivity productDetailsActivity, List<ProductDetailsImageList> productDetailsListImageList) {
+        this.productDetailsListImageList = productDetailsListImageList;
         this.context = productDetailsActivity ;
     }
 
     @Override
     public int getCount() {
-        return productDetailsListList.size();
+        return productDetailsListImageList.size();
     }
 
     @Override
@@ -48,7 +47,7 @@ public class ProductDetailsImageAdapter extends PagerAdapter {
         ImageView imageView =item_view.findViewById(R.id.prooductDetailsImages);
 
 
-        String a = "http://173.212.226.143:8086/img/"+productDetailsListList.get(position).getImgname();
+        String a = "http://173.212.226.143:8086/img/"+ productDetailsListImageList.get(position).getImage();
         Glide.with(context).load(a).into(imageView);
         container.addView(item_view);
         return item_view;
@@ -56,6 +55,7 @@ public class ProductDetailsImageAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        super.destroyItem(container, position, object);
+//        destroyItem(container, position, object);
+        container.removeView((LinearLayout)object);
     }
 }

@@ -3,7 +3,7 @@
     package="tech.iwish.pickmall">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.ProductDetailsActivity"></activity>
+        <activity android:name=".activity.FriendsDealsAllActivity"></activity>
+        <activity android:name=".activity.FlashSaleProductactivity" />
+        <activity
+            android:name=".activity.CardActivity"
+            android:theme="@style/CardTheme" />
+        <activity android:name=".activity.ProductDetailsActivity" />
         <activity android:name=".activity.ProductActivity" />
         <activity android:name=".activity.FreshSaleViewAllActivity" />
         <activity android:name=".activity.SplashActivity" />

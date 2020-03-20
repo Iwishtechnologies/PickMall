@@ -5,30 +5,25 @@ public class ProductList {
     private String ProductName;
     private String item_id;
     private String catagory_id;
-    private String subcategory_id;
-    private String sIze;
-    private String colors;
-    private String oty;
     private String actual_price;
     private String discount_price;
+    private String discount_price_per;
     private String status;
     private String pimg;
+    private String vendor_id;
 
-    public ProductList(String product_id, String productName, String item_id, String catagory_id, String subcategory_id, String sIze, String colors, String oty, String actual_price, String discount_price, String status, String pimg) {
+    public ProductList(String product_id, String productName, String item_id, String catagory_id, String actual_price, String discount_price, String discount_price_per, String status, String pimg, String vendor_id) {
         this.product_id = product_id;
         ProductName = productName;
         this.item_id = item_id;
         this.catagory_id = catagory_id;
-        this.subcategory_id = subcategory_id;
-        this.sIze = sIze;
-        this.colors = colors;
-        this.oty = oty;
         this.actual_price = actual_price;
         this.discount_price = discount_price;
+        this.discount_price_per = discount_price_per;
         this.status = status;
         this.pimg = pimg;
+        this.vendor_id = vendor_id;
     }
-
 
     public String getProduct_id() {
         return product_id;
@@ -62,38 +57,6 @@ public class ProductList {
         this.catagory_id = catagory_id;
     }
 
-    public String getSubcategory_id() {
-        return subcategory_id;
-    }
-
-    public void setSubcategory_id(String subcategory_id) {
-        this.subcategory_id = subcategory_id;
-    }
-
-    public String getsIze() {
-        return sIze;
-    }
-
-    public void setsIze(String sIze) {
-        this.sIze = sIze;
-    }
-
-    public String getColors() {
-        return colors;
-    }
-
-    public void setColors(String colors) {
-        this.colors = colors;
-    }
-
-    public String getOty() {
-        return oty;
-    }
-
-    public void setOty(String oty) {
-        this.oty = oty;
-    }
-
     public String getActual_price() {
         return actual_price;
     }
@@ -110,6 +73,14 @@ public class ProductList {
         this.discount_price = discount_price;
     }
 
+    public String getDiscount_price_per() {
+        return discount_price_per;
+    }
+
+    public void setDiscount_price_per(String discount_price_per) {
+        this.discount_price_per = discount_price_per;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -124,5 +95,13 @@ public class ProductList {
 
     public void setPimg(String pimg) {
         this.pimg = pimg;
+    }
+
+    public String getVendor_id() {
+        return vendor_id;
+    }
+
+    public void setVendor_id(String vendor_id) {
+        this.vendor_id = vendor_id;
     }
 }

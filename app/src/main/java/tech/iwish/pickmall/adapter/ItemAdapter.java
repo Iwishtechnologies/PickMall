@@ -20,6 +20,7 @@ import okhttp3.Callback;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.MainActivity;
 import tech.iwish.pickmall.activity.ProductActivity;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.other.ItemList;
 import tech.iwish.pickmall.session.Share_session;
 
@@ -56,7 +57,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
                 context.startActivity(intent);
             }
         });
-        String a = "http://173.212.226.143:8086/img/"+itemLists.get(position).getIcon_img();
+//        String a = "http://173.212.226.143:8086/img/"+itemLists.get(position).getIcon_img();
+        String a = Constants.IMAGES+itemLists.get(position).getIcon_img();
         Glide.with(context).load(a).into(holder.image);
         holder.nameCat.setText(itemLists.get(position).getItem_name());
     }

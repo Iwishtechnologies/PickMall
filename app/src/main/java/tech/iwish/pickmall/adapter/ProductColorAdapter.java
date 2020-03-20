@@ -1,7 +1,6 @@
 package tech.iwish.pickmall.adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,21 +16,25 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import tech.iwish.pickmall.Interface.ProductColorInterFace;
 import tech.iwish.pickmall.R;
-import tech.iwish.pickmall.fragment.ProductSideColorBottomFragment;
-import tech.iwish.pickmall.other.ProductDetailsList;
+import tech.iwish.pickmall.other.ProductDetailsImageList;
+import tech.iwish.pickmall.other.ProductSizeColorList;
 
 public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapter.Viewholder> {
 
     private Context context;
-    private List<ProductDetailsList> productDetailsListList;
+    private List<ProductSizeColorList> productSizeColorLists;
     private ImageView product_image;
+    private ProductColorInterFace productColorInterFace;
+    private String dubledata;
     private int currentSelectedPosition = RecyclerView.NO_POSITION;
 
-    public ProductColorAdapter(FragmentActivity activity, List<ProductDetailsList> productDetailsListList, ImageView product_image) {
+    public ProductColorAdapter(FragmentActivity activity, List<ProductSizeColorList> productSizeColorLists, ImageView product_image, ProductColorInterFace productColorInterFace) {
         this.context = activity;
-        this.productDetailsListList = productDetailsListList;
+        this.productSizeColorLists = productSizeColorLists;
         this.product_image = product_image;
+        this.productColorInterFace = productColorInterFace;
     }
 
     @NonNull
@@ -45,27 +48,39 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, final int position) {
-        holder.product_color.setText(productDetailsListList.get(position).getColor());
-        holder.color_main_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                currentSelectedPosition = position;
-                notifyDataSetChanged();
-            }
-        });
-        if (currentSelectedPosition == position) {
 
-            String a = "http://173.212.226.143:8086/img/" + productDetailsListList.get(currentSelectedPosition).getImgname();
-            Glide.with(context).load(a).into(product_image);
+        String val = productSizeColorLists.get(position).getColor();
+        if (dubledata != null) {
+            if (dubledata.equals(val)) {
+                holder.color_main_layout.setVisibility(View.GONE);
+                holder.color_main_layout.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+            } else {
+                holder.product_color.setText(productSizeColorLists.get(position).getColor());
+                holder.product_color.setBackground(context.getResources().getDrawable(R.drawable.size_design));
+                holder.color_main_layout.setEnabled(true);
+            }
+        } else {
+            holder.product_color.setText(productSizeColorLists.get(position).getColor());
+            holder.product_color.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
+            holder.color_main_layout.setEnabled(false);
         }
+
+        this.dubledata = productSizeColorLists.get(position).getColor();
+
+        if (currentSelectedPosition == position) {
+            holder.product_color.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
+        }else {
+            holder.product_color.setBackground(context.getResources().getDrawable(R.drawable.size_design));
+        }
+
     }
 
     @Override
     public int getItemCount() {
-        return productDetailsListList.size();
+        return productSizeColorLists.size();
     }
 
-    public class Viewholder extends RecyclerView.ViewHolder {
+    public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView product_color;
         private LinearLayout color_main_layout;
@@ -74,6 +89,42 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
             super(itemView);
             product_color = (TextView) itemView.findViewById(R.id.product_color);
             color_main_layout = (LinearLayout) itemView.findViewById(R.id.color_main_layout);
+            color_main_layout.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+
+            int id = view.getId();
+            switch (id) {
+                case R.id.color_main_layout:
+//                    String a = "http://173.212.226.143:8086/img/" + productSizeColorLists.get(getAdapterPosition()).getImgname();
+//                    Glide.with(context).load(a).into(product_image);
+//                    productColorInterFace.productcolorresponse(productSizeColorLists.get(getAdapterPosition()).getColor(), productSizeColorLists.get(getAdapterPosition()).getImgname());
+//                    currentSelectedPosition = getAdapterPosition();
+                    notifyDataSetChanged();
+                    break;
+            }
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

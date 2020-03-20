@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
 
     private List<ProductList> productLists;
     private Context context;
+
 
     public ProductAdapter(ProductActivity productActivity, List<ProductList> productListList) {
         this.context = productActivity;
@@ -45,7 +47,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
         String status = productLists.get(position).getStatus();
         if (status.equals("TRUE")) {
 
-            holder.amount.setText(productLists.get(position).getActual_price());
+            holder.product_rationg.setRating((float) 4.5);
+            holder.amount.setText(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getActual_price());
+            holder.discount_price.setText(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getDiscount_price());
+            holder.product_name.setText(productLists.get(position).getProductName());
+            holder.per_dicount.setText(" -"+productLists.get(position).getDiscount_price_per()+"%");
+
             String a = "http://173.212.226.143:8086/img/" + productLists.get(position).getPimg();
             Glide.with(context).load(a).into(holder.product_img);
             holder.product_layout.setOnClickListener(new View.OnClickListener() {
@@ -56,8 +63,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
                     intent.putExtra("actual_price", productLists.get(position).getActual_price());
                     intent.putExtra("discount_price", productLists.get(position).getDiscount_price());
                     intent.putExtra("product_id", productLists.get(position).getProduct_id());
-                    intent.putExtra("product_color", productLists.get(position).getColors());
                     intent.putExtra("product_Image", productLists.get(position).getPimg());
+                    intent.putExtra("product_type", "allProduct");
                     context.startActivity(intent);
                 }
             });
@@ -76,7 +83,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
 
         private ImageView product_img;
         private LinearLayout product_layout ,mainproduct;
-        private TextView amount;
+        private TextView amount , discount_price , product_name , per_dicount;
+        private RatingBar product_rationg ;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -85,6 +93,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
             product_layout = (LinearLayout) itemView.findViewById(R.id.product_layout);
             mainproduct = (LinearLayout) itemView.findViewById(R.id.mainproduct);
             amount = (TextView)itemView.findViewById(R.id.amount);
+            discount_price = (TextView)itemView.findViewById(R.id.discount_price);
+            product_name = (TextView)itemView.findViewById(R.id.product_name);
+            per_dicount = (TextView)itemView.findViewById(R.id.per_dicount);
+            product_rationg = (RatingBar)itemView.findViewById(R.id.product_rationg);
         }
     }
 }
