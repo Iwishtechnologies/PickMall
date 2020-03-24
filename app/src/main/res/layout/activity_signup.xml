@@ -106,11 +106,16 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <ImageView
+
+
+
+            <com.facebook.login.widget.LoginButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
+                android:id="@+id/facebook"
                 android:src="@drawable/fb_icon"/>
+
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -120,7 +125,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:id="@+id/google"
                 android:src="@drawable/google_plus_icon"/>
+
+<!--            <com.google.android.gms.common.SignInButton-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="20dp"-->
+<!--            android:id="@+id/google"-->
+<!--                />-->
 
 
         </LinearLayout>

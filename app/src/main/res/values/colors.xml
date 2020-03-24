@@ -6,7 +6,17 @@
     <color name="tint">#C5C2C2</color>
     <color name="signin_color">#00BCD4</color>
     <color name="black">#000</color>
+    <color name="silderColor">#F2F2F2</color>
+    <color name="lightsilverColor">#707070</color>
+    <color name="light_black">#363131</color>
+    <color name="blue_color">#1B4B9E</color>
+    <color name="club_back_color">#F3F4F6</color>
+    <color name="club_back_single_line_color">#F5F5F5</color>
+    <color name="club_back_single_text_color">#B0B0B0</color>
 
     <color name="redColor">#FF4747</color>
+    <color name="lightredColor">#90FAB2B2</color>
     <color name="whiteColor">#FFFFFF</color>
+    <color name="orangeColor">#FA6600</color>
+    <color name="lightorangeColor">#ED7C2E</color>
 </resources>

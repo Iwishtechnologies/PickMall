@@ -1,9 +1,18 @@
 <resources>
     <string name="app_name">PickMall</string>
+    <string name="rs_symbol">\u20B9</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="account">Have an account?</string>
     <string name="signin">SignIn</string>
     <string name="register">Register</string>
     <string name="sign_in">Sign in</string>
+    <string name="size">Size : </string>
+    <string name="qty">QTY </string>
+    <string name="facebook_app_id">692886267819816</string>
+    <string name="fb_login_protocol_scheme">fb692886267819816</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
