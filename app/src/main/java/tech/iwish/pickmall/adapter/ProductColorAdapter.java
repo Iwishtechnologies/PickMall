@@ -18,6 +18,7 @@ import java.util.List;
 
 import tech.iwish.pickmall.Interface.ProductColorInterFace;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.other.ProductDetailsImageList;
 import tech.iwish.pickmall.other.ProductSizeColorList;
 
@@ -49,23 +50,23 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, final int position) {
 
-        String val = productSizeColorLists.get(position).getColor();
-        if (dubledata != null) {
-            if (dubledata.equals(val)) {
-                holder.color_main_layout.setVisibility(View.GONE);
-                holder.color_main_layout.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
-            } else {
-                holder.product_color.setText(productSizeColorLists.get(position).getColor());
-                holder.product_color.setBackground(context.getResources().getDrawable(R.drawable.size_design));
-                holder.color_main_layout.setEnabled(true);
-            }
-        } else {
-            holder.product_color.setText(productSizeColorLists.get(position).getColor());
-            holder.product_color.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
-            holder.color_main_layout.setEnabled(false);
-        }
-
-        this.dubledata = productSizeColorLists.get(position).getColor();
+//        String val = productSizeColorLists.get(position).getColor();
+//        if (dubledata != null) {
+//            if (dubledata.equals(val)) {
+//                holder.color_main_layout.setVisibility(View.GONE);
+//                holder.color_main_layout.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+//            } else {
+//                holder.product_color.setText(productSizeColorLists.get(position).getColor());
+//                holder.product_color.setBackground(context.getResources().getDrawable(R.drawable.size_design));
+//                holder.color_main_layout.setEnabled(true);
+//            }
+//        } else {
+//            holder.product_color.setText(productSizeColorLists.get(position).getColor());
+//            holder.product_color.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
+//            holder.color_main_layout.setEnabled(false);
+//        }
+//
+//        this.dubledata = productSizeColorLists.get(position).getColor();
 
         if (currentSelectedPosition == position) {
             holder.product_color.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
@@ -98,10 +99,10 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
             int id = view.getId();
             switch (id) {
                 case R.id.color_main_layout:
-//                    String a = "http://173.212.226.143:8086/img/" + productSizeColorLists.get(getAdapterPosition()).getImgname();
-//                    Glide.with(context).load(a).into(product_image);
-//                    productColorInterFace.productcolorresponse(productSizeColorLists.get(getAdapterPosition()).getColor(), productSizeColorLists.get(getAdapterPosition()).getImgname());
-//                    currentSelectedPosition = getAdapterPosition();
+                    String a = Constants.IMAGES + productSizeColorLists.get(getAdapterPosition()).getImgname();
+                    Glide.with(context).load(a).into(product_image);
+                    productColorInterFace.productcolorresponse(productSizeColorLists.get(getAdapterPosition()).getColor(), productSizeColorLists.get(getAdapterPosition()).getImgname());
+                    currentSelectedPosition = getAdapterPosition();
                     notifyDataSetChanged();
                     break;
             }

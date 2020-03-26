@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -39,7 +40,7 @@ import tech.iwish.pickmall.other.ProductSizeColorList;
 
 public class ProductDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView ac_priceEdit, dicount_price_Edit, title_name_edit, select_size_color;
+    private TextView ac_priceEdit, dicount_price_Edit, title_name_edit, select_size_color, one_product_name, one_rs_amount, one_rs_dicount_price;
     private List<ProductDetailsImageList> productDetailsListImageList = new ArrayList<>();
     //    private List<ProductDetailsImageList> productDetailsListImageList = new ArrayList<>();
     private List<ProductSizeColorList> productSizeColorLists = new ArrayList<>();
@@ -47,7 +48,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     private String product_color, product_name, product_Image, actual_price, discount_price, product_id;
     private RecyclerView color_size_image_recycle_view;
     private RatingBar ratingcheck;
-    private Button add_card_btn, buy_now_btn;
+    private Button add_card_btn, buy_now_btn, one_rs_button_place_order;
+    private LinearLayout product_layout, one_rs_main_layout, button_layout, one_rs_bottom_layout,one_rs_rule;
 
 
     @Override
@@ -59,12 +61,23 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         dicount_price_Edit = (TextView) findViewById(R.id.dicount_price);
         title_name_edit = (TextView) findViewById(R.id.title_name_edit);
         select_size_color = (TextView) findViewById(R.id.select_size_color);
+        one_product_name = (TextView) findViewById(R.id.one_product_name);
+        one_rs_amount = (TextView) findViewById(R.id.one_rs_amount);
+        one_rs_dicount_price = (TextView) findViewById(R.id.one_rs_dicount_price);
+
         productImageDetailsViewpager = (ViewPager) findViewById(R.id.productImageDetailsViewpager);
         color_size_image_recycle_view = (RecyclerView) findViewById(R.id.color_size_image_recycle_view);
         ratingcheck = (RatingBar) findViewById(R.id.ratingcheck);
 
         add_card_btn = (Button) findViewById(R.id.add_card_btn);
         buy_now_btn = (Button) findViewById(R.id.buy_now_btn);
+        one_rs_button_place_order = (Button) findViewById(R.id.one_rs_button_place_order);
+
+        product_layout = (LinearLayout) findViewById(R.id.product_layout);
+        one_rs_main_layout = (LinearLayout) findViewById(R.id.one_rs_main_layout);
+        button_layout = (LinearLayout) findViewById(R.id.button_layout);
+        one_rs_bottom_layout = (LinearLayout) findViewById(R.id.one_rs_bottom_layout);
+        one_rs_rule = (LinearLayout) findViewById(R.id.one_rs_rule);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
@@ -83,20 +96,40 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             case "flashSale":
                 flashSaleProductimage();
                 flashSaleProductsize_color();
+                product_layout.setVisibility(View.VISIBLE);
+                one_rs_main_layout.setVisibility(View.GONE);
+                one_rs_bottom_layout.setVisibility(View.GONE);
+                one_rs_rule.setVisibility(View.GONE);
+                button_layout.setVisibility(View.VISIBLE);
                 break;
             case "allProduct":
                 ProductAllImage();
                 ProductAllSize_color();
-
+                product_layout.setVisibility(View.VISIBLE);
+                one_rs_main_layout.setVisibility(View.GONE);
+                one_rs_bottom_layout.setVisibility(View.GONE);
+                one_rs_rule.setVisibility(View.GONE);
+                button_layout.setVisibility(View.VISIBLE);
                 break;
             case "friendsaleoneRs":
+                one_product_name.setText(product_name);
+                one_rs_amount.setText(getResources().getString(R.string.rs_symbol) + actual_price);
+                product_layout.setVisibility(View.GONE);
+                button_layout.setVisibility(View.GONE);
+                one_rs_main_layout.setVisibility(View.VISIBLE);
+                one_rs_bottom_layout.setVisibility(View.VISIBLE);
+                one_rs_rule.setVisibility(View.VISIBLE);
+                one_rs_dicount_price.setText(getResources().getString(R.string.rs_symbol) + discount_price);
+                one_rs_button_place_order.setText(getResources().getString(R.string.rs_symbol) + actual_price+" Start a Deal");
                 friendsaleoneRsImage();
                 friendsaleoneRscolor_size();
                 break;
         }
+
         select_size_color.setOnClickListener(this);
         add_card_btn.setOnClickListener(this);
         buy_now_btn.setOnClickListener(this);
+        one_rs_button_place_order.setOnClickListener(this);
 
 
         ac_priceEdit.setText(getResources().getString(R.string.rs_symbol) + actual_price);
@@ -112,6 +145,60 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     }
 
+    private void ProductAllImage() {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("product_id", product_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/productImages").post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                productDetailsListImageList.add(new ProductDetailsImageList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("image")));
+                            }
+
+                            ProductDetailsActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
+                                    productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
+
+                                }
+                            });
+
+                        }
+                    }
+
+                }
+            }
+        });
+
+
+    }
+
     private void ProductAllSize_color() {
         OkHttpClient okHttpClient1 = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -122,7 +209,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/ProductImageAll").post(body).build();
+        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/ProductAllSize_color").post(body).build();
         okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -143,7 +230,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty")));
+                                productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("imgname"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty")));
                             }
 
                             ProductDetailsActivity.this.runOnUiThread(new Runnable() {
@@ -175,7 +262,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/flashSaleIMage").post(body).build();
+        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/flashSale_silder_IMage").post(body).build();
         okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -250,7 +337,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty")));
+                                productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("imgname"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty")));
                             }
 
                             ProductDetailsActivity.this.runOnUiThread(new Runnable() {
@@ -313,8 +400,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
                                     ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
                                     productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
-//                                    ColorSizeImageAdapter colorSizeImageAdapter = new ColorSizeImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
-//                                    color_size_image_recycle_view.setAdapter(colorSizeImageAdapter);
+
                                 }
                             });
 
@@ -329,6 +415,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     }
 
     private void flashSaleProductsize_color() {
+
         OkHttpClient okHttpClient1 = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
@@ -338,7 +425,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/flashSaleImage").post(body).build();
+        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/flashSaleColor_size").post(body).build();
         okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -359,7 +446,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty")));
+                                productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("imgname"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty")));
                             }
 
                             ProductDetailsActivity.this.runOnUiThread(new Runnable() {
@@ -368,61 +455,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
                                     ColorSizeImageAdapter colorSizeImageAdapter = new ColorSizeImageAdapter(ProductDetailsActivity.this, productSizeColorLists, productDetailsListImageList);
                                     color_size_image_recycle_view.setAdapter(colorSizeImageAdapter);
-                                }
-                            });
-
-                        }
-                    }
-
-                }
-            }
-        });
-
-
-    }
-
-
-    private void ProductAllImage() {
-        OkHttpClient okHttpClient = new OkHttpClient();
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("product_id", product_id);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/productImage").post(body).build();
-        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-
-                    String result = response.body().string();
-                    Log.e("response", result);
-                    JsonHelper jsonHelper = new JsonHelper(result);
-                    if (jsonHelper.isValidJson()) {
-                        String responses = jsonHelper.GetResult("response");
-                        if (responses.equals("TRUE")) {
-                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                jsonHelper.setChildjsonObj(jsonArray, i);
-                                productDetailsListImageList.add(new ProductDetailsImageList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("image")));
-                            }
-
-                            ProductDetailsActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-
-                                    ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
-                                    productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
-
                                 }
                             });
 
@@ -451,6 +483,27 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 productSideColorBottomFragment.setArguments(bundle);
                 productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
                 break;
+            case R.id.one_rs_button_place_order:
+//                one rs place order check
+                break;
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

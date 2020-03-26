@@ -9,6 +9,13 @@
     <string name="sign_in">Sign in</string>
     <string name="size">Size : </string>
     <string name="qty">QTY </string>
+    <string name="mobile">Enter your Mobile Number</string>
+    <string name="male">Male </string>
+    <string name="female">Female </string>
+    <string name="gender">Selec Your Gender for More Personalized Products </string>
+
+    <string name="facebook_app_id">692886267819816</string>
+    <string name="fb_login_protocol_scheme">fb692886267819816</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

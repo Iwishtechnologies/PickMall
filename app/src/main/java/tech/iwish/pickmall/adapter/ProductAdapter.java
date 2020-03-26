@@ -2,6 +2,9 @@ package tech.iwish.pickmall.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.SpannableString;
+import android.text.style.StrikethroughSpan;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,7 @@ import java.util.List;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.ProductActivity;
 import tech.iwish.pickmall.activity.ProductDetailsActivity;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.other.ProductList;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewholder> {
@@ -49,11 +53,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
 
             holder.product_rationg.setRating((float) 4.5);
             holder.amount.setText(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getActual_price());
-            holder.discount_price.setText(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getDiscount_price());
+//            holder.discount_price.setText(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getDiscount_price());
+
+            SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getDiscount_price());
+            content.setSpan(new StrikethroughSpan(), 0, content.length(), 0 );
+            holder.discount_price.setText(content);
+
             holder.product_name.setText(productLists.get(position).getProductName());
             holder.per_dicount.setText(" -"+productLists.get(position).getDiscount_price_per()+"%");
 
-            String a = "http://173.212.226.143:8086/img/" + productLists.get(position).getPimg();
+            String a = Constants.IMAGES + productLists.get(position).getPimg();
             Glide.with(context).load(a).into(holder.product_img);
             holder.product_layout.setOnClickListener(new View.OnClickListener() {
                 @Override

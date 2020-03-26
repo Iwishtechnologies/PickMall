@@ -16,6 +16,7 @@ import java.util.List;
 
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.ProductDetailsActivity;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.other.ProductDetailsImageList;
 
 public class ProductDetailsImageAdapter extends PagerAdapter {
@@ -47,7 +48,7 @@ public class ProductDetailsImageAdapter extends PagerAdapter {
         ImageView imageView =item_view.findViewById(R.id.prooductDetailsImages);
 
 
-        String a = "http://173.212.226.143:8086/img/"+ productDetailsListImageList.get(position).getImage();
+        String a = Constants.IMAGES+ productDetailsListImageList.get(position).getImage();
         Glide.with(context).load(a).into(imageView);
         container.addView(item_view);
         return item_view;

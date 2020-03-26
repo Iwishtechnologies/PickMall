@@ -1,5 +1,6 @@
 package tech.iwish.pickmall.fragment;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
@@ -20,15 +21,21 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.List;
+import java.util.Map;
 
 import tech.iwish.pickmall.Interface.ProductColorInterFace;
 import tech.iwish.pickmall.Interface.ProductSizeInterFace;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.activity.Signup;
 import tech.iwish.pickmall.adapter.ProductColorAdapter;
 import tech.iwish.pickmall.adapter.ProductSizeAdapter;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.other.ProductDetailsImageList;
 import tech.iwish.pickmall.other.ProductSizeColorList;
+import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.sqlconnection.MyhelperSql;
+
+import static tech.iwish.pickmall.session.Share_session.LOGIN_CHECk;
 
 
 public class ProductSideColorBottomFragment extends BottomSheetDialogFragment implements View.OnClickListener, ProductSizeInterFace, ProductColorInterFace {
@@ -37,12 +44,14 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
     private RecyclerView size_product_recycleview, color_product_recycleview;
     private ImageView product_image;
     private ImageView sub_button, add_button;
-    private TextView quty_value, product_names ,actual_prices;
+    private TextView quty_value, product_names, actual_prices;
     private Button confirm_add_to_card;
-    private String select_color, select_size ,product_id ,product_name ,actual_price ,imagename ,product_qty;
+    private String select_color, select_size, product_id, product_name, actual_price, imagename, product_qty;
+    private Share_session shareSession;
+    private Map data;
 
     public ProductSideColorBottomFragment(List<ProductSizeColorList> productDetailsListImageList) {
-            this.productSizeColorLists = productDetailsListImageList ;
+        this.productSizeColorLists = productDetailsListImageList;
     }
 
     @Nullable
@@ -65,14 +74,14 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
         confirm_add_to_card.setOnClickListener(this);
         Bundle bundle = getArguments();
         product_name = bundle.getString("product_name");
-        actual_price =  bundle.getString("actual_price");
-        product_id =  bundle.getString("product_id");
+        actual_price = bundle.getString("actual_price");
+        product_id = bundle.getString("product_id");
 
         product_names.setText(product_name);
         actual_prices.setText(actual_price);
 
-//        String a = "http://173.212.226.143:8086/img/" + productSizeColorLists.get(0).getImage();
-//        Glide.with(ProductSideColorBottomFragment.this).load(a).into(product_image);
+        String a = Constants.IMAGES + productSizeColorLists.get(0).getImgname();
+        Glide.with(ProductSideColorBottomFragment.this).load(a).into(product_image);
 
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -122,7 +131,7 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
                 if (select_size == null) {
                     Toast.makeText(getActivity(), "Select Size", Toast.LENGTH_SHORT).show();
                 } else if (select_color == null) {
-                    Toast.makeText(getActivity(), "Select color" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Select color", Toast.LENGTH_SHORT).show();
                 } else {
                     InsertDataCard();
 
@@ -134,19 +143,21 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
 
     private void InsertDataCard() {
 
-//        product_qty = quty_value.getText().toString();
-//        Log.e("product_id",product_id);
-//        Log.e("product_name",product_name);
-//        Log.e("product_qty",product_qty);
-//        Log.e("select_color",select_color);
-//        Log.e("actual_price",actual_price);
-//        Log.e("actual_price",imagename);
+        shareSession = new Share_session(getActivity());
+        data = shareSession.Fetchdata();
 
-        product_qty = quty_value.getText().toString();
-        MyhelperSql myhelperSql = new MyhelperSql(getActivity());
-        SQLiteDatabase sqLiteDatabase = myhelperSql.getWritableDatabase();
-        myhelperSql.dataAddCard(product_id,product_name , product_qty ,select_color ,select_size ,imagename ,actual_price ,sqLiteDatabase);
-        dismiss();
+        shareSession.Login_check();
+
+        if (data.get(LOGIN_CHECk) != null) {
+            product_qty = quty_value.getText().toString();
+            MyhelperSql myhelperSql = new MyhelperSql(getActivity());
+            SQLiteDatabase sqLiteDatabase = myhelperSql.getWritableDatabase();
+            myhelperSql.dataAddCard(product_id, product_name, product_qty, select_color, select_size, imagename, actual_price, sqLiteDatabase);
+            dismiss();
+        } else {
+            getActivity().startActivity(new Intent(getActivity(), Signup.class));
+        }
+
 
     }
 
@@ -155,11 +166,10 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
         this.select_size = val;
     }
 
-
     @Override
     public void productcolorresponse(String color, String imagename) {
         this.select_color = color;
-        this.imagename = imagename ;
+        this.imagename = imagename;
     }
 }
 

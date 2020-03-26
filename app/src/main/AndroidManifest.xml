@@ -13,28 +13,60 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.FriendsDealsAllActivity"></activity>
-        <activity android:name=".activity.FlashSaleProductactivity" />
-        <activity
-            android:name=".activity.CardActivity"
-            android:theme="@style/CardTheme" />
-        <activity android:name=".activity.ProductDetailsActivity" />
-        <activity android:name=".activity.ProductActivity" />
-        <activity android:name=".activity.FreshSaleViewAllActivity" />
-        <activity android:name=".activity.SplashActivity" />
-        <activity android:name=".activity.Register1Activity" />
-        <activity
-            android:name=".activity.MainActivity"
-            android:theme="@style/MainTheme">
+        <activity android:name=".activity.UserDetail">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.SaveAddressActivity" />
+        <activity
+            android:name=".activity.AddressActivity"
+            android:theme="@style/flashsaleproduct" />
+        <activity android:name=".activity.FriendsDealsAllActivity" />
+        <activity
+            android:name=".activity.FlashSaleProductactivity"
+            android:theme="@style/flashsaleproduct" />
+        <activity
+            android:name=".activity.CardActivity"
+            android:theme="@style/CardTheme" />
+        <activity android:name=".activity.ProductDetailsActivity" />
+        <activity android:name=".activity.ProductActivity" />
+        <activity android:name=".activity.SplashActivity" />
+        <activity android:name=".activity.Register1Activity" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:theme="@style/MainTheme">
+
+        </activity>
         <activity
             android:name=".activity.Signup"
             android:theme="@style/MyTheme" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

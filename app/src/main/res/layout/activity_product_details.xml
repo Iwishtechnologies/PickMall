@@ -8,10 +8,18 @@
     tools:context=".activity.ProductDetailsActivity"
     android:background="@color/club_back_color">
 
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:weightSum="3"-->
+<!--        android:orientation="horizontal">-->
+<!--        -->
+<!--    </LinearLayout>-->
+
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button_layout"
+        android:layout_above="@+id/bottom"
         android:scrollbars="none">
 
         <LinearLayout
@@ -19,113 +27,256 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
+
+
+
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/productImageDetailsViewpager"
                 android:layout_width="match_parent"
                 android:layout_height="360dp" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/whiteColor"
-                android:orientation="vertical"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="30dp">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:id="@+id/product_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/whiteColor"
+                    android:orientation="vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="30dp"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:id="@+id/priceEdit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="2dp"
+                            android:text="299"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="3dp"
+                        android:weightSum="1">
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:id="@+id/dicount_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="2dp"
+                            android:text="1299"
+                            android:textSize="12sp" />
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_weight="1"
+                            android:text="50%"
+                            android:textColor="@color/redColor"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:id="@+id/title_name_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="Title"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="5dp"
+                            android:gravity="center"
+                            android:text="2000 sold"
+                            android:textSize="10sp" />
+
+                        <RatingBar
+                            android:id="@+id/ratingcheck"
+                            style="@style/Widget.AppCompat.RatingBar.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:gravity="center"
+                            android:progressTint="@color/orangeColor" />
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="2dp"
+                            android:gravity="center"
+                            android:text="3.3"
+                            android:textColor="@color/redColor"
+                            android:textSize="10sp" />
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="(172)"
+                            android:textColor="@color/redColor"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/one_rs_main_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:background="@color/whiteColor">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingStart="10dp"
+                        android:background="@drawable/one_rs_design">
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:id="@+id/one_rs_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:textSize="40sp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="5dp"
+                            android:textColor="@color/whiteColor"
+                            app:fonttype="text_semi_bold"/>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="1.5"
+                            android:layout_gravity="center">
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1112 user won"
+                                android:textSize="12sp"
+                                android:textColor="@color/whiteColor"
+                                app:fonttype="regular"/>
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:id="@+id/one_rs_dicount_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="250"
+                                android:textSize="12sp"
+                                android:textColor="@color/whiteColor"
+                                app:fonttype="regular"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="1.5"
+                            android:gravity="end"
+                            android:layout_marginEnd="5dp"
+                            android:layout_gravity="center">
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Request 8 Users total"
+                                android:textSize="13sp"
+                                android:textColor="@color/whiteColor"
+                                app:fonttype="regular"/>
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="(4 new user at least)"
+                                android:textSize="13sp"
+                                android:textColor="@color/whiteColor"
+                                app:fonttype="regular"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:id="@+id/one_product_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:textSize="15sp"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="3dp"
+                        android:layout_marginStart="5dp"
+                        android:textColor="@color/black"
+                        app:fonttype="regular"
+                        android:paddingStart="4dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/one_rs_rule"
+                    android:layout_below="@id/one_rs_main_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/whiteColor"
+                    android:weightSum="2"
+                    android:paddingStart="10dp"
                     android:padding="5dp">
                     <tech.iwish.pickmall.extended.TextViewFont
-                        android:id="@+id/priceEdit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="2dp"
-                        android:text="299"
-                        android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:text="Rules"
+                        android:layout_weight="2"
+                        android:textSize="16sp"/>
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="View all"
+                        android:layout_gravity="center"
+                        android:textSize="13sp"/>
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/right_arrow"/>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="3dp"
-                    android:weightSum="1">
-
-                    <tech.iwish.pickmall.extended.TextViewFont
-                        android:id="@+id/dicount_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="2dp"
-                        android:text="1299"
-                        android:textSize="12sp" />
-
-                    <tech.iwish.pickmall.extended.TextViewFont
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_weight="1"
-                        android:text="50%"
-                        android:textColor="@color/redColor"
-                        android:textSize="10sp" />
-                </LinearLayout>
-
-                <tech.iwish.pickmall.extended.TextViewFont
-                    android:id="@+id/title_name_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="Title"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <tech.iwish.pickmall.extended.TextViewFont
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="5dp"
-                        android:gravity="center"
-                        android:text="2000 sold"
-                        android:textSize="10sp" />
-
-                    <RatingBar
-                        android:id="@+id/ratingcheck"
-                        style="@style/Widget.AppCompat.RatingBar.Small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp"
-                        android:gravity="center"
-                        android:progressTint="@color/orangeColor" />
-
-                    <tech.iwish.pickmall.extended.TextViewFont
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="2dp"
-                        android:gravity="center"
-                        android:text="3.3"
-                        android:textColor="@color/redColor"
-                        android:textSize="10sp" />
-
-                    <tech.iwish.pickmall.extended.TextViewFont
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="(172)"
-                        android:textColor="@color/redColor"
-                        android:textSize="10sp" />
-                </LinearLayout>
-
-            </LinearLayout>
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -188,92 +339,128 @@
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/button_layout"
+    <RelativeLayout
+        android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/whiteColor"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        android:weightSum="3">
-
+        android:layout_alignParentBottom="true">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/button_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_weight="1"
+            android:background="@color/whiteColor"
             android:gravity="center"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:padding="5dp"
+            android:weightSum="3">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/shop_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Store"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/heart_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Like"
+                        android:textSize="10sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/add_card_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:gravity="center">
+                android:layout_weight="1"
+                android:background="@drawable/add_to_card_button_design"
+                android:gravity="center"
+                android:text="Add to card"
+                android:textColor="@color/silderColor" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/shop_icon" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Store"
-                    android:textSize="10sp" />
-            </LinearLayout>
-
-            <LinearLayout
+            <Button
+                android:id="@+id/buy_now_btn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/buy_now_button_design"
+                android:gravity="center"
+                android:text="Buy now"
+                android:textColor="@color/redColor" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/heart_icon" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Like"
-                    android:textSize="10sp" />
-            </LinearLayout>
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/one_rs_bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/whiteColor"
+            android:weightSum="2">
+            <Button
+                android:id="@+id/one_rs_button_place_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/one_rs_design"
+                android:textColor="@color/whiteColor"
+                android:text=""/>
+        </LinearLayout>
+    </RelativeLayout>
 
-        <Button
-            android:id="@+id/add_card_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/add_to_card_button_design"
-            android:gravity="center"
-            android:text="Add to card"
-            android:textColor="@color/silderColor" />
-
-        <Button
-            android:id="@+id/buy_now_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/buy_now_button_design"
-            android:gravity="center"
-            android:text="Buy now"
-            android:textColor="@color/redColor" />
-
-
-    </LinearLayout>
 
 </RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

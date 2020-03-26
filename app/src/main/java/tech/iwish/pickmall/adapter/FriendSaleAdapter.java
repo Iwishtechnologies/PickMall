@@ -20,6 +20,7 @@ import java.util.List;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.FriendsDealsAllActivity;
 import tech.iwish.pickmall.activity.MainActivity;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.other.FriendSaleList;
 
 public class FriendSaleAdapter extends RecyclerView.Adapter<FriendSaleAdapter.Viewholder> {
@@ -43,7 +44,7 @@ public class FriendSaleAdapter extends RecyclerView.Adapter<FriendSaleAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
 
-        String a = "http://173.212.226.143:8086/img/" + friendSaleLists.get(position).getPimg();
+        String a = Constants.IMAGES + friendSaleLists.get(position).getPimg();
         Glide.with(context).load(a).into(holder.image_flash_sale);
 
 

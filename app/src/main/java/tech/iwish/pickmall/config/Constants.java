@@ -15,10 +15,17 @@ public class Constants {
 
 //    public static String SUBFOLDER = "/api/";
 
-    public static String URL = "http://173.212.226.143:8086/";
+    public static String URL = "http://173.212.226.143:8086/api/";
 
     public static String SILDER_IMAGE = URL+"main/silder/images";
-    public static String ITEM = URL+"api/item_type";
+    public static String USER_ADDRESS = URL+"user_address";
+    public static String USER_PINCODE = URL+"address_pincode_city_search";
+    public static String PRODUCT = URL+"product";
+    public static String FLASH_SALE_TIME = URL+"flashtimeset";
+    public static String ITEM_TYPE = URL+"item_type";
+    public static String FRIEND_DEAL_TOP = URL+"friend_deal_top";
+    public static String FLASE_SALE_TOP = URL+"flash_sale";
+
 
 
 

@@ -26,6 +26,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.ProductAdapter;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.other.ProductList;
 import tech.iwish.pickmall.session.Share_session;
@@ -66,7 +67,7 @@ public class ProductActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/product").post(body).build();
+        Request request1 = new Request.Builder().url(Constants.PRODUCT).post(body).build();
         okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {

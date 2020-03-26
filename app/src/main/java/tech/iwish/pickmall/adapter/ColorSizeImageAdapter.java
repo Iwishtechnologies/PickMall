@@ -28,7 +28,6 @@ public class ColorSizeImageAdapter extends RecyclerView.Adapter<ColorSizeImageAd
     private String dubledata;
     private List<ProductSizeColorList> productSizeColorLists;
     private List<ProductDetailsImageList> productDetailsListImageList;
-    private Boolean checks = true;
 
     public ColorSizeImageAdapter(ProductDetailsActivity productDetailsActivity, List<ProductSizeColorList> productSizeColorLists, List<ProductDetailsImageList> productDetailsListImageList) {
         this.productSizeColorLists = productSizeColorLists;
@@ -41,6 +40,7 @@ public class ColorSizeImageAdapter extends RecyclerView.Adapter<ColorSizeImageAd
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(context).inflate(R.layout.row_color_size_image, null);
         Viewholder viewholder = new Viewholder(view);
         return viewholder;
@@ -49,32 +49,25 @@ public class ColorSizeImageAdapter extends RecyclerView.Adapter<ColorSizeImageAd
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
 
+        String val = productSizeColorLists.get(position).getColor();
+        if (dubledata != null) {
+            if (dubledata.equals(val)) {
 
-        if(checks){
-            this.checks = false ;
-            String a = Constants.IMAGES+ productDetailsListImageList.get(position).getImage();
+                holder.main_layout.setVisibility(View.GONE);
+                holder.main_layout.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+
+            } else {
+
+                String a = Constants.IMAGES + productSizeColorLists.get(position).getImgname();
+                Glide.with(context).load(a).into(holder.color_image);
+
+            }
+        } else {
+
+            String a = Constants.IMAGES + productSizeColorLists.get(position).getImgname();
             Glide.with(context).load(a).into(holder.color_image);
         }
-
-//        String val = productSizeColorLists.get(position).getColor();
-//        if (dubledata != null) {
-//            if (dubledata.equals(val)) {
-//
-//                holder.main_layout.setVisibility(View.GONE);
-//                holder.main_layout.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
-//
-//            } else {
-//
-////                String a = "http://173.212.226.143:8086/img/" + productSizeColorLists.get(position).getImgname();
-////                Glide.with(context).load(a).into(holder.color_image);
-//
-//            }
-//        } else {
-//
-//            String a = "http://173.212.226.143:8086/img/" + productSizeColorLists.get(position).getImgname();
-//            Glide.with(context).load(a).into(holder.color_image);
-//        }
-//        this.dubledata = productSizeColorLists.get(position).getColor();
+        this.dubledata = productSizeColorLists.get(position).getColor();
 
 
 

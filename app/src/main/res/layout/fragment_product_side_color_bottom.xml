@@ -12,27 +12,28 @@
         android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/silderColor">
+            android:background="@color/silderColor"
+            android:orientation="horizontal">
+
             <ImageView
                 android:id="@+id/product_image"
                 android:layout_width="100dp"
-                android:layout_gravity="center"
                 android:layout_height="110dp"
+                android:layout_gravity="center"
                 android:layout_marginEnd="10dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:orientation="vertical"
-                android:background="@color/whiteColor">
+                android:background="@color/whiteColor"
+                android:orientation="vertical">
 
                 <tech.iwish.pickmall.extended.TextViewFont
                     android:id="@+id/product_names"
@@ -146,10 +147,10 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-           <androidx.recyclerview.widget.RecyclerView
-               android:id="@+id/size_product_recycleview"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/size_product_recycleview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -180,8 +181,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/color_product_recycleview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -240,16 +240,26 @@
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:src="@drawable/add_icon" />
+
         </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
             <Button
                 android:id="@+id/confirm_add_to_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Confirm"
+                android:layout_marginTop="25dp"
+                android:layout_gravity="bottom"
                 android:background="@drawable/add_to_card_button_design"
-                android:textColor="@color/whiteColor"
-                android:layout_marginTop="25dp"/>
+                android:text="Confirm"
+                android:textColor="@color/whiteColor" />
         </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>
 

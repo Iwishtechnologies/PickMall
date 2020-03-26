@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -27,11 +28,9 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
     private int currentSelectedPosition = RecyclerView.NO_POSITION;
 
 
-
-
     public ProductSizeAdapter(FragmentActivity activity, List<ProductSizeColorList> productSizeColorLists, ProductSizeInterFace productSizeInterFace) {
         this.context = activity;
-        this.productSizeColorLists = productSizeColorLists ;
+        this.productSizeColorLists = productSizeColorLists;
         this.productSizeInterFace = productSizeInterFace;
     }
 
@@ -48,28 +47,29 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
     public void onBindViewHolder(@NonNull Viewholder holder, final int position) {
 
 
+//
+//        String val = productSizeColorLists.get(position).getSize();
+//        if (dubledata != null) {
+//            if (dubledata.equals(val)) {
+//                holder.main_layout_size.setVisibility(View.GONE);
+//                holder.main_layout_size.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+//            } else {
+//                holder.main_layout_size.setEnabled(true);
+//                holder.size_name.setText(productSizeColorLists.get(position).getSize());
+//            }
+//        } else {
+//
+//            holder.main_layout_size.setEnabled(false);
+//            holder.size_name.setText(productSizeColorLists.get(position).getSize());
+//        }
+//
+//        this.dubledata = productSizeColorLists.get(position).getSize();
 
-
-        String val = productSizeColorLists.get(position).getSize();
-        if (dubledata != null) {
-            if (dubledata.equals(val)) {
-                holder.main_layout_size.setVisibility(View.GONE);
-                holder.main_layout_size.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
-            } else {
-                holder.main_layout_size.setEnabled(true);
-                holder.size_name.setText(productSizeColorLists.get(position).getSize());
-            }
-        } else {
-
-            holder.main_layout_size.setEnabled(false);
-            holder.size_name.setText(productSizeColorLists.get(position).getSize());
-        }
-
-        this.dubledata = productSizeColorLists.get(position).getSize();
+        holder.size_name.setText(productSizeColorLists.get(position).getSize());
 
         if (currentSelectedPosition == position) {
             holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
-        }else {
+        } else {
             holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_design));
         }
 
@@ -102,7 +102,7 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
 
             int id = view.getId();
 
-            switch (id){
+            switch (id) {
                 case R.id.main_layout_size:
                     productSizeInterFace.productSizeResponse(productSizeColorLists.get(getAdapterPosition()).getSize());
                     currentSelectedPosition = getAdapterPosition();

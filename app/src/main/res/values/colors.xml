@@ -19,4 +19,9 @@
     <color name="whiteColor">#FFFFFF</color>
     <color name="orangeColor">#FA6600</color>
     <color name="lightorangeColor">#ED7C2E</color>
+    <color name="address_text_color">#A5A5A5</color>
+    <color name="address_tint_color">#F2F2F2</color>
+
+
+
 </resources>

@@ -18,6 +18,9 @@ public class FlashSaleProductactivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flash_sale_productactivity);
 
+        getSupportActionBar().hide();
+
+
         FlashSaleCurrentSaleFragment flashSaleCurrentSaleFragment = new FlashSaleCurrentSaleFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.flash_sale_frame_layout, flashSaleCurrentSaleFragment).commit();
 

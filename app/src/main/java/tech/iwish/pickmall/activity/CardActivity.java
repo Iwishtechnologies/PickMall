@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,11 +21,15 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import tech.iwish.pickmall.Interface.RefreshCartAmountInterface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.CartAdapter;
+import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.sqlconnection.MyhelperSql;
+
+import static tech.iwish.pickmall.session.Share_session.NUMBER_ADDRESS;
 
 public class CardActivity extends AppCompatActivity implements View.OnClickListener, RefreshCartAmountInterface {
 
@@ -38,7 +43,9 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
     private int TotalAMT;
     private int final_total_amount ,check;
     private String valuecheck;
-
+    private Button place_order_btn ;
+    private Share_session shareSession ;
+    private Map sharedata ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +63,13 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
         edit_amount = (TextView) findViewById(R.id.edit_amount);
         price_layout = (LinearLayout) findViewById(R.id.price_layout);
 
+        place_order_btn = (Button)findViewById(R.id.place_order_btn);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         card_recycle_view.setLayoutManager(linearLayoutManager);
 
+        shareSession = new Share_session(this);
 
         String query = "Select *  from PRODUCT_CARD";
         sqLiteDatabase = myhelperSql.getWritableDatabase();
@@ -91,6 +101,7 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
         feedBottom.setOnClickListener(this);
         cardBottom.setOnClickListener(this);
         accountBottom.setOnClickListener(this);
+        place_order_btn.setOnClickListener(this);
 
     }
 
@@ -118,8 +129,10 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+
         int id = view.getId();
         switch (id) {
+
             case R.id.HomeBottom:
                 Intent intent = new Intent(CardActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -132,7 +145,22 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.AccountBottom:
                 Toast.makeText(this, "account", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.place_order_btn:
+                PlaceOrder();
+                break;
 
+        }
+    }
+
+    private void PlaceOrder() {
+
+        startActivity(new Intent(CardActivity.this , AddressActivity.class));
+
+        sharedata = shareSession.Fetchdata();
+        if(sharedata.get(NUMBER_ADDRESS) != null){
+            startActivity(new Intent(CardActivity.this , SaveAddressActivity.class));
+        }else{
+            startActivity(new Intent(CardActivity.this , AddressActivity.class));
         }
     }
 

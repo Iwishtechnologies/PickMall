@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.other.SilderLists;
 
 public class SilderAdapter extends PagerAdapter {
@@ -50,7 +51,7 @@ public class SilderAdapter extends PagerAdapter {
         ImageView imageView =item_view.findViewById(R.id.silder_image);
 //        imageView.setImageResource(image_res[position]);
 //        Toast.makeText(context, ""+silderLists.get(position).getImage(), Toast.LENGTH_SHORT).show();
-        String a = "http://173.212.226.143:8086/img/"+silderLists.get(position).getImage();
+        String a = Constants.IMAGES+silderLists.get(position).getImage();
         Glide.with(context).load(a).into(imageView);
 
         container.addView(item_view);

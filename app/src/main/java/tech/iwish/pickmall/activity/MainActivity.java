@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
@@ -17,8 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -48,24 +47,39 @@ import tech.iwish.pickmall.other.FriendSaleList;
 import tech.iwish.pickmall.other.ItemList;
 import tech.iwish.pickmall.other.SilderLists;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import static tech.iwish.pickmall.OkhttpConnection.ProductListF.flash_sale_list_fack;
+import static tech.iwish.pickmall.OkhttpConnection.ProductListF.friend_deal_list_fack;
+import static tech.iwish.pickmall.OkhttpConnection.ProductListF.item_facklist;
+import static tech.iwish.pickmall.OkhttpConnection.ProductListF.silder_list_fack;
+
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private ViewPager viewPages;
     private SilderAdapter silderAdapter;
     private Timer timer;
     private int current_position = 0;
     private ConnectionServer connectionServer;
+
     private List<SilderLists> silderListsList = new ArrayList<>();
     private List<FlashsalemainList> flashsalemainLists = new ArrayList<>();
     private List<FriendSaleList> friendSaleLists = new ArrayList<>();
     private List<ItemList> itemLists = new ArrayList<>();
+
+
     private RecyclerView flash_sale_main_recycle, itemCateroryrecycle, friend_deal_recycleview;
     private TextView time_countDown;
-//    private static final long START_TIME_IN_MILLIS = 86400000;
-    private long mTimeLeftInMillis ;
+    //    private static final long START_TIME_IN_MILLIS = 86400000;
+    private long mTimeLeftInMillis;
     private LinearLayout viewAll_FreshSale;
     private ImageView homeBottom, feedBottom, cardBottom, accountBottom;
     private String bottomClickCheck;
+    private SwipeRefreshLayout swipe_refresh_layout;
+
+    //   adapter
+    private FriendSaleAdapter friendSaleAdapter;
+    private FlashSaleAdapter flashSaleAdapter;
+    private ItemAdapter itemAdapter;
 
 
     @Override
@@ -86,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         cardBottom = (ImageView) findViewById(R.id.CardBottom);
         accountBottom = (ImageView) findViewById(R.id.AccountBottom);
 
+        swipe_refresh_layout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this);
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         flash_sale_main_recycle.setLayoutManager(linearLayoutManager);
@@ -100,36 +116,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         viewAll_FreshSale.setOnClickListener(this);
 
-//      silder
-        connectionServer = new ConnectionServer();
-        connectionServer.set_url(Constants.SILDER_IMAGE);
-        connectionServer.requestedMethod("POST");
-        connectionServer.execute(new ConnectionServer.AsyncResponse() {
-            @Override
-            public void processFinish(String output) {
-                Log.e("output", output);
-                JsonHelper jsonHelper = new JsonHelper(output);
-                if (jsonHelper.isValidJson()) {
-                    String response = jsonHelper.GetResult("response");
-                    if (response.equals("TRUE")) {
-                        JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
-
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            jsonHelper.setChildjsonObj(jsonArray, i);
-                            silderListsList.add(new SilderLists(jsonHelper.GetResult("sno"), jsonHelper.GetResult("image"), jsonHelper.GetResult("categoryid"), jsonHelper.GetResult("status")));
-
-                        }
-                        silderAdapter = new SilderAdapter(MainActivity.this, silderListsList);
-                        viewPages.setAdapter(silderAdapter);
-                        createSilderauto();
-                    }
-                }
-            }
-        });
-
 //    item
+        silder();
         itemCat();
         FlashSaleMain();
+        Flashsaletimeset();
         FriendDeal();
 
         homeBottom.setOnClickListener(this);
@@ -153,12 +144,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         }.start();
+
+        swipe_refresh_layout.setOnRefreshListener(this);
+
     }
 
-    private void FriendDeal() {
+    private void silder() {
+
+        silderAdapter = new SilderAdapter(MainActivity.this, silder_list_fack());
+        viewPages.setAdapter(silderAdapter);
+
+
+
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("http://173.212.226.143:8086/api/friend_deal_top")
+                .url(Constants.SILDER_IMAGE)
                 .build();
         client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String result = response.body().string();
-
+                    Log.e("output", result);
                     JsonHelper jsonHelper = new JsonHelper(result);
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
@@ -179,16 +179,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                friendSaleLists.add(new FriendSaleList(jsonHelper.GetResult("product_id"), jsonHelper.GetResult("ProductName"), jsonHelper.GetResult("item_id"), jsonHelper.GetResult("catagory_id"), jsonHelper.GetResult("actual_price"), jsonHelper.GetResult("discount_price"), jsonHelper.GetResult("discount_price_per"), jsonHelper.GetResult("status"), jsonHelper.GetResult("pimg"), jsonHelper.GetResult("vendor_id"), jsonHelper.GetResult("type"), jsonHelper.GetResult("datetime")));
+                                silderListsList.add(new SilderLists(jsonHelper.GetResult("sno"), jsonHelper.GetResult("image"), jsonHelper.GetResult("categoryid"), jsonHelper.GetResult("status")));
+
                             }
 
                             MainActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    FriendSaleAdapter friendSaleAdapter = new FriendSaleAdapter(MainActivity.this , friendSaleLists);
-                                    friend_deal_recycleview.setAdapter(friendSaleAdapter);
+                                    silderAdapter = new SilderAdapter(MainActivity.this, silderListsList);
+                                    viewPages.setAdapter(silderAdapter);
+                                    createSilderauto();
                                 }
                             });
+
 
                         }
                     }
@@ -198,11 +201,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
     private void itemCat() {
+
+
+        itemAdapter = new ItemAdapter(MainActivity.this, item_facklist());
+        itemCateroryrecycle.setAdapter(itemAdapter);
+
+
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("http://173.212.226.143:8086/api/item_type")
+                .url(Constants.ITEM_TYPE)
                 .build();
         client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override
@@ -230,8 +238,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             MainActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ItemAdapter itemAdapter = new ItemAdapter(MainActivity.this, itemLists);
+                                    itemAdapter = new ItemAdapter(MainActivity.this, itemLists);
                                     itemCateroryrecycle.setAdapter(itemAdapter);
+
                                 }
                             });
 
@@ -241,6 +250,112 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+
+
+    private void Flashsaletimeset() {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(Constants.FLASH_SALE_TIME)
+                .build();
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("response", result);
+
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+
+
+                            for (int i = 0; i < 1; i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                final String startdatetime = jsonHelper.GetResult("startdatetime");
+                                final String enddatetime = jsonHelper.GetResult("enddatetime");
+
+
+                                MainActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        String sDate1 = startdatetime;
+//                                        try {
+//                                            Date date1=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(sDate1);
+//                                            Log.e( "dTcHW",date1.toString() );
+//                                        } catch (ParseException e) {
+//                                            e.printStackTrace();
+//                                        }
+
+                                    }
+                                });
+
+                            }
+
+                        }
+                    }
+
+                }
+            }
+        });
+    }
+
+
+    private void FriendDeal() {
+
+        friendSaleAdapter = new FriendSaleAdapter(MainActivity.this, friend_deal_list_fack());
+        friend_deal_recycleview.setAdapter(friendSaleAdapter);
+
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(Constants.FRIEND_DEAL_TOP)
+                .build();
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("result", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                friendSaleLists.add(new FriendSaleList(jsonHelper.GetResult("product_id"), jsonHelper.GetResult("ProductName"), jsonHelper.GetResult("item_id"), jsonHelper.GetResult("catagory_id"), jsonHelper.GetResult("actual_price"), jsonHelper.GetResult("discount_price"), jsonHelper.GetResult("discount_price_per"), jsonHelper.GetResult("status"), jsonHelper.GetResult("pimg"), jsonHelper.GetResult("vendor_id"), jsonHelper.GetResult("type"), jsonHelper.GetResult("datetime")));
+                            }
+
+                            MainActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    friendSaleAdapter = new FriendSaleAdapter(MainActivity.this, friendSaleLists);
+                                    friend_deal_recycleview.setAdapter(friendSaleAdapter);
+                                    swipe_refresh_layout.setRefreshing(false);
+                                }
+                            });
+
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
 
     private void updateCountDownText() {
         int hours = (int) (mTimeLeftInMillis / 1000) / 3600;
@@ -272,17 +387,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         long sinceMidnight = (rightNow.getTimeInMillis() + offset) %
                 (24 * 60 * 60 * 1000);
 
-
-        long remaining_time = 86400000 - sinceMidnight ;
-
-        mTimeLeftInMillis = remaining_time  ;
+        long remaining_time = 86400000 - sinceMidnight;
+        mTimeLeftInMillis = remaining_time;
 
 
-        
+        flashSaleAdapter = new FlashSaleAdapter(MainActivity.this, flash_sale_list_fack());
+        flash_sale_main_recycle.setAdapter(flashSaleAdapter);
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("http://173.212.226.143:8086/api/flash_sale")
+                .url(Constants.FLASE_SALE_TOP)
                 .build();
         client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override
@@ -309,7 +423,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             MainActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    FlashSaleAdapter flashSaleAdapter = new FlashSaleAdapter(MainActivity.this, flashsalemainLists);
+                                    flashSaleAdapter = new FlashSaleAdapter(MainActivity.this, flashsalemainLists);
                                     flash_sale_main_recycle.setAdapter(flashSaleAdapter);
                                 }
                             });
@@ -390,10 +504,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "account", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.viewAll_FreshSale:
-                Intent intent1 = new Intent(MainActivity.this, FreshSaleViewAllActivity.class);
+                Intent intent1 = new Intent(MainActivity.this, FlashSaleProductactivity.class);
                 startActivity(intent1);
                 break;
         }
     }
 
+    @Override
+    public void onRefresh() {
+        swipe_refresh_layout.setRefreshing(true);
+        silderListsList.clear();
+        flashsalemainLists.clear();
+        friendSaleLists.clear();
+        itemLists.clear();
+        itemCat();
+        FlashSaleMain();
+        Flashsaletimeset();
+        FriendDeal();
+
+        friendSaleAdapter.notifyDataSetChanged();
+        flashSaleAdapter.notifyDataSetChanged();
+        itemAdapter.notifyDataSetChanged();
+    }
 }
