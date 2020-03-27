@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.accoount);
         setContentView(R.layout.activity_main);
 
         viewPages = (ViewPager) findViewById(R.id.viewPages);
@@ -481,6 +483,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 handler.post(runnable);
             }
         }, 250, 25000);
+
 
     }
 
