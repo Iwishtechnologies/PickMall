@@ -11,15 +11,22 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/MyTheme"
+        android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.UserDetail">
+        <activity android:name=".activity.VendorRequestActivity"></activity>
+        <activity android:name=".activity.EditProfileActivity" />
+        <activity
+            android:name=".activity.UserDetail"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.Profile"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.SaveAddressActivity" />
         <activity
             android:name=".activity.AddressActivity"
@@ -36,10 +43,14 @@
         <activity android:name=".activity.SplashActivity" />
         <activity android:name=".activity.Register1Activity" />
         <activity
+            android:name=".activity.Account"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.Feed"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.MainActivity"
-            android:theme="@style/MainTheme">
-
-        </activity>
+            android:theme="@style/MainTheme" />
         <activity
             android:name=".activity.Signup"
             android:theme="@style/MyTheme" />

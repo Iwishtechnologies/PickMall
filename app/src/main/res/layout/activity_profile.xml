@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activity.Profile">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_margin="15dp"
+        android:gravity="center|center_vertical"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:id="@+id/back"
+            android:src="@drawable/leftarrow"/>
+
+
+        <tech.iwish.pickmall.extended.TextViewFont
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:fonttype="regular"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:text="@string/profile"/>
+
+    </LinearLayout>
+
+
+     <LinearLayout
+     android:layout_width="match_parent"
+     android:background="@drawable/rectangle"
+     android:padding="15dp"
+     android:weightSum="2"
+     android:orientation="horizontal"
+     android:gravity="center_vertical"
+     android:layout_height="wrap_content">
+
+
+     <tech.iwish.pickmall.extended.TextViewFont
+         android:layout_width="wrap_content"
+         android:text="@string/photo"
+         android:textSize="15dp"
+         app:fonttype="regular"
+         android:layout_weight="0.8"
+         android:textColor="@color/black"
+         android:layout_height="wrap_content"/>
+
+
+         <LinearLayout
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:gravity="right|center_vertical"
+             android:layout_gravity="center_vertical"
+             android:layout_weight="1.2">
+
+             <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+                 android:layout_width="80dp"
+                 android:layout_height="80dp"
+                 android:layout_gravity="right"
+                 app:shape_mode="round_rect"
+                 app:round_radius="1dp"
+                 android:id="@+id/image"
+                 android:src="@drawable/female_icom"
+                 />
+
+
+             <ImageView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/pickimage"
+                 android:src="@drawable/right_arrow" />
+
+         </LinearLayout>
+
+
+
+
+     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/rectangle_small"
+        android:padding="15dp"
+        android:weightSum="2"
+        android:layout_marginTop="-10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+
+
+        <tech.iwish.pickmall.extended.TextViewFont
+            android:layout_width="wrap_content"
+            android:text="@string/name"
+            android:textSize="15dp"
+            app:fonttype="regular"
+            android:layout_weight="0.8"
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_weight="1.2">
+
+        <tech.iwish.pickmall.extended.TextViewFont
+            android:layout_width="wrap_content"
+            android:text="Rohit Rathore"
+            android:textSize="15dp"
+            android:id="@+id/name"
+            app:fonttype="light"
+            android:layout_weight="0.8"
+            android:textAlignment="textEnd"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:id="@+id/edit_name"
+            android:src="@drawable/right_arrow"/>
+
+    </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/rectangle_small"
+        android:padding="15dp"
+        android:weightSum="2"
+        android:layout_marginTop="-10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+
+
+        <tech.iwish.pickmall.extended.TextViewFont
+            android:layout_width="wrap_content"
+            android:text="@string/sex"
+            android:textSize="15dp"
+            app:fonttype="regular"
+            android:layout_weight="0.8"
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_weight="1.2">
+
+        <tech.iwish.pickmall.extended.TextViewFont
+            android:layout_width="wrap_content"
+            android:text="Male"
+            android:textSize="15dp"
+            app:fonttype="light"
+            android:layout_weight="0.8"
+            android:id="@+id/gender"
+            android:textAlignment="textEnd"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:id="@+id/edit_gender"
+            android:layout_marginRight="-18dp"
+            android:src="@drawable/right_arrow"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/rectangle_small"
+        android:padding="15dp"
+        android:weightSum="2"
+        android:layout_marginTop="-10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+
+
+        <tech.iwish.pickmall.extended.TextViewFont
+            android:layout_width="wrap_content"
+            android:text="@string/mobile_no"
+            android:textSize="15dp"
+            app:fonttype="regular"
+            android:layout_weight="0.8"
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"/>
+
+
+        <tech.iwish.pickmall.extended.TextViewFont
+            android:layout_width="wrap_content"
+            android:text="9876543210"
+            android:textSize="15dp"
+            app:fonttype="light"
+            android:layout_weight="0.8"
+            android:id="@+id/mobile"
+            android:textAlignment="textEnd"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="-15dp"
+            android:layout_weight="0.4"
+            android:src="@drawable/right_arrow"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/rectangle_small"
+        android:padding="15dp"
+        android:layout_marginTop="-10dp"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+
+
+        <tech.iwish.pickmall.extended.TextViewFont
+            android:layout_width="wrap_content"
+            android:text="@string/registered"
+            android:textSize="15dp"
+            app:fonttype="regular"
+            android:layout_weight="1"
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"/>
+
+
+        <tech.iwish.pickmall.extended.TextViewFont
+            android:layout_width="wrap_content"
+            android:text="963852741159357"
+            android:textSize="15dp"
+            app:fonttype="light"
+            android:layout_weight="1"
+            android:id="@+id/rno"
+            android:textAlignment="textEnd"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"/>
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

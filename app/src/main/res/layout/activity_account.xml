@@ -8,13 +8,14 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         android:id="@+id/scrollView">
 
 
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="0dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:weightSum="4">
@@ -24,16 +25,40 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_weight="0.1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:background="@drawable/rectangle"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:padding="10dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:padding="10dp"
+                    android:layout_marginRight="-10dp">
+
+                    <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:shape_mode="round_rect"
+                        app:round_radius="30dp"
+                        app:stroke_color="#009688"
+                        app:stroke_width="0dp"
+                        android:id="@+id/image"
+                        android:layout_marginRight="20dp"
+                        android:src="@drawable/female_icom"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:weightSum="2"
+                    android:paddingTop="20dp"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:orientation="vertical">
 
@@ -41,8 +66,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Your Name"
+                        android:text="Rohit Rathore "
                         android:layout_weight="1"
+                        android:id="@+id/name"
                         android:textAlignment="textStart"
                         android:textSize="20dp"
                         android:textColor="@color/black"/>
@@ -50,16 +76,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginTop="-30dp"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <tech.iwish.pickmall.extended.TextViewFont
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Member Center"
                             android:textSize="15dp"
+                            app:fonttype="light"
                             android:textAlignment="gravity"
                             android:textColor="@color/black"/>
                         <ImageView
+                            android:id="@+id/profile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/right_arrow"/>
@@ -70,18 +99,7 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="right"
-                    android:layout_weight="1.9">
 
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-
-                        android:src="@drawable/female_icom"/>
-                </LinearLayout>
 
 
 
@@ -92,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
                 android:weightSum="4"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="0dp"
                 android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
                 android:background="@drawable/rectangle">
@@ -147,6 +165,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:layout_marginLeft="-70dp"
+                        android:id="@+id/viewall"
                         android:src="@drawable/viewall" />
 
                 </LinearLayout>
@@ -193,6 +212,7 @@
                 android:background="@drawable/walletrectangle"
                 android:layout_margin="10dp"
                 android:visibility="gone"
+                android:id="@+id/full"
                 android:orientation="vertical">
 
 

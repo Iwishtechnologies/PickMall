@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,10 +15,23 @@ import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import tech.iwish.pickmall.OkhttpConnection.ConectOkhttp;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.session.UserSession;
 
@@ -49,8 +63,7 @@ public class UserDetail extends AppCompatActivity {
         female= findViewById(R.id.female);
         mobile= findViewById(R.id.mobile);
         next= findViewById(R.id.next);
-
-        if(data.get(USER_NUMBER_CHECK).toString() != null){
+        if(data.get(USER_NUMBER_CHECK) != null){
             startActivity(new Intent(UserDetail.this , MainActivity.class));
         }
 
@@ -82,6 +95,7 @@ public class UserDetail extends AppCompatActivity {
                     {
                         userSession.user_number_check();
                         Intent intent= new Intent(UserDetail.this,MainActivity.class);
+                        GetUserProfile(userSession.getUserDetail().get("UserMobile"));
                         startActivity(intent);
                         Animatoo.animateFade(UserDetail.this);
                     }
@@ -100,12 +114,12 @@ public class UserDetail extends AppCompatActivity {
         if(mobil.equals(""))
         {
             mobile.setError("Is Empty");
-            Toast.makeText(this, "Select Gender", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Select Gender", Toast.LENGTH_SHORT).show();
             return false;
         }
         if(mobil.length() < 10)
         {
-            mobile.setError("Is Empty");
+            mobile.setError("Invalid Mobile Number");
             Toast.makeText(this, "Number incomplete", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -121,7 +135,54 @@ public class UserDetail extends AppCompatActivity {
 
     }
 
+    public void GetUserProfile(String mobile)
+    {
 
+
+        OkHttpClient okHttpClient1 = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("mobile", mobile);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/Profile").post(body).build();
+        okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                userSession.setUserDetail(jsonHelper.GetResult("name"),jsonHelper.GetResult("gender"),jsonHelper.GetResult("image"),jsonHelper.GetResult("client_id"));
+
+                            }
+
+                        }
+                    }
+
+                }
+
+
+            }
+
+        });
+    }
 
 
 }

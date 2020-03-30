@@ -495,7 +495,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "home", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.FeedBottom:
-                Toast.makeText(this, "feed", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this , Feed.class));
                 break;
             case R.id.CardBottom:
                 this.bottomClickCheck = "card";
@@ -504,7 +504,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                Animatoo.animateDiagonal(MainActivity.this);
                 break;
             case R.id.AccountBottom:
-                Toast.makeText(this, "account", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this , Account.class));
                 break;
             case R.id.viewAll_FreshSale:
                 Intent intent1 = new Intent(MainActivity.this, FlashSaleProductactivity.class);

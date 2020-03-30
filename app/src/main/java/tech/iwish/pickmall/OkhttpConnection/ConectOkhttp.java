@@ -17,8 +17,10 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.iwish.pickmall.connection.JsonHelper;
+import tech.iwish.pickmall.session.Share_session;
 
 public class ConectOkhttp {
+    Share_session share_session;
 
 
     public boolean res=false;
@@ -105,6 +107,7 @@ public class ConectOkhttp {
 
     public Boolean ClientData(String mobile, String gender)
     {
+
 
         OkHttpClient okHttpClient1 = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
