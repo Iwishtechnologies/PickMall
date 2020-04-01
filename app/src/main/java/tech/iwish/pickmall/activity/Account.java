@@ -33,7 +33,7 @@ import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.session.Share_session;
 
 public class Account extends AppCompatActivity {
-    ImageView viewall, profile,image;
+    ImageView viewall, profile,image,unpaid,wallet;
     LinearLayout fullview;
     Share_session share_session;
     TextView name;
@@ -43,6 +43,27 @@ public class Account extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+        InitializeActivity();
+        setActivityData();
+        ActivityActions();
+
+
+
+    }
+
+
+
+    public void setActivityData() {
+        name.setText(share_session.getUserDetail().get("username"));
+        if(!share_session.getUserDetail().get("image").equals("Set Now "))
+        {
+            Glide.with(Account.this).load("173.212.226.143:8086/Androidapi/"+share_session.getUserDetail().get("image")).into(image);
+        }
+    }
+
+
+
+    public void InitializeActivity(){
         share_session= new Share_session(Account.this);
         viewall= findViewById(R.id.viewall);
         fullview= findViewById(R.id.full);
@@ -50,16 +71,21 @@ public class Account extends AppCompatActivity {
         image= findViewById(R.id.image);
         name= findViewById(R.id.name);
         scrollView= findViewById(R.id.scrollView);
-        setActivityData();
+        unpaid= findViewById(R.id.unpaid);
+        wallet= findViewById(R.id.wallet);
+    }
 
-         profile.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 Intent intent= new Intent(Account.this,Profile.class);
-                 startActivity(intent);
-                 Animatoo.animateSlideDown(Account.this);
-             }
-         });
+
+
+    public void ActivityActions(){
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(Account.this,Profile.class);
+                startActivity(intent);
+                Animatoo.animateSlideDown(Account.this);
+            }
+        });
 
         viewall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,21 +94,22 @@ public class Account extends AppCompatActivity {
             }
         });
 
+        unpaid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(Account.this,UnpaidOrderActivity.class);
+                startActivity(intent);
+                Animatoo.animateSlideDown(Account.this);
+            }
+        });
+        wallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(Account.this,WalletActivity.class);
+                startActivity(intent);
+                Animatoo.animateSlideDown(Account.this);
+            }
+        });
 
-    }
-
-
-
-
-
-
-
-    public void setActivityData()
-    {
-        name.setText(share_session.getUserDetail().get("username"));
-        if(!share_session.getUserDetail().get("image").equals("Set Now "))
-        {
-            Glide.with(Account.this).load("173.212.226.143:8086/Androidapi/"+share_session.getUserDetail().get("image")).into(image);
-        }
     }
 }

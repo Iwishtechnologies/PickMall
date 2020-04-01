@@ -13,8 +13,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.VendorRequestActivity"></activity>
-        <activity android:name=".activity.EditProfileActivity" />
+        <activity android:name=".activity.WalletActivity"
+            android:theme="@style/walletTheme"
+            android:label="Wallet">
+
+        </activity>
+
+        <activity
+            android:name=".activity.UnpaidOrderActivity"
+            android:theme="@style/unpaidordertheme">
+
+        </activity>
+
+        <activity android:name=".activity.VendorRequestActivity" />
+        <activity
+            android:name=".activity.EditProfileActivity"
+            android:theme="@style/profileTheme" />
         <activity
             android:name=".activity.UserDetail"
             android:screenOrientation="portrait">
@@ -26,7 +40,8 @@
         </activity>
         <activity
             android:name=".activity.Profile"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/profileTheme" />
         <activity android:name=".activity.SaveAddressActivity" />
         <activity
             android:name=".activity.AddressActivity"
@@ -44,7 +59,8 @@
         <activity android:name=".activity.Register1Activity" />
         <activity
             android:name=".activity.Account"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/accountTheme" />
         <activity
             android:name=".activity.Feed"
             android:screenOrientation="portrait" />

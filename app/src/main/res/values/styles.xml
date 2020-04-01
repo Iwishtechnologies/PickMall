@@ -39,4 +39,25 @@
         <item name="colorPrimary">@color/redColor</item>
     </style>
 
+    <style name="unpaidordertheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+
+    <style name="profileTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+
+    <style name="accountTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+
+
+    <style name="walletTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+
 </resources>

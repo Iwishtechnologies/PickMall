@@ -21,6 +21,7 @@
     <string name="sex"> Gender </string>
     <string name="profile">Account &amp; Security </string>
     <string name="edit_profile">Edit Profile </string>
+    <string name="vendor"> Vendor Request </string>
 
     <string name="facebook_app_id">692886267819816</string>
     <string name="fb_login_protocol_scheme">fb692886267819816</string>

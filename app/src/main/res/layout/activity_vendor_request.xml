@@ -1,9 +1,614 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".activity.VendorRequestActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_margin="15dp"
+        android:gravity="center|center_vertical"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:id="@+id/back"
+            android:src="@drawable/leftarrow"/>
+
+
+        <tech.iwish.pickmall.extended.TextViewFont
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:fonttype="regular"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:text="@string/vendor"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:visibility="visible"
+        android:id="@+id/business_detail"
+        android:background="@drawable/rectangle_feed"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="left|center_vertical"
+            android:background="@drawable/rectangle_small"
+            android:layout_height="wrap_content">
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fonttype="medium_text_italic"
+                android:textSize="18dp"
+                android:layout_marginLeft="30dp"
+                android:textColor="@color/colorAccent"
+                android:text="Business Details"
+                />
+
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Shop Name"
+            android:padding="25dp"
+            android:inputType="text"
+            android:ems="10"
+            android:background="@drawable/rectangle_edittext"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="-10dp"
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Shop Type"
+            android:inputType="text"
+            android:ems="10"
+            android:padding="25dp"
+            android:background="@drawable/rectangle_edittext"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="-10dp"
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Adddress "
+            android:inputType="text"
+            android:ems="10"
+            android:padding="25dp"
+            android:background="@drawable/rectangle_edittext"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="-10dp"
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pin-Code"
+            android:padding="25dp"
+            android:inputType="text"
+            android:ems="10"
+            android:background="@drawable/rectangle_edittext"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="-10dp"
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contact No."
+            android:padding="25dp"
+            android:inputType="text"
+            android:ems="10"
+            android:background="@drawable/rectangle_edittext"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="-10dp"
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Alternate Contact No."
+            android:padding="25dp"
+            android:inputType="text"
+            android:ems="10"
+            android:background="@drawable/rectangle_edittext"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="-10dp"
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="GSTIN"
+            android:padding="25dp"
+            android:inputType="text"
+            android:ems="10"
+            android:background="@drawable/rectangle_edittext"
+            />
+
+    </LinearLayout>
+
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="right"
+        android:layout_height="wrap_content">
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="25dp"
+            android:id="@+id/business_next"
+            android:textColor="@color/whiteColor"
+            android:background="@drawable/button_next"
+            />
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        android:id="@+id/product_detail"
+        android:background="@drawable/rectangle_feed"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="left|center_vertical"
+            android:background="@drawable/rectangle_small"
+            android:layout_height="wrap_content">
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fonttype="medium_text_italic"
+                android:textSize="18dp"
+                android:layout_marginLeft="30dp"
+                android:textColor="@color/colorAccent"
+                android:text="Product Detail"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Product Name"
+                android:padding="25dp"
+                android:inputType="text"
+                android:ems="10"
+                android:background="@drawable/rectangle_edittext"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="-10dp"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Product Type"
+                android:inputType="text"
+                android:ems="10"
+                android:padding="25dp"
+                android:background="@drawable/rectangle_edittext"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="-10dp"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Price "
+                android:inputType="text"
+                android:ems="10"
+                android:padding="25dp"
+                android:background="@drawable/rectangle_edittext"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="-10dp"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Quantity"
+                android:padding="25dp"
+                android:inputType="text"
+                android:ems="10"
+                android:background="@drawable/rectangle_edittext"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="-10dp"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Contact No."
+                android:padding="25dp"
+                android:inputType="text"
+                android:ems="10"
+                android:background="@drawable/rectangle_edittext"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="-10dp"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Warranty Period"
+                android:padding="25dp"
+                android:inputType="text"
+                android:ems="10"
+                android:background="@drawable/rectangle_edittext"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="-10dp"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Warranty Type"
+                android:padding="25dp"
+                android:inputType="text"
+                android:ems="10"
+                android:background="@drawable/rectangle_edittext"
+                />
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="25dp"
+                        android:id="@+id/product_prev"
+                        android:textColor="@color/whiteColor"
+                        android:background="@drawable/button_privious"
+                        />
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:layout_height="wrap_content">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="25dp"
+                    android:id="@+id/product_next"
+                    android:textColor="@color/whiteColor"
+                    android:background="@drawable/button_next"
+                    />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        android:id="@+id/product_detail1"
+        android:background="@drawable/rectangle_feed"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="left|center_vertical"
+            android:background="@drawable/rectangle_small"
+            android:layout_height="wrap_content">
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fonttype="medium_text_italic"
+                android:textSize="18dp"
+                android:layout_marginLeft="30dp"
+                android:textColor="@color/colorAccent"
+                android:text="Product Detail"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/rectangle_small"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:text="Select Product Images"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="-10dp"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Product Detail 1"
+                android:inputType="text"
+                android:ems="10"
+                android:padding="25dp"
+                android:background="@drawable/rectangle_edittext"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="-10dp"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Product Detail 2 "
+                android:inputType="text"
+                android:ems="10"
+                android:padding="25dp"
+                android:background="@drawable/rectangle_edittext"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="-10dp"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Product Detail 3"
+                android:padding="25dp"
+                android:inputType="text"
+                android:ems="10"
+                android:background="@drawable/rectangle_edittext"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="-10dp"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Product Detail 4"
+                android:padding="25dp"
+                android:inputType="text"
+                android:ems="10"
+                android:background="@drawable/rectangle_edittext"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="-10dp"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Product Detail 5"
+                android:padding="25dp"
+                android:inputType="text"
+                android:ems="10"
+                android:background="@drawable/rectangle_edittext"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="-10dp"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Product Detail 6"
+                android:padding="25dp"
+                android:inputType="text"
+                android:ems="10"
+                android:background="@drawable/rectangle_edittext"
+                />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:weightSum="2"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:layout_height="wrap_content">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="25dp"
+                    android:id="@+id/product1_prev"
+                    android:textColor="@color/whiteColor"
+                    android:background="@drawable/button_privious"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:layout_height="wrap_content">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="25dp"
+                    android:id="@+id/product1_next"
+                    android:textColor="@color/whiteColor"
+                    android:background="@drawable/button_next"
+                    />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
