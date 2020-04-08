@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,27 +12,11 @@ import android.widget.TextView;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.bumptech.glide.Glide;
-import com.ldoublem.loadingviewlib.LVCircularCD;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 import tech.iwish.pickmall.R;
-import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.session.Share_session;
 
 public class Account extends AppCompatActivity {
-    ImageView viewall, profile,image,unpaid,wallet,wishlist,shippingaddress,following,vendor,coupens,invite;
+    ImageView viewall, profile,image,unpaid,wallet,wishlist,shippingaddress,following,vendor,coupens,invite,myorder;
     LinearLayout fullview;
     Share_session share_session;
     TextView name;
@@ -79,6 +62,7 @@ public class Account extends AppCompatActivity {
         vendor= findViewById(R.id.vendoe);
         coupens= findViewById(R.id.coupens);
         invite= findViewById(R.id.invite);
+        myorder= findViewById(R.id.myorder);
         shippingaddress= findViewById(R.id.shippingaddress);
     }
 
@@ -153,6 +137,14 @@ public class Account extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(Account.this,InviteActivity.class);
+                startActivity(intent);
+                Animatoo.animateSlideDown(Account.this);
+            }
+        });
+        myorder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(Account.this,MyOederActitvity.class);
                 startActivity(intent);
                 Animatoo.animateSlideDown(Account.this);
             }

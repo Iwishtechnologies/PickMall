@@ -26,10 +26,18 @@ import java.util.Map;
 import tech.iwish.pickmall.Interface.RefreshCartAmountInterface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.CartAdapter;
+import tech.iwish.pickmall.other.CardCount;
 import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.sqlconnection.MyhelperSql;
 
+import static tech.iwish.pickmall.session.Share_session.CITY_ADDRESS;
+import static tech.iwish.pickmall.session.Share_session.HOUSE_NO_ADDRESS;
+import static tech.iwish.pickmall.session.Share_session.LANDMARK_ADDRESS;
+import static tech.iwish.pickmall.session.Share_session.LOCATION_ADDRESS;
+import static tech.iwish.pickmall.session.Share_session.NAME_ADDRESS;
 import static tech.iwish.pickmall.session.Share_session.NUMBER_ADDRESS;
+import static tech.iwish.pickmall.session.Share_session.PINCODE_ADDRESS;
+import static tech.iwish.pickmall.session.Share_session.STATE_ADDRESS;
 
 public class CardActivity extends AppCompatActivity implements View.OnClickListener, RefreshCartAmountInterface {
 
@@ -38,14 +46,16 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
     private SQLiteDatabase sqLiteDatabase;
     private RecyclerView card_recycle_view;
     private ArrayList<HashMap<String, String>> data;
-    private TextView edit_amount;
-    private LinearLayout price_layout;
+    private TextView edit_amount, pincode, name_address, full_address, product_count_card ,pricr;
+    private LinearLayout price_layout, product_count_card_layout, price_details_layout, address_layout;
     private int TotalAMT;
-    private int final_total_amount ,check;
+    private int final_total_amount, check;
     private String valuecheck;
-    private Button place_order_btn ;
-    private Share_session shareSession ;
-    private Map sharedata ;
+    private Button place_order_btn;
+    private Share_session shareSession;
+    private Map sharedata;
+    private ArrayList<HashMap<String, String>> list = new ArrayList<>();
+    private int finalAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,21 +70,43 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
         accountBottom = (ImageView) findViewById(R.id.AccountBottom);
         cardImage = (ImageView) findViewById(R.id.cardImage);
         card_recycle_view = (RecyclerView) findViewById(R.id.card_recycle_view);
-        edit_amount = (TextView) findViewById(R.id.edit_amount);
-        price_layout = (LinearLayout) findViewById(R.id.price_layout);
 
-        place_order_btn = (Button)findViewById(R.id.place_order_btn);
+        edit_amount = (TextView) findViewById(R.id.edit_amount);
+//        address set
+        pincode = (TextView) findViewById(R.id.pincode);
+        name_address = (TextView) findViewById(R.id.name_address);
+        full_address = (TextView) findViewById(R.id.full_address);
+        product_count_card = (TextView) findViewById(R.id.product_count_card);
+        pricr = (TextView) findViewById(R.id.pricr);
+
+
+        price_layout = (LinearLayout) findViewById(R.id.price_layout);
+        product_count_card_layout = (LinearLayout) findViewById(R.id.product_count_card_layout);
+        price_details_layout = (LinearLayout) findViewById(R.id.price_details_layout);
+        address_layout = (LinearLayout) findViewById(R.id.address_layout);
+
+        place_order_btn = (Button) findViewById(R.id.place_order_btn);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         card_recycle_view.setLayoutManager(linearLayoutManager);
 
-        shareSession = new Share_session(this);
 
-        String query = "Select *  from PRODUCT_CARD";
+        shareSession = new Share_session(this);
+        Map data = shareSession.Fetchdata();
+        if ((data.get(NUMBER_ADDRESS) != null) && (data.get(PINCODE_ADDRESS) != null) && (data.get(HOUSE_NO_ADDRESS) != null)) {
+            pincode.setText(data.get(PINCODE_ADDRESS).toString());
+            name_address.setText(data.get(NAME_ADDRESS).toString());
+            full_address.setText(data.get(HOUSE_NO_ADDRESS).toString() + " " +
+                    data.get(LANDMARK_ADDRESS).toString() + " " +
+                    data.get(LOCATION_ADDRESS).toString() + " " +
+                    data.get(CITY_ADDRESS).toString() + " " +
+                    data.get(STATE_ADDRESS).toString());
+        }
+
+        String query = "Select * from PRODUCT_CARD";
         sqLiteDatabase = myhelperSql.getWritableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{});
-        ArrayList<HashMap<String, String>> list = new ArrayList<>();
         cursor.moveToFirst();
         if (cursor != null && cursor.moveToFirst()) {
             for (int i = 0; i < cursor.getCount(); i++) {
@@ -87,21 +119,45 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
                 map.put("PRODUCT_SIZE", cursor.getString(cursor.getColumnIndex("PRODUCT_SIZE")));
                 map.put("PRODUCT_IMAGE", cursor.getString(cursor.getColumnIndex("PRODUCT_IMAGE")));
                 map.put("PRODUCT_AMOUNT", cursor.getString(cursor.getColumnIndex("PRODUCT_AMOUNT")));
+                map.put("PRODUCT_AMOUNT_DICOUNT", cursor.getString(cursor.getColumnIndex("PRODUCT_AMOUNT_DICOUNT")));
+                map.put("PRODUCT_TYPE", cursor.getString(cursor.getColumnIndex("PRODUCT_TYPE")));
+
+                int qty = Integer.parseInt(cursor.getString(cursor.getColumnIndex("PRODUCT_QTY")));
+                int amount = Integer.parseInt(cursor.getString(cursor.getColumnIndex("PRODUCT_AMOUNT")));
+                int amt = qty * amount;
+                finalAmount += amt;
                 list.add(map);
                 cursor.moveToNext();
             }
             CartAdapter cartAdapter = new CartAdapter(this, list, this);
             card_recycle_view.setAdapter(cartAdapter);
             amountset();
-
+            edit_amount.setText(getResources().getString(R.string.rs_symbol)+String.valueOf(finalAmount));
+            pricr.setText(getResources().getString(R.string.rs_symbol)+String.valueOf(finalAmount));
         } else {
             price_layout.setVisibility(View.GONE);
         }
+
         homeBottom.setOnClickListener(this);
         feedBottom.setOnClickListener(this);
         cardBottom.setOnClickListener(this);
         accountBottom.setOnClickListener(this);
         place_order_btn.setOnClickListener(this);
+
+
+        if (!CardCount.card_count(this).equals("0")) {
+            String number_of_product = CardCount.card_count(this);
+            product_count_card.setText(number_of_product);
+            product_count_card_layout.setVisibility(View.VISIBLE);
+            price_details_layout.setVisibility(View.VISIBLE);
+            address_layout.setVisibility(View.VISIBLE);
+            cardImage.setVisibility(View.GONE);
+        } else {
+            product_count_card_layout.setVisibility(View.GONE);
+            price_details_layout.setVisibility(View.GONE);
+            address_layout.setVisibility(View.GONE);
+            cardImage.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -117,7 +173,6 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
                 int tot = amount * qty;
                 this.TotalAMT = tot;
                 this.final_total_amount = TotalAMT + tot;
-
                 cursor.moveToNext();
             }
 //            edit_amount.setText(getResources().getString(R.string.rs_symbol) + check);
@@ -152,21 +207,44 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     private void PlaceOrder() {
 
-        startActivity(new Intent(CardActivity.this , AddressActivity.class));
-
+        shareSession = new Share_session(this);
+        startActivity(new Intent(CardActivity.this, AddressActivity.class));
         sharedata = shareSession.Fetchdata();
-        if(sharedata.get(NUMBER_ADDRESS) != null){
-            startActivity(new Intent(CardActivity.this , SaveAddressActivity.class));
-        }else{
-            startActivity(new Intent(CardActivity.this , AddressActivity.class));
+        if (sharedata.get(NUMBER_ADDRESS) != null) {
+            Intent intent = new Intent(CardActivity.this, SaveAddressActivity.class);
+            intent.putExtra("name_address", name_address.getText().toString());
+            intent.putExtra("full_address", full_address.getText().toString());
+            intent.putExtra("poncode_address", pincode.getText().toString());
+            intent.putExtra("mobile_address", sharedata.get(NUMBER_ADDRESS).toString());
+            intent.putExtra("city_address", sharedata.get(CITY_ADDRESS).toString());
+            startActivity(intent);
+        } else {
+            startActivity(new Intent(CardActivity.this, AddressActivity.class));
         }
     }
 
     @Override
     public void Amountrefreshcart() {
+
         amountset();
+
+        if (!CardCount.card_count(this).equals("0")) {
+            String number_of_product = CardCount.card_count(this);
+            product_count_card.setText(number_of_product);
+            product_count_card_layout.setVisibility(View.VISIBLE);
+            price_details_layout.setVisibility(View.VISIBLE);
+            address_layout.setVisibility(View.VISIBLE);
+            cardImage.setVisibility(View.GONE);
+        } else {
+            product_count_card_layout.setVisibility(View.GONE);
+            price_details_layout.setVisibility(View.GONE);
+            address_layout.setVisibility(View.GONE);
+            cardImage.setVisibility(View.VISIBLE);
+        }
+
 //        edit_amount.setText(getResources().getString(R.string.rs_symbol) + check);
 //        Toast.makeText(this, "remove item refresh", Toast.LENGTH_SHORT).show();
     }

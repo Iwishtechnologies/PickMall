@@ -74,7 +74,7 @@ public class FriendOneRsFragment extends Fragment implements View.OnClickListene
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                friendSaleLists.add(new FriendSale(jsonHelper.GetResult("product_id"),jsonHelper.GetResult("productName"),jsonHelper.GetResult("item_id"),jsonHelper.GetResult("catagory_id"),jsonHelper.GetResult("actual_price"),jsonHelper.GetResult("discount_price"),jsonHelper.GetResult("discount_price_per"),jsonHelper.GetResult("status"),jsonHelper.GetResult("pimg"),jsonHelper.GetResult("vendor_id"),jsonHelper.GetResult("type"),jsonHelper.GetResult("datetime")));
+                                friendSaleLists.add(new FriendSale(jsonHelper.GetResult("product_id"),jsonHelper.GetResult("productName"),jsonHelper.GetResult("item_id"),jsonHelper.GetResult("catagory_id"),jsonHelper.GetResult("actual_price"),jsonHelper.GetResult("discount_price"),jsonHelper.GetResult("discount_price_per"),jsonHelper.GetResult("status"),jsonHelper.GetResult("pimg"),jsonHelper.GetResult("vendor_id"),jsonHelper.GetResult("type"),jsonHelper.GetResult("datetime"),jsonHelper.GetResult("FakeRating"),jsonHelper.GetResult("req_users_shares"),jsonHelper.GetResult("new_users_atleast")));
                             }
 
                             getActivity().runOnUiThread(new Runnable() {

@@ -63,6 +63,7 @@ public class UserDetail extends AppCompatActivity {
         female= findViewById(R.id.female);
         mobile= findViewById(R.id.mobile);
         next= findViewById(R.id.next);
+
         if(data.get(USER_NUMBER_CHECK) != null){
             startActivity(new Intent(UserDetail.this , MainActivity.class));
         }
@@ -94,8 +95,8 @@ public class UserDetail extends AppCompatActivity {
                     if( conectOkhttp.ClientData(mobile.getText().toString(),gender))
                     {
                         userSession.user_number_check();
-                        Intent intent= new Intent(UserDetail.this,MainActivity.class);
                         GetUserProfile(userSession.getUserDetail().get("UserMobile"));
+                        Intent intent= new Intent(UserDetail.this,MainActivity.class);
                         startActivity(intent);
                         Animatoo.animateFade(UserDetail.this);
                     }
@@ -114,12 +115,12 @@ public class UserDetail extends AppCompatActivity {
         if(mobil.equals(""))
         {
             mobile.setError("Is Empty");
-//            Toast.makeText(this, "Select Gender", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Select incomplete", Toast.LENGTH_SHORT).show();
             return false;
         }
         if(mobil.length() < 10)
         {
-            mobile.setError("Invalid Mobile Number");
+            mobile.setError("Is Empty");
             Toast.makeText(this, "Number incomplete", Toast.LENGTH_SHORT).show();
             return false;
         }

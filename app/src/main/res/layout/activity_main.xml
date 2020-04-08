@@ -104,7 +104,8 @@
                         android:layout_below="@id/category"
                         android:layout_marginTop="10dp"
                         android:background="@color/whiteColor"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <ImageView
                             android:layout_width="match_parent"
@@ -121,7 +122,8 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="5dp"
                         android:background="@color/whiteColor"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingBottom="10dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -131,25 +133,28 @@
                             android:orientation="horizontal"
                             android:weightSum="2">
 
-                            <TextView
+                            <tech.iwish.pickmall.extended.TextViewFont
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="10dp"
                                 android:text="Flash Sale"
+                                app:fonttype="regular"
                                 android:textColor="@color/black"
-                                android:textSize="15sp" />
+                                android:textSize="16sp" />
 
-                            <TextView
+                            <tech.iwish.pickmall.extended.TextViewFont
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="3dp"
                                 android:text="End in"
+                                app:fonttype="text_semi_bold"
                                 android:textColor="@color/redColor" />
 
-                            <TextView
+                            <tech.iwish.pickmall.extended.TextViewFont
                                 android:id="@+id/time_countDown"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                app:fonttype="text_semi_bold"
                                 android:layout_marginEnd="5dp"
                                 android:text="Timer countdown"
                                 android:textColor="@color/redColor" />
@@ -163,11 +168,12 @@
                                 android:gravity="end"
                                 android:orientation="horizontal">
 
-                                <TextView
+                                <tech.iwish.pickmall.extended.TextViewFont
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:drawableRight="@drawable/right_arrow"
                                     android:gravity="end|center"
+                                    app:fonttype="text_semi_bold"
                                     android:text="View all"
                                     android:textColor="@color/lightsilverColor"
                                     android:textSize="12sp" />
@@ -180,7 +186,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="3dp"
                             android:orientation="vertical">
 
                             <androidx.recyclerview.widget.RecyclerView
@@ -198,6 +204,8 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="10dp"
                         android:background="@color/whiteColor"
                         android:orientation="vertical">
 
@@ -208,13 +216,14 @@
                             android:orientation="horizontal"
                             android:weightSum="2">
 
-                            <TextView
+                            <tech.iwish.pickmall.extended.TextViewFont
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="10dp"
                                 android:text="Friend Deal"
                                 android:textColor="@color/black"
-                                android:textSize="15sp" />
+                                android:textSize="16sp"
+                                app:fonttype="regular"/>
 
 
                             <LinearLayout
@@ -242,14 +251,15 @@
 
                         </LinearLayout>
 
-                        <TextView
+                        <tech.iwish.pickmall.extended.TextViewFont
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:layout_marginEnd="10dp"
                             android:text="Win prizes 1 by inviting friend"
                             android:textColor="@color/black"
-                            android:textSize="10sp" />
+                            android:textSize="10sp"
+                            app:fonttype="text_semi_bold"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"

@@ -29,11 +29,13 @@
         <item name="android:minHeight">7dip</item>
         <item name="android:maxHeight">20dip</item>
     </style>
+
     <style name="flashsaleprogress" parent="android:Widget.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/custom_progress_bar_horizontal</item>
         <item name="android:minHeight">10dip</item>
         <item name="android:maxHeight">20dip</item>
     </style>
+
     <style name="flashsaleproduct" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimaryDark">@color/redColor</item>
         <item name="colorPrimary">@color/redColor</item>
@@ -59,7 +61,30 @@
         <item name="colorPrimaryDark">@color/redColor</item>
         <item name="colorPrimary">@color/redColor</item>
     </style>
-    <style name="wishlistTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+    <style name="myordertheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+
+    <style name="coupentheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+    <style name="invitetheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+
+    <style name="vendertheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+    <style name="wishtheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+    <style name="shippingtheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/redColor</item>
         <item name="colorPrimary">@color/redColor</item>
     </style>

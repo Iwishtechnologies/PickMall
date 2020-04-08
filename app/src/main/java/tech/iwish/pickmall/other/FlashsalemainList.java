@@ -8,14 +8,16 @@ public class FlashsalemainList {
     private String catagory_id;
     private String actual_price;
     private String discount_price;
-    private String discount_price_per ;
+    private String discount_price_per;
     private String status;
     private String pimg;
     private String vendor_id;
     private String type;
     private String datetime;
+    private String FakeRating;
+    private String saleid;
 
-    public FlashsalemainList(String product_id, String productName, String item_id, String catagory_id, String actual_price, String discount_price, String discount_price_per, String status, String pimg, String vendor_id, String type, String datetime) {
+    public FlashsalemainList(String product_id, String productName, String item_id, String catagory_id, String actual_price, String discount_price, String discount_price_per, String status, String pimg, String vendor_id, String type, String datetime, String fakeRating, String saleid) {
         this.product_id = product_id;
         ProductName = productName;
         this.item_id = item_id;
@@ -28,6 +30,8 @@ public class FlashsalemainList {
         this.vendor_id = vendor_id;
         this.type = type;
         this.datetime = datetime;
+        FakeRating = fakeRating;
+        this.saleid = saleid;
     }
 
     public String getProduct_id() {
@@ -124,6 +128,22 @@ public class FlashsalemainList {
 
     public void setDatetime(String datetime) {
         this.datetime = datetime;
+    }
+
+    public String getFakeRating() {
+        return FakeRating;
+    }
+
+    public void setFakeRating(String fakeRating) {
+        FakeRating = fakeRating;
+    }
+
+    public String getSaleid() {
+        return saleid;
+    }
+
+    public void setSaleid(String saleid) {
+        this.saleid = saleid;
     }
 }
 

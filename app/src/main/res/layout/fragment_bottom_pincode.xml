@@ -22,7 +22,7 @@
             android:text="Enter your pincode"
             android:textColor="@color/black"
             android:textSize="20dp"
-            app:fonttype="black" />
+            app:fonttype="text_semi_bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -37,11 +37,17 @@
         </LinearLayout>
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/club_back_single_line_color" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:weightSum="2"
+        android:paddingTop="10dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -52,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-
+                android:id="@+id/check_pincode"
                 android:layout_marginStart="5dp"
                 android:hint="Pleace enter your pincode"
                 android:padding="5dp"
@@ -67,6 +73,7 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/pincode_search"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:text="submit"
@@ -76,6 +83,16 @@
                 android:textColor="@color/whiteColor"/>
         </LinearLayout>
     </LinearLayout>
+
+    <tech.iwish.pickmall.extended.TextViewFont
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:text="Use pincodes to check delivery and service information"/>
 
 </LinearLayout>
 

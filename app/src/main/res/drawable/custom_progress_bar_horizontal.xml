@@ -19,11 +19,11 @@
         <clip>
             <shape>
                 <corners android:radius="5dip"/>
-                <gradient
-                    android:startColor="@color/orangeColor"
-                    android:endColor="@color/redColor"
-                    android:angle="270"
-                    />
+                <solid android:color="@color/four_rating_progress_color"/>
+<!--                <gradient-->
+<!--                    android:startColor="@color/orangeColor"-->
+<!--                    android:endColor="@color/four_rating_progress_color"-->
+<!--                    android:angle="270" />-->
             </shape>
         </clip>
     </item>

@@ -1,28 +1,47 @@
 package tech.iwish.pickmall.adapter;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.text.SpannableString;
+import android.text.style.StrikethroughSpan;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.skydoves.powermenu.MenuAnimation;
+import com.skydoves.powermenu.OnMenuItemClickListener;
+import com.skydoves.powermenu.PowerMenu;
+import com.skydoves.powermenu.PowerMenuItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import tech.iwish.pickmall.Interface.RefreshCartAmountInterface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.CardActivity;
+import tech.iwish.pickmall.config.Constants;
+import tech.iwish.pickmall.other.CardCount;
+import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.sqlconnection.MyhelperSql;
+
+import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
 
@@ -30,11 +49,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
     private Context context;
     private RefreshCartAmountInterface refreshCartAmountInterface;
 
-    public CartAdapter(CardActivity cardActivity, ArrayList<HashMap<String, String>> product_data , RefreshCartAmountInterface refreshCartAmountInterface) {
+    public CartAdapter(Context cardActivity, ArrayList<HashMap<String, String>> product_data, RefreshCartAmountInterface refreshCartAmountInterface) {
         this.context = cardActivity;
         this.cardData = product_data;
         this.refreshCartAmountInterface = refreshCartAmountInterface;
     }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
 
     @NonNull
     @Override
@@ -46,17 +71,40 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-//        Toast.makeText(context, ""+cardData.get(position).get("PRODUCT_ID"), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(context, ""+cardData.get(position).get("PRODUCT_NAME"), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(context, ""+cardData.get(position).get("PRODUCT_QTY"), Toast.LENGTH_SHORT).show();
 
-        String a = "http://173.212.226.143:8086/img/" + cardData.get(position).get("PRODUCT_IMAGE");
-        Glide.with(context).load(a).into(holder.card_product_image);
-        holder.cart_product_name.setText(cardData.get(position).get("PRODUCT_NAME"));
-        holder.cart_product_act_amount.setText(context.getResources().getString(R.string.rs_symbol) + cardData.get(position).get("PRODUCT_AMOUNT"));
-        holder.cart_product_size.setText(context.getResources().getString(R.string.size) + cardData.get(position).get("PRODUCT_SIZE"));
-        holder.product_qty.setText(context.getResources().getString(R.string.qty) + cardData.get(position).get("PRODUCT_QTY"));
+        if (context instanceof CardActivity) {
 
+            SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol) + cardData.get(position).get("PRODUCT_AMOUNT_DICOUNT"));
+            content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
+            holder.dicount_price.setText(content);
+            String a = Constants.IMAGES + cardData.get(position).get("PRODUCT_IMAGE");
+            Glide.with(context).load(a).into(holder.card_product_image);
+            holder.cart_product_name.setText(cardData.get(position).get("PRODUCT_NAME"));
+            holder.cart_product_act_amount.setText(context.getResources().getString(R.string.rs_symbol) + cardData.get(position).get("PRODUCT_AMOUNT"));
+            holder.cart_product_size.setText(context.getResources().getString(R.string.size) + cardData.get(position).get("PRODUCT_SIZE"));
+            holder.product_qty.setText(cardData.get(position).get("PRODUCT_QTY"));
+
+            holder.remove_button_layout.setVisibility(View.VISIBLE);
+            holder.qty_layout.setVisibility(View.VISIBLE);
+
+//            Toast.makeText(context, ""+cardData.get(position).get("PRODUCT_QTY"), Toast.LENGTH_SHORT).show();
+        } else {
+
+
+            SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol) + cardData.get(position).get("PRODUCT_AMOUNT_DICOUNT"));
+            content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
+            holder.dicount_price.setText(content);
+            String a = Constants.IMAGES + cardData.get(position).get("PRODUCT_IMAGE");
+            Glide.with(context).load(a).into(holder.card_product_image);
+            holder.cart_product_name.setText(cardData.get(position).get("PRODUCT_NAME"));
+            holder.cart_product_act_amount.setText(context.getResources().getString(R.string.rs_symbol) + cardData.get(position).get("PRODUCT_AMOUNT"));
+            holder.cart_product_size.setText(context.getResources().getString(R.string.size) + cardData.get(position).get("PRODUCT_SIZE"));
+            holder.product_qty.setText(cardData.get(position).get("PRODUCT_QTY"));
+            holder.remove_button_layout.setVisibility(View.GONE);
+            holder.qty_layout.setVisibility(View.GONE);
+
+
+        }
     }
 
     @Override
@@ -64,13 +112,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
         return cardData.size();
     }
 
-    public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
         private ImageView card_product_image;
-        private TextView cart_product_name, cart_product_act_amount, cart_product_size,product_qty;
-        private TextView card_remove_product;
+        private TextView cart_product_name, cart_product_act_amount, cart_product_size, product_qty;
+        private TextView card_remove_product, dicount_price, wishlist_btn;
         private SQLiteDatabase sqLiteDatabase;
         private MyhelperSql myhelperSql;
+        private LinearLayout remove_button_layout, qty_layout;
+        private Spinner qty_spinner;
+        private PopupWindow popupWindow;
+        RelativeLayout relativeLayout;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -81,11 +133,36 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
             cart_product_size = (TextView) itemView.findViewById(R.id.cart_product_size);
             card_remove_product = (TextView) itemView.findViewById(R.id.card_remove_product);
             product_qty = (TextView) itemView.findViewById(R.id.product_qty);
+            dicount_price = (TextView) itemView.findViewById(R.id.dicount_price);
+            wishlist_btn = (TextView) itemView.findViewById(R.id.wishlist_btn);
+            remove_button_layout = (LinearLayout) itemView.findViewById(R.id.remove_button_layout);
+            qty_layout = (LinearLayout) itemView.findViewById(R.id.qty_layout);
+            qty_spinner = (Spinner) itemView.findViewById(R.id.qty_spinner);
 
             card_remove_product.setOnClickListener(this);
             myhelperSql = new MyhelperSql(context);
             sqLiteDatabase = myhelperSql.getWritableDatabase();
 
+            wishlist_btn.setOnClickListener(this);
+            qty_layout.setOnClickListener(this);
+//            String[] mobile = new String[]{
+//                    "1",
+//                    "2",
+//                    "3",
+//                    "more"
+//            };
+//            ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+//                    context,R.layout.textview_for_spinner,mobile );
+//            spinnerArrayAdapter.setDropDownViewResource(R.layout.textview_for_spinner);
+//            qty_spinner.setAdapter(spinnerArrayAdapter);
+//            qty_spinner.setOnItemSelectedListener(this);
+//
+        }
+
+
+        private void updateqty(String value) {
+//            sqLiteDatabase.execSQL("PRODUCT_CARD", "_id = "+cardData.get(getAdapterPosition()).get("PRODUCT_QTY")+"" , W, new String[]{cardData.get(getAdapterPosition()).get("ID")});
+//            sqLiteDatabase.execSQL("UPDATE PRODUCT_CARD SET PRODUCT_QTY = "+value +" WHERE _id= "+cardData.get(getAdapterPosition()).get("ID")+"");
         }
 
         @Override
@@ -93,13 +170,88 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
             int id = view.getId();
             switch (id) {
                 case R.id.card_remove_product:
-                    sqLiteDatabase.delete("PRODUCT_CARD","_id = ?",new String[]{cardData.get(getAdapterPosition()).get("ID")});
+                    sqLiteDatabase.delete("PRODUCT_CARD", "_id = ?", new String[]{cardData.get(getAdapterPosition()).get("ID")});
                     cardData.remove(getAdapterPosition());
                     notifyItemRemoved(getAdapterPosition());
                     refreshCartAmountInterface.Amountrefreshcart();
                     break;
+                case R.id.wishlist_btn:
+                    productwishlist();
+                    break;
+                case R.id.qty_layout:
+//                    qty_spinner.performClick();
+                    dropdown();
+                    break;
             }
         }
+
+        private void dropdown() {
+
+
+/*
+       LayoutInflater layoutInflater = (LayoutInflater) context.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            ViewGroup cont = (ViewGroup) layoutInflater.inflate(R.layout.textview_for_spinner, null);
+            popupWindow = new PopupWindow(cont, 400, 400, true);
+            popupWindow.showAtLocation(itemView, Gravity.CENTER, 700, 800);
+            cont.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    popupWindow.dismiss();
+                    return true;
+                }
+            });
+*/
+
+/*
+            PopupMenu popup = new PopupMenu(context, qty_layout);
+            popup.getMenuInflater().inflate(R.menu.dropdownlist, popup.getMenu());
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                public boolean onMenuItemClick(MenuItem item) {
+                    Toast.makeText(context, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
+            popup.show();
+*/
+
+        }
+
+
+        private void productwishlist() {
+            Share_session share_session = new Share_session(context);
+            Map data = share_session.Fetchdata();
+
+            CardCount cardCount = new CardCount();
+            cardCount.save_wishlist(cardData.get(getAdapterPosition()).get("PRODUCT_TYPE"), cardData.get(getAdapterPosition()).get("PRODUCT_ID"), data.get(USERMOBILE).toString());
+        }
+
+
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+//            ((TextView)view).setText(null);
+
+//            if(check != null){
+//                Toast.makeText(context, "cddc", Toast.LENGTH_SHORT).show();
+//            }
+
+//            if(!product_qty.getText().toString().equals(adapterView.getItemAtPosition(i).toString())){
+//                if(i != 3){
+//                    product_qty.setText(adapterView.getItemAtPosition(i).toString());
+//                    updateqty(adapterView.getItemAtPosition(i).toString());
+//                }else {
+//                    Toast.makeText(context, "dialog", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+
+        }
+
+
     }
 }
 

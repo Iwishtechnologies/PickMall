@@ -1,72 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:gravity="center"
     android:background="@color/whiteColor"
-    android:paddingTop="5dp"
     android:elevation="1dp"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingTop="5dp"
     android:paddingBottom="5dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="5"
-
+        android:layout_gravity="center"
         android:gravity="center"
-        android:layout_gravity="center">
-        <ImageView
-            android:id="@+id/HomeBottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/home_icon"/>
-        <ImageView
-            android:id="@+id/FeedBottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/feed_icon"/>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/message_icon"/>
+        android:weightSum="5">
+
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1">
             <ImageView
+                android:id="@+id/HomeBottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/home_icon" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/FeedBottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/feed_icon" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/message_icon" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageView
                 android:id="@+id/CardBottom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/cart_icon"/>
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/cart_icon" />
+
             <LinearLayout
+                android:id="@+id/product_count_card_layout"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_marginStart="15dp"
                 android:background="@drawable/card_number_circule_design"
                 android:gravity="center">
+
                 <tech.iwish.pickmall.extended.TextViewFont
+                    android:id="@+id/product_count_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="5"
-                    android:textSize="14sp"
-                    android:padding="2dp"
-                    android:textColor="@color/whiteColor"/>
+                    android:textColor="@color/whiteColor"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="14sp" />
             </LinearLayout>
         </RelativeLayout>
 
 
-        <ImageView
-            android:id="@+id/AccountBottom"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/account_icon"/>
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/AccountBottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/account_icon" />
+        </RelativeLayout>
+
     </LinearLayout>
 </LinearLayout>

@@ -69,6 +69,7 @@
                         android:layout_marginTop="4dp"
                         android:padding="2dp"/>
                     <tech.iwish.pickmall.extended.TextViewFont
+                        android:id="@+id/dicount_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="10sp"
@@ -99,13 +100,63 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_gravity="center"/>
-                <tech.iwish.pickmall.extended.TextViewFont
-                    android:id="@+id/product_qty"
-                    android:layout_width="match_parent"
+
+<!--                <RelativeLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="end">-->
+                    <LinearLayout
+                        android:id="@+id/qty_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="4dp"
+                        android:layout_gravity="center"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="10dp"
+                        android:background="@drawable/qtydesign">
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:text="QTY:"
+                            app:fonttype="text_semi_bold"/>
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:id="@+id/product_qty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            android:paddingEnd="2dp"
+                            android:paddingStart="2dp"
+                            app:fonttype="text_semi_bold"/>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/bottom_arrow"
+                            android:layout_gravity="center"/>
+
+                    </LinearLayout>
+                <Spinner
+                    android:id="@+id/qty_spinner"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="QTY 1"/>
+                    android:gravity="end"
+                    android:spinnerMode="dropdown"
+                    android:background="@drawable/spinner_design"
+                    android:layout_gravity="end"/>
+                <LinearLayout
+                    android:id="@+id/llSortChangePopup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -115,6 +166,7 @@
             android:layout_height="1dp"
             android:background="@color/silderColor"/>
         <LinearLayout
+            android:id="@+id/remove_button_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -125,6 +177,7 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
                 <tech.iwish.pickmall.extended.TextViewFont
+                    android:id="@+id/wishlist_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -132,6 +185,7 @@
                     app:fonttype="light"
                     android:text="Save for later"/>
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

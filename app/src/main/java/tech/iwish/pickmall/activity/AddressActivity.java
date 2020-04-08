@@ -2,6 +2,7 @@ package tech.iwish.pickmall.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -44,10 +46,10 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
     private Button address_confirm;
     private TextInputLayout address_name, address_number, address_pincode, address_house_no, address_colony, address_landmark, address_text_city, address_text_state;
     private EditText name_add, number_add, pincode_add, house_add, colony_add, landmark_add;
-    private TextView address_city , address_state ;
-    private Share_session shareSession ;
-    private Map data ;
-
+    private TextView address_city, address_state;
+    private Share_session shareSession;
+    private Map data;
+    private boolean checkinsertdata = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +74,8 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
         colony_add = (EditText) findViewById(R.id.colony_add);
         landmark_add = (EditText) findViewById(R.id.landmark_add);
 
-        address_city = (TextView)findViewById(R.id.address_city);
-        address_state = (TextView)findViewById(R.id.address_state);
-
+        address_city = (TextView) findViewById(R.id.address_city);
+        address_state = (TextView) findViewById(R.id.address_state);
 
 
         address_confirm.setOnClickListener(this);
@@ -102,17 +103,21 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
     private void confir_address() {
 
         if (validation()) {
-            shareSession = new Share_session(this);
-            data  = shareSession.Fetchdata();
-            shareSession.address(address_name.getEditText().getText().toString().trim() ,  address_number.getEditText().getText().toString().trim() ,  address_pincode.getEditText().getText().toString().trim() ,  address_house_no.getEditText().getText().toString().trim() ,  address_colony.getEditText().getText().toString().trim() ,  address_landmark.getEditText().getText().toString().trim() ,  "",""  );
-            savedata();
+            if(savedata()){
+                shareSession = new Share_session(this);
+                data = shareSession.Fetchdata();
+                shareSession.address(address_name.getEditText().getText().toString().trim(), address_number.getEditText().getText().toString().trim(), address_pincode.getEditText().getText().toString().trim(), address_house_no.getEditText().getText().toString().trim(), address_colony.getEditText().getText().toString().trim(), address_landmark.getEditText().getText().toString().trim(), "", "");
+                startActivity(new Intent(AddressActivity.this , SaveAddressActivity.class));
+            }
         }
+
 
     }
 
-    private void savedata() {
+    private boolean savedata() {
 
-
+        shareSession = new Share_session(this);
+        data = shareSession.Fetchdata();
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
@@ -140,11 +145,20 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    Log.e("response", response.body().string());
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    final JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            checkinsertdata = true ;
+                        }
+                    }
                 }
             }
         });
 
+        return checkinsertdata ;
     }
 
     private boolean validation() {
@@ -254,11 +268,14 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
 
     private void pincode_city_fetch() {
 
+
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
+
             jsonObject.put("pincode", address_pincode.getEditText().getText().toString().trim());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -285,12 +302,13 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
 
-
                                 AddressActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+
                                         address_city.setText(jsonHelper.GetResult("city"));
                                         address_state.setText(jsonHelper.GetResult("state"));
+
                                     }
                                 });
 

@@ -2,6 +2,7 @@ package tech.iwish.pickmall.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,16 +60,22 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
 
 
         if(! itemLists.get(position).getItem_name().equals("")){
+
             holder.layoutItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    Bundle bundle = new Bundle();
                     Intent intent = new Intent(context , ProductActivity.class);
-                    intent.putExtra("item",itemLists.get(position).getItem_id());
+                    bundle.putString("item",itemLists.get(position).getItem_id());
+                    bundle.putString("type","product");
+                    intent.putExtras(bundle);
+//                    intent.putExtra("item",itemLists.get(position).getItem_id());
+//                    intent.putExtra("type","product");
 //                intent.putExtra("image",itemLists.get(position).getIcon_img());
                     context.startActivity(intent);
                 }
             });
-//        String a = "http://173.212.226.143:8086/img/"+itemLists.get(position).getIcon_img();
             String a = Constants.IMAGES+itemLists.get(position).getIcon_img();
             Glide.with(context).load(a).into(holder.image);
             holder.nameCat.setText(itemLists.get(position).getItem_name());
