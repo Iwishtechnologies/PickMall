@@ -119,6 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:id="@+id/wishlist"
                     android:src="@drawable/wish_list"/>
 
 
@@ -126,18 +127,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:id="@+id/following"
                     android:src="@drawable/following"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:src="@drawable/viewed"/>
+                    android:id="@+id/vendoe"
+                    android:src="@drawable/vendor_icon"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:id="@+id/coupens"
                     android:src="@drawable/coupens"/>
 
             </LinearLayout>
@@ -212,7 +216,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/walletrectangle"
                 android:layout_margin="10dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/full"
                 android:orientation="vertical">
 
@@ -228,12 +232,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:id="@+id/shippingaddress"
                     android:src="@drawable/shippingaddress"/>
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:id="@+id/invite"
                     android:src="@drawable/invitefriend"/>
 
                 <ImageView

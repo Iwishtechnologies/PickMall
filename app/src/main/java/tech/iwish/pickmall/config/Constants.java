@@ -33,6 +33,7 @@ public class Constants {
     public static String IMAGES = "http://173.212.226.143:8086/img/";
     public static String SHAREDPREFERENCE = "money_pref";
     public static final String SHAREDPREFERENCE_STR = "money_pref_str";
+//    public static final String COUPENiMAGE = "http://173.212.226.143:8086/template";
 
 
 

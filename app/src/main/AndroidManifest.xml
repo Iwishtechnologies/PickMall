@@ -13,18 +13,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.WalletActivity"
-            android:theme="@style/walletTheme"
-            android:label="Wallet">
-
-        </activity>
-
+        <activity android:name=".activity.InviteActivity"></activity>
+        <activity android:name=".activity.CoupenActivity" />
+        <activity android:name=".activity.ShipingAddressActivity" />
+        <activity
+            android:name=".activity.WishListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/wishlistTheme" />
+        <activity
+            android:name=".activity.WalletActivity"
+            android:label="Wallet"
+            android:theme="@style/walletTheme" />
         <activity
             android:name=".activity.UnpaidOrderActivity"
-            android:theme="@style/unpaidordertheme">
-
-        </activity>
-
+            android:theme="@style/unpaidordertheme" />
         <activity android:name=".activity.VendorRequestActivity" />
         <activity
             android:name=".activity.EditProfileActivity"
