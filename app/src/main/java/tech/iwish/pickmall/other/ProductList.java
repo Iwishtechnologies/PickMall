@@ -11,8 +11,9 @@ public class ProductList {
     private String status;
     private String pimg;
     private String vendor_id;
+    private String FakeRating;
 
-    public ProductList(String product_id, String productName, String item_id, String catagory_id, String actual_price, String discount_price, String discount_price_per, String status, String pimg, String vendor_id) {
+    public ProductList(String product_id, String productName, String item_id, String catagory_id, String actual_price, String discount_price, String discount_price_per, String status, String pimg, String vendor_id, String fakeRating) {
         this.product_id = product_id;
         ProductName = productName;
         this.item_id = item_id;
@@ -23,7 +24,9 @@ public class ProductList {
         this.status = status;
         this.pimg = pimg;
         this.vendor_id = vendor_id;
+        FakeRating = fakeRating;
     }
+
 
     public String getProduct_id() {
         return product_id;
@@ -103,5 +106,13 @@ public class ProductList {
 
     public void setVendor_id(String vendor_id) {
         this.vendor_id = vendor_id;
+    }
+
+    public String getFakeRating() {
+        return FakeRating;
+    }
+
+    public void setFakeRating(String fakeRating) {
+        FakeRating = fakeRating;
     }
 }

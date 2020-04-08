@@ -28,8 +28,11 @@ import okhttp3.Response;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.FlashSaleProductactivity;
 import tech.iwish.pickmall.adapter.FlashSaleAllProductAdapter;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.other.FlashsalemainList;
+
+import static tech.iwish.pickmall.OkhttpConnection.ProductListF.FlashSalefake;
 
 public class FlashSaleCurrentSaleFragment extends Fragment {
 
@@ -48,11 +51,12 @@ public class FlashSaleCurrentSaleFragment extends Fragment {
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         flash_sale_recycleview.setLayoutManager(linearLayoutManager);
 
-
+        FlashSaleAllProductAdapter flashSaleAllProductAdapter = new FlashSaleAllProductAdapter((FlashSaleProductactivity) getActivity(), FlashSalefake());
+        flash_sale_recycleview.setAdapter(flashSaleAllProductAdapter);
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("http://173.212.226.143:8086/api/flashSaleAll")
+                .url(Constants.FLASH_SALE_ALL)
                 .build();
         client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override
@@ -72,13 +76,15 @@ public class FlashSaleCurrentSaleFragment extends Fragment {
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                flashsalemainLists.add(new FlashsalemainList(jsonHelper.GetResult("product_id"), jsonHelper.GetResult("ProductName"), jsonHelper.GetResult("item_id"), jsonHelper.GetResult("catagory_id"), jsonHelper.GetResult("actual_price"), jsonHelper.GetResult("discount_price"), jsonHelper.GetResult("discount_price_per"), jsonHelper.GetResult("status"), jsonHelper.GetResult("pimg"), jsonHelper.GetResult("vendor_id"), jsonHelper.GetResult("type"), jsonHelper.GetResult("datetime")));
+                                flashsalemainLists.add(new FlashsalemainList(jsonHelper.GetResult("product_id"), jsonHelper.GetResult("ProductName"), jsonHelper.GetResult("item_id"), jsonHelper.GetResult("catagory_id"), jsonHelper.GetResult("actual_price"), jsonHelper.GetResult("discount_price"), jsonHelper.GetResult("discount_price_per"), jsonHelper.GetResult("status"), jsonHelper.GetResult("pimg"), jsonHelper.GetResult("vendor_id"), jsonHelper.GetResult("type"), jsonHelper.GetResult("datetime"), jsonHelper.GetResult("FakeRating"), jsonHelper.GetResult("saleid")));
+
                             }
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
 
                                     FlashSaleAllProductAdapter flashSaleAllProductAdapter = new FlashSaleAllProductAdapter((FlashSaleProductactivity) getActivity(), flashsalemainLists);
+                                    flash_sale_recycleview.setHasFixedSize(true);
                                     flash_sale_recycleview.setAdapter(flashSaleAllProductAdapter);
 
                                 }

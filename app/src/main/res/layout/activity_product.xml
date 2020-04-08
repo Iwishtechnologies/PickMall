@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/silderColor"
+    android:background="@color/product_back_silder"
     android:orientation="vertical"
     tools:context=".activity.ProductActivity">
 
@@ -128,11 +128,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/product_recycleview"
+                <FrameLayout
+                    android:id="@+id/product_framelayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:layout_height="match_parent"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

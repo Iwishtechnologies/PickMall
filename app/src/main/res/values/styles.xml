@@ -29,14 +29,38 @@
         <item name="android:minHeight">7dip</item>
         <item name="android:maxHeight">20dip</item>
     </style>
+
     <style name="flashsaleprogress" parent="android:Widget.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/custom_progress_bar_horizontal</item>
         <item name="android:minHeight">10dip</item>
         <item name="android:maxHeight">20dip</item>
     </style>
+
     <style name="flashsaleproduct" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimaryDark">@color/redColor</item>
         <item name="colorPrimary">@color/redColor</item>
     </style>
+
+    <style name="unpaidordertheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+
+    <style name="profileTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+
+    <style name="accountTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+
+
+    <style name="walletTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+
 
 </resources>

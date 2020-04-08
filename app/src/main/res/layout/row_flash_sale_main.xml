@@ -1,37 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aap="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
     android:paddingEnd="2dp"
     android:id="@+id/flash_product_linear">
-    <ImageView
-        android:id="@+id/image_flash_sale"
-        android:layout_width="100dp"
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
         android:layout_height="120dp"
-        android:src="@drawable/splash_image"/>
+        android:id="@+id/image_flash_sale"
+        android:src="@drawable/splash_image"
+        android:scaleType="fitCenter"
+        app:riv_border_color="@color/silderColor"
+        app:riv_corner_radius="3dip"
+        app:riv_border_width="1dip"
+        app:riv_mutate_background="true"
+        />
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_marginTop="3dp">
-        <TextView
+        <tech.iwish.pickmall.extended.TextViewFont
             android:id="@+id/actual_price_flash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="3dp"
             android:text="200"
+            aap:fonttype="text_semi_bold"
             android:textColor="@color/redColor"
             android:textSize="14sp" />
-        <TextView
+        <tech.iwish.pickmall.extended.TextViewFont
             android:id="@+id/dicount_price_flash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:text="2000"
+            aap:fonttype="text_semi_bold"
             android:textSize="10sp" />
 
     </LinearLayout>

@@ -2,6 +2,8 @@ package tech.iwish.pickmall.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.SpannableString;
+import android.text.style.StrikethroughSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +50,12 @@ public class FlashSaleAdapter extends RecyclerView.Adapter<FlashSaleAdapter.View
 
 
         holder.actual_price_flash.setText(context.getResources().getString(R.string.rs_symbol)+ flashsalemainLists.get(position).getActual_price());
-        holder.dicount_price_flash.setText(context.getResources().getString(R.string.rs_symbol)+flashsalemainLists.get(position).getDiscount_price());
+
+        SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol)+flashsalemainLists.get(position).getDiscount_price());
+        content.setSpan(new StrikethroughSpan(), 0, content.length(), 0 );
+        holder.dicount_price_flash.setText(content);
+
+
         holder.flash_product_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

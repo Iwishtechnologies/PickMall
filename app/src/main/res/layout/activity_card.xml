@@ -4,85 +4,286 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.CardActivity"
-    android:background="@color/silderColor">
+    android:background="@color/silderColor"
+    tools:context=".activity.CardActivity">
 
-
-    <RelativeLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/price_layout"
-        android:orientation="vertical"
-        android:gravity="center">
-
-        <ImageView
-            android:id="@+id/cardImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_centerInParent="true"
-            android:src="@drawable/cart_image" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/card_recycle_view"
+        android:layout_above="@+id/price_layout">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/price_layout"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/cardImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/cart_image"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/address_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:elevation="1dp"
+                        android:background="@color/whiteColor"
+                        android:paddingTop="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingBottom="5dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="2"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="10dp">
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Delivery to "
+                                    android:textColor="@color/black"/>
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:id="@+id/name_address"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
+                                    android:textColor="@color/black"
+                                    android:text="Delivery to "/>
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:id="@+id/pincode"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black"
+                                    android:text="474004"/>
+
+                            </LinearLayout>
+
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:id="@+id/full_address"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="2dp"
+                                android:textColor="@color/address_text_color"
+                                android:text="Delivery to "/>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:background="@drawable/change_btn">
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/card_recycle_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/price_details_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@color/whiteColor"
+                        android:elevation="1dp"
+                        android:padding="5dp"
+                        android:layout_marginTop="5dp">
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="PRICE DEATAILS"
+
+                            android:paddingStart="5dp"
+                            android:paddingEnd="5dp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+
+                            android:textSize="16sp"
+                            android:textColor="@color/address_text_color"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/silderColor"/>
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp">
+
+                            <TableRow
+                                android:weightSum="2"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="3dp">
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Pricr (1 item)"
+                                    app:fonttype="regular"/>
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:id="@+id/pricr"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    app:fonttype="regular"
+                                    android:layout_weight="1"
+                                    android:text="2086"/>
+                            </TableRow>
+                            <TableRow
+                                android:weightSum="2"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="3dp">
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Delivery Fee"
+                                    app:fonttype="regular"/>
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    app:fonttype="regular"
+                                    android:layout_weight="1"
+                                    android:text="Free"/>
+                            </TableRow>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/silderColor"/>
+
+                            <TableRow
+                                android:weightSum="2"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="8dp">
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Total Amount"
+                                    app:fonttype="regular"/>
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    app:fonttype="regular"
+                                    android:textSize="16sp"
+                                    android:textColor="@color/black"
+                                    android:layout_weight="1"
+                                    android:text="2089"/>
+                            </TableRow>
+
+                        </TableLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
 
     <LinearLayout
         android:id="@+id/price_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_above="@id/bottom"
-        android:padding="4dp"
         android:layout_marginTop="5dp"
-        android:gravity="center"
         android:layout_marginBottom="4dp"
         android:background="@color/whiteColor"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="4dp"
         android:weightSum="2">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-                <tech.iwish.pickmall.extended.TextViewFont
-                    android:id="@+id/edit_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="20000"
-                    android:layout_marginStart="10dp"
-                    android:textSize="18sp"
-                    app:fonttype="text_semi_bold"
-                    android:textColor="@color/light_black"/>
-                <tech.iwish.pickmall.extended.TextViewFont
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View price details"
-                    android:layout_marginStart="10dp"
-                    android:textSize="10sp"
-                    app:fonttype="text_semi_bold"
-                    android:textColor="@color/blue_color"/>
-            </LinearLayout>
-            <LinearLayout
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:id="@+id/edit_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_weight="1">
-                <Button
-                    android:id="@+id/place_order_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:text="Place order"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginStart="10dp"
-                    android:textSize="14sp"
-                    android:background="@color/redColor"
-                    android:textColor="@color/whiteColor"/>
-            </LinearLayout>
+                android:layout_marginStart="10dp"
+                android:text="20000"
+                android:textColor="@color/light_black"
+                android:textSize="18sp"
+                app:fonttype="text_semi_bold" />
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="View price details"
+                android:textColor="@color/blue_color"
+                android:textSize="10sp"
+                app:fonttype="text_semi_bold" />
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/place_order_btn"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:background="@color/redColor"
+                android:text="Place order"
+                android:textColor="@color/whiteColor"
+                android:textSize="14sp" />
+        </LinearLayout>
     </LinearLayout>
+
     <include
         android:id="@+id/bottom"
         layout="@layout/row_bottom"

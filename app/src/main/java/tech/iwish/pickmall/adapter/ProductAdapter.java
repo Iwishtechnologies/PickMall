@@ -2,6 +2,8 @@ package tech.iwish.pickmall.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
 import android.text.style.UnderlineSpan;
@@ -32,7 +34,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
     private Context context;
 
 
-    public ProductAdapter(ProductActivity productActivity, List<ProductList> productListList) {
+    public ProductAdapter(Context productActivity, List<ProductList> productListList) {
+
         this.context = productActivity;
         this.productLists = productListList;
 
@@ -50,9 +53,33 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
     public void onBindViewHolder(@NonNull Viewholder holder, final int position) {
         String status = productLists.get(position).getStatus();
         if (status.equals("TRUE")) {
+//            holder.product_rationg.setRating((float) 4.5);
+            Drawable drawable = holder.product_rationg.getProgressDrawable();
+            switch (productLists.get(position).getFakeRating()){
 
-            holder.product_rationg.setRating((float) 4.5);
+                case "1":
+                case "0.5":
+                case "1.5":
+                case "2":
+                case "2.5":
+                    drawable.setColorFilter(context.getColor(R.color.progress_rating_red_color), PorterDuff.Mode.SRC_ATOP);
+                    break;
+                case "3":
+                case "3.5":
+                    drawable.setColorFilter(context.getColor(R.color.progress_rating_yellow_color), PorterDuff.Mode.SRC_ATOP);
+                    break;
+                case "4":
+                case "4.5":
+                case "5":
+                    drawable.setColorFilter(context.getColor(R.color.progress_rating_green_color), PorterDuff.Mode.SRC_ATOP);
+                    break;
+
+            }
+
+
             holder.amount.setText(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getActual_price());
+            holder.product_rationg.setRating(Float.parseFloat(productLists.get(position).getFakeRating()));
+
 //            holder.discount_price.setText(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getDiscount_price());
 
             SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getDiscount_price());
@@ -73,6 +100,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
                     intent.putExtra("discount_price", productLists.get(position).getDiscount_price());
                     intent.putExtra("product_id", productLists.get(position).getProduct_id());
                     intent.putExtra("product_Image", productLists.get(position).getPimg());
+                    intent.putExtra("vendor_id", productLists.get(position).getVendor_id());
+                    intent.putExtra("discount_price_per", productLists.get(position).getDiscount_price_per());
                     intent.putExtra("product_type", "allProduct");
                     context.startActivity(intent);
                 }
@@ -108,6 +137,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
             product_rationg = (RatingBar)itemView.findViewById(R.id.product_rationg);
         }
     }
+
+
 }
 
 

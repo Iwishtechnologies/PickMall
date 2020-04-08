@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="3dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="15dp"
+    android:layout_marginEnd="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="10dp"
+        android:gravity="center"
+        android:background="@color/whiteColor">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="2"
+                android:paddingTop="10dp">
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:id="@+id/unpaid_product_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"
+                    app:fonttype="light"
+                    android:padding="2dp"
+                    android:text="Flec"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        app:fonttype="regular"
+                        android:text="Size "
+                        android:layout_marginTop="4dp" />
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:id="@+id/unpaid_product_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    app:fonttype="regular"
+                    android:text="Size l"
+                    android:layout_marginTop="4dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        app:fonttype="regular"
+                        android:text="Seller:"
+                        android:layout_marginTop="4dp"
+                        />
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10sp"
+                            app:fonttype="regular"
+                            android:id="@+id/unpaid_product_seller"
+                            android:text="Seller:"
+                            android:layout_marginTop="4dp"
+                            />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        app:fonttype="text_semi_bold"
+                        android:text="₹"
+                        android:textColor="@color/black"
+                        android:layout_marginEnd="3dp"
+                        android:layout_marginTop="4dp"
+                        android:padding="2dp"/>
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:id="@+id/unpaid_product_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        app:fonttype="text_semi_bold"
+                        android:text="52"
+                        android:textColor="@color/black"
+                        android:layout_marginEnd="3dp"
+                        android:layout_marginTop="4dp"
+                        android:padding="2dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        app:fonttype="light"
+                        android:text="color :"
+                        android:textColor="@color/black"
+                        android:layout_marginEnd="3dp"
+                        android:layout_marginTop="4dp"
+                        android:padding="2dp"/>
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:id="@+id/unpaid_product_color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        app:fonttype="light"
+                        android:text="Red"
+                        android:textColor="@color/black"
+                        android:layout_marginEnd="3dp"
+                        android:layout_marginTop="4dp"
+                        android:padding="2dp"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp" >
+                <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+                    android:id="@+id/unpaid_product_image"
+                    android:layout_width="80dp"
+                    app:shape_mode="round_rect"
+                    app:round_radius="20dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"/>
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:id="@+id/unpaid_product_qty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="QTY 1"/>
+
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/silderColor"/>
+
+    </LinearLayout>
+</RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

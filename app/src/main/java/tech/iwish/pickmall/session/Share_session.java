@@ -3,6 +3,7 @@ package tech.iwish.pickmall.session;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Share_session {
@@ -22,6 +23,11 @@ public class Share_session {
     public static final String USERMOBILE = "UserMobile";
     private static final String IS_LOGIN = "IsLoggedIn";
     public static final String USER_NUMBER_CHECK = "0";
+    public static final String PINCODR_SERVICE_CHECK = "pincode";
+    public static final String USERNAME = "username";
+    public static final String USERGENDER = "gender";
+    public static final String PROFILEIMAGE = "image";
+    public static final String ACCOUNTID = "id";
 
 
     SharedPreferences.Editor editor;
@@ -60,12 +66,49 @@ public class Share_session {
     }
 
     public void CreateSession(String mobile) {
-        editor.putString(USERMOBILE, mobile);
-        editor.putString(IS_LOGIN, String.valueOf(true));
-        editor.commit();
+        editor.putString(USERMOBILE, mobile).commit();
+        editor.putString(IS_LOGIN, String.valueOf(true)).commit();
+
+    }
+    public void pincode_service_check(String pincode) {
+        editor.putString(PINCODR_SERVICE_CHECK, pincode).commit();
 
     }
 
+    public HashMap<String,String> getUserDetail()
+    {
+        HashMap<String,String>data=new HashMap<>();
+        data.put(USERMOBILE,Preferences.getString(USERMOBILE,null));
+        data.put(USERNAME,Preferences.getString(USERNAME,null));
+        data.put(USERGENDER,Preferences.getString(USERGENDER,null));
+        data.put(PROFILEIMAGE,Preferences.getString(PROFILEIMAGE,null));
+        data.put(ACCOUNTID,Preferences.getString(ACCOUNTID,null));
+        return  data;
+    }
 
+    public void UpdateUserDetail(String data,String Parameter)
+    {
+        if(Parameter.equals("name"))
+        {
+            editor.putString(USERNAME,data).commit();
+        }
+        if(Parameter.equals("gender"))
+        {
+            editor.putString(USERGENDER,data).commit();
+        }
+        if(Parameter.equals("image"))
+        {
+            editor.putString(PROFILEIMAGE,data).commit();
+        }
+    }
+
+    public void setUserDetail(String name , String gender , String image , String account_id)
+    {
+        editor.putString(USERNAME,name);
+        editor.putString(USERGENDER,gender);
+        editor.putString(PROFILEIMAGE, image);
+        editor.putString(ACCOUNTID,account_id);
+        editor.commit();
+    }
 
  }

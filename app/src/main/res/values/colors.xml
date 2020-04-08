@@ -21,7 +21,14 @@
     <color name="lightorangeColor">#ED7C2E</color>
     <color name="address_text_color">#A5A5A5</color>
     <color name="address_tint_color">#F2F2F2</color>
+    <color name="product_back_silder">#F1F2F4</color>
+    <color name="rating_star_color">#606060</color>
+    <color name="four_rating_progress_color">#6FC017</color>
 
+<!--    rating color-->
 
+    <color name="progress_rating_yellow_color">#F9BA0B</color>
+    <color name="progress_rating_red_color">#E32F30</color>
+    <color name="progress_rating_green_color">#70C115</color>
 
 </resources>
