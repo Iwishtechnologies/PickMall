@@ -13,28 +13,55 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.MyOederActitvity"
-            android:theme="@style/myordertheme"
-            android:screenOrientation="portrait"
-            android:label="My Order"/>
-        <activity android:name=".activity.EditAddressActivity"
-            android:theme="@style/flashsaleproduct">
+        <activity android:name=".activity.FollowingActivity" android:theme="@style/followingtheme" android:screenOrientation="portrait"/>
 
-        </activity>
+        <activity
+            android:name=".activity.OrderDetailActivity"
+            android:label="Oeder Detail"
+            android:screenOrientation="portrait"
+            android:theme="@style/orderdetailtheme"/>
+        <activity
+            android:name=".activity.MyOederActitvity"
+            android:label="My Order"
+            android:screenOrientation="portrait"
+            android:theme="@style/myordertheme" />
+        <activity
+            android:name=".activity.EditAddressActivity"
+            android:theme="@style/flashsaleproduct" />
         <activity android:name=".activity.VendorStoreActivity" />
-        <activity android:name=".activity.CoupenActivity" android:theme="@style/coupentheme" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.InviteActivity" android:theme="@style/invitetheme" android:screenOrientation="portrait" />
-        <activity android:name=".activity.VendorRequestActivity" android:theme="@style/vendertheme" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.WishListActivity" android:theme="@style/wishtheme" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ShipingAddressActivity" android:theme="@style/shippingtheme" android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CoupenActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/coupentheme" />
+        <activity
+            android:name=".activity.InviteActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/invitetheme" />
+        <activity
+            android:name=".activity.VendorRequestActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/vendertheme" />
+        <activity
+            android:name=".activity.WishListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/wishtheme" />
+        <activity
+            android:name=".activity.ShipingAddressActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/shippingtheme" />
         <activity android:name=".activity.ReturnPolicyActivity" />
-        <activity android:name=".activity.WalletActivity" android:theme="@style/walletTheme" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.WalletActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/walletTheme" />
         <activity
             android:name=".activity.UnpaidOrderActivity"
-            android:theme="@style/unpaidordertheme"  android:screenOrientation="portrait"/> <!-- <activity android:name=".activity.VendorRequestActivity" /> -->
+            android:screenOrientation="portrait"
+            android:theme="@style/unpaidordertheme" /> <!-- <activity android:name=".activity.VendorRequestActivity" /> -->
         <activity
             android:name=".activity.EditProfileActivity"
-            android:theme="@style/profileTheme"  android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/profileTheme" />
         <activity
             android:name=".activity.Account"
             android:screenOrientation="portrait"

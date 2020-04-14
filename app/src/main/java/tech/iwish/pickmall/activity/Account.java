@@ -149,6 +149,14 @@ public class Account extends AppCompatActivity {
                 Animatoo.animateSlideDown(Account.this);
             }
         });
+        following.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(Account.this,FollowingActivity.class);
+                startActivity(intent);
+                Animatoo.animateSlideDown(Account.this);
+            }
+        });
 
 
     }

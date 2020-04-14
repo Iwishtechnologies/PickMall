@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/lightsilverColor"
+    tools:context=".activity.OrderDetailActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_marginTop="10dp"
+            android:id="@+id/detail"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_margin="20dp"
+                    android:layout_height="wrap_content">
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:fonttype="text_regular"
+                        android:text="Order ID - 0D111654655SJHBFU484"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/club_back_single_text_color"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:gravity="center"
+                    android:id="@+id/product"
+                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1.4"
+                        android:orientation="vertical"
+                        android:layout_margin="10dp"
+                        android:gravity="center_vertical"
+                        android:layout_height="match_parent">
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            app:fonttype="text_semi_bold"
+                            android:textColor="@color/black"
+                            android:textSize="15dp"
+                            android:id="@+id/name"
+                            android:maxWidth="200dp"
+                            android:layout_height="wrap_content"
+                            android:text="Golden rocket spray cars"/>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="5dp"
+                            android:layout_height="wrap_content">
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="wrap_content"
+                                app:fonttype="light"
+                                android:id="@+id/status"
+                                android:layout_height="wrap_content"
+                                android:text="Black"/>
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_weight="0.6"
+                        android:gravity="right|center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+                            android:layout_width="100dp"
+                            android:id="@+id/image"
+                            app:shape_mode="round_rect"
+                            android:layout_height="80dp"
+                            app:round_radius="20dp"
+                            android:src="@drawable/female_icom"/>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="Seller: omni Technical retail"
+                    app:fonttype="regular"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="20dp"
+                    android:layout_height="wrap_content">
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="₹ 2,5999"
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        app:fonttype="regular"/>
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_height="wrap_content"
+                        android:text="1 offer"
+                        android:textColor="@color/Green"
+                        app:fonttype="regular"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/club_back_single_text_color"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_margin="20dp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/full_fill_progressbar"/>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="20dp"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Ordered And Approved "
+                                android:textColor="@color/black"
+                                app:fonttype="regular"/>
+
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Thu, 15 Aug 2020"
+                                android:textSize="10dp"
+                                app:fonttype="regular"/>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="25dp"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_height="wrap_content">
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Cancelled "
+                                    android:textColor="@color/black"
+                                    app:fonttype="regular"/>
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/right_arrow"/>
+
+                            </LinearLayout>
+
+
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Thu, 15 Aug 2020"
+                                android:textSize="10dp"
+                                app:fonttype="regular"/>
+
+                        </LinearLayout>
+
+
+
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                    android:textColor="@color/light_black"
+                android:text="As Per Your Request Your Request,Your Item Has Been Cancelled"
+                app:fonttype="regular"/>
+
+                <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="0.5dp"
+                    android:layout_marginTop="10dp"
+                      android:background="@color/club_back_single_text_color"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="-10dp"
+                    android:layout_marginTop="-3dp"
+                    android:layout_marginRight="-10dp"
+                    android:background="@drawable/button_need_help" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_marginTop="10dp"
+            android:id="@+id/shipping_detail"
+            android:orientation="vertical"
+            android:layout_below="@id/detail"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_margin="20dp"
+                android:layout_height="wrap_content">
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fonttype="text_regular"
+                    android:text="Shipping Details"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/club_back_single_text_color"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_height="wrap_content">
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ravan Singh"
+                    android:textSize="18dp"
+                    android:textColor="@color/black"
+                    app:fonttype="regular"/>
+
+
+            </LinearLayout>
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/light_black"
+                android:text="Near naka chandwani petrol punp"
+                app:fonttype="regular"/>
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/light_black"
+                android:text="Chetak puri "
+                app:fonttype="regular"/>
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/light_black"
+                android:text="Gwalior "
+                app:fonttype="regular"/>
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/light_black"
+                android:text="Madhya Pradesh - 474006"
+                app:fonttype="regular"/>
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/light_black"
+                android:text="Phone Number: 9517531470"
+                android:layout_marginBottom="25dp"
+                app:fonttype="regular"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical"
+                android:layout_below="@id/detail"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_margin="20dp"
+                    android:layout_height="wrap_content">
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:fonttype="text_regular"
+                        android:text="Price Details"/>
+                </LinearLayout>
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/club_back_single_text_color"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="horizontal">
+
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/light_black"
+                        android:text="List Price"
+                        android:layout_marginBottom="25dp"
+                        app:fonttype="regular"/>
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/light_black"
+                        android:text="₹ 2,999 "
+                        android:layout_marginBottom="25dp"
+                        app:fonttype="regular"/>
+                </LinearLayout>
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:layout_marginTop="-10dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
+
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/light_black"
+                    android:text="Selling Price"
+                    android:layout_marginBottom="25dp"
+                    app:fonttype="regular"/>
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/light_black"
+                    android:text="₹ 2,832 "
+                    android:layout_marginBottom="25dp"
+                    app:fonttype="regular"/>
+            </LinearLayout>
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:layout_marginTop="-10dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
+
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/light_black"
+                    android:text="Extra Discount"
+                    android:layout_marginBottom="25dp"
+                    app:fonttype="regular"/>
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/light_black"
+                    android:text="- ₹ 240 "
+                    android:layout_marginBottom="25dp"
+                    app:fonttype="regular"/>
+            </LinearLayout>
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:layout_marginTop="-10dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
+
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/light_black"
+                    android:text="Special Price"
+                    android:layout_marginBottom="25dp"
+                    app:fonttype="regular"/>
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/light_black"
+                    android:text="₹ 2,599 "
+                    android:layout_marginBottom="25dp"
+                    app:fonttype="regular"/>
+            </LinearLayout>
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:layout_marginTop="-10dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
+
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/light_black"
+                    android:text="Shopping Fee"
+                    android:layout_marginBottom="25dp"
+                    app:fonttype="regular"/>
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/light_black"
+                    android:text="₹ 40 "
+                    android:layout_marginBottom="25dp"
+                    app:fonttype="regular"/>
+            </LinearLayout>
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:layout_marginTop="-10dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
+
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/light_black"
+                    android:text="Shipping Discount"
+                    android:layout_marginBottom="25dp"
+                    app:fonttype="regular"/>
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/light_black"
+                    android:text="-₹ 40 "
+                    android:layout_marginBottom="25dp"
+                    app:fonttype="regular"/>
+            </LinearLayout>
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/club_back_single_text_color"/>
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal">
+
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/light_black"
+                    android:text="Total Amount"
+                    android:layout_marginBottom="25dp"
+                    android:textSize="15dp"
+                    app:fonttype="text_semi_bold"/>
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/light_black"
+                    android:text="-₹ 2,599 "
+                    android:textSize="15dp"
+                    android:layout_marginBottom="25dp"
+                    app:fonttype="text_semi_bold"/>
+            </LinearLayout>
+
+            </LinearLayout>
+
+     </LinearLayout>
+
+  </ScrollView>
+
+</RelativeLayout>
+

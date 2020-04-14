@@ -89,4 +89,14 @@
         <item name="colorPrimary">@color/redColor</item>
     </style>
 
+    <style name="followingtheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+
+    <style name="orderdetailtheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+
 </resources>

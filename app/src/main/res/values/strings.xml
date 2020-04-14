@@ -13,12 +13,12 @@
     <string name="male">Male </string>
     <string name="female">Female </string>
     <string name="gender">Selec Your Gender for More Personalized Products </string>
-<!--    <string name="edit_profile">Edit Profile</string>-->
-<!--    <string name="profile">Display Name</string>-->
-<!--    <string name="photo">My Photo</string>-->
-<!--    <string name="sex">Gender</string>-->
-<!--    <string name="mobile_no">Mobile</string>-->
-<!--    <string name="registered">Registered Account</string>-->
+    <!--    <string name="edit_profile">Edit Profile</string>-->
+    <!--    <string name="profile">Display Name</string>-->
+    <!--    <string name="photo">My Photo</string>-->
+    <!--    <string name="sex">Gender</string>-->
+    <!--    <string name="mobile_no">Mobile</string>-->
+    <!--    <string name="registered">Registered Account</string>-->
     <string name="account_sec">Account Security</string>
     <string name="promt"></string>
 
