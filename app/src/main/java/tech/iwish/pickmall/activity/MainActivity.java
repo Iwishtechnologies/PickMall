@@ -46,6 +46,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import tech.iwish.pickmall.Interface.CardProductRefreshInterface;
+import tech.iwish.pickmall.Interface.ItemCategoryInterface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.FlashSaleAdapter;
 import tech.iwish.pickmall.adapter.FriendSaleAdapter;
@@ -67,7 +68,7 @@ import static tech.iwish.pickmall.OkhttpConnection.ProductListF.item_fakelist;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.silder_list_fack;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, CardProductRefreshInterface {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, CardProductRefreshInterface, ItemCategoryInterface {
 
     private ViewPager viewPages;
     private SilderAdapter silderAdapter;
@@ -90,17 +91,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String bottomClickCheck;
     private SwipeRefreshLayout swipe_refresh_layout;
 
+
     //   adapter
     private FriendSaleAdapter friendSaleAdapter;
     private FlashSaleAdapter flashSaleAdapter;
     private ItemAdapter itemAdapter;
+
+    ItemCategoryInterface itemCategoryInterface;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.accoount);
         setContentView(R.layout.activity_main);
 
         viewPages = (ViewPager) findViewById(R.id.viewPages);
@@ -134,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         viewAll_FreshSale.setOnClickListener(this);
 
+
 //    item
         silder();
         itemCat();
@@ -151,6 +155,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         swipe_refresh_layout.setOnRefreshListener(this);
         cardProductCount();
+
+        itemCategoryInterface = new ItemCategoryInterface() {
+            @Override
+            public void itemcatinterface(String value) {
+
+            }
+        };
+
+
+
+
     }
 
     private void cardProductCount() {
@@ -214,12 +229,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void itemCat() {
+    public List itemCat() {
 
-
-        itemAdapter = new ItemAdapter(MainActivity.this, item_fakelist());
+        itemAdapter = new ItemAdapter(MainActivity.this, item_fakelist(), this);
         itemCateroryrecycle.setAdapter(itemAdapter);
-
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -245,13 +258,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                itemLists.add(new ItemList(jsonHelper.GetResult("item_id"), jsonHelper.GetResult("item_name"), jsonHelper.GetResult("icon_img")));
+                                itemLists.add(new ItemList(jsonHelper.GetResult("item_id"), jsonHelper.GetResult("item_name"), jsonHelper.GetResult("icon_img"), jsonHelper.GetResult("type")));
 
                             }
                             MainActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    itemAdapter = new ItemAdapter(MainActivity.this, itemLists);
+//                                    itemAdapter = new ItemAdapter(MainActivity.this, itemLists , this);
+                                    itemAdapter = new ItemAdapter(MainActivity.this, itemLists, itemCategoryInterface);
                                     itemCateroryrecycle.setAdapter(itemAdapter);
 
                                 }
@@ -262,6 +276,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
+        return itemLists;
     }
 
 
@@ -554,7 +569,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "home", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.FeedBottom:
-                Toast.makeText(this, "feed", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, AllcategoryActivity.class));
                 break;
             case R.id.CardBottom:
                 this.bottomClickCheck = "card";
@@ -593,5 +608,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void cardrefersh() {
         cardProductCount();
+    }
+
+
+    @Override
+    public void itemcatinterface(String value) {
+
     }
 }

@@ -13,12 +13,12 @@ public class ProductListF {
 
     public static List item_fakelist() {
         List<ItemList> itemListsfask = new ArrayList<>();
-        itemListsfask.add(new ItemList("null", "", ""));
-        itemListsfask.add(new ItemList("", "", ""));
-        itemListsfask.add(new ItemList("", "", ""));
-        itemListsfask.add(new ItemList("", "", ""));
-        itemListsfask.add(new ItemList("", "", ""));
-        itemListsfask.add(new ItemList("", "", ""));
+        itemListsfask.add(new ItemList("null", "", "",""));
+        itemListsfask.add(new ItemList("", "", "",""));
+        itemListsfask.add(new ItemList("", "", "",""));
+        itemListsfask.add(new ItemList("", "", "",""));
+        itemListsfask.add(new ItemList("", "", "",""));
+        itemListsfask.add(new ItemList("", "", "",""));
         return itemListsfask;
     }
 

@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-import okhttp3.Callback;
+import tech.iwish.pickmall.Interface.ItemCategoryInterface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.MainActivity;
 import tech.iwish.pickmall.activity.ProductActivity;
@@ -29,61 +29,89 @@ import tech.iwish.pickmall.other.ItemList;
 import tech.iwish.pickmall.session.Share_session;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
-    private List<ItemList> itemLists ;
-    private Context context ;
+    private List<ItemList> itemLists;
+    private Context context;
     private Share_session share_session;
-    private int lastposition = -1 ;
+    private int lastposition = -1;
+    private Viewholder viewholder;
+    private ItemCategoryInterface itemCategoryInterface;
+    private String checker = null;
 
-    public ItemAdapter(MainActivity mainActivity, List<ItemList> itemLists) {
-        this.context = mainActivity;
+    public ItemAdapter(Context context, List<ItemList> itemLists, ItemCategoryInterface itemCategoryInterface) {
+        this.context = context;
         this.itemLists = itemLists;
+        this.itemCategoryInterface = itemCategoryInterface;
     }
-
 
 
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.row_item_cat,parent  , false);
-        Viewholder viewholder = new Viewholder(view);
 
-        if(itemLists.get(viewType).getItem_name().equals("")){
-            Animation animation = AnimationUtils.loadAnimation(viewholder.itemView.getContext(),R.anim.fade_item_animation);
-            viewholder.itemView.setAnimation(animation);
-            lastposition = viewType ;
+        if (context instanceof MainActivity) {
+            View view = LayoutInflater.from(context).inflate(R.layout.row_item_cat, parent, false);
+            viewholder = new Viewholder(view);
+            if (itemLists.get(viewType).getItem_name().equals("")) {
+                Animation animation = AnimationUtils.loadAnimation(viewholder.itemView.getContext(), R.anim.fade_item_animation);
+                viewholder.itemView.setAnimation(animation);
+                lastposition = viewType;
+            }
+        } else {
+            View view = LayoutInflater.from(context).inflate(R.layout.row_all_category_item, parent, false);
+            viewholder = new Viewholder(view);
+
         }
+
+
         return viewholder;
+
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, final int position) {
 
+        if (!itemLists.get(position).getItem_name().equals("")) {
 
-        if(! itemLists.get(position).getItem_name().equals("")){
+            if (context instanceof MainActivity) {
 
-            holder.layoutItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    Bundle bundle = new Bundle();
-                    Intent intent = new Intent(context , ProductActivity.class);
-                    bundle.putString("item",itemLists.get(position).getItem_id());
-                    bundle.putString("type","product");
-                    intent.putExtras(bundle);
+                holder.layoutItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Bundle bundle = new Bundle();
+                        Intent intent = new Intent(context, ProductActivity.class);
+                        bundle.putString("item", itemLists.get(position).getItem_id());
+                        bundle.putString("type", "product");
+                        intent.putExtras(bundle);
 //                    intent.putExtra("item",itemLists.get(position).getItem_id());
 //                    intent.putExtra("type","product");
 //                intent.putExtra("image",itemLists.get(position).getIcon_img());
-                    context.startActivity(intent);
-                }
-            });
-            String a = Constants.IMAGES+itemLists.get(position).getIcon_img();
-            Glide.with(context).load(a).into(holder.image);
-            holder.nameCat.setText(itemLists.get(position).getItem_name());
+                        context.startActivity(intent);
+                    }
+                });
+                String a = Constants.IMAGES + itemLists.get(position).getIcon_img();
+                Glide.with(context).load(a).into(holder.image);
+                holder.nameCat.setText(itemLists.get(position).getItem_name());
 
-        }else{
+
+            } else {
+
+                holder.nameCat.setText(itemLists.get(position).getItem_name());
+                if (checker == null) {
+                    this.checker = "sdsdcdd";
+                    itemCategoryInterface.itemcatinterface(itemLists.get(0).getItem_id());
+                }
+                holder.main_layout_category.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        itemCategoryInterface.itemcatinterface(itemLists.get(position).getItem_id());
+                    }
+                });
+            }
+
+        } else {
             Glide.with(context).load(context.getResources().getDrawable(R.drawable.placeholder_icon)).into(holder.image);
         }
-
 
 
     }
@@ -96,14 +124,17 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
     public class Viewholder extends RecyclerView.ViewHolder {
 
         private ImageView image;
-        private LinearLayout layoutItem;
+        private LinearLayout layoutItem, main_layout_category;
         private TextView nameCat;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
-            image = (ImageView)itemView.findViewById(R.id.image);
-            layoutItem = (LinearLayout)itemView.findViewById(R.id.layoutItem);
-            nameCat = (TextView)itemView.findViewById(R.id.nameCat);
+            image = (ImageView) itemView.findViewById(R.id.image);
+            layoutItem = (LinearLayout) itemView.findViewById(R.id.layoutItem);
+            main_layout_category = (LinearLayout) itemView.findViewById(R.id.main_layout_category);
+            nameCat = (TextView) itemView.findViewById(R.id.nameCat);
+
+
         }
     }
 }

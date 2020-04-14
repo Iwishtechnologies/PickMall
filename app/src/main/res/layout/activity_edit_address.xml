@@ -15,6 +15,7 @@
         android:background="@drawable/address_progress"/>
 
     <LinearLayout
+        android:id="@+id/new_addresss"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -35,30 +36,11 @@
             android:layout_marginStart="10dp"/>
     </LinearLayout>
 
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/address_recycleview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:background="@color/whiteColor"
-        android:elevation="1dp"
-        android:weightSum="1">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp">
-
-        </LinearLayout>
-
-    </LinearLayout>
 
 </LinearLayout>
 

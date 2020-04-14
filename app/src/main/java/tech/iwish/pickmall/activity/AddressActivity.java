@@ -103,15 +103,13 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
     private void confir_address() {
 
         if (validation()) {
-            if(savedata()){
+            if (savedata()) {
                 shareSession = new Share_session(this);
                 data = shareSession.Fetchdata();
                 shareSession.address(address_name.getEditText().getText().toString().trim(), address_number.getEditText().getText().toString().trim(), address_pincode.getEditText().getText().toString().trim(), address_house_no.getEditText().getText().toString().trim(), address_colony.getEditText().getText().toString().trim(), address_landmark.getEditText().getText().toString().trim(), "", "");
-                startActivity(new Intent(AddressActivity.this , SaveAddressActivity.class));
+                startActivity(new Intent(AddressActivity.this, SaveAddressActivity.class));
             }
         }
-
-
     }
 
     private boolean savedata() {
@@ -151,14 +149,14 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
-                            checkinsertdata = true ;
+                            checkinsertdata = true;
                         }
                     }
                 }
             }
         });
 
-        return checkinsertdata ;
+        return checkinsertdata;
     }
 
     private boolean validation() {

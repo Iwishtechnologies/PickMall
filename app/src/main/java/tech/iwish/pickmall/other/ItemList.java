@@ -5,11 +5,13 @@ public class ItemList {
     private String item_id;
     private String item_name;
     private String icon_img;
+    private String type;
 
-    public ItemList(String item_id, String item_name, String icon_img) {
+    public ItemList(String item_id, String item_name, String icon_img, String type) {
         this.item_id = item_id;
         this.item_name = item_name;
         this.icon_img = icon_img;
+        this.type = type;
     }
 
     public String getItem_id() {
@@ -34,5 +36,13 @@ public class ItemList {
 
     public void setIcon_img(String icon_img) {
         this.icon_img = icon_img;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

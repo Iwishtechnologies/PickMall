@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import tech.iwish.pickmall.Interface.CardQtyAmountRef;
 import tech.iwish.pickmall.Interface.RefreshCartAmountInterface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.CartAdapter;
@@ -39,7 +40,7 @@ import static tech.iwish.pickmall.session.Share_session.NUMBER_ADDRESS;
 import static tech.iwish.pickmall.session.Share_session.PINCODE_ADDRESS;
 import static tech.iwish.pickmall.session.Share_session.STATE_ADDRESS;
 
-public class CardActivity extends AppCompatActivity implements View.OnClickListener, RefreshCartAmountInterface {
+public class CardActivity extends AppCompatActivity implements View.OnClickListener, RefreshCartAmountInterface , CardQtyAmountRef {
 
     private ImageView homeBottom, feedBottom, cardBottom, accountBottom, cardImage;
     private MyhelperSql myhelperSql;
@@ -47,7 +48,7 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView card_recycle_view;
     private ArrayList<HashMap<String, String>> data;
     private TextView edit_amount, pincode, name_address, full_address, product_count_card ,pricr;
-    private LinearLayout price_layout, product_count_card_layout, price_details_layout, address_layout;
+    private LinearLayout price_layout, product_count_card_layout, price_details_layout, address_layout , change_address;
     private int TotalAMT;
     private int final_total_amount, check;
     private String valuecheck;
@@ -55,7 +56,7 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
     private Share_session shareSession;
     private Map sharedata;
     private ArrayList<HashMap<String, String>> list = new ArrayList<>();
-    private int finalAmount;
+    private int finalAmount , amtvalue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +85,7 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
         product_count_card_layout = (LinearLayout) findViewById(R.id.product_count_card_layout);
         price_details_layout = (LinearLayout) findViewById(R.id.price_details_layout);
         address_layout = (LinearLayout) findViewById(R.id.address_layout);
+        change_address = (LinearLayout) findViewById(R.id.change_address);
 
         place_order_btn = (Button) findViewById(R.id.place_order_btn);
 
@@ -103,6 +105,36 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
                     data.get(CITY_ADDRESS).toString() + " " +
                     data.get(STATE_ADDRESS).toString());
         }
+
+        card_product();
+
+
+
+        homeBottom.setOnClickListener(this);
+        feedBottom.setOnClickListener(this);
+        cardBottom.setOnClickListener(this);
+        accountBottom.setOnClickListener(this);
+        place_order_btn.setOnClickListener(this);
+        change_address.setOnClickListener(this);
+
+
+        if (!CardCount.card_count(this).equals("0")) {
+            String number_of_product = CardCount.card_count(this);
+            product_count_card.setText(number_of_product);
+            product_count_card_layout.setVisibility(View.VISIBLE);
+            price_details_layout.setVisibility(View.VISIBLE);
+            address_layout.setVisibility(View.VISIBLE);
+            cardImage.setVisibility(View.GONE);
+        } else {
+            product_count_card_layout.setVisibility(View.GONE);
+            price_details_layout.setVisibility(View.GONE);
+            address_layout.setVisibility(View.GONE);
+            cardImage.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    private void card_product() {
 
         String query = "Select * from PRODUCT_CARD";
         sqLiteDatabase = myhelperSql.getWritableDatabase();
@@ -129,34 +161,13 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
                 list.add(map);
                 cursor.moveToNext();
             }
-            CartAdapter cartAdapter = new CartAdapter(this, list, this);
+            CartAdapter cartAdapter = new CartAdapter(this, list, this , this);
             card_recycle_view.setAdapter(cartAdapter);
-            amountset();
+//            amountset();
             edit_amount.setText(getResources().getString(R.string.rs_symbol)+String.valueOf(finalAmount));
             pricr.setText(getResources().getString(R.string.rs_symbol)+String.valueOf(finalAmount));
         } else {
             price_layout.setVisibility(View.GONE);
-        }
-
-        homeBottom.setOnClickListener(this);
-        feedBottom.setOnClickListener(this);
-        cardBottom.setOnClickListener(this);
-        accountBottom.setOnClickListener(this);
-        place_order_btn.setOnClickListener(this);
-
-
-        if (!CardCount.card_count(this).equals("0")) {
-            String number_of_product = CardCount.card_count(this);
-            product_count_card.setText(number_of_product);
-            product_count_card_layout.setVisibility(View.VISIBLE);
-            price_details_layout.setVisibility(View.VISIBLE);
-            address_layout.setVisibility(View.VISIBLE);
-            cardImage.setVisibility(View.GONE);
-        } else {
-            product_count_card_layout.setVisibility(View.GONE);
-            price_details_layout.setVisibility(View.GONE);
-            address_layout.setVisibility(View.GONE);
-            cardImage.setVisibility(View.VISIBLE);
         }
 
     }
@@ -170,17 +181,16 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
             for (int i = 0; i < cursor.getCount(); i++) {
                 int amount = Integer.parseInt(cursor.getString(cursor.getColumnIndex("PRODUCT_AMOUNT")));
                 int qty = Integer.parseInt(cursor.getString(cursor.getColumnIndex("PRODUCT_QTY")));
-                int tot = amount * qty;
-                this.TotalAMT = tot;
-                this.final_total_amount = TotalAMT + tot;
+                int amt = amount * qty;
+                amtvalue += amt;
                 cursor.moveToNext();
             }
-//            edit_amount.setText(getResources().getString(R.string.rs_symbol) + check);
+            edit_amount.setText(getResources().getString(R.string.rs_symbol)+String.valueOf(amtvalue));
+            pricr.setText(getResources().getString(R.string.rs_symbol)+String.valueOf(amtvalue));
         } else {
             price_layout.setVisibility(View.GONE);
         }
     }
-
 
     @Override
     public void onClick(View view) {
@@ -193,20 +203,21 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.FeedBottom:
-                Toast.makeText(this, "feed", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(CardActivity.this, AllcategoryActivity.class));
                 break;
             case R.id.CardBottom:
                 break;
             case R.id.AccountBottom:
-                Toast.makeText(this, "account", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(CardActivity.this, Account.class));
                 break;
             case R.id.place_order_btn:
                 PlaceOrder();
                 break;
-
+            case R.id.change_address:
+                startActivity(new Intent(CardActivity.this , EditAddressActivity.class));
+                break;
         }
     }
-
 
     private void PlaceOrder() {
 
@@ -228,7 +239,7 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void Amountrefreshcart() {
-
+        amtvalue = 0;
         amountset();
 
         if (!CardCount.card_count(this).equals("0")) {
@@ -247,5 +258,11 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
 
 //        edit_amount.setText(getResources().getString(R.string.rs_symbol) + check);
 //        Toast.makeText(this, "remove item refresh", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void cardqtyAmountref() {
+        amtvalue = 0;
+        amountset();
     }
 }

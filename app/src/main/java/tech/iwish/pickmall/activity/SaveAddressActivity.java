@@ -5,24 +5,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import tech.iwish.pickmall.Interface.CardQtyAmountRef;
 import tech.iwish.pickmall.Interface.RefreshCartAmountInterface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.CartAdapter;
 import tech.iwish.pickmall.sqlconnection.MyhelperSql;
 
-public class SaveAddressActivity extends AppCompatActivity implements RefreshCartAmountInterface {
+public class SaveAddressActivity extends AppCompatActivity implements RefreshCartAmountInterface, View.OnClickListener , CardQtyAmountRef {
 
-    private TextView name_a, full_address, city_pincode_address, number_address;
+    private TextView name_a, full_address, city_pincode_address, number_address ,change_address;
     private RecyclerView card_product_recycleview;
     private MyhelperSql myhelperSql;
     private SQLiteDatabase sqLiteDatabase;
@@ -42,6 +46,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         full_address = (TextView) findViewById(R.id.full_address);
         city_pincode_address = (TextView) findViewById(R.id.city_pincode_address);
         number_address = (TextView) findViewById(R.id.number_address);
+        change_address = (TextView) findViewById(R.id.change_address);
 
         card_product_recycleview = (RecyclerView) findViewById(R.id.card_product_recycleview);
 
@@ -75,15 +80,35 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 list.add(map);
                 cursor.moveToNext();
             }
-            CartAdapter cartAdapter = new CartAdapter(this, list, this );
+            CartAdapter cartAdapter = new CartAdapter(this, list, this  ,this);
             card_product_recycleview.setAdapter(cartAdapter);
+        }
 
+
+        change_address.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void Amountrefreshcart() {
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
+
+        int id = view.getId();
+        switch (id) {
+            case R.id.change_address:
+                startActivity(new Intent(SaveAddressActivity.this , EditAddressActivity.class));
+                break;
 
         }
     }
 
     @Override
-    public void Amountrefreshcart() {
+    public void cardqtyAmountref() {
 
     }
 }

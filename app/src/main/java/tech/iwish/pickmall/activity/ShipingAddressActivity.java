@@ -36,6 +36,7 @@ public class ShipingAddressActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     Share_session share_session;
     private List<ShippingAddressList> shippingAddressLists = new ArrayList<>();
+    int type = 0 ;
 
 
     @Override
@@ -51,7 +52,6 @@ public class ShipingAddressActivity extends AppCompatActivity {
         back= findViewById(R.id.back);
         recyclerView= findViewById(R.id.recycle);
         share_session= new Share_session(ShipingAddressActivity.this);
-
     }
 
     private void ActivityAction(){
@@ -105,7 +105,7 @@ public class ShipingAddressActivity extends AppCompatActivity {
                             ShipingAddressActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ShippingAddressAdapter shippingAddressAdapter = new ShippingAddressAdapter(ShipingAddressActivity.this, shippingAddressLists);
+                                    ShippingAddressAdapter shippingAddressAdapter = new ShippingAddressAdapter(ShipingAddressActivity.this, shippingAddressLists , type ,null);
                                     recyclerView.setAdapter(shippingAddressAdapter);
                                 }
                             });
