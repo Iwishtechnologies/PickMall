@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:background="@drawable/rectangle_small"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="30dp"
+            android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1.5"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content">
+
+            <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+                android:layout_width="40dp"
+                android:id="@+id/image"
+                app:shape_mode="round_rect"
+                android:src="@drawable/icon_vendor"
+                android:layout_height="40dp"/>
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fonttype="regular"
+                android:id="@+id/name"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:text="SM Fassion &amp; Collection"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:gravity="right"
+            android:layout_weight="0.5"
+            android:layout_gravity="right|center_vertical"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:id="@+id/viewall"
+                android:layout_gravity="right|center_vertical"
+                android:background="@drawable/button_view_all"/>
+        </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

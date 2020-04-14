@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,42 +24,47 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.iwish.pickmall.R;
-import tech.iwish.pickmall.adapter.CouponAdapter;
-import tech.iwish.pickmall.adapter.MyOrderAdapter;
+import tech.iwish.pickmall.adapter.FollowingAdapter;
 import tech.iwish.pickmall.adapter.WishListAdapter;
 import tech.iwish.pickmall.connection.JsonHelper;
-import tech.iwish.pickmall.other.CouponList;
+import tech.iwish.pickmall.other.FllowingList;
 import tech.iwish.pickmall.other.WishlistList;
 import tech.iwish.pickmall.session.Share_session;
 
-public class MyOederActitvity extends AppCompatActivity {
+public class FollowingActivity extends AppCompatActivity {
     ImageView back;
     RecyclerView recyclerView;
-    private List<WishlistList> wishlistLists = new ArrayList<>();
+    private List<FllowingList> fllowingLists = new ArrayList<>();
     Share_session share_session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_oeder_actitvity);
-        InitializeActitvity();
+        setContentView(R.layout.activity_following);
+        InitializeActivity();
         ActivityAction();
         SetRecycleView();
     }
 
-
-    private void InitializeActitvity(){
+    private void InitializeActivity(){
+        back= findViewById(R.id.back);
         recyclerView= findViewById(R.id.recycle);
-        share_session= new Share_session(MyOederActitvity.this);
+        share_session= new Share_session(FollowingActivity.this);
 
     }
 
-    private  void ActivityAction(){
+    private void ActivityAction(){
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
     }
 
     private void SetRecycleView(){
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MyOederActitvity.this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(FollowingActivity.this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -73,7 +79,7 @@ public class MyOederActitvity extends AppCompatActivity {
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
         Request request = new Request.Builder().post(body)
-                .url("http://173.212.226.143:8086/api/GetUserWishList")
+                .url("http://173.212.226.143:8086/api/Following_Vendors")
                 .build();
         client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override
@@ -93,13 +99,13 @@ public class MyOederActitvity extends AppCompatActivity {
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                wishlistLists.add(new WishlistList(jsonHelper.GetResult("product_id"), jsonHelper.GetResult("ProductName"), jsonHelper.GetResult("item_id"), jsonHelper.GetResult("catagory_id"), jsonHelper.GetResult("actual_price"), jsonHelper.GetResult("discount_price"), jsonHelper.GetResult("discount_price_per"), jsonHelper.GetResult("status"), jsonHelper.GetResult("pimg"), jsonHelper.GetResult("vendor_id"), jsonHelper.GetResult("type"), jsonHelper.GetResult("datetime")));
+                                fllowingLists.add(new FllowingList(jsonHelper.GetResult("shopname"),jsonHelper.GetResult("vendor_id"),""));
                             }
-                            MyOederActitvity.this.runOnUiThread(new Runnable() {
+                            FollowingActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    MyOrderAdapter myOrderAdapter = new MyOrderAdapter(MyOederActitvity.this, wishlistLists);
-                                    recyclerView.setAdapter(myOrderAdapter);
+                                    FollowingAdapter  followingAdapter = new FollowingAdapter(FollowingActivity.this, fllowingLists);
+                                    recyclerView.setAdapter(followingAdapter);
                                 }
                             });
 
@@ -112,5 +118,4 @@ public class MyOederActitvity extends AppCompatActivity {
 
 
     }
-
 }
