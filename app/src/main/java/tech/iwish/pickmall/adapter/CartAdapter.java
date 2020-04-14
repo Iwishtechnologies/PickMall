@@ -95,7 +95,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
             holder.qty_layout.setVisibility(View.VISIBLE);
 
 
-            Toast.makeText(context, ""+cardData.get(position).get("PRODUCT_QTY"), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, ""+cardData.get(position).get("PRODUCT_QTY"), Toast.LENGTH_SHORT).show();
         } else {
 
 

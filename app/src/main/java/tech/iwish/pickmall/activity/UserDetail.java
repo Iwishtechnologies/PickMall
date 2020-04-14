@@ -74,6 +74,7 @@ public class UserDetail extends AppCompatActivity {
             public void onClick(View view) {
                 gender= male.getTag().toString();
                 male.setAlpha((float) 0.5);
+                female.setAlpha((float) 1.0);
             }
         });
 
@@ -82,6 +83,7 @@ public class UserDetail extends AppCompatActivity {
             public void onClick(View view) {
                 gender= female.getTag().toString();
                 female.setAlpha((float) 0.5);
+                male.setAlpha((float) 1.0);
             }
         });
 
