@@ -3,18 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/category_image"
+    <RelativeLayout
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:src="@drawable/men_icon_cat"/>
-    <tech.iwish.pickmall.extended.TextViewFont
-        android:id="@+id/category_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="5dp"/>
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/category_image"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:src="@drawable/men_icon_cat"/>
+        <tech.iwish.pickmall.extended.TextViewFont
+            android:id="@+id/category_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@id/category_image"
+            android:layout_marginTop="5dp"/>
+    </RelativeLayout>
 
 </LinearLayout>

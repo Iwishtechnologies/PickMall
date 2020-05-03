@@ -98,5 +98,17 @@
         <item name="colorPrimaryDark">@color/redColor</item>
         <item name="colorPrimary">@color/redColor</item>
     </style>
+    <style name="allcategory" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+    <style name="filter" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/whiteColor</item>
+        <item name="colorPrimary">@color/whiteColor</item>
+    </style>
+    <style name="friendsaleoners" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/whiteColor</item>
+    </style>
 
 </resources>

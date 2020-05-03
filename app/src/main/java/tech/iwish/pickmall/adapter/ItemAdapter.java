@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
     private Viewholder viewholder;
     private ItemCategoryInterface itemCategoryInterface;
     private String checker = null;
+    private int cuurentposition = RecyclerView.NO_POSITION;
 
     public ItemAdapter(Context context, List<ItemList> itemLists, ItemCategoryInterface itemCategoryInterface) {
         this.context = context;
@@ -80,12 +82,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
                     public void onClick(View view) {
                         Bundle bundle = new Bundle();
                         Intent intent = new Intent(context, ProductActivity.class);
-                        bundle.putString("item", itemLists.get(position).getItem_id());
-                        bundle.putString("type", "product");
+                        bundle.putString("item_id", itemLists.get(position).getItem_id());
+                        bundle.putString("item_name", itemLists.get(position).getItem_name());
+                        bundle.putString("type", "MainActivity_product");
                         intent.putExtras(bundle);
 //                    intent.putExtra("item",itemLists.get(position).getItem_id());
 //                    intent.putExtra("type","product");
-//                intent.putExtra("image",itemLists.get(position).getIcon_img());
+//                    intent.putExtra("image",itemLists.get(position).getIcon_img());
                         context.startActivity(intent);
                     }
                 });
@@ -100,13 +103,25 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
                 if (checker == null) {
                     this.checker = "sdsdcdd";
                     itemCategoryInterface.itemcatinterface(itemLists.get(0).getItem_id());
+                    cuurentposition = 0;
+
                 }
                 holder.main_layout_category.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
                         itemCategoryInterface.itemcatinterface(itemLists.get(position).getItem_id());
+                        cuurentposition = position;
+                        notifyDataSetChanged();
+
                     }
                 });
+
+                if (cuurentposition == position) {
+                    holder.main_layout_category.setBackgroundColor(context.getResources().getColor(android.R.color.white));
+                } else {
+                    holder.main_layout_category.setBackgroundColor(context.getResources().getColor(R.color.silderColor));
+                }
             }
 
         } else {
@@ -124,14 +139,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
     public class Viewholder extends RecyclerView.ViewHolder {
 
         private ImageView image;
-        private LinearLayout layoutItem, main_layout_category;
+        private LinearLayout layoutItem;
         private TextView nameCat;
+        private RelativeLayout main_layout_category;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.image);
             layoutItem = (LinearLayout) itemView.findViewById(R.id.layoutItem);
-            main_layout_category = (LinearLayout) itemView.findViewById(R.id.main_layout_category);
+            main_layout_category = (RelativeLayout) itemView.findViewById(R.id.main_layout_category);
             nameCat = (TextView) itemView.findViewById(R.id.nameCat);
 
 

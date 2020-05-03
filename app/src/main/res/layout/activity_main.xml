@@ -53,8 +53,9 @@
                             android:layout_marginEnd="10dp"
                             android:background="@drawable/search_design"
                             android:backgroundTint="@color/whiteColor"
-                            android:paddingStart="35dp"
+                            android:paddingStart="40dp"
                             android:paddingTop="5dp"
+                            android:text="Watch"
                             android:paddingBottom="5dp"
                             android:textSize="16sp" />
 
@@ -221,19 +222,19 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="10dp"
                                 android:text="Friend Deal"
+                                android:layout_weight="2"
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
                                 app:fonttype="regular"/>
 
 
                             <LinearLayout
-                                android:layout_width="match_parent"
+                                android:id="@+id/viewall_friend_deal"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="end"
-                                android:layout_weight="2"
                                 android:gravity="end"
                                 android:orientation="horizontal">
-
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"

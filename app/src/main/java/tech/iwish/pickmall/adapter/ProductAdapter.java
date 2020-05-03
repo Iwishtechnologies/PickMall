@@ -87,7 +87,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
             holder.discount_price.setText(content);
 
             holder.product_name.setText(productLists.get(position).getProductName());
-            holder.per_dicount.setText(" -"+productLists.get(position).getDiscount_price_per()+"%");
+            holder.per_dicount.setText(" -"+productLists.get(position).getDiscount_price_per());
 
             String a = Constants.IMAGES + productLists.get(position).getPimg();
             Glide.with(context).load(a).into(holder.product_img);

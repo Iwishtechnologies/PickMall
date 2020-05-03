@@ -13,14 +13,28 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.FollowingActivity" android:theme="@style/followingtheme" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.AllcategoryActivity"/>
+        <activity android:name=".activity.FilterActivity"
+            android:theme="@style/filter"/>
 
+        <receiver android:name=".service.TimeReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_TICK" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".activity.Searchactivity" />
+        <activity
+            android:name=".activity.FollowingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/followingtheme" />
+        <activity
+            android:name=".activity.AllcategoryActivity"
+            android:theme="@style/allcategory" />
         <activity
             android:name=".activity.OrderDetailActivity"
             android:label="Oeder Detail"
             android:screenOrientation="portrait"
-            android:theme="@style/orderdetailtheme"/>
+            android:theme="@style/orderdetailtheme" />
         <activity
             android:name=".activity.MyOederActitvity"
             android:label="My Order"
@@ -84,7 +98,8 @@
         <activity
             android:name=".activity.AddressActivity"
             android:theme="@style/flashsaleproduct" />
-        <activity android:name=".activity.FriendsDealsAllActivity" />
+        <activity android:name=".activity.FriendsDealsAllActivity"
+            android:theme="@style/friendsaleoners"/>
         <activity
             android:name=".activity.FlashSaleProductactivity"
             android:theme="@style/flashsaleproduct" />

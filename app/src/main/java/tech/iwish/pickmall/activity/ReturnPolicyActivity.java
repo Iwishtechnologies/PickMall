@@ -16,8 +16,8 @@ public class ReturnPolicyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_return_policy);
 
-        webView = (WebView)findViewById(R.id.webView);
-        webView.loadUrl("https://www.javatpoint.com/android-webview-example");
+//        webView = (WebView)findViewById(R.id.webView);
+//        webView.loadUrl("https://www.javatpoint.com/android-webview-example");
 
 
     }

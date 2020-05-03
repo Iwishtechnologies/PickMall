@@ -37,6 +37,7 @@ import tech.iwish.pickmall.activity.ProductActivity;
 import tech.iwish.pickmall.adapter.ProductAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
+import tech.iwish.pickmall.other.GridSpacingItemDecoration;
 import tech.iwish.pickmall.other.ProductList;
 
 public class ProductFragment extends Fragment {
@@ -80,11 +81,16 @@ public class ProductFragment extends Fragment {
                 break;
             case "product":
                 PRODUCT_PERAMETER = "product";
-                item = getActivity().getIntent().getExtras().getString("item");
+//                item = getActivity().getIntent().getExtras().getString("item");
+                item = arguments.getString("item");
                 break;
             case "vendorStoreAllProduct":
                 PRODUCT_PERAMETER = "vendor_store_all_product";
                 item = getActivity().getIntent().getExtras().getString("vendor_id");
+                break;
+            case "Category_by_product":
+                PRODUCT_PERAMETER = "Category_by_product";
+                item =  getActivity().getIntent().getExtras().getString("category_id");
                 break;
         }
 
@@ -117,21 +123,24 @@ public class ProductFragment extends Fragment {
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
+
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-//
                                 productListList.add(new ProductList(jsonHelper.GetResult("product_id"), jsonHelper.GetResult("ProductName"), jsonHelper.GetResult("item_id"), jsonHelper.GetResult("catagory_id"), jsonHelper.GetResult("actual_price"), jsonHelper.GetResult("discount_price"), jsonHelper.GetResult("discount_price_per"), jsonHelper.GetResult("status"), jsonHelper.GetResult("pimg"), jsonHelper.GetResult("vendor_id"), jsonHelper.GetResult("FakeRating")));
 
                             }
 
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList);
-                                    product_recycleview.setAdapter(productAdapter);
-                                    productAdapter.notifyDataSetChanged();
+                            if(getActivity() != null){
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList);
+                                        product_recycleview.setAdapter(productAdapter);
+//                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
+                                        productAdapter.notifyDataSetChanged();
 
-                                }
-                            });
+                                    }
+                                });
+                            }
 
                         }
                     }

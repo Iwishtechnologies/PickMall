@@ -27,9 +27,13 @@ import java.util.List;
 import java.util.Map;
 
 import tech.iwish.pickmall.Interface.ProductColorInterFace;
+import tech.iwish.pickmall.Interface.ProductCountInterface;
 import tech.iwish.pickmall.Interface.ProductSizeInterFace;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.activity.AddressActivity;
 import tech.iwish.pickmall.activity.CardActivity;
+import tech.iwish.pickmall.activity.ProductDetailsActivity;
+import tech.iwish.pickmall.activity.SaveAddressActivity;
 import tech.iwish.pickmall.activity.Signup;
 import tech.iwish.pickmall.adapter.ProductColorAdapter;
 import tech.iwish.pickmall.adapter.ProductSizeAdapter;
@@ -39,7 +43,10 @@ import tech.iwish.pickmall.other.ProductSizeColorList;
 import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.sqlconnection.MyhelperSql;
 
+import static tech.iwish.pickmall.session.Share_session.HOUSE_NO_ADDRESS;
 import static tech.iwish.pickmall.session.Share_session.LOGIN_CHECk;
+import static tech.iwish.pickmall.session.Share_session.NUMBER_ADDRESS;
+import static tech.iwish.pickmall.session.Share_session.PINCODE_ADDRESS;
 
 
 public class ProductSideColorBottomFragment extends BottomSheetDialogFragment implements View.OnClickListener, ProductSizeInterFace, ProductColorInterFace {
@@ -48,14 +55,16 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
     private RecyclerView size_product_recycleview, color_product_recycleview;
     private ImageView product_image;
     private ImageView sub_button, add_button;
-    private TextView quty_value, product_names, actual_prices , dicount_price;
-    private Button confirm_add_to_card , go_to_card;
-    private String select_color, select_size, product_id, product_name, actual_price, imagename, product_qty ,discount_price ,product_type;
+    private TextView quty_value, product_names, actual_prices, dicount_price;
+    private Button confirm_add_to_card, go_to_card;
+    private String select_color, select_size, product_id, product_name, actual_price, imagename, product_qty, discount_price, product_type, type;
     private Share_session shareSession;
     private Map data;
+    private ProductCountInterface productCountInterface;
 
-    public ProductSideColorBottomFragment(List<ProductSizeColorList> productDetailsListImageList) {
+    public ProductSideColorBottomFragment(List<ProductSizeColorList> productDetailsListImageList, ProductCountInterface productCountInterface) {
         this.productSizeColorLists = productDetailsListImageList;
+        this.productCountInterface = productCountInterface;
     }
 
     @Nullable
@@ -87,34 +96,31 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
         product_id = bundle.getString("product_id");
         discount_price = bundle.getString("discount_price");
         product_type = bundle.getString("product_type");
+        type = bundle.getString("type");
 
         product_names.setText(product_name);
         actual_prices.setText(getResources().getString(R.string.rs_symbol) + actual_price);
 
         SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + discount_price);
-        content.setSpan(new StrikethroughSpan(), 0, content.length(), 0 );
+        content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
         dicount_price.setText(content);
 
         String a = Constants.IMAGES + productSizeColorLists.get(0).getImgname();
         Glide.with(ProductSideColorBottomFragment.this).load(a).into(product_image);
+
 
         MyhelperSql myhelperSql = new MyhelperSql(getActivity());
         SQLiteDatabase sqLiteDatabase = myhelperSql.getWritableDatabase();
         String query = "Select *  from PRODUCT_CARD WHERE PRODUCT_ID = ?";
         Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{product_id});
         cursor.moveToFirst();
-        if(cursor.getCount() != 0){
+        if (cursor.getCount() != 0) {
             go_to_card.setVisibility(View.VISIBLE);
             confirm_add_to_card.setVisibility(View.GONE);
-//            Toast.makeText(getActivity(), ""+cursor.getString(cursor.getColumnIndex("PRODUCT_ID")), Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             go_to_card.setVisibility(View.GONE);
             confirm_add_to_card.setVisibility(View.VISIBLE);
         }
-
-
-
-
 
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -167,11 +173,10 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
                     Toast.makeText(getActivity(), "Select color", Toast.LENGTH_SHORT).show();
                 } else {
                     InsertDataCard();
-
                 }
                 break;
             case R.id.go_to_card:
-                getActivity().startActivity(new Intent(getActivity() , CardActivity.class));
+                getActivity().startActivity(new Intent(getActivity(), CardActivity.class));
                 break;
 
         }
@@ -181,15 +186,42 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
 
         shareSession = new Share_session(getActivity());
         data = shareSession.Fetchdata();
-
         shareSession.Login_check();
-
         if (data.get(LOGIN_CHECk) != null) {
-            product_qty = quty_value.getText().toString();
-            MyhelperSql myhelperSql = new MyhelperSql(getActivity());
-            SQLiteDatabase sqLiteDatabase = myhelperSql.getWritableDatabase();
-            myhelperSql.dataAddCard(product_id, product_name, product_qty, select_color, select_size, imagename, actual_price,discount_price,product_type, sqLiteDatabase);
-            dismiss();
+            switch (type) {
+                case "add_to_card":
+                    product_qty = quty_value.getText().toString();
+                    MyhelperSql myhelperSql = new MyhelperSql(getActivity());
+                    SQLiteDatabase sqLiteDatabase = myhelperSql.getWritableDatabase();
+                    myhelperSql.dataAddCard(product_id, product_name, product_qty, select_color, select_size, imagename, actual_price, discount_price, product_type, sqLiteDatabase);
+                    productCountInterface.counntproduct();
+                    dismiss();
+                    break;
+                case "buy_now":
+                    data = shareSession.Fetchdata();
+                    if ((data.get(NUMBER_ADDRESS) != null) && (data.get(PINCODE_ADDRESS) != null) && (data.get(HOUSE_NO_ADDRESS) != null)) {
+                        Intent intent = new Intent(getActivity(), SaveAddressActivity.class);
+                        intent.putExtra("product_name", product_name);
+                        intent.putExtra("select_size", select_size);
+                        intent.putExtra("actual_price", actual_price);
+                        intent.putExtra("discount_price", discount_price);
+                        intent.putExtra("imagename", imagename);
+                        intent.putExtra("product_qty", quty_value.getText().toString());
+                        intent.putExtra("type", "buy_now");
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(getActivity(), AddressActivity.class);
+                        intent.putExtra("product_name", product_name);
+                        intent.putExtra("select_size", select_size);
+                        intent.putExtra("actual_price", actual_price);
+                        intent.putExtra("discount_price", discount_price);
+                        intent.putExtra("imagename", imagename);
+                        intent.putExtra("product_qty", quty_value.getText().toString());
+                        intent.putExtra("type", "buy_now");
+                        startActivity(intent);
+                    }
+                    break;
+            }
         } else {
             getActivity().startActivity(new Intent(getActivity(), Signup.class));
         }

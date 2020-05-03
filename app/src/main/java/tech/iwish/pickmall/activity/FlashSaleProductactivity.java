@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.fragment.FlashSaleCurrentSaleFragment;
@@ -12,6 +13,7 @@ import tech.iwish.pickmall.fragment.FlashSaleNextSaleFragment;
 
 public class FlashSaleProductactivity extends AppCompatActivity {
 
+    private ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +22,18 @@ public class FlashSaleProductactivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
+        back = (ImageView)findViewById(R.id.back);
 
         FlashSaleCurrentSaleFragment flashSaleCurrentSaleFragment = new FlashSaleCurrentSaleFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.flash_sale_frame_layout, flashSaleCurrentSaleFragment).commit();
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
 
     }
 

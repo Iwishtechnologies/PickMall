@@ -10,9 +10,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -25,20 +27,23 @@ import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import tech.iwish.pickmall.Interface.FlashsaleTimeIdInterface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.FlashSaleProductactivity;
 import tech.iwish.pickmall.adapter.FlashSaleAllProductAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
+import tech.iwish.pickmall.countdowntime.CountdownTime;
 import tech.iwish.pickmall.other.FlashsalemainList;
 
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.FlashSalefake;
 
-public class FlashSaleCurrentSaleFragment extends Fragment {
+public class FlashSaleCurrentSaleFragment extends Fragment implements FlashsaleTimeIdInterface {
 
 
     private RecyclerView flash_sale_recycleview;
     private List<FlashsalemainList> flashsalemainLists = new ArrayList<>();
+    private TextView time_count;
 
     @Nullable
     @Override
@@ -46,6 +51,9 @@ public class FlashSaleCurrentSaleFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_flash_sale_current_sale , null);
 
         flash_sale_recycleview = (RecyclerView) view.findViewById(R.id.flash_sale_recycleview);
+        time_count = (TextView) view.findViewById(R.id.time_count);
+
+        new CountdownTime(getContext(), time_count,null,this).Flashsaletimeset();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -99,5 +107,10 @@ public class FlashSaleCurrentSaleFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void flashsaleId(String saleid) {
+
     }
 }

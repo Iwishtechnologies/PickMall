@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class EditAddressActivity extends AppCompatActivity {
     private RecyclerView address_recycleview;
     int type = 1;
     private LinearLayout new_addresss ;
+    private Button deliver_btn;
 
 
     @Override
@@ -51,7 +53,7 @@ public class EditAddressActivity extends AppCompatActivity {
 
         address_recycleview = (RecyclerView) findViewById(R.id.address_recycleview);
         new_addresss = (LinearLayout) findViewById(R.id.new_addresss);
-
+        deliver_btn = (Button)findViewById(R.id.deliver_btn);
 
         Share_session share_session = new Share_session(this);
 
@@ -112,10 +114,52 @@ public class EditAddressActivity extends AppCompatActivity {
         new_addresss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(EditAddressActivity.this , AddressActivity.class);
-                intent.putExtra("type" , "editAddress");
-                startActivity(intent);
+
+//                Intent intent = new Intent(EditAddressActivity.this , AddressActivity.class);
+//                intent.putExtra("type" , "editAddress");
+//                startActivity(intent);
+
+                if(getIntent().getStringExtra("product_qty") != null){
+
+                    Intent intent = new Intent(EditAddressActivity.this, AddressActivity.class);
+                    intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                    intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
+                    intent.putExtra("actual_price", getIntent().getStringExtra("actual_price"));
+                    intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                    intent.putExtra("imagename", getIntent().getStringExtra("imagename"));
+                    intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
+                    intent.putExtra("type", "buy_now");
+                    startActivity(intent);
+
+                }else {
+                    Intent intent = new Intent(EditAddressActivity.this, AddressActivity.class);
+                    startActivity(intent);
+                }
+
+
             }
         });
+
+        deliver_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                not ready
+            }
+        });
+
+
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+

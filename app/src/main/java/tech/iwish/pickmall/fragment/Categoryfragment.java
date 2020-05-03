@@ -38,6 +38,7 @@ import tech.iwish.pickmall.adapter.ItemAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.other.CategoryList;
+import tech.iwish.pickmall.other.GridSpacingItemDecoration;
 import tech.iwish.pickmall.other.ItemList;
 
 
@@ -49,11 +50,11 @@ public class Categoryfragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_categoryfragemnt,null);
+        View view = inflater.inflate(R.layout.fragment_categoryfragemnt, null);
 
         categoryrecycleview = (RecyclerView) view.findViewById(R.id.categoryrecycleview);
 
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         categoryrecycleview.setLayoutManager(staggeredGridLayoutManager);
 
         String value = getArguments().getString("value");
@@ -62,7 +63,6 @@ public class Categoryfragment extends Fragment {
 
         return view;
     }
-
 
 
     private void category(String value) {
@@ -97,16 +97,20 @@ public class Categoryfragment extends Fragment {
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                categoryLists.add(new CategoryList(jsonHelper.GetResult("catagory_id"), jsonHelper.GetResult("item_id"), jsonHelper.GetResult("category_name"), jsonHelper.GetResult("type")));
+                                categoryLists.add(new CategoryList(jsonHelper.GetResult("catagory_id"), jsonHelper.GetResult("item_id"), jsonHelper.GetResult("category_name"), jsonHelper.GetResult("type"), jsonHelper.GetResult("img")));
                             }
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(),categoryLists);
-                                    categoryrecycleview.setAdapter(categoryAdapter);
+                            if (getActivity() != null) {
+
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(), categoryLists);
+                                        categoryrecycleview.setAdapter(categoryAdapter);
+                                        categoryrecycleview.addItemDecoration(new GridSpacingItemDecoration(50));
 //                                    categoryrecycleview.addItemDecoration();
-                                }
-                            });
+                                    }
+                                });
+                            }
 
                         }
                     }

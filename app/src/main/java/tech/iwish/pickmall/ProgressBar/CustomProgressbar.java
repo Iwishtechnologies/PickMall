@@ -1,5 +1,6 @@
 package tech.iwish.pickmall.ProgressBar;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,19 +10,27 @@ import tech.iwish.pickmall.R;
 
 public class CustomProgressbar {
 
-    public AlertDialog.Builder builder ;
-    public Context context ;
+    public AlertDialog dialog;
+    public Activity activity;
 
-    public CustomProgressbar(Context context){
-        this.context = context ;
+    public CustomProgressbar(Activity activity){
+        this.activity = activity;
     }
 
     public void startprogress(){
-        builder = new AlertDialog.Builder(context);
-        View view = View.inflate(context,R.layout.row_all_category_item , null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
-        builder.setView(view);
-        builder.create();
+
+        LayoutInflater inflater = activity.getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.row_custom_progress_bar , null));
+
+        dialog = builder.create();
+        dialog.show();;
+
+    }
+
+    public void dismissdialog(){
+        dialog.dismiss();
     }
 
 

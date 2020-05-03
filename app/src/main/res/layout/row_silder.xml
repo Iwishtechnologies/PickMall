@@ -3,8 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:elevation="1dp"
-    android:background="@drawable/silder_shadow">
+    android:elevation="1dp">
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/silder_image"
@@ -16,8 +15,7 @@
         app:riv_border_color="@color/silderColor"
         app:riv_corner_radius="3dip"
         app:riv_border_width="1dip"
-        app:riv_mutate_background="true"
-        app:riv_tile_mode="repeat" />
+        />
 
 
 

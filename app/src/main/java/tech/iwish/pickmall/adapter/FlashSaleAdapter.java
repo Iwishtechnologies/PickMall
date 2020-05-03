@@ -30,8 +30,8 @@ public class FlashSaleAdapter extends RecyclerView.Adapter<FlashSaleAdapter.View
     private List<FlashsalemainList> flashsalemainLists ;
     private Context context;
 
-    public FlashSaleAdapter(MainActivity mainActivity, List<FlashsalemainList> flashsalemainLists) {
-        this.context = mainActivity;
+    public FlashSaleAdapter(Context context, List<FlashsalemainList> flashsalemainLists) {
+        this.context = context;
         this.flashsalemainLists = flashsalemainLists;
     }
 

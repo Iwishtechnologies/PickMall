@@ -6,79 +6,84 @@
     android:elevation="2dp"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/main_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:background="@color/whiteColor"
-        android:elevation="1dp"
-        android:weightSum="1">
+        android:layout_height="wrap_content">
 
-        <RadioButton
-            android:id="@+id/radio_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:paddingTop="10dp"/>
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
             android:background="@color/whiteColor"
-            android:paddingBottom="10dp">
+            android:elevation="1dp"
+            android:weightSum="1">
+
+            <RadioButton
+                android:id="@+id/radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:paddingTop="20dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="1">
-                <tech.iwish.pickmall.extended.TextViewFont
-                    android:id="@+id/address_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Vikas singh"
-                    app:fonttype="text_semi_bold"
-                    android:textSize="18sp"
-                    android:layout_weight="1"
-                    android:textColor="@color/black"/>
+                android:orientation="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/whiteColor"
+                android:paddingBottom="10dp">
 
-                <Button
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Vikas singh"
-                    android:layout_gravity="end"
-                    android:textColor="@color/black"/>
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:id="@+id/address_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Vikas singh"
+                        app:fonttype="regular"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"/>
+
+                    <!--                <Button-->
+                    <!--                    android:layout_width="wrap_content"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:text="Vikas singh"-->
+                    <!--                    android:layout_gravity="end"-->
+                    <!--                    android:textColor="@color/black"/>-->
+
+                </LinearLayout>
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:id="@+id/address_full_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="sxs"
+                    android:textColor="@color/black"
+                    android:paddingEnd="20dp"
+                    android:textSize="14sp"
+                    app:fonttype="regular"
+                    android:layout_marginTop="10dp"/>
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:id="@+id/address_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="187851555"
+                    android:textSize="14sp"
+                    app:fonttype="regular"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"/>
 
             </LinearLayout>
 
-            <tech.iwish.pickmall.extended.TextViewFont
-                android:id="@+id/address_full_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="ssssssssss c"
-                android:textColor="@color/black"
-                android:paddingEnd="20dp"
-                android:textSize="16sp"
-                app:fonttype="text_semi_bold"
-                android:layout_marginTop="10dp"/>
-            <tech.iwish.pickmall.extended.TextViewFont
-                android:id="@+id/address_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="187851555"
-                android:textSize="16sp"
-                app:fonttype="text_semi_bold"
-                android:textColor="@color/black"
-                android:layout_marginTop="10dp"/>
-
         </LinearLayout>
-
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </LinearLayout>

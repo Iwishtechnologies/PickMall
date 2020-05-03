@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ import tech.iwish.pickmall.other.ShippingAddressList;
 public class VendorRequestActivity extends AppCompatActivity {
     EditText name,mobile,address,altermobile,pincode,gstin,type;
     Button apply;
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class VendorRequestActivity extends AppCompatActivity {
         gstin= findViewById(R.id.gstin);
         type= findViewById(R.id.type);
         apply= findViewById(R.id.apply);
+        back= findViewById(R.id.back);
 
 
     }
@@ -70,6 +73,13 @@ public class VendorRequestActivity extends AppCompatActivity {
 
            }
        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     private  Boolean  ValidatteInputs(String name1,String mobile1,String address1,String altermobile1,String pincode1,String gstin1,String type1){

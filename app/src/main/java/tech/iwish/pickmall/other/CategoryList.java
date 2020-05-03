@@ -6,12 +6,14 @@ public class CategoryList {
     private String item_id;
     private String category_name;
     private String type;
+    private String img;
 
-    public CategoryList(String catagory_id, String item_id, String category_name, String type) {
+    public CategoryList(String catagory_id, String item_id, String category_name, String type, String img) {
         this.catagory_id = catagory_id;
         this.item_id = item_id;
         this.category_name = category_name;
         this.type = type;
+        this.img = img;
     }
 
     public String getCatagory_id() {
@@ -44,5 +46,13 @@ public class CategoryList {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 }

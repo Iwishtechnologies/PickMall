@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +51,9 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
     private Share_session shareSession;
     private Map data;
     private boolean checkinsertdata = false;
+    private boolean pincode_check = false;
+
+    private ProgressBar progressbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +81,9 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
         address_city = (TextView) findViewById(R.id.address_city);
         address_state = (TextView) findViewById(R.id.address_state);
 
+        progressbar = (ProgressBar) findViewById(R.id.progressbar);
+
+        progressbar.setVisibility(View.GONE);
 
         address_confirm.setOnClickListener(this);
 
@@ -101,18 +108,19 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void confir_address() {
-
         if (validation()) {
-            if (savedata()) {
-                shareSession = new Share_session(this);
-                data = shareSession.Fetchdata();
-                shareSession.address(address_name.getEditText().getText().toString().trim(), address_number.getEditText().getText().toString().trim(), address_pincode.getEditText().getText().toString().trim(), address_house_no.getEditText().getText().toString().trim(), address_colony.getEditText().getText().toString().trim(), address_landmark.getEditText().getText().toString().trim(), "", "");
-                startActivity(new Intent(AddressActivity.this, SaveAddressActivity.class));
-            }
+            savedata();
+        } else {
+            Toast.makeText(this, "Address not save", Toast.LENGTH_SHORT).show();
         }
+
+
     }
 
     private boolean savedata() {
+
+        progressbar.setVisibility(View.VISIBLE);
+        address_confirm.setClickable(false);
 
         shareSession = new Share_session(this);
         data = shareSession.Fetchdata();
@@ -149,7 +157,41 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
-                            checkinsertdata = true;
+
+                            if (AddressActivity.this != null) {
+
+
+                                AddressActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        address_confirm.setClickable(true);
+                                        progressbar.setVisibility(View.GONE);
+
+                                        shareSession = new Share_session(AddressActivity.this);
+                                        data = shareSession.Fetchdata();
+                                        shareSession.address(address_name.getEditText().getText().toString().trim(), address_number.getEditText().getText().toString().trim(), address_pincode.getEditText().getText().toString().trim(), address_house_no.getEditText().getText().toString().trim(), address_colony.getEditText().getText().toString().trim(), address_landmark.getEditText().getText().toString().trim(), "", "");
+
+                                        if (getIntent().getStringExtra("type") != null) {
+                                            Intent intent = new Intent(AddressActivity.this, SaveAddressActivity.class);
+                                            intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                                            intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
+                                            intent.putExtra("actual_price", getIntent().getStringExtra("actual_price"));
+                                            intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                                            intent.putExtra("imagename", getIntent().getStringExtra("imagename"));
+                                            intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
+                                            intent.putExtra("type", "buy_now");
+                                            startActivity(intent);
+                                        } else {
+                                            startActivity(new Intent(AddressActivity.this, SaveAddressActivity.class));
+                                        }
+
+
+                                    }
+                                });
+
+                            }
+
                         }
                     }
                 }
@@ -188,6 +230,10 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
         }
         if (address_colony.getEditText().getText().toString().isEmpty()) {
             address_colony.setError("fill ");
+            return false;
+        }
+        if (!pincode_city_fetch()) {
+            Toast.makeText(this, "Select city & state", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (address_landmark.getEditText().getText().toString().isEmpty()) {
@@ -264,7 +310,7 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private void pincode_city_fetch() {
+    private boolean pincode_city_fetch() {
 
 
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -299,25 +345,30 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-
                                 AddressActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-
                                         address_city.setText(jsonHelper.GetResult("city"));
                                         address_state.setText(jsonHelper.GetResult("state"));
-
+                                        pincode_check = true;
                                     }
                                 });
-
                             }
+                        } else {
+                            AddressActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    pincode_check = false;
+                                    Toast.makeText(AddressActivity.this, "This Pincode not Delivery", Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
                         }
                     }
                 }
             }
         });
-
+        return pincode_check;
     }
 
 

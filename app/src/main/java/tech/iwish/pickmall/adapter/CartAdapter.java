@@ -37,22 +37,25 @@ import java.util.List;
 import java.util.Map;
 
 import tech.iwish.pickmall.Interface.CardQtyAmountRef;
+import tech.iwish.pickmall.Interface.FlashsaleTimeIdInterface;
 import tech.iwish.pickmall.Interface.RefreshCartAmountInterface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.CardActivity;
 import tech.iwish.pickmall.config.Constants;
+import tech.iwish.pickmall.countdowntime.CountdownTime;
 import tech.iwish.pickmall.other.CardCount;
 import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.sqlconnection.MyhelperSql;
 
 import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
+public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> implements FlashsaleTimeIdInterface {
 
     private ArrayList<HashMap<String, String>> cardData;
     private Context context;
     private RefreshCartAmountInterface refreshCartAmountInterface;
     private CardQtyAmountRef cardQtyAmountRef;
+    private String qtychechker = null ;
 
 
     public CartAdapter(Context cardActivity, ArrayList<HashMap<String, String>> product_data, RefreshCartAmountInterface refreshCartAmountInterface , CardQtyAmountRef cardQtyAmountRef) {
@@ -68,7 +71,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
         return super.getItemViewType(position);
     }
 
-
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -82,6 +84,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
 
         if (context instanceof CardActivity) {
 
+
             SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol) + cardData.get(position).get("PRODUCT_AMOUNT_DICOUNT"));
             content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
             holder.dicount_price.setText(content);
@@ -90,12 +93,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
             holder.cart_product_name.setText(cardData.get(position).get("PRODUCT_NAME"));
             holder.cart_product_act_amount.setText(context.getResources().getString(R.string.rs_symbol) + cardData.get(position).get("PRODUCT_AMOUNT"));
             holder.cart_product_size.setText(context.getResources().getString(R.string.size) + cardData.get(position).get("PRODUCT_SIZE"));
-            holder.product_qty.setText(cardData.get(position).get("PRODUCT_QTY"));
+            if(qtychechker == null){
+                holder.product_qty.setText(cardData.get(position).get("PRODUCT_QTY"));
+            }
             holder.remove_button_layout.setVisibility(View.VISIBLE);
             holder.qty_layout.setVisibility(View.VISIBLE);
 
 
-//            Toast.makeText(context, ""+cardData.get(position).get("PRODUCT_QTY"), Toast.LENGTH_SHORT).show();
         } else {
 
 
@@ -113,6 +117,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
 
 
         }
+
+        if(cardData.get(position).get("PRODUCT_TYPE").equals("flashsale")){
+            holder.timesetcountdown.setVisibility(View.VISIBLE);
+            new CountdownTime(context,holder.timesetcountdown,null , this).Flashsaletimeset();
+        }else {
+            holder.timesetcountdown.setVisibility(View.GONE);
+        }
+
+
     }
 
     @Override
@@ -120,10 +133,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
         return cardData.size();
     }
 
+    @Override
+    public void flashsaleId(String saleid) {
+
+    }
+
     public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
         private ImageView card_product_image;
-        private TextView cart_product_name, cart_product_act_amount, cart_product_size, product_qty;
+        private TextView cart_product_name, cart_product_act_amount, cart_product_size, product_qty , timesetcountdown;
         private TextView card_remove_product, dicount_price, wishlist_btn;
         private SQLiteDatabase sqLiteDatabase;
         private MyhelperSql myhelperSql;
@@ -138,6 +156,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
 
             card_product_image = (ImageView) itemView.findViewById(R.id.card_product_image);
             cart_product_name = (TextView) itemView.findViewById(R.id.cart_product_name);
+            timesetcountdown = (TextView) itemView.findViewById(R.id.timesetcountdown);
             cart_product_act_amount = (TextView) itemView.findViewById(R.id.cart_product_act_amount);
             cart_product_size = (TextView) itemView.findViewById(R.id.cart_product_size);
             card_remove_product = (TextView) itemView.findViewById(R.id.card_remove_product);
@@ -175,10 +194,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> {
 
         private void updateqty(String value) {
 
+            qtychechker = "dvdfvdfvdfbndf";
             sqLiteDatabase.execSQL("UPDATE PRODUCT_CARD SET PRODUCT_QTY = "+value +" WHERE _id= "+cardData.get(getAdapterPosition()).get("ID")+"");
             cardQtyAmountRef.cardqtyAmountref();
             product_qty.setText(value);
             notifyDataSetChanged();
+
         }
 
         @Override

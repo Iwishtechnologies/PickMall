@@ -21,22 +21,33 @@
 
 
             <RelativeLayout
+                android:id="@+id/card"
                 android:layout_width="wrap_content"
+                android:elevation="1dp"
                 android:layout_height="wrap_content">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/bag_icon"
                     android:layout_gravity="end" />
-
-                <tech.iwish.pickmall.extended.TextViewFont
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="4"
-                    android:textColor="@color/whiteColor"
+                <LinearLayout
+                    android:id="@+id/product_count_layout"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="top"
+                    android:layout_marginStart="20dp"
                     android:background="@drawable/card_number_circule_design"
-                    android:padding="5dp"
-                    android:layout_marginStart="30dp"/>
+                    android:gravity="center">
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:id="@+id/product_count_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5"
+                        android:textColor="@color/whiteColor"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
             </RelativeLayout>
 

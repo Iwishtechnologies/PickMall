@@ -8,7 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -35,18 +38,57 @@ import tech.iwish.pickmall.other.CardCount;
 import tech.iwish.pickmall.other.ProductList;
 import tech.iwish.pickmall.session.Share_session;
 
-public class ProductActivity extends AppCompatActivity {
+public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     public CardProductRefreshInterface cardProductRefre;
+    private ImageView back;
+    private LinearLayout search_product;
+    private TextView itme_name, filter, shorts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
+        back = (ImageView) findViewById(R.id.back);
+        search_product = (LinearLayout) findViewById(R.id.search_product);
+        itme_name = (TextView) findViewById(R.id.itme_name);
+        filter = (TextView) findViewById(R.id.filter);
+        shorts = (TextView) findViewById(R.id.shorts);
+
+        Intent intent = getIntent();
+        String type = intent.getStringExtra("type");
+
+        switch (type) {
+            case "MainActivity_product":
+                productloadfradment(getIntent().getStringExtra("item_id") , getIntent().getStringExtra("item_name") ,"product");
+                break;
+            case "Category_by_product":
+                productloadfradment(getIntent().getStringExtra("category_id") , getIntent().getStringExtra("category_name"),"Category_by_product");
+                break;
+
+        }
+
+        search_product.setOnClickListener(this);
+        back.setOnClickListener(this);
+        filter.setOnClickListener(this);
+        shorts.setOnClickListener(this);
+
+
+    }
+
+    private void productloadfradment(String id , String name , String type) {
+
+
+        Bundle bundle = new Bundle();
         ProductFragment productFragment = new ProductFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.product_framelayout , productFragment).commit();
+        bundle.putString("item",id );
+        bundle.putString("type", type);
+        productFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.product_framelayout, productFragment).commit();
+        itme_name.setText(name);
+
 
     }
 
@@ -57,5 +99,42 @@ public class ProductActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
 
+        switch (id) {
+            case R.id.search_product:
+                break;
+            case R.id.back:
+                onBackPressed();
+                break;
+            case R.id.shorts:
+
+                break;
+            case R.id.filter:
+                Intent intent = new Intent(ProductActivity.this, FilterActivity.class);
+                intent.putExtra("item_id", getIntent().getStringExtra("item_id"));
+                intent.putExtra("item_name", getIntent().getStringExtra("item_name"));
+                startActivity(intent);
+                overridePendingTransition(R.anim.bottom_to_top, R.anim.slide_out_up);
+                break;
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

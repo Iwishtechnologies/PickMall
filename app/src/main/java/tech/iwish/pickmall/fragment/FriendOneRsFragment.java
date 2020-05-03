@@ -28,6 +28,7 @@ import okhttp3.Response;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.FriendsDealsAllActivity;
 import tech.iwish.pickmall.adapter.FriendSaleAllProductAdapter;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.other.FriendSale;
 
@@ -53,7 +54,7 @@ public class FriendOneRsFragment extends Fragment implements View.OnClickListene
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("http://173.212.226.143:8086/api/friendSaleOneRs")
+                .url(Constants.FRIEND_SALE_ONE_RS)
                 .build();
         client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override
@@ -76,14 +77,15 @@ public class FriendOneRsFragment extends Fragment implements View.OnClickListene
                                 jsonHelper.setChildjsonObj(jsonArray, i);
                                 friendSaleLists.add(new FriendSale(jsonHelper.GetResult("product_id"),jsonHelper.GetResult("productName"),jsonHelper.GetResult("item_id"),jsonHelper.GetResult("catagory_id"),jsonHelper.GetResult("actual_price"),jsonHelper.GetResult("discount_price"),jsonHelper.GetResult("discount_price_per"),jsonHelper.GetResult("status"),jsonHelper.GetResult("pimg"),jsonHelper.GetResult("vendor_id"),jsonHelper.GetResult("type"),jsonHelper.GetResult("datetime"),jsonHelper.GetResult("FakeRating"),jsonHelper.GetResult("req_users_shares"),jsonHelper.GetResult("new_users_atleast")));
                             }
-
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    FriendSaleAllProductAdapter friendSaleAllProductAdapter = new FriendSaleAllProductAdapter((FriendsDealsAllActivity) getActivity(), friendSaleLists);
-                                    friend_deal_all_recycleview.setAdapter(friendSaleAllProductAdapter);
-                                }
-                            });
+                            if(getActivity() != null){
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        FriendSaleAllProductAdapter friendSaleAllProductAdapter = new FriendSaleAllProductAdapter((FriendsDealsAllActivity) getActivity(), friendSaleLists);
+                                        friend_deal_all_recycleview.setAdapter(friendSaleAllProductAdapter);
+                                    }
+                                });
+                            }
 
                         }
                     }

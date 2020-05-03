@@ -20,6 +20,7 @@ import java.util.List;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.FriendsDealsAllActivity;
 import tech.iwish.pickmall.activity.ProductDetailsActivity;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.other.FriendSale;
 
 public class FriendSaleAllProductAdapter extends RecyclerView.Adapter<FriendSaleAllProductAdapter.Viewholder> {
@@ -45,9 +46,10 @@ public class FriendSaleAllProductAdapter extends RecyclerView.Adapter<FriendSale
     public void onBindViewHolder(@NonNull Viewholder holder, final int position) {
         holder.one_rs_product_name.setText(friendSaleLists.get(position).getProductName());
         holder.product_amount.setText(context.getResources().getString(R.string.rs_symbol) + friendSaleLists.get(position).getActual_price());
-        String a = "http://173.212.226.143:8086/img/" + friendSaleLists.get(position).getPimg();
+        String a = Constants.IMAGES + friendSaleLists.get(position).getPimg();
         Glide.with(context).load(a).into(holder.one_rs_image);
 
+/*
         holder.one_rs_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +64,9 @@ public class FriendSaleAllProductAdapter extends RecyclerView.Adapter<FriendSale
                 context.startActivity(intent);
             }
         });
+*/
+
+
 
     }
 

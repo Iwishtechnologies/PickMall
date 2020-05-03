@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -109,7 +110,7 @@ public class ShippingAddressAdapter extends RecyclerView.Adapter<ShippingAddress
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextViewFont address, city_state, pincode, address_type, name , address_name,address_number,address_full_address;
         private RadioButton radio_button ;
-        private LinearLayout main_layout;
+        private RelativeLayout main_layout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -122,7 +123,7 @@ public class ShippingAddressAdapter extends RecyclerView.Adapter<ShippingAddress
             address_number = itemView.findViewById(R.id.address_number);
             address_full_address = itemView.findViewById(R.id.address_full_address);
             radio_button = (RadioButton)itemView.findViewById(R.id.radio_button);
-            main_layout= (LinearLayout) itemView.findViewById(R.id.main_layout);
+            main_layout= (RelativeLayout) itemView.findViewById(R.id.main_layout);
 
         }
     }

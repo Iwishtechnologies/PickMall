@@ -1,47 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/club_back_color"
     android:orientation="vertical"
-    tools:context=".activity.EditAddressActivity">
+    tools:context=".activity.EditAddressActivity"
+    android:weightSum="1">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/address_progress"/>
+        android:background="@drawable/address_progress" />
 
     <LinearLayout
         android:id="@+id/new_addresss"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="@color/whiteColor"
-        android:padding="15dp"
-        android:elevation="1dp">
+        android:elevation="1dp"
+        android:orientation="horizontal"
+        android:padding="15dp">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/plush_icon"/>
+            android:src="@drawable/plush_icon" />
+
         <tech.iwish.pickmall.extended.TextViewFont
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:text="Add a new address"
-            app:fonttype="text_semi_bold"
             android:textColor="@color/redColor"
             android:textSize="16sp"
-            android:layout_marginStart="10dp"/>
+            app:fonttype="text_semi_bold" />
     </LinearLayout>
 
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/address_recycleview"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/address_recycleview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
-
+    <Button
+        android:id="@+id/deliver_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DELIVER HERE"
+        android:textColor="@color/whiteColor"
+        android:background="@color/redColor"
+        android:visibility="gone"/>
 </LinearLayout>
 
 

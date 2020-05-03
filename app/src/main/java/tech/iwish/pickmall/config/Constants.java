@@ -45,6 +45,9 @@ public class Constants {
     public static String VENDOR_STOR_DETAILS = URL+"vendor_store_details";
     public static String ADDRESS_FETCH = URL+"address_fetch";
     public static String CATEGORY = URL+"category";
+    public static String ALL_CATEGORY_ITEM = URL+"allcategory/item";
+    public static String FLASH_SALE_TIME_REMOVE = URL+"flashsaletimeremove";
+    public static String FRIEND_SALE_ONE_RS = URL+"friendSaleOneRs";
 
 
 

@@ -3,6 +3,7 @@ package tech.iwish.pickmall.OkhttpConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.iwish.pickmall.other.FIltersideList;
 import tech.iwish.pickmall.other.FlashsalemainList;
 import tech.iwish.pickmall.other.FriendSaleList;
 import tech.iwish.pickmall.other.ItemList;
@@ -68,6 +69,20 @@ public class ProductListF {
 
         return flashsalefakelist;
     }
+
+
+    public static List FilterSideList(){
+
+        List<FIltersideList> fIltersideLists = new ArrayList<>();
+
+        fIltersideLists.add(new FIltersideList("Size"));
+        fIltersideLists.add(new FIltersideList("Color"));
+        fIltersideLists.add(new FIltersideList("Brand"));
+        fIltersideLists.add(new FIltersideList("Categories"));
+        return fIltersideLists;
+    }
+
+
 
 }
 

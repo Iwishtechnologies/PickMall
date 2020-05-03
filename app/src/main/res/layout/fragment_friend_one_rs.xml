@@ -117,7 +117,8 @@
                     android:background="@color/club_back_color">
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"/>
+                        android:layout_height="70dp"
+                        android:visibility="gone"/>
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/friend_deal_all_recycleview"
                         android:layout_width="match_parent"

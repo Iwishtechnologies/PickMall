@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -25,6 +27,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.iwish.pickmall.Interface.ItemCategoryInterface;
+import tech.iwish.pickmall.ProgressBar.CustomProgressbar;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.CategoryAdapter;
 import tech.iwish.pickmall.adapter.ItemAdapter;
@@ -32,6 +35,7 @@ import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.fragment.Categoryfragment;
 import tech.iwish.pickmall.other.CategoryList;
+import tech.iwish.pickmall.other.GridSpacingItemDecoration;
 import tech.iwish.pickmall.other.ItemList;
 
 public class AllcategoryActivity extends AppCompatActivity  {
@@ -41,6 +45,7 @@ public class AllcategoryActivity extends AppCompatActivity  {
     private ItemAdapter itemAdapter;
     private ItemCategoryInterface itemCategoryInterface;
     private List<CategoryList> categoryLists = new ArrayList<>();
+    private ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +53,12 @@ public class AllcategoryActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_allcategory);
 
         all_itemrecycleview = (RecyclerView) findViewById(R.id.all_item);
+        back= findViewById(R.id.back);
 
 
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(AllcategoryActivity.this);
         linearLayoutManager1.setOrientation(RecyclerView.VERTICAL);
         all_itemrecycleview.setLayoutManager(linearLayoutManager1);
-
-
 
         allItemCategory();
 
@@ -71,16 +75,21 @@ public class AllcategoryActivity extends AppCompatActivity  {
             }
         };
 
-    }
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
+    }
 
 
     private void allItemCategory() {
 
-
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url(Constants.ITEM_TYPE)
+                .url(Constants.ALL_CATEGORY_ITEM)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -109,6 +118,7 @@ public class AllcategoryActivity extends AppCompatActivity  {
                                 public void run() {
                                     itemAdapter = new ItemAdapter(AllcategoryActivity.this, itemLists, itemCategoryInterface);
                                     all_itemrecycleview.setAdapter(itemAdapter);
+//                                    all_itemrecycleview.addItemDecoration(new GridSpacingItemDecoration(50));
 
                                 }
                             });

@@ -163,7 +163,6 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
             }
             CartAdapter cartAdapter = new CartAdapter(this, list, this , this);
             card_recycle_view.setAdapter(cartAdapter);
-//            amountset();
             edit_amount.setText(getResources().getString(R.string.rs_symbol)+String.valueOf(finalAmount));
             pricr.setText(getResources().getString(R.string.rs_symbol)+String.valueOf(finalAmount));
         } else {
@@ -231,6 +230,7 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
             intent.putExtra("poncode_address", pincode.getText().toString());
             intent.putExtra("mobile_address", sharedata.get(NUMBER_ADDRESS).toString());
             intent.putExtra("city_address", sharedata.get(CITY_ADDRESS).toString());
+            intent.putExtra("total_amount_product", edit_amount.getText().toString().trim());
             startActivity(intent);
         } else {
             startActivity(new Intent(CardActivity.this, AddressActivity.class));
@@ -241,7 +241,6 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
     public void Amountrefreshcart() {
         amtvalue = 0;
         amountset();
-
         if (!CardCount.card_count(this).equals("0")) {
             String number_of_product = CardCount.card_count(this);
             product_count_card.setText(number_of_product);
@@ -255,7 +254,6 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
             address_layout.setVisibility(View.GONE);
             cardImage.setVisibility(View.VISIBLE);
         }
-
 //        edit_amount.setText(getResources().getString(R.string.rs_symbol) + check);
 //        Toast.makeText(this, "remove item refresh", Toast.LENGTH_SHORT).show();
     }

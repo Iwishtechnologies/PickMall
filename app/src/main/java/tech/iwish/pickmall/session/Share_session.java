@@ -30,6 +30,8 @@ public class Share_session {
     public static final String ACCOUNTID = "id";
 
 
+
+
     SharedPreferences.Editor editor;
 
     int PRIVATE_MODE = 0;
@@ -110,5 +112,7 @@ public class Share_session {
         editor.putString(ACCOUNTID,account_id);
         editor.commit();
     }
+
+
 
  }

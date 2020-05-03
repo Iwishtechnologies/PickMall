@@ -49,6 +49,7 @@ public class FriendSaleAdapter extends RecyclerView.Adapter<FriendSaleAdapter.Vi
 
 
         holder.one_rus.setText(context.getResources().getString(R.string.rs_symbol)+friendSaleLists.get(position).getActual_price());
+
         holder.friend_deal_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".fragment.FlashSaleCurrentSaleFragment">
 
@@ -23,16 +24,18 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:gravity="center"
-            android:text="End Sale"
+            android:text="End in"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:fonttype="light"/>
 
         <tech.iwish.pickmall.extended.TextViewFont
+            android:id="@+id/time_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingStart="3dp"
-            android:text="time"
+            android:text="00"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
