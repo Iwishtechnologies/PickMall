@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
@@ -35,6 +36,8 @@ public class VendorRequestActivity extends AppCompatActivity {
     EditText name,mobile,address,altermobile,pincode,gstin,type;
     Button apply;
     ImageView back;
+    ProgressBar progressBar;
+    LinearLayout main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,8 @@ public class VendorRequestActivity extends AppCompatActivity {
         type= findViewById(R.id.type);
         apply= findViewById(R.id.apply);
         back= findViewById(R.id.back);
+        progressBar= findViewById(R.id.progress);
+        main= findViewById(R.id.main);
 
 
     }
@@ -65,6 +70,8 @@ public class VendorRequestActivity extends AppCompatActivity {
            @Override
            public void onClick(View view) {
                if(ValidatteInputs(name.getText().toString(),mobile.getText().toString(),address.getText().toString(),altermobile.getText().toString(),pincode.getText().toString(),gstin.getText().toString(),type.getText().toString())){
+                   main.setAlpha((float) 0.5);
+                   progressBar.setVisibility(View.VISIBLE);
                    Make_Request(name.getText().toString(),mobile.getText().toString(),address.getText().toString(),altermobile.getText().toString(),pincode.getText().toString(),gstin.getText().toString(),type.getText().toString());
                    Toast.makeText(VendorRequestActivity.this, "Thanks for Interest We Will Contact Soon", Toast.LENGTH_SHORT).show();
                    startActivity(new Intent(VendorRequestActivity.this,Account.class));
@@ -176,10 +183,18 @@ public class VendorRequestActivity extends AppCompatActivity {
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
-                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                jsonHelper.setChildjsonObj(jsonArray, i);
-                                 }
+                            //                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+//                            for (int i = 0; i < jsonArray.length(); i++) {
+//                                jsonHelper.setChildjsonObj(jsonArray, i);
+//                                 }
+
+                            VendorRequestActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressBar.setVisibility(View.GONE);
+                                    main.setAlpha(0);
+                                }
+                            });
 
 
                         }

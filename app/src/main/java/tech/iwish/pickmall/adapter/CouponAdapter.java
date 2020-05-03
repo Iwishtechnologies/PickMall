@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.shimmer.Shimmer;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -71,6 +73,8 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                 Toast.makeText(context, "Code Copied", Toast.LENGTH_SHORT).show();
             }
         });
+        holder.shimmer.stopShimmer();
+        holder.shimmer.setShimmer(null);
 
     }
 
@@ -83,6 +87,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         TextViewFont title,subtitle,prize,validity,terms;
         ShapedImageView icon;
         ImageView copy;
+        ShimmerFrameLayout shimmer;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title=itemView.findViewById(R.id.title);
@@ -92,6 +97,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
             icon=itemView.findViewById(R.id.icon);
             copy=itemView.findViewById(R.id.copy);
             terms=itemView.findViewById(R.id.terms);
+            shimmer=itemView.findViewById(R.id.shimmer);
         }
     }
 }

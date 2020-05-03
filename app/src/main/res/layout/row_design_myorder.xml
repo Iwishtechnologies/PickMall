@@ -7,10 +7,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:weightSum="2"
+        android:alpha="0.2"
         android:gravity="center"
         android:id="@+id/product"
         android:layout_margin="10dp"
@@ -19,6 +25,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_weight="1.4"
+            android:id="@+id/click"
             android:orientation="vertical"
             android:layout_margin="10dp"
             android:gravity="center_vertical"
@@ -32,7 +39,7 @@
                 android:id="@+id/name"
                 android:maxWidth="200dp"
                 android:layout_height="wrap_content"
-                android:text="Golden rocket spray cars"/>
+                android:text=""/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:orientation="horizontal"
@@ -43,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:id="@+id/dot"
-                    android:src="@drawable/red_dot"/>
+                    android:src="@drawable/green_dot"/>
 
                 <tech.iwish.pickmall.extended.TextViewFont
                     android:layout_width="wrap_content"
@@ -51,7 +58,7 @@
                     android:layout_marginLeft="10dp"
                     android:id="@+id/status"
                     android:layout_height="wrap_content"
-                    android:text="Cancelled"/>
+                    android:text=""/>
 
             </LinearLayout>
 
@@ -68,11 +75,21 @@
                 android:id="@+id/image"
                 app:shape_mode="round_rect"
                 android:layout_height="80dp"
-                app:round_radius="20dp"
-                android:src="@drawable/female_icom"/>
+                app:round_radius="30dp"
+                />
 
         </LinearLayout>
 
 
     </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/club_back_single_line_color" />
 </RelativeLayout>

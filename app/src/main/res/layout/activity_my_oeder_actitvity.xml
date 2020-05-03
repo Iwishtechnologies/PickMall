@@ -2,17 +2,20 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android" >
-
-
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
 
 <androidx.recyclerview.widget.RecyclerView
     android:layout_width="match_parent"
     android:id="@+id/recycle"
+    android:visibility="visible"
     android:layout_height="match_parent"/>
 
 
 
 
-
+</com.facebook.shimmer.ShimmerFrameLayout>
 </RelativeLayout>

@@ -51,5 +51,7 @@ dependencies {
 
     implementation "com.github.skydoves:powermenu:2.1.2"
 
+    implementation 'com.daasuu:animateHorizontalProgressBar:0.2.4'
+
 
 }

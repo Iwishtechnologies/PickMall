@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
+
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +38,7 @@ public class CoupenActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private List<CouponList> couponLists = new ArrayList<>();
     Share_session share_session;
+    ShimmerFrameLayout shimmer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class CoupenActivity extends AppCompatActivity {
         private void InitializeActivity(){
             back= findViewById(R.id.back);
             recyclerView= findViewById(R.id.recycle);
+            shimmer=findViewById(R.id.shimmer);
             share_session= new Share_session(CoupenActivity.this);
 
         }
@@ -104,6 +108,8 @@ public class CoupenActivity extends AppCompatActivity {
                             CoupenActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    shimmer.stopShimmer();
+                                    shimmer.setShimmer(null);
                                     CouponAdapter couponAdapter = new CouponAdapter(CoupenActivity.this, couponLists);
                                     recyclerView.setAdapter(couponAdapter);
                                 }
