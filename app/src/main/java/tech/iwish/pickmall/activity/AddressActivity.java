@@ -172,7 +172,34 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
                                         data = shareSession.Fetchdata();
                                         shareSession.address(address_name.getEditText().getText().toString().trim(), address_number.getEditText().getText().toString().trim(), address_pincode.getEditText().getText().toString().trim(), address_house_no.getEditText().getText().toString().trim(), address_colony.getEditText().getText().toString().trim(), address_landmark.getEditText().getText().toString().trim(), "", "");
 
-                                        if (getIntent().getStringExtra("type") != null) {
+                                        String type = getIntent().getStringExtra("type");
+                                        Intent intent;
+                                        switch (type) {
+                                            case "CardActivity":
+                                                intent = new Intent(AddressActivity.this, SaveAddressActivity.class);
+                                                intent.putExtra("type", "CardActivity");
+                                                startActivity(intent);
+                                                break;
+                                            case "friendDeal_one_rs":
+                                                Toast.makeText(AddressActivity.this, "friendDeal_one_rs", Toast.LENGTH_SHORT).show();
+                                                break;
+                                            case "buy_now":
+                                                intent = new Intent(AddressActivity.this, SaveAddressActivity.class);
+                                                intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                                                intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
+                                                intent.putExtra("actual_price", getIntent().getStringExtra("actual_price"));
+                                                intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                                                intent.putExtra("imagename", getIntent().getStringExtra("imagename"));
+                                                intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
+                                                intent.putExtra("type", "buy_now");
+                                                startActivity(intent);
+                                                break;
+
+                                        }
+
+
+/*
+                                            if (getIntent().getStringExtra("type") != null) {
                                             Intent intent = new Intent(AddressActivity.this, SaveAddressActivity.class);
                                             intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
                                             intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
@@ -183,9 +210,11 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
                                             intent.putExtra("type", "buy_now");
                                             startActivity(intent);
                                         } else {
-                                            startActivity(new Intent(AddressActivity.this, SaveAddressActivity.class));
+                                            Intent intent = new Intent(AddressActivity.this, SaveAddressActivity.class);
+                                            intent.putExtra("type", "CardActivity");
+                                            startActivity(intent);
                                         }
-
+*/
 
                                     }
                                 });

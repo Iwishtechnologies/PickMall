@@ -88,6 +88,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="2dp"
+                                android:maxLines="1"
+                                android:ellipsize="end"
                                 android:textColor="@color/address_text_color"
                                 android:text="Delivery to "/>
 
@@ -205,6 +207,7 @@
                                     app:fonttype="regular"/>
 
                                 <tech.iwish.pickmall.extended.TextViewFont
+                                    android:id="@+id/total_amount_tax"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="end"

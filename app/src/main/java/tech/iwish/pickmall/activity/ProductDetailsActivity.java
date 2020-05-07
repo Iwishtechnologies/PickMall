@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -51,9 +53,10 @@ import tech.iwish.pickmall.session.Share_session;
 
 import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 
-public class ProductDetailsActivity extends AppCompatActivity implements View.OnClickListener , ProductCountInterface {
+public class ProductDetailsActivity extends AppCompatActivity implements View.OnClickListener, ProductCountInterface {
 
-    private TextView ac_priceEdit, dicount_price_Edit, title_name_edit, select_size_color, one_product_name, one_rs_amount, one_rs_dicount_price, dicount_price_text, product_count_value;
+    private TextView ac_priceEdit, dicount_price_Edit, title_name_edit, select_size_color, one_product_name,
+            one_rs_amount, one_rs_dicount_price, dicount_price_text, product_count_value, new_user_text, total_user_req;
     private List<ProductDetailsImageList> productDetailsListImageList = new ArrayList<>();
     //    private List<ProductDetailsImageList> productDetailsListImageList = new ArrayList<>();
     private List<ProductSizeColorList> productSizeColorLists = new ArrayList<>();
@@ -63,9 +66,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     private RatingBar ratingcheck;
     private Button add_card_btn, buy_now_btn, one_rs_button_place_order;
     private LinearLayout product_layout, one_rs_main_layout, button_layout, one_rs_bottom_layout, one_rs_rule, store, wishlist, product_count_layout;
-    private String PRODUCT_TYPE;
+    private String PRODUCT_TYPE, total_request_user, new_user_request;
     private ScrollView scrollview;
-    private RelativeLayout card ;
+    private RelativeLayout card;
+
 
 
     @Override
@@ -84,6 +88,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         one_rs_dicount_price = (TextView) findViewById(R.id.one_rs_dicount_price);
         dicount_price_text = (TextView) findViewById(R.id.dicount_price_text);
         product_count_value = (TextView) findViewById(R.id.product_count_value);
+        new_user_text = (TextView) findViewById(R.id.new_user_text);
+        total_user_req = (TextView) findViewById(R.id.total_user_req);
 
         productImageDetailsViewpager = (ViewPager) findViewById(R.id.productImageDetailsViewpager);
         color_size_image_recycle_view = (RecyclerView) findViewById(R.id.color_size_image_recycle_view);
@@ -104,7 +110,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
         scrollview = (ScrollView) findViewById(R.id.scrollview);
 
-        card = (RelativeLayout)findViewById(R.id.card);
+        card = (RelativeLayout) findViewById(R.id.card);
 
         scrollview.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
@@ -136,8 +142,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
         switch (product_type) {
             case "flashSale":
-                flashSaleProductimage();
-                flashSaleProductsize_color();
+//                flashSaleProductimage();
+//                flashSaleProductsize_color();
+
+                All_Image(Constants.FLASH_SALE_IMAGE);
+                All_size_color(Constants.FLASH_SALE_COLOR_SIDE);
+
                 PRODUCT_TYPE = "flashsale";
                 product_layout.setVisibility(View.VISIBLE);
                 one_rs_main_layout.setVisibility(View.GONE);
@@ -146,8 +156,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 button_layout.setVisibility(View.VISIBLE);
                 break;
             case "allProduct":
-                ProductAllImage();
-                ProductAllSize_color();
+//                ProductAllImage();
+//                ProductAllSize_color();
+
+                All_Image(Constants.PRODDUCT_IMAGE);
+                All_size_color(Constants.PRODDUCT_SIZE_COLOR);
+
                 PRODUCT_TYPE = "product";
                 product_layout.setVisibility(View.VISIBLE);
                 one_rs_main_layout.setVisibility(View.GONE);
@@ -156,6 +170,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 button_layout.setVisibility(View.VISIBLE);
                 break;
             case "friendsaleoneRs":
+
+//                friendsaleoneRsImage();
+//                friendsaleoneRscolor_size();
+
                 one_product_name.setText(product_name);
                 one_rs_amount.setText(getResources().getString(R.string.rs_symbol) + actual_price);
                 product_layout.setVisibility(View.GONE);
@@ -163,11 +181,24 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 one_rs_main_layout.setVisibility(View.VISIBLE);
                 one_rs_bottom_layout.setVisibility(View.VISIBLE);
                 one_rs_rule.setVisibility(View.VISIBLE);
-                one_rs_dicount_price.setText(getResources().getString(R.string.rs_symbol) + discount_price);
+
+                SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + discount_price);
+                content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
+                one_rs_dicount_price.setText(content);
+
+
                 one_rs_button_place_order.setText(getResources().getString(R.string.rs_symbol) + actual_price + " Start a Deal");
-                friendsaleoneRsImage();
-                friendsaleoneRscolor_size();
+
+                total_request_user = getIntent().getStringExtra("total_request_user");
+                new_user_request = getIntent().getStringExtra("new_user_request");
+                total_user_req.setText("Request " + total_request_user + " Users Total");
+                new_user_text.setText("(" + new_user_request + " new user at least)");
+
                 PRODUCT_TYPE = "frienddeal";
+
+                All_Image(Constants.FRIEND_SALE_IMAGE);
+                All_size_color(Constants.FRIEND_SALE_SIZE_COLOR);
+
                 break;
         }
 
@@ -182,12 +213,18 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
         ac_priceEdit.setText(getResources().getString(R.string.rs_symbol) + actual_price);
         title_name_edit.setText(product_name);
-        dicount_price_text.setText("-" + discount_price_per );
+        dicount_price_text.setText("-" + discount_price_per);
 
         SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + discount_price);
         content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
         dicount_price_Edit.setText(content);
         ratingcheck.setRating((float) 3.3);
+
+        if(!vendor_id.equals("0")){
+            store.setVisibility(View.VISIBLE);
+        }else {
+            store.setVisibility(View.GONE);
+        }
 
         Bundle bundle = new Bundle();
         ProductOverViewFragment productOverViewFragment = new ProductOverViewFragment();
@@ -200,6 +237,211 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     }
 
+
+    private void All_Image(String IMAGE_API) {
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("product_id", product_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(IMAGE_API).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                productDetailsListImageList.add(new ProductDetailsImageList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("image")));
+                            }
+
+                            if (ProductDetailsActivity.this != null) {
+
+                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
+                                        productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
+
+                                    }
+                                });
+                            }
+
+                        }
+                    }
+
+                }
+            }
+        });
+
+
+    }
+
+    private void All_size_color(String SIZE_COLOR_API) {
+        OkHttpClient okHttpClient1 = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("product_id", product_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(SIZE_COLOR_API).post(body).build();
+        okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("imgname"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty")));
+                            }
+
+                            if (ProductDetailsActivity.this != null) {
+
+                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ColorSizeImageAdapter colorSizeImageAdapter = new ColorSizeImageAdapter(ProductDetailsActivity.this, productSizeColorLists, productDetailsListImageList);
+                                        color_size_image_recycle_view.setAdapter(colorSizeImageAdapter);
+                                    }
+                                });
+                            }
+
+
+                        }
+                    }
+
+                }
+            }
+        });
+
+    }
+
+
+    @Override
+    public void onClick(View view) {
+
+        Share_session share_session = new Share_session(this);
+        Map data = share_session.Fetchdata();
+        ProductSideColorBottomFragment productSideColorBottomFragment;
+        Bundle bundle;
+
+        int id = view.getId();
+        switch (id) {
+            case R.id.select_size_color:
+            case R.id.add_card_btn:
+                bundle = new Bundle();
+                productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists, this);
+                bundle.putString("product_name", product_name);
+                bundle.putString("actual_price", actual_price);
+                bundle.putString("product_id", product_id);
+                bundle.putString("discount_price", discount_price);
+                bundle.putString("product_type", PRODUCT_TYPE);
+                bundle.putString("type", "add_to_card");
+                productSideColorBottomFragment.setArguments(bundle);
+                productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
+                break;
+            case R.id.one_rs_button_place_order:
+//                one rs place order check
+                Intent intent1 = new Intent(ProductDetailsActivity.this, SaveAddressActivity.class);
+                intent1.putExtra("type", "friendDeal_one_rs");
+                startActivity(intent1);
+
+                break;
+            case R.id.card:
+                startActivity(new Intent(ProductDetailsActivity.this, CardActivity.class));
+                break;
+            case R.id.store:
+                Intent intent = new Intent(ProductDetailsActivity.this, VendorStoreActivity.class);
+                intent.putExtra("vendor_id", vendor_id);
+                startActivity(intent);
+                break;
+            case R.id.wishlist:
+                CardCount cardCount = new CardCount();
+                cardCount.save_wishlist(PRODUCT_TYPE, product_id, data.get(USERMOBILE).toString());
+                break;
+            case R.id.buy_now_btn:
+
+                bundle = new Bundle();
+                productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists, this);
+                bundle.putString("product_name", product_name);
+                bundle.putString("actual_price", actual_price);
+                bundle.putString("product_id", product_id);
+                bundle.putString("discount_price", discount_price);
+                bundle.putString("product_type", PRODUCT_TYPE);
+                bundle.putString("type", "buy_now");
+                productSideColorBottomFragment.setArguments(bundle);
+                productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
+                break;
+        }
+    }
+
+
+    private void cardcount() {
+        if (!CardCount.card_count(this).equals("0")) {
+            String number_of_product = CardCount.card_count(this);
+            product_count_value.setText(number_of_product);
+            product_count_layout.setVisibility(View.VISIBLE);
+        } else {
+            product_count_layout.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cardcount();
+    }
+
+    @Override
+    public void counntproduct() {
+        cardcount();
+    }
+
+    private void image(String imageurl) {
+        View view = LayoutInflater.from(this).inflate(R.layout.image_load, null);
+        ImageView imageView = view.findViewById(R.id.img_load);
+    }
+
+
+//    **********************************************************************
+
+
+/*
     private void ProductAllImage() {
 
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -235,15 +477,18 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                 productDetailsListImageList.add(new ProductDetailsImageList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("image")));
                             }
 
-                            ProductDetailsActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
+                            if (ProductDetailsActivity.this != null) {
 
-                                    ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
-                                    productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
+                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
 
-                                }
-                            });
+                                        ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
+                                        productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
+
+                                    }
+                                });
+                            }
 
                         }
                     }
@@ -289,13 +534,17 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                 productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("imgname"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty")));
                             }
 
-                            ProductDetailsActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ColorSizeImageAdapter colorSizeImageAdapter = new ColorSizeImageAdapter(ProductDetailsActivity.this, productSizeColorLists, productDetailsListImageList);
-                                    color_size_image_recycle_view.setAdapter(colorSizeImageAdapter);
-                                }
-                            });
+                            if (ProductDetailsActivity.this != null) {
+
+                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ColorSizeImageAdapter colorSizeImageAdapter = new ColorSizeImageAdapter(ProductDetailsActivity.this, productSizeColorLists, productDetailsListImageList);
+                                        color_size_image_recycle_view.setAdapter(colorSizeImageAdapter);
+                                    }
+                                });
+                            }
+
 
                         }
                     }
@@ -303,7 +552,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 }
             }
         });
-
 
     }
 
@@ -342,15 +590,17 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                 productDetailsListImageList.add(new ProductDetailsImageList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("image")));
                             }
 
-                            ProductDetailsActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
+                            if (ProductDetailsActivity.this != null) {
+                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
 
-                                    ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
-                                    productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
+                                        ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
+                                        productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
 
-                                }
-                            });
+                                    }
+                                });
+                            }
 
                         }
                     }
@@ -396,13 +646,17 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                 productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("imgname"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty")));
                             }
 
-                            ProductDetailsActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ColorSizeImageAdapter colorSizeImageAdapter = new ColorSizeImageAdapter(ProductDetailsActivity.this, productSizeColorLists, productDetailsListImageList);
-                                    color_size_image_recycle_view.setAdapter(colorSizeImageAdapter);
-                                }
-                            });
+                            if (ProductDetailsActivity.this != null) {
+
+                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ColorSizeImageAdapter colorSizeImageAdapter = new ColorSizeImageAdapter(ProductDetailsActivity.this, productSizeColorLists, productDetailsListImageList);
+                                        color_size_image_recycle_view.setAdapter(colorSizeImageAdapter);
+                                    }
+                                });
+                            }
+
 
                         }
                     }
@@ -450,15 +704,19 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                 productDetailsListImageList.add(new ProductDetailsImageList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("image")));
                             }
 
-                            ProductDetailsActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
+                            if (ProductDetailsActivity.this != null) {
 
-                                    ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
-                                    productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
+                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
 
-                                }
-                            });
+                                        ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
+                                        productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
+
+                                    }
+                                });
+                            }
+
 
                         }
                     }
@@ -505,14 +763,19 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                 productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("imgname"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty")));
                             }
 
-                            ProductDetailsActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
 
-                                    ColorSizeImageAdapter colorSizeImageAdapter = new ColorSizeImageAdapter(ProductDetailsActivity.this, productSizeColorLists, productDetailsListImageList);
-                                    color_size_image_recycle_view.setAdapter(colorSizeImageAdapter);
-                                }
-                            });
+                            if (ProductDetailsActivity.this != null) {
+
+                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        ColorSizeImageAdapter colorSizeImageAdapter = new ColorSizeImageAdapter(ProductDetailsActivity.this, productSizeColorLists, productDetailsListImageList);
+                                        color_size_image_recycle_view.setAdapter(colorSizeImageAdapter);
+                                    }
+                                });
+                            }
+
 
                         }
                     }
@@ -523,77 +786,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
 
     }
+*/
 
 
-    @Override
-    public void onClick(View view) {
-
-        Share_session share_session = new Share_session(this);
-        Map data = share_session.Fetchdata();
-        ProductSideColorBottomFragment productSideColorBottomFragment;
-        Bundle bundle;
-
-        int id = view.getId();
-        switch (id) {
-            case R.id.select_size_color:
-            case R.id.add_card_btn:
-                bundle = new Bundle();
-                productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists , this);
-                bundle.putString("product_name", product_name);
-                bundle.putString("actual_price", actual_price);
-                bundle.putString("product_id", product_id);
-                bundle.putString("discount_price", discount_price);
-                bundle.putString("product_type", PRODUCT_TYPE);
-                bundle.putString("type", "add_to_card");
-                productSideColorBottomFragment.setArguments(bundle);
-                productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
-                break;
-            case R.id.one_rs_button_place_order:
-//                one rs place order check
-                break;
-            case R.id.card:
-                startActivity(new Intent(ProductDetailsActivity.this , CardActivity.class));
-                break;
-            case R.id.store:
-                Intent intent = new Intent(ProductDetailsActivity.this, VendorStoreActivity.class);
-                intent.putExtra("vendor_id", vendor_id);
-                startActivity(intent);
-                break;
-            case R.id.wishlist:
-                CardCount cardCount = new CardCount();
-                cardCount.save_wishlist(PRODUCT_TYPE, product_id, data.get(USERMOBILE).toString());
-                break;
-            case R.id.buy_now_btn:
-
-                bundle = new Bundle();
-                productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists , this);
-                bundle.putString("product_name", product_name);
-                bundle.putString("actual_price", actual_price);
-                bundle.putString("product_id", product_id);
-                bundle.putString("discount_price", discount_price);
-                bundle.putString("product_type", PRODUCT_TYPE);
-                bundle.putString("type", "buy_now");
-                productSideColorBottomFragment.setArguments(bundle);
-                productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
-                break;
-        }
-    }
-
-
-    private void cardcount() {
-        if (!CardCount.card_count(this).equals("0")) {
-            String number_of_product = CardCount.card_count(this);
-            product_count_value.setText(number_of_product);
-            product_count_layout.setVisibility(View.VISIBLE);
-        } else {
-            product_count_layout.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void counntproduct() {
-        cardcount();
-    }
+//    **********************************************************************
 }
 
 

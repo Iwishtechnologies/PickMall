@@ -49,8 +49,7 @@ public class FriendSaleAllProductAdapter extends RecyclerView.Adapter<FriendSale
         String a = Constants.IMAGES + friendSaleLists.get(position).getPimg();
         Glide.with(context).load(a).into(holder.one_rs_image);
 
-/*
-        holder.one_rs_layout.setOnClickListener(new View.OnClickListener() {
+        holder.start_deal_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ProductDetailsActivity.class);
@@ -60,12 +59,14 @@ public class FriendSaleAllProductAdapter extends RecyclerView.Adapter<FriendSale
                 intent.putExtra("product_id", friendSaleLists.get(position).getProduct_id());
 //                intent.putExtra("product_color", flashsalemainLists.get(position).getColors());
                 intent.putExtra("product_Image", friendSaleLists.get(position).getPimg());
+                intent.putExtra("vendor_id", friendSaleLists.get(position).getVendor_id());
+                intent.putExtra("total_request_user", friendSaleLists.get(position).getReq_users_shares());
+                intent.putExtra("new_user_request", friendSaleLists.get(position).getNew_users_atleast());
+
                 intent.putExtra("product_type", "friendsaleoneRs");
                 context.startActivity(intent);
             }
         });
-*/
-
 
 
     }
@@ -79,7 +80,7 @@ public class FriendSaleAllProductAdapter extends RecyclerView.Adapter<FriendSale
 
         private ImageView one_rs_image;
         private TextView one_rs_product_name, product_amount;
-        private LinearLayout one_rs_layout;
+        private LinearLayout one_rs_layout, start_deal_layout;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -87,6 +88,7 @@ public class FriendSaleAllProductAdapter extends RecyclerView.Adapter<FriendSale
             one_rs_product_name = (TextView) itemView.findViewById(R.id.one_rs_product_name);
             product_amount = (TextView) itemView.findViewById(R.id.product_amount);
             one_rs_layout = (LinearLayout) itemView.findViewById(R.id.one_rs_layout);
+            start_deal_layout = (LinearLayout) itemView.findViewById(R.id.start_deal_layout);
 
         }
     }

@@ -68,6 +68,7 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
 //
 //        this.dubledata = productSizeColorLists.get(position).getColor();
 
+        holder.product_color.setText(productSizeColorLists.get(position).getColor());
         if (currentSelectedPosition == position) {
             holder.product_color.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
         }else {

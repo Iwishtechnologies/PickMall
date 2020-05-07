@@ -54,6 +54,7 @@
                 android:orientation="vertical">
 
                 <tech.iwish.pickmall.extended.TextViewFont
+                    android:id="@+id/store_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -76,6 +77,7 @@
                         android:orientation="vertical">
 
                         <tech.iwish.pickmall.extended.TextViewFont
+                            android:id="@+id/following_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"

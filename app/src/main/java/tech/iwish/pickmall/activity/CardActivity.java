@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -40,15 +41,15 @@ import static tech.iwish.pickmall.session.Share_session.NUMBER_ADDRESS;
 import static tech.iwish.pickmall.session.Share_session.PINCODE_ADDRESS;
 import static tech.iwish.pickmall.session.Share_session.STATE_ADDRESS;
 
-public class CardActivity extends AppCompatActivity implements View.OnClickListener, RefreshCartAmountInterface , CardQtyAmountRef {
+public class CardActivity extends AppCompatActivity implements View.OnClickListener, RefreshCartAmountInterface, CardQtyAmountRef {
 
     private ImageView homeBottom, feedBottom, cardBottom, accountBottom, cardImage;
     private MyhelperSql myhelperSql;
     private SQLiteDatabase sqLiteDatabase;
     private RecyclerView card_recycle_view;
     private ArrayList<HashMap<String, String>> data;
-    private TextView edit_amount, pincode, name_address, full_address, product_count_card ,pricr;
-    private LinearLayout price_layout, product_count_card_layout, price_details_layout, address_layout , change_address;
+    private TextView edit_amount, pincode, name_address, full_address, product_count_card, pricr, total_amount_tax;
+    private LinearLayout price_layout, product_count_card_layout, price_details_layout, address_layout, change_address;
     private int TotalAMT;
     private int final_total_amount, check;
     private String valuecheck;
@@ -56,7 +57,8 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
     private Share_session shareSession;
     private Map sharedata;
     private ArrayList<HashMap<String, String>> list = new ArrayList<>();
-    private int finalAmount , amtvalue;
+    private int finalAmount, amtvalue;
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,7 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
         full_address = (TextView) findViewById(R.id.full_address);
         product_count_card = (TextView) findViewById(R.id.product_count_card);
         pricr = (TextView) findViewById(R.id.pricr);
+        total_amount_tax = (TextView) findViewById(R.id.total_amount_tax);
 
 
         price_layout = (LinearLayout) findViewById(R.id.price_layout);
@@ -107,7 +110,6 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         card_product();
-
 
 
         homeBottom.setOnClickListener(this);
@@ -161,10 +163,11 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
                 list.add(map);
                 cursor.moveToNext();
             }
-            CartAdapter cartAdapter = new CartAdapter(this, list, this , this);
+            CartAdapter cartAdapter = new CartAdapter(this, list, this, this);
             card_recycle_view.setAdapter(cartAdapter);
-            edit_amount.setText(getResources().getString(R.string.rs_symbol)+String.valueOf(finalAmount));
-            pricr.setText(getResources().getString(R.string.rs_symbol)+String.valueOf(finalAmount));
+            edit_amount.setText(getResources().getString(R.string.rs_symbol) + String.valueOf(finalAmount));
+            total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + String.valueOf(finalAmount));
+            pricr.setText(getResources().getString(R.string.rs_symbol) + String.valueOf(finalAmount));
         } else {
             price_layout.setVisibility(View.GONE);
         }
@@ -184,8 +187,9 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
                 amtvalue += amt;
                 cursor.moveToNext();
             }
-            edit_amount.setText(getResources().getString(R.string.rs_symbol)+String.valueOf(amtvalue));
-            pricr.setText(getResources().getString(R.string.rs_symbol)+String.valueOf(amtvalue));
+            edit_amount.setText(getResources().getString(R.string.rs_symbol) + String.valueOf(amtvalue));
+            total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + String.valueOf(amtvalue));
+            pricr.setText(getResources().getString(R.string.rs_symbol) + String.valueOf(amtvalue));
         } else {
             price_layout.setVisibility(View.GONE);
         }
@@ -213,7 +217,9 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
                 PlaceOrder();
                 break;
             case R.id.change_address:
-                startActivity(new Intent(CardActivity.this , EditAddressActivity.class));
+                Intent intent1 = new Intent(CardActivity.this, EditAddressActivity.class) ;
+                intent1.putExtra("context" , "CardActivity");
+                startActivity(intent1);
                 break;
         }
     }
@@ -231,6 +237,8 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
             intent.putExtra("mobile_address", sharedata.get(NUMBER_ADDRESS).toString());
             intent.putExtra("city_address", sharedata.get(CITY_ADDRESS).toString());
             intent.putExtra("total_amount_product", edit_amount.getText().toString().trim());
+            intent.putExtra("type","CardActivity");
+
             startActivity(intent);
         } else {
             startActivity(new Intent(CardActivity.this, AddressActivity.class));
@@ -263,4 +271,71 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
         amtvalue = 0;
         amountset();
     }
+
+    @Override
+    public void onBackPressed() {
+
+
+        if (getIntent().getStringExtra("context") == null) {
+            super.onBackPressed();
+        } else {
+
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+
+
+                finish();
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                startActivity(intent);
+
+                return;
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Click again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+
+
+        }
+
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

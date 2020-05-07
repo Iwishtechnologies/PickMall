@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity
         implements View.OnClickListener,
         SwipeRefreshLayout.OnRefreshListener,
         CardProductRefreshInterface,
-        ItemCategoryInterface ,
+        ItemCategoryInterface,
         FlashsaleTimeIdInterface {
 
     private ViewPager viewPages;
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity
     public static TextView time_countDown, product_count_card;
     //    private static final long START_TIME_IN_MILLIS = 86400000;
     private long mTimeLeftInMillis;
-    private LinearLayout viewAll_FreshSale, product_count_card_layout, flash_line,viewall_friend_deal;
+    private LinearLayout viewAll_FreshSale, product_count_card_layout, flash_line, viewall_friend_deal;
     private ImageView homeBottom, feedBottom, cardBottom, accountBottom;
     private String bottomClickCheck;
     private SwipeRefreshLayout swipe_refresh_layout;
@@ -161,9 +161,9 @@ public class MainActivity extends AppCompatActivity
         viewAll_FreshSale.setOnClickListener(this);
 
 //        String id = new CountdownTime(this, time_countDown, flash_line).Flashsaletimeset();
-        CountdownTime countdownTime = new CountdownTime(this,time_countDown,flash_line , this);
+        CountdownTime countdownTime = new CountdownTime(this, time_countDown, flash_line, this);
         String id = countdownTime.Flashsaletimeset();
-        Log.e(TAG, "onCreate: "+id );
+        Log.e(TAG, "onCreate: " + id);
 
 
 //    item
@@ -197,6 +197,7 @@ public class MainActivity extends AppCompatActivity
 
 
     private void cardProductCount() {
+
         if (!CardCount.card_count(this).equals("0")) {
             String number_of_product = CardCount.card_count(this);
             product_count_card.setText(number_of_product);
@@ -204,6 +205,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             product_count_card_layout.setVisibility(View.GONE);
         }
+
     }
 
     private void silder() {
@@ -236,19 +238,17 @@ public class MainActivity extends AppCompatActivity
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
                                 silderListsList.add(new SilderLists(jsonHelper.GetResult("sno"), jsonHelper.GetResult("image"), jsonHelper.GetResult("categoryid"), jsonHelper.GetResult("status")));
-
                             }
-
-                            MainActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    silderAdapter = new SilderAdapter(MainActivity.this, silderListsList);
-                                    viewPages.setAdapter(silderAdapter);
-                                    createSilderauto();
-                                }
-                            });
-
-
+                            if (MainActivity.this != null) {
+                                MainActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        silderAdapter = new SilderAdapter(MainActivity.this, silderListsList);
+                                        viewPages.setAdapter(silderAdapter);
+                                        createSilderauto();
+                                    }
+                                });
+                            }
                         }
                     }
                 }
@@ -289,15 +289,20 @@ public class MainActivity extends AppCompatActivity
                                 itemLists.add(new ItemList(jsonHelper.GetResult("item_id"), jsonHelper.GetResult("item_name"), jsonHelper.GetResult("icon_img"), jsonHelper.GetResult("type")));
 
                             }
-                            MainActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-//                                    itemAdapter = new ItemAdapter(MainActivity.this, itemLists , this);
-                                    itemAdapter = new ItemAdapter(MainActivity.this, itemLists, itemCategoryInterface);
-                                    itemCateroryrecycle.setAdapter(itemAdapter);
 
-                                }
-                            });
+                            if (MainActivity.this != null) {
+
+                                MainActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+//                                    itemAdapter = new ItemAdapter(MainActivity.this, itemLists , this);
+                                        itemAdapter = new ItemAdapter(MainActivity.this, itemLists, itemCategoryInterface);
+                                        itemCateroryrecycle.setAdapter(itemAdapter);
+
+                                    }
+                                });
+                            }
+
 
                         }
                     }
@@ -338,15 +343,18 @@ public class MainActivity extends AppCompatActivity
                                 friendSaleLists.add(new FriendSaleList(jsonHelper.GetResult("product_id"), jsonHelper.GetResult("ProductName"), jsonHelper.GetResult("item_id"), jsonHelper.GetResult("catagory_id"), jsonHelper.GetResult("actual_price"), jsonHelper.GetResult("discount_price"), jsonHelper.GetResult("discount_price_per"), jsonHelper.GetResult("status"), jsonHelper.GetResult("pimg"), jsonHelper.GetResult("vendor_id"), jsonHelper.GetResult("type"), jsonHelper.GetResult("datetime"), jsonHelper.GetResult("fakeRating"), jsonHelper.GetResult("req_users_shares"), jsonHelper.GetResult("new_users_atleast")));
                             }
 
+                            if (MainActivity.this != null) {
 
-                            MainActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    friendSaleAdapter = new FriendSaleAdapter(MainActivity.this, friendSaleLists);
-                                    friend_deal_recycleview.setAdapter(friendSaleAdapter);
-                                    swipe_refresh_layout.setRefreshing(false);
-                                }
-                            });
+                                MainActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        friendSaleAdapter = new FriendSaleAdapter(MainActivity.this, friendSaleLists);
+                                        friend_deal_recycleview.setAdapter(friendSaleAdapter);
+                                        swipe_refresh_layout.setRefreshing(false);
+                                    }
+                                });
+                            }
+
 
                         }
                     }
@@ -378,7 +386,7 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String result = response.body().string();
-                    Log.e("result", result );
+                    Log.e("result", result);
                     JsonHelper jsonHelper = new JsonHelper(result);
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
@@ -390,20 +398,22 @@ public class MainActivity extends AppCompatActivity
                                 flashsalemainLists.add(new FlashsalemainList(jsonHelper.GetResult("product_id"), jsonHelper.GetResult("ProductName"), jsonHelper.GetResult("item_id"), jsonHelper.GetResult("catagory_id"), jsonHelper.GetResult("actual_price"), jsonHelper.GetResult("discount_price"), jsonHelper.GetResult("discount_price_per"), jsonHelper.GetResult("status"), jsonHelper.GetResult("pimg"), jsonHelper.GetResult("vendor_id"), jsonHelper.GetResult("type"), jsonHelper.GetResult("datetime"), jsonHelper.GetResult("FakeRating"), jsonHelper.GetResult("saleid")));
                             }
 
-                            MainActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    flashSaleAdapter = new FlashSaleAdapter(MainActivity.this, flashsalemainLists);
-                                    flash_sale_main_recycle.setAdapter(flashSaleAdapter);
-                                }
-                            });
+                            if (MainActivity.this != null) {
+
+                                MainActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        flashSaleAdapter = new FlashSaleAdapter(MainActivity.this, flashsalemainLists);
+                                        flash_sale_main_recycle.setAdapter(flashSaleAdapter);
+                                    }
+                                });
+                            }
 
                         }
                     }
                 }
             }
         });
-
 
 
     }
@@ -443,6 +453,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.CardBottom:
                 this.bottomClickCheck = "card";
                 Intent intent = new Intent(MainActivity.this, CardActivity.class);
+                intent.putExtra("context","MainActivity");
                 startActivity(intent);
 //                Animatoo.animateDiagonal(MainActivity.this);
                 break;
@@ -459,6 +470,8 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(MainActivity.this, FriendsDealsAllActivity.class));
                 break;
         }
+
+
     }
 
     @Override
@@ -474,6 +487,7 @@ public class MainActivity extends AppCompatActivity
 //        Flashsaletimeset();
         silder();
         FriendDeal();
+        cardProductCount();
         friendSaleAdapter.notifyDataSetChanged();
         flashSaleAdapter.notifyDataSetChanged();
         itemAdapter.notifyDataSetChanged();
@@ -495,7 +509,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void flashsaleId(String saleid) {
 //        FlashSaleMain();
-        Log.e(TAG, "flashsaleId: "+saleid );
+        Log.e(TAG, "flashsaleId: " + saleid);
     }
 
     @Override
@@ -506,6 +520,13 @@ public class MainActivity extends AppCompatActivity
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
 
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cardProductCount();
     }
 }
 

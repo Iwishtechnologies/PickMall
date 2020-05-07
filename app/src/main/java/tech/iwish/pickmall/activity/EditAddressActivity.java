@@ -29,6 +29,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import tech.iwish.pickmall.Interface.AddressInterface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.ShippingAddressAdapter;
 import tech.iwish.pickmall.config.Constants;
@@ -37,13 +38,16 @@ import tech.iwish.pickmall.other.AddressDataList;
 import tech.iwish.pickmall.other.ShippingAddressList;
 import tech.iwish.pickmall.session.Share_session;
 
-public class EditAddressActivity extends AppCompatActivity {
+public class EditAddressActivity extends AppCompatActivity implements View.OnClickListener {
 
     private List<AddressDataList> addressDataLists = new ArrayList<>();
     private RecyclerView address_recycleview;
     int type = 1;
-    private LinearLayout new_addresss ;
+    private LinearLayout new_addresss;
     private Button deliver_btn;
+    private AddressInterface addressInterface;
+    private String posi , types;
+    private int position;
 
 
     @Override
@@ -53,21 +57,25 @@ public class EditAddressActivity extends AppCompatActivity {
 
         address_recycleview = (RecyclerView) findViewById(R.id.address_recycleview);
         new_addresss = (LinearLayout) findViewById(R.id.new_addresss);
-        deliver_btn = (Button)findViewById(R.id.deliver_btn);
+        deliver_btn = (Button) findViewById(R.id.deliver_btn);
 
         Share_session share_session = new Share_session(this);
 
+        deliver_btn.setOnClickListener(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         address_recycleview.setLayoutManager(linearLayoutManager);
 
 
+        types = getIntent().getStringExtra("type");
+
+
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("mobile",share_session.getUserDetail().get("UserMobile") );
+            jsonObject.put("mobile", share_session.getUserDetail().get("UserMobile"));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -94,16 +102,18 @@ public class EditAddressActivity extends AppCompatActivity {
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                addressDataLists.add(new AddressDataList(jsonHelper.GetResult("sno"),jsonHelper.GetResult("mobile"),jsonHelper.GetResult("name"),jsonHelper.GetResult("delivery_number"),jsonHelper.GetResult("pincode"),jsonHelper.GetResult("house_no"),jsonHelper.GetResult("colony"),jsonHelper.GetResult("landmark"),jsonHelper.GetResult("status")));
+                                addressDataLists.add(new AddressDataList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("mobile"), jsonHelper.GetResult("name"), jsonHelper.GetResult("delivery_number"), jsonHelper.GetResult("pincode"), jsonHelper.GetResult("house_no"), jsonHelper.GetResult("colony"), jsonHelper.GetResult("landmark"), jsonHelper.GetResult("city"), jsonHelper.GetResult("state"), jsonHelper.GetResult("address_type"), jsonHelper.GetResult("status")));
                             }
-                            EditAddressActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ShippingAddressAdapter shippingAddressAdapter = new ShippingAddressAdapter(EditAddressActivity.this, null, type , addressDataLists);
-                                    address_recycleview.setAdapter(shippingAddressAdapter);
-                                }
-                            });
+                            if (EditAddressActivity.this != null) {
 
+                                EditAddressActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ShippingAddressAdapter shippingAddressAdapter = new ShippingAddressAdapter(EditAddressActivity.this, null, type, addressDataLists, addressInterface);
+                                        address_recycleview.setAdapter(shippingAddressAdapter);
+                                    }
+                                });
+                            }
                         }
                     }
                 }
@@ -115,11 +125,34 @@ public class EditAddressActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-//                Intent intent = new Intent(EditAddressActivity.this , AddressActivity.class);
-//                intent.putExtra("type" , "editAddress");
-//                startActivity(intent);
 
-                if(getIntent().getStringExtra("product_qty") != null){
+                Intent intent;
+
+                switch (types) {
+                    case "CardActivity":
+                        intent = new Intent(EditAddressActivity.this, AddressActivity.class);
+                        intent.putExtra("type", "CardActivity");
+                        startActivity(intent);
+                        break;
+                    case "friendDeal_one_rs":
+                        Toast.makeText(EditAddressActivity.this, "friendDeal_one_rs", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "buy_now":
+                        intent = new Intent(EditAddressActivity.this, AddressActivity.class);
+                        intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                        intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
+                        intent.putExtra("actual_price", getIntent().getStringExtra("actual_price"));
+                        intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                        intent.putExtra("imagename", getIntent().getStringExtra("imagename"));
+                        intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
+                        intent.putExtra("type", "buy_now");
+                        startActivity(intent);
+                        break;
+
+                }
+/*
+
+                if (getIntent().getStringExtra("product_qty") != null) {
 
                     Intent intent = new Intent(EditAddressActivity.this, AddressActivity.class);
                     intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
@@ -131,24 +164,69 @@ public class EditAddressActivity extends AppCompatActivity {
                     intent.putExtra("type", "buy_now");
                     startActivity(intent);
 
-                }else {
+                } else {
                     Intent intent = new Intent(EditAddressActivity.this, AddressActivity.class);
+                    intent.putExtra("type", "CardActivity");
                     startActivity(intent);
                 }
+*/
 
 
             }
         });
 
-        deliver_btn.setOnClickListener(new View.OnClickListener() {
+
+        addressInterface = new AddressInterface() {
             @Override
-            public void onClick(View view) {
-//                not ready
+            public void address_select(final int pos) {
+
+                position = pos;
+                posi = String.valueOf(pos);
+
             }
-        });
+        };
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.deliver_btn:
+                if (posi == null) {
+                    Toast.makeText(EditAddressActivity.this, "Address not select", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    Share_session shareSession = new Share_session(this);
+                    shareSession.address(addressDataLists.get(position).getName(), addressDataLists.get(position).getDelivery_number(), addressDataLists.get(position).getPincode(), addressDataLists.get(position).getHouse_no(), addressDataLists.get(position).getColony(), addressDataLists.get(position).getLandmark(), addressDataLists.get(position).getState(), addressDataLists.get(position).getCity());
+
+                    if (getIntent().getStringExtra("context") != null) {
+                        startActivity(new Intent(EditAddressActivity.this, CardActivity.class));
+                    } else {
+
+                        if (getIntent().getStringExtra("product_qty") != null) {
+                            Intent intent = new Intent(EditAddressActivity.this, SaveAddressActivity.class);
+                            intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                            intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
+                            intent.putExtra("actual_price", getIntent().getStringExtra("actual_price"));
+                            intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                            intent.putExtra("imagename", getIntent().getStringExtra("imagename"));
+                            intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
+                            intent.putExtra("type", "buy_now");
+                            startActivity(intent);
+
+                        } else {
+                            Intent intent = new Intent(EditAddressActivity.this, SaveAddressActivity.class);
+                            intent.putExtra("type", "CardActivity");
+                            startActivity(intent);
+                        }
+
+                    }
 
 
-
+                }
+                break;
+        }
     }
 }
 

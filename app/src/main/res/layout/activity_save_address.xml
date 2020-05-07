@@ -382,6 +382,7 @@
         android:layout_marginBottom="4dp"
         android:background="@color/whiteColor"
         android:gravity="center"
+        android:elevation="1dp"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:padding="4dp"

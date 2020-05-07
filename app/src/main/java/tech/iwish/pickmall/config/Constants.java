@@ -42,12 +42,19 @@ public class Constants {
     public static String PRODUCT_DESCRIPTION = URL+"ProductDescription";
     public static String FLASH_SALE_ALL = URL+"flashSaleAll";
     public static String VENDOR_STOR_PRODUCT = URL+"vendor_store_product";
-    public static String VENDOR_STOR_DETAILS = URL+"vendor_store_details";
+    public static String VENDOR_STORE_DETAILS = URL+"vendor_store_details";
     public static String ADDRESS_FETCH = URL+"address_fetch";
     public static String CATEGORY = URL+"category";
     public static String ALL_CATEGORY_ITEM = URL+"allcategory/item";
     public static String FLASH_SALE_TIME_REMOVE = URL+"flashsaletimeremove";
     public static String FRIEND_SALE_ONE_RS = URL+"friendSaleOneRs";
+    public static String SIMILAER_PRODUCT = URL+"similar_product";
+    public static String ALL_PRODUCT = URL+"product";
+    public static String VENDOR_STORE_ALL_PRODUCT = URL+"vendor_store_all_product";
+    public static String CATEGORY_BY_PRODUUCT = URL+"Category_by_product";
+    public static String VENDOR_STORE_FOLLOW_CHECK = URL+"vendor_store_follow_check";
+    public static String VENDOR_STORE_FOLLOWING = URL+"vendor_store_following";
+    public static String ORDER_PLACE= URL+"order_place";
 
 
 

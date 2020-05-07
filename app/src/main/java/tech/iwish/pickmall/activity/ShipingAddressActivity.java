@@ -105,7 +105,7 @@ public class ShipingAddressActivity extends AppCompatActivity {
                             ShipingAddressActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ShippingAddressAdapter shippingAddressAdapter = new ShippingAddressAdapter(ShipingAddressActivity.this, shippingAddressLists , type ,null);
+                                    ShippingAddressAdapter shippingAddressAdapter = new ShippingAddressAdapter(ShipingAddressActivity.this, shippingAddressLists , type ,null,null);
                                     recyclerView.setAdapter(shippingAddressAdapter);
                                 }
                             });

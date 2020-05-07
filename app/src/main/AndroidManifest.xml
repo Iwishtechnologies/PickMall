@@ -13,8 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.FilterActivity"
-            android:theme="@style/filter"/>
+        <activity android:name=".gateway.Paymentgateway"></activity>
+        <activity
+            android:name=".activity.FilterActivity"
+            android:theme="@style/filter" />
 
         <receiver android:name=".service.TimeReceiver">
             <intent-filter>
@@ -23,6 +25,7 @@
         </receiver>
 
         <activity android:name=".activity.Searchactivity" />
+
         <activity
             android:name=".activity.FollowingActivity"
             android:screenOrientation="portrait"
@@ -98,8 +101,9 @@
         <activity
             android:name=".activity.AddressActivity"
             android:theme="@style/flashsaleproduct" />
-        <activity android:name=".activity.FriendsDealsAllActivity"
-            android:theme="@style/friendsaleoners"/>
+        <activity
+            android:name=".activity.FriendsDealsAllActivity"
+            android:theme="@style/friendsaleoners" />
         <activity
             android:name=".activity.FlashSaleProductactivity"
             android:theme="@style/flashsaleproduct" />
@@ -142,6 +146,10 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_cqTSMSd3guM3Ej" />
     </application>
 
 </manifest>

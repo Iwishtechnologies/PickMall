@@ -58,13 +58,6 @@ public class ProductFragment extends Fragment {
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         product_recycleview.setLayoutManager(layoutManager);
 
-        datafetchProduct();
-
-        return view;
-    }
-
-
-    private void datafetchProduct() {
 
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -75,36 +68,47 @@ public class ProductFragment extends Fragment {
         Log.e("type", type);
         switch (type) {
             case "similar_product":
-                item = arguments.getString("product_id");
-                Log.e("item" , item);
-                PRODUCT_PERAMETER = "similar_product";
+//                item = arguments.getString("product_id");
+//                PRODUCT_PERAMETER = "similar_product";
+                datafetchProduct(Constants.SIMILAER_PRODUCT,arguments.getString("product_id"));
                 break;
             case "product":
-                PRODUCT_PERAMETER = "product";
+//                PRODUCT_PERAMETER = "product";
 //                item = getActivity().getIntent().getExtras().getString("item");
-                item = arguments.getString("item");
+//                item = arguments.getString("item");
+                datafetchProduct(Constants.ALL_PRODUCT,arguments.getString("item"));
                 break;
             case "vendorStoreAllProduct":
-                PRODUCT_PERAMETER = "vendor_store_all_product";
-                item = getActivity().getIntent().getExtras().getString("vendor_id");
+//                PRODUCT_PERAMETER = "vendor_store_all_product";
+//                item = getActivity().getIntent().getExtras().getString("vendor_id");
+                datafetchProduct(Constants.VENDOR_STORE_ALL_PRODUCT,getActivity().getIntent().getExtras().getString("vendor_id"));
                 break;
             case "Category_by_product":
-                PRODUCT_PERAMETER = "Category_by_product";
-                item =  getActivity().getIntent().getExtras().getString("category_id");
+//                PRODUCT_PERAMETER = "Category_by_product";
+//                item =  getActivity().getIntent().getExtras().getString("category_id");
+                datafetchProduct(Constants.CATEGORY_BY_PRODUUCT , getActivity().getIntent().getExtras().getString("category_id"));
                 break;
         }
+
+
+        return view;
+    }
+
+
+    private void datafetchProduct(String Api , String item_id) {
 
 
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("item_id", item);
+            jsonObject.put("item_id", item_id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/"+PRODUCT_PERAMETER).post(body).build();
+//        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/"+PRODUCT_PERAMETER).post(body).build();
+        Request request1 = new Request.Builder().url(Api).post(body).build();
         okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {

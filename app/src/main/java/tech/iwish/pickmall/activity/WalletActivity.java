@@ -2,10 +2,11 @@ package tech.iwish.pickmall.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -24,6 +25,7 @@ import okhttp3.Response;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.extended.TextViewFont;
+import tech.iwish.pickmall.gateway.Paymentgateway;
 import tech.iwish.pickmall.session.Share_session;
 
 public class WalletActivity extends AppCompatActivity {
@@ -31,6 +33,7 @@ public class WalletActivity extends AppCompatActivity {
     TextViewFont wallet,balance;
      String Balance = "0";
      Share_session share_session;
+     Button add_amount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,14 @@ public class WalletActivity extends AppCompatActivity {
         tap_to_view= findViewById(R.id.tap_to_refresh);
         wallet= findViewById(R.id.wallet);
         balance= findViewById(R.id.balance);
+        add_amount = findViewById(R.id.add_amount);
 
+        add_amount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(WalletActivity.this , Paymentgateway.class));
+            }
+        });
     }
 
     private void ActivityAction(){

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
@@ -42,11 +43,17 @@ public class ProductDetailsImageAdapter extends PagerAdapter {
 
     @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, final int position) {
         layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View item_view = layoutInflater.inflate(R.layout.row_bottom_product_details,container,false);
-        ImageView imageView =item_view.findViewById(R.id.prooductDetailsImages);
+        ImageView imageView = item_view.findViewById(R.id.prooductDetailsImages);
 
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, ""+productDetailsListImageList.get(position).getImage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         String a = Constants.IMAGES+ productDetailsListImageList.get(position).getImage();
         Glide.with(context).load(a).into(imageView);

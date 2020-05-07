@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.iwish.pickmall.Interface.AddressInterface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.EditAddressActivity;
 import tech.iwish.pickmall.activity.ShipingAddressActivity;
@@ -29,14 +30,17 @@ public class ShippingAddressAdapter extends RecyclerView.Adapter<ShippingAddress
     private List<AddressDataList> addressDataLists ;
     int type;
     private int currentSelectedPosition = RecyclerView.NO_POSITION;
+    private AddressInterface addressInterface;
 
-
-    public ShippingAddressAdapter(Context context,  List<ShippingAddressList> shippingAddressLists, int type, List<AddressDataList> addressDataLists) {
+    public ShippingAddressAdapter(Context context,  List<ShippingAddressList> shippingAddressLists,
+                                  int type, List<AddressDataList> addressDataLists ,
+                                  AddressInterface addressInterface) {
 
         this.context = context;
         this.shipping_address_data = shippingAddressLists;
         this.type = type;
         this.addressDataLists = addressDataLists ;
+        this.addressInterface = addressInterface;
     }
 
 
@@ -94,6 +98,7 @@ public class ShippingAddressAdapter extends RecyclerView.Adapter<ShippingAddress
                 });
                 if(currentSelectedPosition == position){
                     holder.radio_button.isSelected();
+                    addressInterface.address_select(currentSelectedPosition);
                     holder.radio_button.setChecked(true);
                 }else {
                     holder.radio_button.setChecked(false);
@@ -124,6 +129,8 @@ public class ShippingAddressAdapter extends RecyclerView.Adapter<ShippingAddress
             address_full_address = itemView.findViewById(R.id.address_full_address);
             radio_button = (RadioButton)itemView.findViewById(R.id.radio_button);
             main_layout= (RelativeLayout) itemView.findViewById(R.id.main_layout);
+
+
 
         }
     }

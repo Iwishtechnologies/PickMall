@@ -79,7 +79,7 @@ public class Share_session {
 
     public HashMap<String,String> getUserDetail()
     {
-        HashMap<String,String>data=new HashMap<>();
+        HashMap<String,String> data = new HashMap<>();
         data.put(USERMOBILE,Preferences.getString(USERMOBILE,null));
         data.put(USERNAME,Preferences.getString(USERNAME,null));
         data.put(USERGENDER,Preferences.getString(USERGENDER,null));

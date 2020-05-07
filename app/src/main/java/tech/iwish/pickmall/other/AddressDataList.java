@@ -10,10 +10,13 @@ public class AddressDataList {
     private String house_no;
     private String colony;
     private String landmark;
+    private String city;
+    private String state;
+    private String address_type;
     private String status;
 
 
-    public AddressDataList(String sno, String mobile, String name, String delivery_number, String pincode, String house_no, String colony, String landmark, String status) {
+    public AddressDataList(String sno, String mobile, String name, String delivery_number, String pincode, String house_no, String colony, String landmark, String city, String state, String address_type, String status) {
         this.sno = sno;
         this.mobile = mobile;
         this.name = name;
@@ -22,8 +25,12 @@ public class AddressDataList {
         this.house_no = house_no;
         this.colony = colony;
         this.landmark = landmark;
+        this.city = city;
+        this.state = state;
+        this.address_type = address_type;
         this.status = status;
     }
+
 
     public String getSno() {
         return sno;
@@ -87,6 +94,30 @@ public class AddressDataList {
 
     public void setLandmark(String landmark) {
         this.landmark = landmark;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getAddress_type() {
+        return address_type;
+    }
+
+    public void setAddress_type(String address_type) {
+        this.address_type = address_type;
     }
 
     public String getStatus() {

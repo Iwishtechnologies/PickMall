@@ -57,6 +57,13 @@
             android:textColor="@color/blue_color"
             android:text="0"/>
 
+        <Button
+            android:id="@+id/add_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="wallet add"
+            android:layout_marginTop="10dp"/>
+
     </LinearLayout>
 
 
