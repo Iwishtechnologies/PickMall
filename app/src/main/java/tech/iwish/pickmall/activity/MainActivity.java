@@ -162,8 +162,7 @@ public class MainActivity extends AppCompatActivity
 
 //        String id = new CountdownTime(this, time_countDown, flash_line).Flashsaletimeset();
         CountdownTime countdownTime = new CountdownTime(this, time_countDown, flash_line, this);
-        String id = countdownTime.Flashsaletimeset();
-        Log.e(TAG, "onCreate: " + id);
+        countdownTime.Flashsaletimeset();
 
 
 //    item
@@ -395,7 +394,7 @@ public class MainActivity extends AppCompatActivity
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                flashsalemainLists.add(new FlashsalemainList(jsonHelper.GetResult("product_id"), jsonHelper.GetResult("ProductName"), jsonHelper.GetResult("item_id"), jsonHelper.GetResult("catagory_id"), jsonHelper.GetResult("actual_price"), jsonHelper.GetResult("discount_price"), jsonHelper.GetResult("discount_price_per"), jsonHelper.GetResult("status"), jsonHelper.GetResult("pimg"), jsonHelper.GetResult("vendor_id"), jsonHelper.GetResult("type"), jsonHelper.GetResult("datetime"), jsonHelper.GetResult("FakeRating"), jsonHelper.GetResult("saleid")));
+                                flashsalemainLists.add(new FlashsalemainList(jsonHelper.GetResult("product_id"), jsonHelper.GetResult("ProductName"), jsonHelper.GetResult("item_id"), jsonHelper.GetResult("catagory_id"), jsonHelper.GetResult("actual_price"), jsonHelper.GetResult("discount_price"), jsonHelper.GetResult("discount_price_per"), jsonHelper.GetResult("status"), jsonHelper.GetResult("pimg"), jsonHelper.GetResult("vendor_id"), jsonHelper.GetResult("type"), jsonHelper.GetResult("datetime"), jsonHelper.GetResult("FakeRating"), jsonHelper.GetResult("saleid"), jsonHelper.GetResult("gst")));
                             }
 
                             if (MainActivity.this != null) {
@@ -485,6 +484,11 @@ public class MainActivity extends AppCompatActivity
         itemCat();
         FlashSaleMain();
 //        Flashsaletimeset();
+
+        CountdownTime countdownTime = new CountdownTime(this, time_countDown, flash_line, this);
+        countdownTime.Flashsaletimeset();
+
+
         silder();
         FriendDeal();
         cardProductCount();

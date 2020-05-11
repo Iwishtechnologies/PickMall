@@ -191,30 +191,16 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
                                                 intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
                                                 intent.putExtra("imagename", getIntent().getStringExtra("imagename"));
                                                 intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
+                                                intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
+                                                intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
+                                                intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
+                                                intent.putExtra("gst", getIntent().getStringExtra("gst"));
                                                 intent.putExtra("type", "buy_now");
                                                 startActivity(intent);
                                                 break;
 
                                         }
 
-
-/*
-                                            if (getIntent().getStringExtra("type") != null) {
-                                            Intent intent = new Intent(AddressActivity.this, SaveAddressActivity.class);
-                                            intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
-                                            intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
-                                            intent.putExtra("actual_price", getIntent().getStringExtra("actual_price"));
-                                            intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
-                                            intent.putExtra("imagename", getIntent().getStringExtra("imagename"));
-                                            intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
-                                            intent.putExtra("type", "buy_now");
-                                            startActivity(intent);
-                                        } else {
-                                            Intent intent = new Intent(AddressActivity.this, SaveAddressActivity.class);
-                                            intent.putExtra("type", "CardActivity");
-                                            startActivity(intent);
-                                        }
-*/
 
                                     }
                                 });

@@ -33,12 +33,12 @@ public class ProductListF {
 
     public static List flash_sale_list_fake() {
         List<FlashsalemainList> flashsalemainLists = new ArrayList<>();
-        flashsalemainLists.add(new FlashsalemainList("null", "", "", "", "", "", "", "", "", "", "", "", "", ""));
-        flashsalemainLists.add(new FlashsalemainList("null", "", "", "", "", "", "", "", "", "", "", "", "", ""));
-        flashsalemainLists.add(new FlashsalemainList("null", "", "", "", "", "", "", "", "", "", "", "", "", ""));
-        flashsalemainLists.add(new FlashsalemainList("null", "", "", "", "", "", "", "", "", "", "", "", "", ""));
-        flashsalemainLists.add(new FlashsalemainList("null", "", "", "", "", "", "", "", "", "", "", "", "", ""));
-        flashsalemainLists.add(new FlashsalemainList("null", "", "", "", "", "", "", "", "", "", "", "", "", ""));
+        flashsalemainLists.add(new FlashsalemainList("null", "", "", "", "", "", "", "", "", "", "", "", "", "", ""));
+        flashsalemainLists.add(new FlashsalemainList("null", "", "", "", "", "", "", "", "", "", "", "", "", "", ""));
+        flashsalemainLists.add(new FlashsalemainList("null", "", "", "", "", "", "", "", "", "", "", "", "", "", ""));
+        flashsalemainLists.add(new FlashsalemainList("null", "", "", "", "", "", "", "", "", "", "", "", "", "", ""));
+        flashsalemainLists.add(new FlashsalemainList("null", "", "", "", "", "", "", "", "", "", "", "", "", "", ""));
+        flashsalemainLists.add(new FlashsalemainList("null", "", "", "", "", "", "", "", "", "", "", "", "", "", ""));
         return flashsalemainLists;
     }
 
@@ -59,13 +59,13 @@ public class ProductListF {
 
         List<FlashsalemainList> flashsalefakelist = new ArrayList<>();
 
-        flashsalefakelist.add(new FlashsalemainList("null","","","","","","","","","","","","",""));
-        flashsalefakelist.add(new FlashsalemainList("null","","","","","","","","","","","","",""));
-        flashsalefakelist.add(new FlashsalemainList("null","","","","","","","","","","","","",""));
-        flashsalefakelist.add(new FlashsalemainList("null","","","","","","","","","","","","",""));
-        flashsalefakelist.add(new FlashsalemainList("null","","","","","","","","","","","","",""));
-        flashsalefakelist.add(new FlashsalemainList("null","","","","","","","","","","","","",""));
-        flashsalefakelist.add(new FlashsalemainList("null","","","","","","","","","","","","",""));
+        flashsalefakelist.add(new FlashsalemainList("null","","","","","","","","","","","","","",""));
+        flashsalefakelist.add(new FlashsalemainList("null","","","","","","","","","","","","","",""));
+        flashsalefakelist.add(new FlashsalemainList("null","","","","","","","","","","","","","",""));
+        flashsalefakelist.add(new FlashsalemainList("null","","","","","","","","","","","","","",""));
+        flashsalefakelist.add(new FlashsalemainList("null","","","","","","","","","","","","","",""));
+        flashsalefakelist.add(new FlashsalemainList("null","","","","","","","","","","","","","",""));
+        flashsalefakelist.add(new FlashsalemainList("null","","","","","","","","","","","","","",""));
 
         return flashsalefakelist;
     }

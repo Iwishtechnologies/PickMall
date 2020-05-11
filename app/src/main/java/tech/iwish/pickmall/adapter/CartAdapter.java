@@ -91,6 +91,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
             String a = Constants.IMAGES + cardData.get(position).get("PRODUCT_IMAGE");
             Glide.with(context).load(a).into(holder.card_product_image);
             holder.cart_product_name.setText(cardData.get(position).get("PRODUCT_NAME"));
+
+//            holder.percent_price.setText(cardData.get(position).get("PRODUCT_NAME"));
+
             holder.cart_product_act_amount.setText(context.getResources().getString(R.string.rs_symbol) + cardData.get(position).get("PRODUCT_AMOUNT"));
             holder.cart_product_size.setText(context.getResources().getString(R.string.size) + cardData.get(position).get("PRODUCT_SIZE"));
             if(qtychechker == null){
@@ -142,7 +145,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
 
         private ImageView card_product_image;
         private TextView cart_product_name, cart_product_act_amount, cart_product_size, product_qty , timesetcountdown;
-        private TextView card_remove_product, dicount_price, wishlist_btn;
+        private TextView card_remove_product, dicount_price, wishlist_btn , percent_price;
         private SQLiteDatabase sqLiteDatabase;
         private MyhelperSql myhelperSql;
         private LinearLayout remove_button_layout, qty_layout, check;
@@ -163,6 +166,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
             product_qty = (TextView) itemView.findViewById(R.id.product_qty);
             dicount_price = (TextView) itemView.findViewById(R.id.dicount_price);
             wishlist_btn = (TextView) itemView.findViewById(R.id.wishlist_btn);
+            percent_price = (TextView) itemView.findViewById(R.id.percent_price);
             remove_button_layout = (LinearLayout) itemView.findViewById(R.id.remove_button_layout);
             qty_layout = (LinearLayout) itemView.findViewById(R.id.qty_layout);
             qty_spinner = (Spinner) itemView.findViewById(R.id.qty_spinner);
@@ -218,42 +222,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
                 case R.id.qty_layout:
                     qty_spinner.performClick();
                     this.firstTimeCheck = "csdcdcdcsdc";
-                    dropdown();
                     break;
             }
         }
-
-        private void dropdown() {
-
-
-/*
-       LayoutInflater layoutInflater = (LayoutInflater) context.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            ViewGroup cont = (ViewGroup) layoutInflater.inflate(R.layout.textview_for_spinner, null);
-            popupWindow = new PopupWindow(cont, 400, 400, true);
-            popupWindow.showAtLocation(itemView, Gravity.CENTER, 700, 800);
-            cont.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    popupWindow.dismiss();
-                    return true;
-                }
-            });
-*/
-
-/*
-            PopupMenu popup = new PopupMenu(context, qty_layout);
-            popup.getMenuInflater().inflate(R.menu.dropdownlist, popup.getMenu());
-            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                public boolean onMenuItemClick(MenuItem item) {
-                    Toast.makeText(context, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
-                    return true;
-                }
-            });
-            popup.show();
-*/
-
-        }
-
 
         private void productwishlist() {
             Share_session share_session = new Share_session(context);

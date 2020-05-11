@@ -54,7 +54,10 @@ public class Constants {
     public static String CATEGORY_BY_PRODUUCT = URL+"Category_by_product";
     public static String VENDOR_STORE_FOLLOW_CHECK = URL+"vendor_store_follow_check";
     public static String VENDOR_STORE_FOLLOWING = URL+"vendor_store_following";
-    public static String ORDER_PLACE= URL+"order_place";
+    public static String ORDER_PLACE_BUY_NOW = URL+"order_place_buy_now";
+    public static String ORDER_PLACE_CARD = URL+"order_place_card";
+    public static String SHIPPING_CHARGE = URL+"shipping_charge";
+    public static String WALLET_AMOUNT_UPDATE = URL+"walletAmountUpdate";
 
 
 

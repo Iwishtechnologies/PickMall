@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-<gradient android:startColor="@color/redColor"
-    android:endColor="@color/orangeColor"/>
+    <gradient android:startColor="#FD6406"
+        android:endColor="#FF4747"/>
 </shape>
+
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<shape xmlns:android="http://schemas.android.com/apk/res/android">-->
+    <!--<gradient android:startColor="@color/redColor"-->
+    <!--    android:endColor="@color/orangeColor"/>-->
+    <!--</shape>-->
+

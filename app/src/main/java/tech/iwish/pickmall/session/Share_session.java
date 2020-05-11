@@ -28,6 +28,7 @@ public class Share_session {
     public static final String USERGENDER = "gender";
     public static final String PROFILEIMAGE = "image";
     public static final String ACCOUNTID = "id";
+    public static final String WALLET_AMOUNT = "wallet amount";
 
 
 
@@ -112,6 +113,11 @@ public class Share_session {
         editor.putString(ACCOUNTID,account_id);
         editor.commit();
     }
+
+    public void walletAmount(String amt){
+        editor.putString(WALLET_AMOUNT , amt).commit();
+    }
+
 
 
 

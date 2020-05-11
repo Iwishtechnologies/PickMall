@@ -99,7 +99,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         productoverview();
         productdescription();
 
-        if(!vendor_id.equals("0")){
+        if(!vendor_id.equals("0") || vendor_id.equals("1")){
             vendorstore();
         }else {
             venodr_layout.setVisibility(View.GONE);

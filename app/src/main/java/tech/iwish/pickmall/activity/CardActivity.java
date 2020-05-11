@@ -124,7 +124,7 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
             String number_of_product = CardCount.card_count(this);
             product_count_card.setText(number_of_product);
             product_count_card_layout.setVisibility(View.VISIBLE);
-            price_details_layout.setVisibility(View.VISIBLE);
+//            price_details_layout.setVisibility(View.VISIBLE);
             address_layout.setVisibility(View.VISIBLE);
             cardImage.setVisibility(View.GONE);
         } else {
@@ -155,6 +155,8 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
                 map.put("PRODUCT_AMOUNT", cursor.getString(cursor.getColumnIndex("PRODUCT_AMOUNT")));
                 map.put("PRODUCT_AMOUNT_DICOUNT", cursor.getString(cursor.getColumnIndex("PRODUCT_AMOUNT_DICOUNT")));
                 map.put("PRODUCT_TYPE", cursor.getString(cursor.getColumnIndex("PRODUCT_TYPE")));
+                map.put("GST", cursor.getString(cursor.getColumnIndex("GST")));
+
 
                 int qty = Integer.parseInt(cursor.getString(cursor.getColumnIndex("PRODUCT_QTY")));
                 int amount = Integer.parseInt(cursor.getString(cursor.getColumnIndex("PRODUCT_AMOUNT")));
@@ -241,7 +243,9 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
 
             startActivity(intent);
         } else {
-            startActivity(new Intent(CardActivity.this, AddressActivity.class));
+            Intent intent = new Intent(CardActivity.this, AddressActivity.class) ;
+            intent.putExtra("type","CardActivity");
+            startActivity(intent);
         }
     }
 
@@ -253,7 +257,7 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
             String number_of_product = CardCount.card_count(this);
             product_count_card.setText(number_of_product);
             product_count_card_layout.setVisibility(View.VISIBLE);
-            price_details_layout.setVisibility(View.VISIBLE);
+//            price_details_layout.setVisibility(View.VISIBLE);
             address_layout.setVisibility(View.VISIBLE);
             cardImage.setVisibility(View.GONE);
         } else {

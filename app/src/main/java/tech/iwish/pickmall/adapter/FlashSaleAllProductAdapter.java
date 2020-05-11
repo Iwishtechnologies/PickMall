@@ -87,6 +87,7 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
                     intent.putExtra("product_Image", flashsalemainLists.get(position).getPimg());
                     intent.putExtra("vendor_id", flashsalemainLists.get(position).getVendor_id());
                     intent.putExtra("discount_price_per", flashsalemainLists.get(position).getDiscount_price_per());
+                    intent.putExtra("gst", flashsalemainLists.get(position).getGst());
                     intent.putExtra("product_type", "flashSale");
                     context.startActivity(intent);
                 }

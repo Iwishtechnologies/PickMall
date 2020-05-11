@@ -57,7 +57,7 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
     private ImageView sub_button, add_button;
     private TextView quty_value, product_names, actual_prices, dicount_price;
     private Button confirm_add_to_card, go_to_card;
-    private String select_color, select_size, product_id, product_name, actual_price, imagename, product_qty, discount_price, product_type, type;
+    private String select_color, select_size,product_id,gst , product_name, actual_price, imagename, product_qty, discount_price, product_type, type;
     private Share_session shareSession;
     private Map data;
     private ProductCountInterface productCountInterface;
@@ -91,12 +91,15 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
         confirm_add_to_card.setOnClickListener(this);
         go_to_card.setOnClickListener(this);
         Bundle bundle = getArguments();
+
+
         product_name = bundle.getString("product_name");
         actual_price = bundle.getString("actual_price");
         product_id = bundle.getString("product_id");
         discount_price = bundle.getString("discount_price");
         product_type = bundle.getString("product_type");
         type = bundle.getString("type");
+        gst = bundle.getString("gst");
 
         product_names.setText(product_name);
         actual_prices.setText(getResources().getString(R.string.rs_symbol) + actual_price);
@@ -193,7 +196,7 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
                     product_qty = quty_value.getText().toString();
                     MyhelperSql myhelperSql = new MyhelperSql(getActivity());
                     SQLiteDatabase sqLiteDatabase = myhelperSql.getWritableDatabase();
-                    myhelperSql.dataAddCard(product_id, product_name, product_qty, select_color, select_size, imagename, actual_price, discount_price, product_type, sqLiteDatabase);
+                    myhelperSql.dataAddCard(product_id, product_name, product_qty, select_color, select_size, imagename, actual_price, discount_price, product_type,gst, sqLiteDatabase);
                     productCountInterface.counntproduct();
                     dismiss();
                     break;
@@ -201,23 +204,32 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
                     data = shareSession.Fetchdata();
                     if ((data.get(NUMBER_ADDRESS) != null) && (data.get(PINCODE_ADDRESS) != null) && (data.get(HOUSE_NO_ADDRESS) != null)) {
                         Intent intent = new Intent(getActivity(), SaveAddressActivity.class);
+                        intent.putExtra("product_id", product_id);
                         intent.putExtra("product_name", product_name);
                         intent.putExtra("select_size", select_size);
                         intent.putExtra("actual_price", actual_price);
                         intent.putExtra("discount_price", discount_price);
                         intent.putExtra("imagename", imagename);
+                        intent.putExtra("select_color", select_color);
                         intent.putExtra("product_qty", quty_value.getText().toString());
+                        intent.putExtra("product_type", product_type);
                         intent.putExtra("type", "buy_now");
+                        intent.putExtra("gst", gst);
                         startActivity(intent);
                     } else {
                         Intent intent = new Intent(getActivity(), AddressActivity.class);
+                        intent.putExtra("product_id", product_id);
                         intent.putExtra("product_name", product_name);
                         intent.putExtra("select_size", select_size);
                         intent.putExtra("actual_price", actual_price);
                         intent.putExtra("discount_price", discount_price);
                         intent.putExtra("imagename", imagename);
                         intent.putExtra("product_qty", quty_value.getText().toString());
+                        intent.putExtra("select_color", select_color);
+                        intent.putExtra("product_type", product_type);
+                        intent.putExtra("gst", gst);
                         intent.putExtra("type", "buy_now");
+                        intent.putExtra("gst", gst);
                         startActivity(intent);
                     }
                     break;

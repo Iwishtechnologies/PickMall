@@ -66,7 +66,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     private RatingBar ratingcheck;
     private Button add_card_btn, buy_now_btn, one_rs_button_place_order;
     private LinearLayout product_layout, one_rs_main_layout, button_layout, one_rs_bottom_layout, one_rs_rule, store, wishlist, product_count_layout;
-    private String PRODUCT_TYPE, total_request_user, new_user_request;
+    private String PRODUCT_TYPE, total_request_user, new_user_request ,gst;
     private ScrollView scrollview;
     private RelativeLayout card;
 
@@ -139,8 +139,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         String product_type = intent.getStringExtra("product_type");
         vendor_id = intent.getStringExtra("vendor_id");
         discount_price_per = intent.getStringExtra("discount_price_per");
+        gst = intent.getStringExtra("gst");
 
         switch (product_type) {
+
             case "flashSale":
 //                flashSaleProductimage();
 //                flashSaleProductsize_color();
@@ -220,7 +222,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         dicount_price_Edit.setText(content);
         ratingcheck.setRating((float) 3.3);
 
-        if(!vendor_id.equals("0")){
+        if(!vendor_id.equals("0") || vendor_id.equals("1")){
             store.setVisibility(View.VISIBLE);
         }else {
             store.setVisibility(View.GONE);
@@ -371,6 +373,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 bundle.putString("product_id", product_id);
                 bundle.putString("discount_price", discount_price);
                 bundle.putString("product_type", PRODUCT_TYPE);
+                bundle.putString("gst", gst);
                 bundle.putString("type", "add_to_card");
                 productSideColorBottomFragment.setArguments(bundle);
                 productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
@@ -395,14 +398,15 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 cardCount.save_wishlist(PRODUCT_TYPE, product_id, data.get(USERMOBILE).toString());
                 break;
             case R.id.buy_now_btn:
-
                 bundle = new Bundle();
                 productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists, this);
+
                 bundle.putString("product_name", product_name);
                 bundle.putString("actual_price", actual_price);
                 bundle.putString("product_id", product_id);
                 bundle.putString("discount_price", discount_price);
                 bundle.putString("product_type", PRODUCT_TYPE);
+                bundle.putString("gst", gst);
                 bundle.putString("type", "buy_now");
                 productSideColorBottomFragment.setArguments(bundle);
                 productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
@@ -437,359 +441,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         ImageView imageView = view.findViewById(R.id.img_load);
     }
 
-
-//    **********************************************************************
-
-
-/*
-    private void ProductAllImage() {
-
-        OkHttpClient okHttpClient = new OkHttpClient();
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("product_id", product_id);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url(Constants.PRODDUCT_IMAGE).post(body).build();
-        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-
-                    String result = response.body().string();
-                    Log.e("response", result);
-                    JsonHelper jsonHelper = new JsonHelper(result);
-                    if (jsonHelper.isValidJson()) {
-                        String responses = jsonHelper.GetResult("response");
-                        if (responses.equals("TRUE")) {
-                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                jsonHelper.setChildjsonObj(jsonArray, i);
-                                productDetailsListImageList.add(new ProductDetailsImageList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("image")));
-                            }
-
-                            if (ProductDetailsActivity.this != null) {
-
-                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-
-                                        ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
-                                        productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
-
-                                    }
-                                });
-                            }
-
-                        }
-                    }
-
-                }
-            }
-        });
-
-
-    }
-
-    private void ProductAllSize_color() {
-        OkHttpClient okHttpClient1 = new OkHttpClient();
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("product_id", product_id);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url(Constants.PRODDUCT_SIZE_COLOR).post(body).build();
-        okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-
-                    String result = response.body().string();
-                    Log.e("response", result);
-                    JsonHelper jsonHelper = new JsonHelper(result);
-                    if (jsonHelper.isValidJson()) {
-                        String responses = jsonHelper.GetResult("response");
-                        if (responses.equals("TRUE")) {
-                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                jsonHelper.setChildjsonObj(jsonArray, i);
-                                productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("imgname"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty")));
-                            }
-
-                            if (ProductDetailsActivity.this != null) {
-
-                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ColorSizeImageAdapter colorSizeImageAdapter = new ColorSizeImageAdapter(ProductDetailsActivity.this, productSizeColorLists, productDetailsListImageList);
-                                        color_size_image_recycle_view.setAdapter(colorSizeImageAdapter);
-                                    }
-                                });
-                            }
-
-
-                        }
-                    }
-
-                }
-            }
-        });
-
-    }
-
-    private void flashSaleProductimage() {
-
-        OkHttpClient okHttpClient1 = new OkHttpClient();
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("product_id", product_id);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url(Constants.FLASH_SALE_IMAGE).post(body).build();
-        okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-
-                    String result = response.body().string();
-                    Log.e("response", result);
-                    JsonHelper jsonHelper = new JsonHelper(result);
-                    if (jsonHelper.isValidJson()) {
-                        String responses = jsonHelper.GetResult("response");
-                        if (responses.equals("TRUE")) {
-                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                jsonHelper.setChildjsonObj(jsonArray, i);
-                                productDetailsListImageList.add(new ProductDetailsImageList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("image")));
-                            }
-
-                            if (ProductDetailsActivity.this != null) {
-                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-
-                                        ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
-                                        productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
-
-                                    }
-                                });
-                            }
-
-                        }
-                    }
-
-                }
-            }
-        });
-
-
-    }
-
-    private void friendsaleoneRscolor_size() {
-        OkHttpClient okHttpClient1 = new OkHttpClient();
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("product_id", product_id);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url(Constants.FRIEND_SALE_SIZE_COLOR).post(body).build();
-        okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-
-                    String result = response.body().string();
-                    Log.e("response", result);
-                    JsonHelper jsonHelper = new JsonHelper(result);
-                    if (jsonHelper.isValidJson()) {
-                        String responses = jsonHelper.GetResult("response");
-                        if (responses.equals("TRUE")) {
-                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                jsonHelper.setChildjsonObj(jsonArray, i);
-                                productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("imgname"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty")));
-                            }
-
-                            if (ProductDetailsActivity.this != null) {
-
-                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ColorSizeImageAdapter colorSizeImageAdapter = new ColorSizeImageAdapter(ProductDetailsActivity.this, productSizeColorLists, productDetailsListImageList);
-                                        color_size_image_recycle_view.setAdapter(colorSizeImageAdapter);
-                                    }
-                                });
-                            }
-
-
-                        }
-                    }
-
-                }
-            }
-        });
-
-
-    }
-
-    private void friendsaleoneRsImage() {
-
-
-        OkHttpClient okHttpClient1 = new OkHttpClient();
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("product_id", product_id);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url(Constants.FRIEND_SALE_IMAGE).post(body).build();
-        okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-
-                    String result = response.body().string();
-                    Log.e("response", result);
-                    JsonHelper jsonHelper = new JsonHelper(result);
-                    if (jsonHelper.isValidJson()) {
-                        String responses = jsonHelper.GetResult("response");
-                        if (responses.equals("TRUE")) {
-                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                jsonHelper.setChildjsonObj(jsonArray, i);
-                                productDetailsListImageList.add(new ProductDetailsImageList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("image")));
-                            }
-
-                            if (ProductDetailsActivity.this != null) {
-
-                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-
-                                        ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
-                                        productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
-
-                                    }
-                                });
-                            }
-
-
-                        }
-                    }
-
-                }
-            }
-        });
-
-
-    }
-
-    private void flashSaleProductsize_color() {
-
-        OkHttpClient okHttpClient1 = new OkHttpClient();
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("product_id", product_id);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url(Constants.FLASH_SALE_COLOR_SIDE).post(body).build();
-        okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-
-                    String result = response.body().string();
-                    Log.e("response", result);
-                    JsonHelper jsonHelper = new JsonHelper(result);
-                    if (jsonHelper.isValidJson()) {
-                        String responses = jsonHelper.GetResult("response");
-                        if (responses.equals("TRUE")) {
-                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                jsonHelper.setChildjsonObj(jsonArray, i);
-                                productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("imgname"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty")));
-                            }
-
-
-                            if (ProductDetailsActivity.this != null) {
-
-                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-
-                                        ColorSizeImageAdapter colorSizeImageAdapter = new ColorSizeImageAdapter(ProductDetailsActivity.this, productSizeColorLists, productDetailsListImageList);
-                                        color_size_image_recycle_view.setAdapter(colorSizeImageAdapter);
-                                    }
-                                });
-                            }
-
-
-                        }
-                    }
-
-                }
-            }
-        });
-
-
-    }
-*/
-
-
-//    **********************************************************************
 }
 
 

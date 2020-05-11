@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".gateway.Paymentgateway"></activity>
+        <activity android:name=".activity.SuccessfullyActivity"></activity>
+        <activity android:name=".activity.PaymentOptionActivity" />
+        <activity android:name=".gateway.Paymentgateway" />
         <activity
             android:name=".activity.FilterActivity"
             android:theme="@style/filter" />
@@ -25,7 +27,6 @@
         </receiver>
 
         <activity android:name=".activity.Searchactivity" />
-
         <activity
             android:name=".activity.FollowingActivity"
             android:screenOrientation="portrait"

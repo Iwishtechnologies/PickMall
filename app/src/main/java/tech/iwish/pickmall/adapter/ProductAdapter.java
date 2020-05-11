@@ -102,6 +102,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
                     intent.putExtra("product_Image", productLists.get(position).getPimg());
                     intent.putExtra("vendor_id", productLists.get(position).getVendor_id());
                     intent.putExtra("discount_price_per", productLists.get(position).getDiscount_price_per());
+                    intent.putExtra("gst", productLists.get(position).getGst());
                     intent.putExtra("product_type", "allProduct");
                     context.startActivity(intent);
                 }

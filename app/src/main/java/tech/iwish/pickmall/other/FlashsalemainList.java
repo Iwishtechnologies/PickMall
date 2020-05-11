@@ -16,8 +16,9 @@ public class FlashsalemainList {
     private String datetime;
     private String FakeRating;
     private String saleid;
+    private String gst;
 
-    public FlashsalemainList(String product_id, String productName, String item_id, String catagory_id, String actual_price, String discount_price, String discount_price_per, String status, String pimg, String vendor_id, String type, String datetime, String fakeRating, String saleid) {
+    public FlashsalemainList(String product_id, String productName, String item_id, String catagory_id, String actual_price, String discount_price, String discount_price_per, String status, String pimg, String vendor_id, String type, String datetime, String fakeRating, String saleid, String gst) {
         this.product_id = product_id;
         ProductName = productName;
         this.item_id = item_id;
@@ -32,6 +33,7 @@ public class FlashsalemainList {
         this.datetime = datetime;
         FakeRating = fakeRating;
         this.saleid = saleid;
+        this.gst = gst;
     }
 
     public String getProduct_id() {
@@ -144,6 +146,14 @@ public class FlashsalemainList {
 
     public void setSaleid(String saleid) {
         this.saleid = saleid;
+    }
+
+    public String getGst() {
+        return gst;
+    }
+
+    public void setGst(String gst) {
+        this.gst = gst;
     }
 }
 

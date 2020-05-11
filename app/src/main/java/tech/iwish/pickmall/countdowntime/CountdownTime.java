@@ -40,17 +40,17 @@ public class CountdownTime {
 
     private long mTimeLeftInMillis;
 
-    TextView settime ;
+    TextView settime;
     LinearLayout removelayout;
     Context context;
     String time_id;
     FlashsaleTimeIdInterface flashsaleTimeIdInterface;
 
-    public CountdownTime(Context context, TextView textView, LinearLayout removelayout , FlashsaleTimeIdInterface flashsaleTimeIdInterface) {
+    public CountdownTime(Context context, TextView textView, LinearLayout removelayout, FlashsaleTimeIdInterface flashsaleTimeIdInterface) {
         this.settime = textView;
         this.removelayout = removelayout;
         this.context = context;
-        this.flashsaleTimeIdInterface = flashsaleTimeIdInterface ;
+        this.flashsaleTimeIdInterface = flashsaleTimeIdInterface;
     }
 //    countdown
 
@@ -65,6 +65,7 @@ public class CountdownTime {
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
             }
+
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
@@ -115,7 +116,26 @@ public class CountdownTime {
                                             endTimeCheck.set(Calendar.HOUR_OF_DAY, Integer.parseInt(end_time[0]));
                                             endTimeCheck.set(Calendar.MINUTE, Integer.parseInt(end_time[1]));
                                             endTimeCheck.set(Calendar.SECOND, 0);
+
                                             if (calendar.before(current_time)) {
+                                                Log.e("before", "before");
+                                            } else if (calendar.after(current_time)) {
+                                                Log.e("after", "after");
+                                            }
+
+
+                                            if (calendar.before(current_time)) {
+
+
+                                                ((Activity) context).runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        if (context instanceof MainActivity) {
+                                                            removelayout.setVisibility(View.VISIBLE);
+                                                        }
+                                                    }
+                                                });
+
                                                 if (endTimeCheck.before(current_time)) {
                                                     flashsaletimeremove(id);
                                                 } else if (endTimeCheck.after(current_time)) {
@@ -124,16 +144,34 @@ public class CountdownTime {
                                                     t.cancel();
                                                 }
                                             } else if (calendar.equals(current_time)) {
+
+
+
+//                                                ((Activity) context).runOnUiThread(new Runnable() {
+//                                                    @Override
+//                                                    public void run() {
+//                                                        if (context instanceof MainActivity) {
+//                                                            removelayout.setVisibility(View.VISIBLE);
+//                                                        }
+//                                                    }
+//                                                });
+
                                                 long a = endTimeCheck.getTimeInMillis() - current_time.getTimeInMillis();
                                                 countdown(a, id);
                                                 t.cancel();
-                                            }
-/*                                                   else if (calendar.after(current_time)) {
-                                                        Intent intent = new Intent(MainActivity.this, TimeReceiver.class);
-                                                        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 1, intent, 0);
-                                                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                                            } else if (calendar.after(current_time)) {
+
+
+                                                ((Activity) context).runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        if (context instanceof MainActivity) {
+                                                            removelayout.setVisibility(View.GONE);
+                                                        }
                                                     }
-*/
+                                                });
+
+                                            }
                                         }
                                     }, 1000, 1000);
 
@@ -143,12 +181,11 @@ public class CountdownTime {
                                 }
 
                             }
-                        }
-                        else {
-                            ((Activity)context).runOnUiThread(new Runnable() {
+                        } else {
+                            ((Activity) context).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if(context instanceof MainActivity){
+                                    if (context instanceof MainActivity) {
                                         removelayout.setVisibility(View.GONE);
                                     }
                                 }
@@ -179,6 +216,7 @@ public class CountdownTime {
                         updateCountDownText();
 
                     }
+
                     @Override
                     public void onFinish() {
                         flashsaletimeremove(id);
