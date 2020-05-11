@@ -24,6 +24,7 @@
                 android:layout_weight="0.8"
                 android:gravity="center"
                 android:padding="20dp"
+
                 android:layout_height="match_parent">
 
                 <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
@@ -106,5 +107,6 @@
     </LinearLayout>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
+
 
 </RelativeLayout>

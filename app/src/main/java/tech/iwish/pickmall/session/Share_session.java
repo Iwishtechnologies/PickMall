@@ -1,10 +1,15 @@
 package tech.iwish.pickmall.session;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import tech.iwish.pickmall.activity.UserDetail;
 
 public class Share_session {
 
@@ -119,6 +124,10 @@ public class Share_session {
     }
 
 
-
+    public void Logout(){
+        editor.clear().commit();
+        context.startActivity(new Intent(context, UserDetail.class));
+        Animatoo.animateInAndOut(context);
+    }
 
  }

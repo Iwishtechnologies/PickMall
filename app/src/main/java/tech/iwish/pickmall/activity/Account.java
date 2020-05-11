@@ -2,8 +2,11 @@ package tech.iwish.pickmall.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,11 +19,12 @@ import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.session.Share_session;
 
 public class Account extends AppCompatActivity {
-    ImageView viewall, profile,image,unpaid,wallet,wishlist,shippingaddress,following,vendor,coupens,invite,myorder;
+    ImageView viewall, profile,image,unpaid,wallet,wishlist,shippingaddress,following,vendor,coupens,invite,myorder,entercode,setting;
     LinearLayout fullview;
     Share_session share_session;
     TextView name;
     ScrollView scrollView;
+    private Dialog dialog;
 
 
     @Override
@@ -64,6 +68,8 @@ public class Account extends AppCompatActivity {
         invite= findViewById(R.id.invite);
         myorder= findViewById(R.id.myorder);
         shippingaddress= findViewById(R.id.shippingaddress);
+        entercode= findViewById(R.id.enterinvitecode);
+        setting= findViewById(R.id.setting);
     }
 
 
@@ -158,6 +164,26 @@ public class Account extends AppCompatActivity {
             }
         });
 
+        entercode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(Account.this,EnterInviteCodeActivity.class);
+                startActivity(intent);
+                Animatoo.animateSlideDown(Account.this);
+            }
+        });
+
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(Account.this,Setting.class);
+                startActivity(intent);
+                Animatoo.animateSlideDown(Account.this);
+            }
+        });
+
 
     }
+
+
 }

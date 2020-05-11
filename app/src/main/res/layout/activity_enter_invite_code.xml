@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:padding="3dp"
                     android:paddingStart="10dp"
-                    android:text="Wallet"
+                    android:text="Enter Invite Code"
                     />
             </LinearLayout>
         </LinearLayout>
@@ -71,98 +71,69 @@
             android:layout_height="match_parent">
 
 
-            <com.facebook.shimmer.ShimmerFrameLayout
+            <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/shimmer">
+                android:layout_height="150dp"
+                android:id="@+id/sliderimage"
+                app:round_radius="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/refer_earn_image"
+                app:shape_mode="round_rect"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:padding="20dp"
-                android:layout_marginTop="5dp"
-                android:id="@+id/layout"
+                android:padding="10dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:visibility="visible"
-                android:alpha="0.2"
-                android:orientation="vertical"
-                android:background="@drawable/wallet_backgroound"
                 android:layout_height="wrap_content">
 
-
                 <tech.iwish.pickmall.extended.TextViewFont
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="10dp"
-                    android:text="The Total Asset(₹)"/>
-
-                <tech.iwish.pickmall.extended.TextViewFont
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:id="@+id/balance"
-                    app:fonttype="text_semi_bold"
-                    android:textSize="20dp"
-                    android:text="0.0"/>
-
+                    app:fonttype="text_regular"
+                    android:textSize="18dp"
+                    android:textColor="@color/light_black"
+                    android:text="Enter the Invite Code "/>
             </LinearLayout>
 
-            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:id="@+id/privacypolicy"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="#DBDBDB"
                 android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/dollar_sign"/>
-
 
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Enter Amount"
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/amount"
-                    android:inputType="number"
-                    android:maxLength="10"
-                    android:backgroundTint="@color/white"
-                    tools:ignore="HardcodedText" />
+                    android:backgroundTint="#DBDBDB"
+                    android:id="@+id/code"
+                    android:inputType="text"
+                    android:maxLength="12"
+                    android:hint="E.g. orotmssd45"/>
+            </LinearLayout>
 
-                <LinearLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_margin="20dp"
+                android:layout_height="wrap_content">
+
+                <Button
                     android:layout_width="match_parent"
-                    android:gravity="right"
-                    android:layout_height="wrap_content">
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/add_amount"
-                        android:background="@drawable/add_amount_desable"/>
-
-                </LinearLayout>
-
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/whiteColor"
+                    android:background="#C9C9C9"
+                    android:id="@+id/submit"
+                    android:layout_alignParentBottom="true"
+                    android:text="Submit"/>
 
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/recycle"/>
-
-
         </LinearLayout>
-
-
-
     </ScrollView>
 
 </RelativeLayout>

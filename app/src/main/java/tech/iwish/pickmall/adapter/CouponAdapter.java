@@ -48,16 +48,8 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-//        Date dt = null;
-//        StringTokenizer tk = new StringTokenizer(couponLists.get(position).getValidity());
-//        String date = tk.nextToken();
-//        String time = tk.nextToken();
-//        SimpleDateFormat times = new SimpleDateFormat("hh:mm a");
-//        try {
-//            dt = times.parse(time);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+        holder.shimmer.stopShimmer();
+        holder.shimmer.setShimmer(null);
         holder.title.setText(couponLists.get(position).getTitle());
         holder.subtitle.setText(couponLists.get(position).getSubtitle());
         holder.prize.setText(couponLists.get(position). getPrize());
@@ -73,8 +65,9 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
                 Toast.makeText(context, "Code Copied", Toast.LENGTH_SHORT).show();
             }
         });
-        holder.shimmer.stopShimmer();
-        holder.shimmer.setShimmer(null);
+
+
+
 
     }
 
@@ -98,6 +91,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
             copy=itemView.findViewById(R.id.copy);
             terms=itemView.findViewById(R.id.terms);
             shimmer=itemView.findViewById(R.id.shimmer);
+            shimmer.startShimmer();
         }
     }
 }

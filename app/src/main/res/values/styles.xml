@@ -57,7 +57,7 @@
     </style>
 
 
-    <style name="walletTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="walletTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/redColor</item>
         <item name="colorPrimary">@color/redColor</item>
     </style>
@@ -110,5 +110,16 @@
         <item name="colorPrimaryDark">@color/redColor</item>
         <item name="colorPrimary">@color/whiteColor</item>
     </style>
+
+    <style name="enterinvitecode" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+
+    <style name="Settingtheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
+
 
 </resources>
