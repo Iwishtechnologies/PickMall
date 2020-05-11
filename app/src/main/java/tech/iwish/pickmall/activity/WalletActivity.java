@@ -66,7 +66,7 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
         InitializeActivity();
         ActivityAction();
         SetActivityData();
-        SetRecycleView();
+//        SetRecycleView();
 
     }
 
