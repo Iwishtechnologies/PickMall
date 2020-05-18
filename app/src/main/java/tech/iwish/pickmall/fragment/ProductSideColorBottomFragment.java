@@ -12,20 +12,35 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import tech.iwish.pickmall.Interface.ProductColorInterFace;
 import tech.iwish.pickmall.Interface.ProductCountInterface;
 import tech.iwish.pickmall.Interface.ProductSizeInterFace;
@@ -38,6 +53,8 @@ import tech.iwish.pickmall.activity.Signup;
 import tech.iwish.pickmall.adapter.ProductColorAdapter;
 import tech.iwish.pickmall.adapter.ProductSizeAdapter;
 import tech.iwish.pickmall.config.Constants;
+import tech.iwish.pickmall.connection.JsonHelper;
+import tech.iwish.pickmall.other.ProductColorList;
 import tech.iwish.pickmall.other.ProductDetailsImageList;
 import tech.iwish.pickmall.other.ProductSizeColorList;
 import tech.iwish.pickmall.session.Share_session;
@@ -49,22 +66,27 @@ import static tech.iwish.pickmall.session.Share_session.NUMBER_ADDRESS;
 import static tech.iwish.pickmall.session.Share_session.PINCODE_ADDRESS;
 
 
-public class ProductSideColorBottomFragment extends BottomSheetDialogFragment implements View.OnClickListener, ProductSizeInterFace, ProductColorInterFace {
+public class ProductSideColorBottomFragment extends BottomSheetDialogFragment implements View.OnClickListener,
+        ProductSizeInterFace {
 
-    private List<ProductSizeColorList> productSizeColorLists;
+    private List<ProductSizeColorList> productSizeColorLists ;
     private RecyclerView size_product_recycleview, color_product_recycleview;
     private ImageView product_image;
     private ImageView sub_button, add_button;
     private TextView quty_value, product_names, actual_prices, dicount_price;
     private Button confirm_add_to_card, go_to_card;
-    private String select_color, select_size,product_id,gst , product_name, actual_price, imagename, product_qty, discount_price, product_type, type;
+    private String select_color, select_size, product_id, gst, vendor_id, product_dicount_percent, product_name, actual_price, imagename, product_qty, discount_price, product_type, type;
     private Share_session shareSession;
     private Map data;
     private ProductCountInterface productCountInterface;
+    private ProductColorInterFace productColorInterFace;
+    private List<ProductColorList> productColorLists;
+    private int sizeselectPosition;
 
-    public ProductSideColorBottomFragment(List<ProductSizeColorList> productDetailsListImageList, ProductCountInterface productCountInterface) {
-        this.productSizeColorLists = productDetailsListImageList;
-        this.productCountInterface = productCountInterface;
+
+    public ProductSideColorBottomFragment(List<ProductColorList> productColorLists ,List<ProductSizeColorList> productSizeColorLists) {
+        this.productColorLists = productColorLists;
+        this.productSizeColorLists = productSizeColorLists;
     }
 
     @Nullable
@@ -90,6 +112,15 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
         sub_button.setOnClickListener(this);
         confirm_add_to_card.setOnClickListener(this);
         go_to_card.setOnClickListener(this);
+
+        productColorInterFace = new ProductColorInterFace() {
+            @Override
+            public void productcolorresponse(String color, String imagenames) {
+                select_color = color;
+                imagename = imagenames;
+            }
+        };
+
         Bundle bundle = getArguments();
 
 
@@ -100,6 +131,8 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
         product_type = bundle.getString("product_type");
         type = bundle.getString("type");
         gst = bundle.getString("gst");
+        vendor_id = bundle.getString("vendor_id");
+        product_dicount_percent = bundle.getString("product_dicount_percent");
 
         product_names.setText(product_name);
         actual_prices.setText(getResources().getString(R.string.rs_symbol) + actual_price);
@@ -135,12 +168,13 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
         linearLayoutManager1.setOrientation(RecyclerView.HORIZONTAL);
         color_product_recycleview.setLayoutManager(linearLayoutManager1);
 
-
         ProductSizeAdapter productSizeAdapter = new ProductSizeAdapter(getActivity(), productSizeColorLists, this);
         size_product_recycleview.setAdapter(productSizeAdapter);
 
-        ProductColorAdapter productColorAdapter = new ProductColorAdapter(getActivity(), productSizeColorLists, product_image, this);
+
+        ProductColorAdapter productColorAdapter = new ProductColorAdapter(getActivity(), productColorLists, product_image, productColorInterFace, -1, productSizeColorLists);
         color_product_recycleview.setAdapter(productColorAdapter);
+
 
 
         return view;
@@ -174,7 +208,10 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
                     Toast.makeText(getActivity(), "Select Size", Toast.LENGTH_SHORT).show();
                 } else if (select_color == null) {
                     Toast.makeText(getActivity(), "Select color", Toast.LENGTH_SHORT).show();
-                } else {
+                } else if (!productSizeColorLists.get(sizeselectPosition).getColor().equals(select_color)) {
+
+                }
+                else {
                     InsertDataCard();
                 }
                 break;
@@ -196,8 +233,8 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
                     product_qty = quty_value.getText().toString();
                     MyhelperSql myhelperSql = new MyhelperSql(getActivity());
                     SQLiteDatabase sqLiteDatabase = myhelperSql.getWritableDatabase();
-                    myhelperSql.dataAddCard(product_id, product_name, product_qty, select_color, select_size, imagename, actual_price, discount_price, product_type,gst, sqLiteDatabase);
-                    productCountInterface.counntproduct();
+                    myhelperSql.dataAddCard(product_id, product_name, product_qty, select_color, select_size, imagename, actual_price, discount_price, product_type, gst, vendor_id, product_dicount_percent, sqLiteDatabase);
+//                    productCountInterface.counntproduct();
                     dismiss();
                     break;
                 case "buy_now":
@@ -242,15 +279,14 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
     }
 
     @Override
-    public void productSizeResponse(String val) {
+    public void productSizeResponse(String val, final int position) {
         this.select_size = val;
+        sizeselectPosition = position;
+        ProductColorAdapter productColorAdapter = new ProductColorAdapter(getActivity(), productColorLists, product_image, productColorInterFace, position, productSizeColorLists);
+        color_product_recycleview.setAdapter(productColorAdapter);
+
     }
 
-    @Override
-    public void productcolorresponse(String color, String imagename) {
-        this.select_color = color;
-        this.imagename = imagename;
-    }
 }
 
 

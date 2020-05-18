@@ -34,7 +34,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:weightSum="2">
+                android:weightSum="2"
+                >
 
                 <tech.iwish.pickmall.extended.TextViewFont
                     android:id="@+id/amount"
@@ -46,13 +47,15 @@
                     android:textSize="16sp"
                     app:fonttype="black" />
 
+<!--                400 + sold-->
                 <tech.iwish.pickmall.extended.TextViewFont
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end|center"
-                    android:text="400 + sold"
+                    android:text=""
                     android:textColor="@color/black"
+
                     android:textSize="11sp"
                     app:fonttype="regular" />
             </LinearLayout>

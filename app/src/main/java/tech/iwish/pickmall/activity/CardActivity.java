@@ -19,16 +19,34 @@ import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import tech.iwish.pickmall.Interface.CardQtyAmountRef;
 import tech.iwish.pickmall.Interface.RefreshCartAmountInterface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.CartAdapter;
+import tech.iwish.pickmall.adapter.FlashSaleAdapter;
+import tech.iwish.pickmall.adapter.ShippingAddressAdapter;
+import tech.iwish.pickmall.config.Constants;
+import tech.iwish.pickmall.connection.JsonHelper;
+import tech.iwish.pickmall.other.AddressDataList;
 import tech.iwish.pickmall.other.CardCount;
+import tech.iwish.pickmall.other.FlashsalemainList;
 import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.sqlconnection.MyhelperSql;
 
@@ -156,6 +174,8 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
                 map.put("PRODUCT_AMOUNT_DICOUNT", cursor.getString(cursor.getColumnIndex("PRODUCT_AMOUNT_DICOUNT")));
                 map.put("PRODUCT_TYPE", cursor.getString(cursor.getColumnIndex("PRODUCT_TYPE")));
                 map.put("GST", cursor.getString(cursor.getColumnIndex("GST")));
+                map.put("VENDOR_ID", cursor.getString(cursor.getColumnIndex("VENDOR_ID")));
+                map.put("PRODUCT_DICOUNT_PERCEN", cursor.getString(cursor.getColumnIndex("PRODUCT_DICOUNT_PERCEN")));
 
 
                 int qty = Integer.parseInt(cursor.getString(cursor.getColumnIndex("PRODUCT_QTY")));
@@ -219,8 +239,9 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
                 PlaceOrder();
                 break;
             case R.id.change_address:
-                Intent intent1 = new Intent(CardActivity.this, EditAddressActivity.class) ;
-                intent1.putExtra("context" , "CardActivity");
+                Intent intent1 = new Intent(CardActivity.this, EditAddressActivity.class);
+                intent1.putExtra("context", "CardActivity");
+                intent1.putExtra("type", "CardActivity");
                 startActivity(intent1);
                 break;
         }
@@ -239,12 +260,12 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
             intent.putExtra("mobile_address", sharedata.get(NUMBER_ADDRESS).toString());
             intent.putExtra("city_address", sharedata.get(CITY_ADDRESS).toString());
             intent.putExtra("total_amount_product", edit_amount.getText().toString().trim());
-            intent.putExtra("type","CardActivity");
+            intent.putExtra("type", "CardActivity");
 
             startActivity(intent);
         } else {
-            Intent intent = new Intent(CardActivity.this, AddressActivity.class) ;
-            intent.putExtra("type","CardActivity");
+            Intent intent = new Intent(CardActivity.this, AddressActivity.class);
+            intent.putExtra("type", "CardActivity");
             startActivity(intent);
         }
     }
@@ -308,10 +329,62 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }, 2000);
 
-
         }
+    }
+
+    protected void ProductQtyChehck(String productId, String color_size_sno) {
+
+        OkHttpClient client = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("productId", productId);
+            jsonObject.put("color_size_sno", color_size_sno);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request = new Request.Builder().post(body)
+                .url(Constants.ADDRESS_FETCH)
+                .build();
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+
+                            }
+                            if (CardActivity.this != null) {
+                                CardActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+
+            }
+        });
 
     }
+
 }
 
 

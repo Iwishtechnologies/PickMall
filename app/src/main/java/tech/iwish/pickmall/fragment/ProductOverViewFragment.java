@@ -99,7 +99,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         productoverview();
         productdescription();
 
-        if(!vendor_id.equals("0") || vendor_id.equals("1")){
+        if(!vendor_id.equals("1")){
             vendorstore();
         }else {
             venodr_layout.setVisibility(View.GONE);
@@ -207,14 +207,18 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                                 jsonHelper.setChildjsonObj(jsonArray, i);
                                 productOverViewLists.add(new ProductOverViewList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("overview"), jsonHelper.GetResult("title")));
                             }
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ProductOverviewAdapter productOverviewAdapter = new ProductOverviewAdapter(getActivity(), productOverViewLists);
-                                    product_overview.setAdapter(productOverviewAdapter);
-                                }
-                            });
 
+                            if(getActivity() !=null){
+
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ProductOverviewAdapter productOverviewAdapter = new ProductOverviewAdapter(getActivity(), productOverViewLists);
+                                        product_overview.setAdapter(productOverviewAdapter);
+                                    }
+                                });
+
+                            }
                         }
                     }
                 }
@@ -262,35 +266,39 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                                 tableLayout.setStretchAllColumns(true);
 //        tableLayout.bringToFront();
 
-                                final int finalI = i;
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
 
-                                        TableRow tr = new TableRow(getContext());
-                                        tr.setWeightSum(2);
-                                        tr.getResources().getDrawable(R.color.silderColor);
+                                if(getActivity() != null){
 
+                                    final int finalI = i;
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
 
-                                        TextView c1 = new TextView(getContext());
-
-                                        c1.setText(productDescriptionlists.get(finalI).getDescription_title());
-                                        c1.setPadding(0, 4, 0, 4);
-                                        c1.setTextSize(14);
-
-                                        TextView c2 = new TextView(getContext());
-                                        c2.setText(productDescriptionlists.get(finalI).getDescription_data());
-                                        c2.setPadding(0, 4, 0, 4);
-                                        c2.setTextSize(14);
+                                            TableRow tr = new TableRow(getContext());
+                                            tr.setWeightSum(2);
+                                            tr.getResources().getDrawable(R.color.silderColor);
 
 
-                                        tr.addView(c1);
-                                        tr.addView(c2);
-                                        tableLayout.addView(tr);
+                                            TextView c1 = new TextView(getContext());
 
+                                            c1.setText(productDescriptionlists.get(finalI).getDescription_title());
+                                            c1.setPadding(0, 4, 0, 4);
+                                            c1.setTextSize(14);
 
-                                    }
-                                });
+                                            TextView c2 = new TextView(getContext());
+                                            c2.setText(productDescriptionlists.get(finalI).getDescription_data());
+                                            c2.setPadding(0, 4, 0, 4);
+                                            c2.setTextSize(14);
+
+                                            tr.addView(c1);
+                                            tr.addView(c2);
+                                            tableLayout.addView(tr);
+
+                                        }
+                                    });
+
+                                }
+
 
 //                          \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 

@@ -33,13 +33,14 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
         data = shareSession.Fetchdata();
 
         wallet();
+
     }
 
     public void wallet(){
 
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
-        grandTotal = intent.getStringExtra("grandTotal");
+        grandTotal = intent.getStringExtra("finalamountsInt");
 
 
         Checkout.preload(Paymentgateway.this);

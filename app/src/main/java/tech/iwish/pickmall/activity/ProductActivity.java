@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -44,7 +45,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     public CardProductRefreshInterface cardProductRefre;
     private ImageView back;
     private LinearLayout search_product;
-    private TextView itme_name, filter, shorts;
+    private TextView itme_name, filter, shorts, best_sellers, pricefilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +57,18 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         itme_name = (TextView) findViewById(R.id.itme_name);
         filter = (TextView) findViewById(R.id.filter);
         shorts = (TextView) findViewById(R.id.shorts);
+        best_sellers = (TextView) findViewById(R.id.best_sellers);
+        pricefilter = (TextView) findViewById(R.id.pricefilter);
 
         Intent intent = getIntent();
         String type = intent.getStringExtra("type");
 
         switch (type) {
             case "MainActivity_product":
-                productloadfradment(getIntent().getStringExtra("item_id") , getIntent().getStringExtra("item_name") ,"product");
+                productloadfradment(getIntent().getStringExtra("item_id"), getIntent().getStringExtra("item_name"), "product");
                 break;
             case "Category_by_product":
-                productloadfradment(getIntent().getStringExtra("category_id") , getIntent().getStringExtra("category_name"),"Category_by_product");
+                productloadfradment(getIntent().getStringExtra("category_id"), getIntent().getStringExtra("category_name"), "Category_by_product");
                 break;
 
         }
@@ -74,16 +77,18 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         back.setOnClickListener(this);
         filter.setOnClickListener(this);
         shorts.setOnClickListener(this);
+        best_sellers.setOnClickListener(this);
+        pricefilter.setOnClickListener(this);
 
 
     }
 
-    private void productloadfradment(String id , String name , String type) {
+    private void productloadfradment(String id, String name, String type) {
 
 
         Bundle bundle = new Bundle();
         ProductFragment productFragment = new ProductFragment();
-        bundle.putString("item",id );
+        bundle.putString("item", id);
         bundle.putString("type", type);
         productFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.product_framelayout, productFragment).commit();
@@ -110,14 +115,17 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 onBackPressed();
                 break;
             case R.id.shorts:
-
-                break;
+            case R.id.best_sellers:
+            case R.id.pricefilter:
             case R.id.filter:
-                Intent intent = new Intent(ProductActivity.this, FilterActivity.class);
-                intent.putExtra("item_id", getIntent().getStringExtra("item_id"));
-                intent.putExtra("item_name", getIntent().getStringExtra("item_name"));
-                startActivity(intent);
-                overridePendingTransition(R.anim.bottom_to_top, R.anim.slide_out_up);
+                Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
+//                break;
+//            case R.id.filter:
+//                Intent intent = new Intent(ProductActivity.this, FilterActivity.class);
+//                intent.putExtra("item_id", getIntent().getStringExtra("item_id"));
+//                intent.putExtra("item_name", getIntent().getStringExtra("item_name"));
+//                startActivity(intent);
+//                overridePendingTransition(R.anim.bottom_to_top, R.anim.slide_out_up);
                 break;
         }
     }

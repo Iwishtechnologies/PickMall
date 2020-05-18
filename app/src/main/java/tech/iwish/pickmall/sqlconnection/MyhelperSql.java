@@ -20,11 +20,11 @@ public class MyhelperSql extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql = "CREATE TABLE PRODUCT_CARD(_id INTEGER PRIMARY KEY AUTOINCREMENT , PRODUCT_ID  ,PRODUCT_NAME , PRODUCT_QTY ,PRODUCT_COLOR  , PRODUCT_SIZE ,   PRODUCT_IMAGE , PRODUCT_AMOUNT , PRODUCT_AMOUNT_DICOUNT , PRODUCT_TYPE , GST)";
+        String sql = "CREATE TABLE PRODUCT_CARD(_id INTEGER PRIMARY KEY AUTOINCREMENT , PRODUCT_ID  ,PRODUCT_NAME , PRODUCT_QTY ,PRODUCT_COLOR  , PRODUCT_SIZE ,   PRODUCT_IMAGE , PRODUCT_AMOUNT , PRODUCT_AMOUNT_DICOUNT , PRODUCT_TYPE , GST , VENDOR_ID , PRODUCT_DICOUNT_PERCEN)";
         sqLiteDatabase.execSQL(sql);
     }
 
-    public void dataAddCard(String product_id ,String product_name ,String product_qty ,String  product_color,String product_size ,String product_image ,String product_amount ,String product_amount_dicount  , String product_type , String gst, SQLiteDatabase database ){
+    public void dataAddCard(String product_id ,String product_name ,String product_qty ,String  product_color,String product_size ,String product_image ,String product_amount ,String product_amount_dicount  , String product_type , String gst,String vendor_id,String product_dicount_percent, SQLiteDatabase database ){
         ContentValues values = new ContentValues();
         values.put("PRODUCT_ID" , product_id);
         values.put("PRODUCT_NAME" , product_name);
@@ -36,6 +36,8 @@ public class MyhelperSql extends SQLiteOpenHelper {
         values.put("PRODUCT_AMOUNT_DICOUNT" , product_amount_dicount);
         values.put("PRODUCT_TYPE" , product_type);
         values.put("GST" , gst);
+        values.put("VENDOR_ID" , vendor_id);
+        values.put("PRODUCT_DICOUNT_PERCEN" , product_dicount_percent);
         Integer no ;
         no = Integer.parseInt(String.valueOf(database.insert("PRODUCT_CARD",null,values)));
         Log.d("key",String.valueOf(no));

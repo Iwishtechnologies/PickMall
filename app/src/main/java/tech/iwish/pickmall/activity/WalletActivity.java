@@ -78,7 +78,7 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
         add_amount = findViewById(R.id.add_amount);
         amount= findViewById(R.id.amount);
         shimmer= findViewById(R.id.shimmer);
-        layout= findViewById(R.id.layout);
+//        layout= findViewById(R.id.layout);
         back= findViewById(R.id.back);
         progressBar= findViewById(R.id.progress);
         scrollView= findViewById(R.id.scroll);
@@ -165,7 +165,7 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                   Balance =jsonHelper.GetResult("wallet");
+                                   Balance = jsonHelper.GetResult("wallet");
                             }
 
                             WalletActivity.this.runOnUiThread(new Runnable() {

@@ -1,22 +1,21 @@
 package tech.iwish.pickmall.other;
 
-public class ProductSizeColorList {
+public class ProductColorList {
+
     private String sno;
     private String product_id;
     private String imgname;
     private String size;
     private String color;
     private String qty;
-    private String count_size;
 
-    public ProductSizeColorList(String sno, String product_id, String imgname, String size, String color, String qty, String count_size) {
+    public ProductColorList(String sno, String product_id, String imgname, String size, String color, String qty) {
         this.sno = sno;
         this.product_id = product_id;
         this.imgname = imgname;
         this.size = size;
         this.color = color;
         this.qty = qty;
-        this.count_size = count_size;
     }
 
     public String getSno() {
@@ -65,13 +64,5 @@ public class ProductSizeColorList {
 
     public void setQty(String qty) {
         this.qty = qty;
-    }
-
-    public String getCount_size() {
-        return count_size;
-    }
-
-    public void setCount_size(String count_size) {
-        this.count_size = count_size;
     }
 }

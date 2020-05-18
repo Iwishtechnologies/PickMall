@@ -199,6 +199,7 @@
                     </LinearLayout>
                     <!--            Friend Deal-->
                     <LinearLayout
+                        android:id="@+id/friendLinearLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/flash_line"
@@ -275,6 +276,13 @@
                                 android:layout_marginTop="5dp" />
                         </LinearLayout>
                     </LinearLayout>
+
+<!--                    hot product-->
+                    <FrameLayout
+                        android:layout_below="@id/friendLinearLayout"
+                        android:id="@+id/hotProductFramneLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
 
                 </RelativeLayout>
             </ScrollView>

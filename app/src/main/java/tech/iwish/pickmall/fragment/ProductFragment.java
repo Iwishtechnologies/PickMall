@@ -88,6 +88,9 @@ public class ProductFragment extends Fragment {
 //                item =  getActivity().getIntent().getExtras().getString("category_id");
                 datafetchProduct(Constants.CATEGORY_BY_PRODUUCT , getActivity().getIntent().getExtras().getString("category_id"));
                 break;
+            case "hotproduct":
+                 hotproducts(Constants.HOT_PRODUCT);
+                break;
         }
 
 
@@ -152,6 +155,61 @@ public class ProductFragment extends Fragment {
             }
         });
     }
+
+
+    private void hotproducts(String Api){
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(Api)
+                .build();
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    if (response.isSuccessful()) {
+                        String result = response.body().string();
+                        Log.e("output", result);
+                        JsonHelper jsonHelper = new JsonHelper(result);
+                        if (jsonHelper.isValidJson()) {
+                            productListList.clear();
+                            String responses = jsonHelper.GetResult("response");
+                            if (responses.equals("TRUE")) {
+                                JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+
+                                    jsonHelper.setChildjsonObj(jsonArray, i);
+                                    productListList.add(new ProductList(jsonHelper.GetResult("product_id"), jsonHelper.GetResult("ProductName"), jsonHelper.GetResult("item_id"), jsonHelper.GetResult("catagory_id"), jsonHelper.GetResult("actual_price"), jsonHelper.GetResult("discount_price"), jsonHelper.GetResult("discount_price_per"), jsonHelper.GetResult("status"), jsonHelper.GetResult("pimg"), jsonHelper.GetResult("vendor_id"), jsonHelper.GetResult("FakeRating"), jsonHelper.GetResult("gst")));
+
+                                }
+
+                                if(getActivity() != null){
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList);
+                                            product_recycleview.setAdapter(productAdapter);
+//                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
+                                            productAdapter.notifyDataSetChanged();
+
+                                        }
+                                    });
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+
 }
 
 

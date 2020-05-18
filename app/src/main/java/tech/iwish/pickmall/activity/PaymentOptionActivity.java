@@ -102,7 +102,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
         shareSession = new Share_session(this);
         data = shareSession.Fetchdata();
-        shareSession.walletAmount("8058");
+
 
         paymentAvailable.setVisibility(View.GONE);
 
@@ -158,7 +158,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                     gst_price.setText(StrGstPrice);
 
                 } else {
-                    gst_price.setText(0);
+                    gst_price.setText("0");
                 }
 
                 grandTotal = Integer.parseInt(product_amt) + removeDout;
@@ -217,10 +217,10 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             if (finalamountsInt <= IntWalletamt) {
                 switch (type) {
                     case "CardActivity":
-                        card_order_place("wallet");
+                        card_order_place("wallet","WALLET");
                         break;
                     case "buy_now":
-                        buy_now_order_place("wallet");
+                        buy_now_order_place("wallet","WALLET");
                         break;
                 }
             } else if (finalamountsInt > IntWalletamt) {
@@ -257,6 +257,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 paymentAvailable.setVisibility(View.GONE);
                 shippingCharge.setText("Free");
                 total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
+                finalamountsInt = grandTotal;
                 break;
             case R.id.cases:
                 this.Checker = "cod";
@@ -312,11 +313,8 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                                     PaymentOptionActivity.this.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-
                                             shippingCharge.setText(shippingAmt);
-
                                             shippingchargebuy_now = shippinsAmt;
-
                                             int totalamt = shippinsAmt + productsAmt + gstint;
                                             finalamountsInt = totalamt;
                                             shippingCharege = String.valueOf(totalamt);
@@ -352,19 +350,22 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
     private void Online_payment() {
 
+
         Intent intent;
+        intent = new Intent(PaymentOptionActivity.this, Paymentgateway.class);
+        String f = String.valueOf(finalamountsInt);
 
         switch (type) {
             case "CardActivity":
-                intent = new Intent(PaymentOptionActivity.this, Paymentgateway.class);
+//                intent = new Intent(PaymentOptionActivity.this, Paymentgateway.class);
                 intent.putExtra("type", "CardActivity");
-                intent.putExtra("grandTotal", finalamountsInt);
-                startActivity(intent);
+                intent.putExtra("finalamountsInt", f);
+//                startActivity(intent);
                 break;
             case "buy_now":
-                intent = new Intent(PaymentOptionActivity.this, Paymentgateway.class);
+//                intent = new Intent(PaymentOptionActivity.this, Paymentgateway.class);
                 intent.putExtra("type", "buy_now");
-                intent.putExtra("grandTotal", finalamountsInt);
+                intent.putExtra("finalamountsInt", f);
                 intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
                 intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
                 intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
@@ -372,26 +373,26 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
                 intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
                 intent.putExtra("type", "buy_now");
-                startActivity(intent);
+//                startActivity(intent);
                 break;
         }
-
+        startActivity(intent);
     }
 
     private void coddelivery() {
 
         switch (type) {
             case "CardActivity":
-                card_order_place("COD");
+                card_order_place("COD","COD");
                 break;
             case "buy_now":
-                buy_now_order_place("COD");
+                buy_now_order_place("COD","COD");
                 break;
         }
 
     }
 
-    private void card_order_place(final String value) {
+    private void card_order_place(final String value , String paymentmethod) {
 
         progressbar.setVisibility(View.VISIBLE);
 
@@ -419,7 +420,6 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             }
         }
 
-
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
@@ -427,7 +427,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             jsonObject.put("client_number", data.get(USERMOBILE).toString());
             jsonObject.put("client_address", "");
             jsonObject.put("product", jsonObjects.toString());
-            jsonObject.put("payment_option", "COD");
+            jsonObject.put("payment_option", paymentmethod);
             jsonObject.put("shippingCharge", shippingchargebuy_now);
             jsonObject.put("gst", productgst);
             jsonObject.put("product_amount", finalamountsInt);
@@ -484,53 +484,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
     }
 
-    private void WalletAmountUpdate() {
-
-        int wallint = Integer.parseInt(WalletAmount);
-        String remainAmtWallet = String.valueOf(wallint - finalamountsInt);
-        Log.e("WalletAmountUpdate: ", remainAmtWallet.toString());
-        shareSession.walletAmount(remainAmtWallet);
-
-        OkHttpClient okHttpClient = new OkHttpClient();
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("client_number", data.get(USERMOBILE).toString());
-            jsonObject.put("walletAmount", remainAmtWallet);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url(Constants.WALLET_AMOUNT_UPDATE).post(body).build();
-        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-
-                    String result = response.body().string();
-                    Log.e("response", result);
-                    JsonHelper jsonHelper = new JsonHelper(result);
-                    if (jsonHelper.isValidJson()) {
-                        String responses = jsonHelper.GetResult("response");
-                        if (responses.equals("TRUE")) {
-                            startActivity(new Intent(PaymentOptionActivity.this, SuccessfullyActivity.class));
-                        }
-                    }
-
-                }
-            }
-        });
-
-    }
-
-    private void buy_now_order_place(final String value) {
+    private void buy_now_order_place(final String value , String paymentmethod) {
 
         progressbar.setVisibility(View.VISIBLE);
 
@@ -548,7 +502,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             jsonObject.put("product_amount", finalamountsInt);
             jsonObject.put("shippingCharge", shippingchargebuy_now);
             jsonObject.put("gst", removeDout);
-            jsonObject.put("payment_option", "COD");
+            jsonObject.put("payment_option", paymentmethod);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -599,6 +553,51 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             }
         });
 
+
+    }
+
+    private void WalletAmountUpdate() {
+
+        int wallint = Integer.parseInt(WalletAmount);
+        String remainAmtWallet = String.valueOf(wallint - finalamountsInt);
+        shareSession.walletAmount(remainAmtWallet);
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("client_number", data.get(USERMOBILE).toString());
+            jsonObject.put("walletAmount", remainAmtWallet);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.WALLET_AMOUNT_UPDATE).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            startActivity(new Intent(PaymentOptionActivity.this, SuccessfullyActivity.class));
+                        }
+                    }
+
+                }
+            }
+        });
 
     }
 

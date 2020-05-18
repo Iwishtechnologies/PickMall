@@ -26,6 +26,7 @@ import okhttp3.Response;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.FlashSaleAllProductAdapter;
 import tech.iwish.pickmall.adapter.WishListAdapter;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.other.FlashsalemainList;
 import tech.iwish.pickmall.other.WishlistList;
@@ -80,7 +81,7 @@ public class WishListActivity extends AppCompatActivity {
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
         Request request = new Request.Builder().post(body)
-                .url("http://173.212.226.143:8086/api/GetUserWishList")
+                .url(Constants.GET_USER_WISHLIST)
                 .build();
         client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override

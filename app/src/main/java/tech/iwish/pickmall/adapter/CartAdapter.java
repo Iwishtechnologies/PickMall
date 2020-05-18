@@ -1,7 +1,10 @@
 package tech.iwish.pickmall.adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -11,8 +14,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -41,6 +46,7 @@ import tech.iwish.pickmall.Interface.FlashsaleTimeIdInterface;
 import tech.iwish.pickmall.Interface.RefreshCartAmountInterface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.CardActivity;
+import tech.iwish.pickmall.activity.ProductDetailsActivity;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.countdowntime.CountdownTime;
 import tech.iwish.pickmall.other.CardCount;
@@ -55,14 +61,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
     private Context context;
     private RefreshCartAmountInterface refreshCartAmountInterface;
     private CardQtyAmountRef cardQtyAmountRef;
-    private String qtychechker = null ;
+    private String qtychechker = null;
 
 
-    public CartAdapter(Context cardActivity, ArrayList<HashMap<String, String>> product_data, RefreshCartAmountInterface refreshCartAmountInterface , CardQtyAmountRef cardQtyAmountRef) {
+    public CartAdapter(Context cardActivity, ArrayList<HashMap<String, String>> product_data, RefreshCartAmountInterface refreshCartAmountInterface, CardQtyAmountRef cardQtyAmountRef) {
         this.context = cardActivity;
         this.cardData = product_data;
         this.refreshCartAmountInterface = refreshCartAmountInterface;
-        this.cardQtyAmountRef = cardQtyAmountRef ;
+        this.cardQtyAmountRef = cardQtyAmountRef;
 
     }
 
@@ -91,12 +97,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
             String a = Constants.IMAGES + cardData.get(position).get("PRODUCT_IMAGE");
             Glide.with(context).load(a).into(holder.card_product_image);
             holder.cart_product_name.setText(cardData.get(position).get("PRODUCT_NAME"));
-
-//            holder.percent_price.setText(cardData.get(position).get("PRODUCT_NAME"));
-
+            holder.percent_price.setText(cardData.get(position).get("PRODUCT_DICOUNT_PERCEN"));
             holder.cart_product_act_amount.setText(context.getResources().getString(R.string.rs_symbol) + cardData.get(position).get("PRODUCT_AMOUNT"));
             holder.cart_product_size.setText(context.getResources().getString(R.string.size) + cardData.get(position).get("PRODUCT_SIZE"));
-            if(qtychechker == null){
+            if (qtychechker == null) {
                 holder.product_qty.setText(cardData.get(position).get("PRODUCT_QTY"));
             }
             holder.remove_button_layout.setVisibility(View.VISIBLE);
@@ -121,10 +125,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
 
         }
 
-        if(cardData.get(position).get("PRODUCT_TYPE").equals("flashsale")){
+        if (cardData.get(position).get("PRODUCT_TYPE").equals("flashsale")) {
             holder.timesetcountdown.setVisibility(View.VISIBLE);
-            new CountdownTime(context,holder.timesetcountdown,null , this).Flashsaletimeset();
-        }else {
+            new CountdownTime(context, holder.timesetcountdown, null, this).Flashsaletimeset();
+        } else {
             holder.timesetcountdown.setVisibility(View.GONE);
         }
 
@@ -144,14 +148,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
     public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
         private ImageView card_product_image;
-        private TextView cart_product_name, cart_product_act_amount, cart_product_size, product_qty , timesetcountdown;
-        private TextView card_remove_product, dicount_price, wishlist_btn , percent_price;
+        private TextView cart_product_name, cart_product_act_amount, cart_product_size, product_qty, timesetcountdown;
+        private TextView card_remove_product, dicount_price, wishlist_btn, percent_price;
         private SQLiteDatabase sqLiteDatabase;
         private MyhelperSql myhelperSql;
         private LinearLayout remove_button_layout, qty_layout, check;
         private Spinner qty_spinner;
-        private PopupWindow popupWindow;
         private String firstTimeCheck;
+        private LinearLayout mainlayout_card;
 
 
         public Viewholder(@NonNull View itemView) {
@@ -169,6 +173,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
             percent_price = (TextView) itemView.findViewById(R.id.percent_price);
             remove_button_layout = (LinearLayout) itemView.findViewById(R.id.remove_button_layout);
             qty_layout = (LinearLayout) itemView.findViewById(R.id.qty_layout);
+            mainlayout_card = (LinearLayout) itemView.findViewById(R.id.mainlayout_card);
             qty_spinner = (Spinner) itemView.findViewById(R.id.qty_spinner);
 
             card_remove_product.setOnClickListener(this);
@@ -178,6 +183,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
             wishlist_btn.setOnClickListener(this);
 
             qty_layout.setOnClickListener(this);
+            mainlayout_card.setOnClickListener(this);
 
 
             String[] mobile = new String[]{
@@ -199,7 +205,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
         private void updateqty(String value) {
 
             qtychechker = "dvdfvdfvdfbndf";
-            sqLiteDatabase.execSQL("UPDATE PRODUCT_CARD SET PRODUCT_QTY = "+value +" WHERE _id= "+cardData.get(getAdapterPosition()).get("ID")+"");
+            sqLiteDatabase.execSQL("UPDATE PRODUCT_CARD SET PRODUCT_QTY = " + value + " WHERE _id= " + cardData.get(getAdapterPosition()).get("ID") + "");
             cardQtyAmountRef.cardqtyAmountref();
             product_qty.setText(value);
             notifyDataSetChanged();
@@ -211,10 +217,26 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
             int id = view.getId();
             switch (id) {
                 case R.id.card_remove_product:
-                    sqLiteDatabase.delete("PRODUCT_CARD", "_id = ?", new String[]{cardData.get(getAdapterPosition()).get("ID")});
-                    cardData.remove(getAdapterPosition());
-                    notifyItemRemoved(getAdapterPosition());
-                    refreshCartAmountInterface.Amountrefreshcart();
+
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            sqLiteDatabase.delete("PRODUCT_CARD", "_id = ?", new String[]{cardData.get(getAdapterPosition()).get("ID")});
+                            cardData.remove(getAdapterPosition());
+                            notifyItemRemoved(getAdapterPosition());
+                            refreshCartAmountInterface.Amountrefreshcart();
+                        }
+                    });
+                    builder.setMessage("Are you sure you want to remove the item ?");
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            builder.setCancelable(true);
+                        }
+                    });
+                    builder.show();
                     break;
                 case R.id.wishlist_btn:
                     productwishlist();
@@ -223,14 +245,30 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
                     qty_spinner.performClick();
                     this.firstTimeCheck = "csdcdcdcsdc";
                     break;
+                case R.id.mainlayout_card:
+                    productshow();
+                    break;
             }
         }
 
         private void productwishlist() {
+
             Share_session share_session = new Share_session(context);
             Map data = share_session.Fetchdata();
             CardCount cardCount = new CardCount();
             cardCount.save_wishlist(cardData.get(getAdapterPosition()).get("PRODUCT_TYPE"), cardData.get(getAdapterPosition()).get("PRODUCT_ID"), data.get(USERMOBILE).toString());
+            sqLiteDatabase.delete("PRODUCT_CARD", "_id = ?", new String[]{cardData.get(getAdapterPosition()).get("ID")});
+            cardData.remove(getAdapterPosition());
+            notifyItemRemoved(getAdapterPosition());
+            refreshCartAmountInterface.Amountrefreshcart();
+            Toast toast = Toast.makeText(context, "", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.setText("Move to Save For Later successfully");
+            View view = LayoutInflater.from(context).inflate(R.layout.custom_toast, null);
+            toast.setView(view);
+            toast.show();
+
+
         }
 
 
@@ -241,13 +279,38 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
 
             if (firstTimeCheck != null) {
 //                if (!product_qty.getText().toString().equals(adapterView.getItemAtPosition(i).toString())) {
-                    if (i != 3) {
+                if (i != 3) {
 //                        product_qty.setText(adapterView.getItemAtPosition(i).toString());
-                        updateqty(adapterView.getItemAtPosition(i).toString());
-                    } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    }
-//                }
+                    updateqty(adapterView.getItemAtPosition(i).toString());
+                } else {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    final View view1 = LayoutInflater.from(context).inflate(R.layout.custom_qty_design, null);
+                    builder.setView(view1);
+                    final EditText qty_edittext = (EditText) view1.findViewById(R.id.qty_edittext);
+                    LinearLayout cancletextview = (LinearLayout) view1.findViewById(R.id.cancletextview);
+                    LinearLayout savetextview = (LinearLayout) view1.findViewById(R.id.savetextview);
+                    final AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                    cancletextview.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            alertDialog.dismiss();
+                        }
+                    });
+                    savetextview.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (!qty_edittext.getText().toString().isEmpty()) {
+                                updateqty(qty_edittext.getText().toString().trim());
+                                alertDialog.dismiss();
+
+                            } else {
+                                alertDialog.dismiss();
+                            }
+                        }
+                    });
+
+                }
             }
         }
 
@@ -257,7 +320,40 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
         }
 
 
+        private void productshow() {
+
+            String type = null;
+
+            switch (cardData.get(getAdapterPosition()).get("PRODUCT_TYPE")){
+                case "product":
+                    type = "allProduct";
+                    break;
+                case "flashsale":
+                    type = "flashSale";
+                    break;
+                case "frienddeal":
+                    type = "friendsaleoneRs";
+                    break;
+            }
+
+            Intent intent = new Intent(context, ProductDetailsActivity.class);
+            intent.putExtra("product_name", cardData.get(getAdapterPosition()).get("PRODUCT_NAME"));
+            intent.putExtra("actual_price", cardData.get(getAdapterPosition()).get("PRODUCT_AMOUNT"));
+            intent.putExtra("discount_price", cardData.get(getAdapterPosition()).get("PRODUCT_AMOUNT_DICOUNT"));
+            intent.putExtra("product_id", cardData.get(getAdapterPosition()).get("PRODUCT_ID"));
+            intent.putExtra("product_Image", cardData.get(getAdapterPosition()).get("PRODUCT_IMAGE"));
+            intent.putExtra("product_color", cardData.get(getAdapterPosition()).get("PRODUCT_COLOR"));
+            intent.putExtra("product_type", type);
+            intent.putExtra("vendor_id", cardData.get(getAdapterPosition()).get("VENDOR_ID"));
+            intent.putExtra("discount_price_per", cardData.get(getAdapterPosition()).get("PRODUCT_DICOUNT_PERCEN"));
+            intent.putExtra("gst", cardData.get(getAdapterPosition()).get("GST"));
+
+            context.startActivity(intent);
+
+        }
+
     }
+
 }
 
 

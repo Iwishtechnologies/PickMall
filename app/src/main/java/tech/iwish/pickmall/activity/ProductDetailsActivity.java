@@ -41,12 +41,14 @@ import okhttp3.Response;
 import tech.iwish.pickmall.Interface.ProductCountInterface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.ColorSizeImageAdapter;
+import tech.iwish.pickmall.adapter.ProductColorAdapter;
 import tech.iwish.pickmall.adapter.ProductDetailsImageAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.fragment.ProductOverViewFragment;
 import tech.iwish.pickmall.fragment.ProductSideColorBottomFragment;
 import tech.iwish.pickmall.other.CardCount;
+import tech.iwish.pickmall.other.ProductColorList;
 import tech.iwish.pickmall.other.ProductDetailsImageList;
 import tech.iwish.pickmall.other.ProductSizeColorList;
 import tech.iwish.pickmall.session.Share_session;
@@ -66,10 +68,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     private RatingBar ratingcheck;
     private Button add_card_btn, buy_now_btn, one_rs_button_place_order;
     private LinearLayout product_layout, one_rs_main_layout, button_layout, one_rs_bottom_layout, one_rs_rule, store, wishlist, product_count_layout;
-    private String PRODUCT_TYPE, total_request_user, new_user_request ,gst;
+    private String PRODUCT_TYPE, total_request_user, new_user_request, gst;
     private ScrollView scrollview;
     private RelativeLayout card;
-
+    private Map data;
+    Share_session shareSession;
+    private ImageView save_hearth;
+    public boolean wishlistchechi;
+    private List<ProductColorList> productColorLists = new ArrayList<>();
 
 
     @Override
@@ -112,6 +118,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
         card = (RelativeLayout) findViewById(R.id.card);
 
+        save_hearth = (ImageView) findViewById(R.id.save_hearth);
+
         scrollview.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
@@ -129,6 +137,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         color_size_image_recycle_view.setLayoutManager(linearLayoutManager);
 
+
+        shareSession = new Share_session(this);
+        data = shareSession.Fetchdata();
+
         Intent intent = getIntent();
         product_name = intent.getStringExtra("product_name");
         actual_price = intent.getStringExtra("actual_price");
@@ -144,11 +156,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         switch (product_type) {
 
             case "flashSale":
-//                flashSaleProductimage();
-//                flashSaleProductsize_color();
-
                 All_Image(Constants.FLASH_SALE_IMAGE);
-                All_size_color(Constants.FLASH_SALE_COLOR_SIDE);
+                coloAndImageData(Constants.FLASH_SALE_COLOR_SIDE);
+                sizedatafetch(Constants.FLASH_SALE_SIZE);
 
                 PRODUCT_TYPE = "flashsale";
                 product_layout.setVisibility(View.VISIBLE);
@@ -158,11 +168,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 button_layout.setVisibility(View.VISIBLE);
                 break;
             case "allProduct":
-//                ProductAllImage();
-//                ProductAllSize_color();
-
                 All_Image(Constants.PRODDUCT_IMAGE);
-                All_size_color(Constants.PRODDUCT_SIZE_COLOR);
+                coloAndImageData(Constants.PRODDUCT_SIZE_COLOR);
+                sizedatafetch(Constants.PRODDUCT_SIZE);
 
                 PRODUCT_TYPE = "product";
                 product_layout.setVisibility(View.VISIBLE);
@@ -172,9 +180,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 button_layout.setVisibility(View.VISIBLE);
                 break;
             case "friendsaleoneRs":
-
-//                friendsaleoneRsImage();
-//                friendsaleoneRscolor_size();
 
                 one_product_name.setText(product_name);
                 one_rs_amount.setText(getResources().getString(R.string.rs_symbol) + actual_price);
@@ -199,7 +204,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 PRODUCT_TYPE = "frienddeal";
 
                 All_Image(Constants.FRIEND_SALE_IMAGE);
-                All_size_color(Constants.FRIEND_SALE_SIZE_COLOR);
+                coloAndImageData(Constants.FRIEND_SALE_SIZE_COLOR);
+                sizedatafetch(Constants.FRIEND_SALE_SIZE);
 
                 break;
         }
@@ -222,9 +228,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         dicount_price_Edit.setText(content);
         ratingcheck.setRating((float) 3.3);
 
-        if(!vendor_id.equals("0") || vendor_id.equals("1")){
+        if (!vendor_id.equals("1")) {
             store.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             store.setVisibility(View.GONE);
         }
 
@@ -234,8 +240,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         bundle.putString("vendor_id", vendor_id);
         productOverViewFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.product_overview_frame, productOverViewFragment).commit();
-
         cardcount();
+
+        wishlistchechk(product_id, data.get(USERMOBILE).toString(), PRODUCT_TYPE, null);
 
     }
 
@@ -298,7 +305,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     }
 
-    private void All_size_color(String SIZE_COLOR_API) {
+    private void coloAndImageData(String SIZE_COLOR_API) {
+
+
         OkHttpClient okHttpClient1 = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
@@ -329,7 +338,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("imgname"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty")));
+                                productColorLists.add(new ProductColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("imgname"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty")));
                             }
 
                             if (ProductDetailsActivity.this != null) {
@@ -337,8 +346,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                 ProductDetailsActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        ColorSizeImageAdapter colorSizeImageAdapter = new ColorSizeImageAdapter(ProductDetailsActivity.this, productSizeColorLists, productDetailsListImageList);
+
+//                                        ColorSizeImageAdapter colorSizeImageAdapter = new ColorSizeImageAdapter(ProductDetailsActivity.this, productSizeColorLists, productDetailsListImageList);
+//                                        color_size_image_recycle_view.setAdapter(colorSizeImageAdapter);
+
+                                        ColorSizeImageAdapter colorSizeImageAdapter = new ColorSizeImageAdapter(ProductDetailsActivity.this, productColorLists, productDetailsListImageList);
                                         color_size_image_recycle_view.setAdapter(colorSizeImageAdapter);
+
+
                                     }
                                 });
                             }
@@ -367,13 +382,16 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             case R.id.select_size_color:
             case R.id.add_card_btn:
                 bundle = new Bundle();
-                productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists, this);
+//                productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists, this);
+                productSideColorBottomFragment = new ProductSideColorBottomFragment(productColorLists, productSizeColorLists);
                 bundle.putString("product_name", product_name);
                 bundle.putString("actual_price", actual_price);
                 bundle.putString("product_id", product_id);
                 bundle.putString("discount_price", discount_price);
                 bundle.putString("product_type", PRODUCT_TYPE);
                 bundle.putString("gst", gst);
+                bundle.putString("vendor_id", vendor_id);
+                bundle.putString("product_dicount_percent", discount_price_per);
                 bundle.putString("type", "add_to_card");
                 productSideColorBottomFragment.setArguments(bundle);
                 productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
@@ -394,13 +412,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 startActivity(intent);
                 break;
             case R.id.wishlist:
-                CardCount cardCount = new CardCount();
-                cardCount.save_wishlist(PRODUCT_TYPE, product_id, data.get(USERMOBILE).toString());
+                wishlist.setClickable(false);
+                wishlistchechk(product_id, data.get(USERMOBILE).toString(), PRODUCT_TYPE, "dsdas");
+                wishlist.setClickable(true);
                 break;
             case R.id.buy_now_btn:
                 bundle = new Bundle();
-                productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists, this);
-
+//                productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists, this);
+                productSideColorBottomFragment = new ProductSideColorBottomFragment(productColorLists, productSizeColorLists);
                 bundle.putString("product_name", product_name);
                 bundle.putString("actual_price", actual_price);
                 bundle.putString("product_id", product_id);
@@ -440,6 +459,120 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         View view = LayoutInflater.from(this).inflate(R.layout.image_load, null);
         ImageView imageView = view.findViewById(R.id.img_load);
     }
+
+
+    protected void sizedatafetch(String SIZE_API) {
+
+        OkHttpClient client = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("product_id", product_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request = new Request.Builder().post(body)
+                .url(SIZE_API)
+                .build();
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("result", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("imgname"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty"), jsonHelper.GetResult("count_size")));
+
+                            }
+                        }
+                    }
+                }
+
+            }
+        });
+    }
+
+
+    public boolean wishlistchechk(final String product_id, String number, String producttype, final String type) {
+
+        OkHttpClient okHttpClient1 = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("product_id", product_id);
+            jsonObject.put("product_type", producttype);
+            jsonObject.put("user_number", number);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.PRODUCT_WISHLIST_CHEHCL).post(body).build();
+        okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        final String responses = jsonHelper.GetResult("response");
+
+                        if (ProductDetailsActivity.this != null) {
+                            ProductDetailsActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    if (type != null) {
+
+                                        if (responses.equals("TRUE")) {
+                                            new CardCount().delect_wishlist(PRODUCT_TYPE, product_id, data.get(USERMOBILE).toString());
+                                            save_hearth.setImageDrawable(getDrawable(R.drawable.heart_icon));
+                                        } else {
+
+                                            new CardCount().save_wishlist(PRODUCT_TYPE, product_id, data.get(USERMOBILE).toString());
+                                            save_hearth.setImageDrawable(getDrawable(R.drawable.red_heart));
+                                        }
+
+
+                                    } else {
+                                        if (responses.equals("TRUE")) {
+                                            save_hearth.setImageDrawable(getDrawable(R.drawable.red_heart));
+                                        } else {
+                                            save_hearth.setImageDrawable(getDrawable(R.drawable.heart_icon));
+                                        }
+                                    }
+
+                                }
+                            });
+                        }
+
+
+                    }
+
+                }
+            }
+        });
+        return wishlistchechi;
+    }
+
 
 }
 

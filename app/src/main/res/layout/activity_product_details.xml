@@ -188,14 +188,14 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginEnd="5dp"
-                            android:gravity="center"
-                            android:text="2000 sold"
-                            android:textSize="10sp" />
+<!--                        <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="4dp"-->
+<!--                            android:layout_marginEnd="5dp"-->
+<!--                            android:gravity="center"-->
+<!--                            android:text="2000 sold"-->
+<!--                            android:textSize="10sp" />-->
 
                         <RatingBar
                             android:id="@+id/ratingcheck"
@@ -214,15 +214,15 @@
                             android:gravity="center"
                             android:text="3.3"
                             android:textColor="@color/redColor"
-                            android:textSize="10sp" />
+                            android:textSize="12sp" />
 
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="(172)"
-                            android:textColor="@color/redColor"
-                            android:textSize="10sp" />
+<!--                        <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:gravity="center"-->
+<!--                            android:text="(172)"-->
+<!--                            android:textColor="@color/redColor"-->
+<!--                            android:textSize="10sp" />-->
                     </LinearLayout>
 
                 </LinearLayout>
@@ -493,6 +493,7 @@
                     android:orientation="vertical">
 
                     <ImageView
+                        android:id="@+id/save_hearth"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

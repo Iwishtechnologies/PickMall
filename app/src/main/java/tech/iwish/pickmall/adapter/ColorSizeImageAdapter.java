@@ -19,6 +19,7 @@ import java.util.List;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.ProductDetailsActivity;
 import tech.iwish.pickmall.config.Constants;
+import tech.iwish.pickmall.other.ProductColorList;
 import tech.iwish.pickmall.other.ProductDetailsImageList;
 import tech.iwish.pickmall.other.ProductSizeColorList;
 
@@ -28,9 +29,10 @@ public class ColorSizeImageAdapter extends RecyclerView.Adapter<ColorSizeImageAd
     private String dubledata;
     private List<ProductSizeColorList> productSizeColorLists;
     private List<ProductDetailsImageList> productDetailsListImageList;
+    private List<ProductColorList> productColorLists;
 
-    public ColorSizeImageAdapter(ProductDetailsActivity productDetailsActivity, List<ProductSizeColorList> productSizeColorLists, List<ProductDetailsImageList> productDetailsListImageList) {
-        this.productSizeColorLists = productSizeColorLists;
+    public ColorSizeImageAdapter(ProductDetailsActivity productDetailsActivity, List<ProductColorList> productColorLists, List<ProductDetailsImageList> productDetailsListImageList) {
+        this.productColorLists = productColorLists;
         this.context = productDetailsActivity;
         this.productDetailsListImageList = productDetailsListImageList;
 
@@ -49,6 +51,7 @@ public class ColorSizeImageAdapter extends RecyclerView.Adapter<ColorSizeImageAd
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
 
+/*
         String val = productSizeColorLists.get(position).getColor();
         if (dubledata != null) {
             if (dubledata.equals(val)) {
@@ -69,13 +72,17 @@ public class ColorSizeImageAdapter extends RecyclerView.Adapter<ColorSizeImageAd
         }
         this.dubledata = productSizeColorLists.get(position).getColor();
 
+*/
 
+
+        String a = Constants.IMAGES + productColorLists.get(position).getImgname();
+        Glide.with(context).load(a).into(holder.color_image);
 
     }
 
     @Override
     public int getItemCount() {
-        return productSizeColorLists.size();
+        return productColorLists.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {

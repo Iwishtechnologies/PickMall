@@ -69,6 +69,7 @@ import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.ConnectionServer;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.countdowntime.CountdownTime;
+import tech.iwish.pickmall.fragment.ProductFragment;
 import tech.iwish.pickmall.other.CardCount;
 import tech.iwish.pickmall.other.FlashsalemainList;
 import tech.iwish.pickmall.other.FriendSaleList;
@@ -155,7 +156,7 @@ public class MainActivity extends AppCompatActivity
         friend_deal_recycleview.setLayoutManager(linearLayoutManager1);
 
 
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL);
         itemCateroryrecycle.setLayoutManager(layoutManager);
 
         viewAll_FreshSale.setOnClickListener(this);
@@ -170,6 +171,7 @@ public class MainActivity extends AppCompatActivity
         itemCat();
         FlashSaleMain();
         FriendDeal();
+        HotProduct();
 
         homeBottom.setOnClickListener(this);
         feedBottom.setOnClickListener(this);
@@ -492,6 +494,8 @@ public class MainActivity extends AppCompatActivity
         silder();
         FriendDeal();
         cardProductCount();
+        HotProduct();
+
         friendSaleAdapter.notifyDataSetChanged();
         flashSaleAdapter.notifyDataSetChanged();
         itemAdapter.notifyDataSetChanged();
@@ -516,6 +520,17 @@ public class MainActivity extends AppCompatActivity
         Log.e(TAG, "flashsaleId: " + saleid);
     }
 
+
+    private void HotProduct() {
+
+        Bundle bundle = new Bundle();
+        ProductFragment productFragment = new ProductFragment();
+        bundle.putString("type","hotproduct");
+        productFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.hotProductFramneLayout,productFragment).commit();
+
+    }
+
     @Override
     public void onBackPressed() {
 
@@ -525,6 +540,10 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
 
     }
+
+
+
+
 
 
     @Override

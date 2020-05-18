@@ -23,6 +23,7 @@
         android:text="Gold"
         android:textColor="@color/black"
         android:textSize="12sp"
-        app:fonttype="light" />
+        app:fonttype="light"
+        />
 
 </LinearLayout>
