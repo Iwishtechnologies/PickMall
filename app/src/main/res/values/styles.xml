@@ -120,6 +120,10 @@
         <item name="colorPrimaryDark">@color/redColor</item>
         <item name="colorPrimary">@color/redColor</item>
     </style>
+    <style name="searchtheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimary">@color/redColor</item>
+    </style>
 
 
 </resources>

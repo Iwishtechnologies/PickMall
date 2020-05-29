@@ -26,16 +26,26 @@
                 android:textColor="@color/black"
                 app:fonttype="text_semi_bold"
                 android:layout_weight="1"/>
-            <tech.iwish.pickmall.extended.TextViewFont
+
+            <LinearLayout
+                android:id="@+id/clearAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Clear All"
-                android:gravity="right"
-                android:paddingEnd="10dp"
-                android:textColor="@color/redColor"
-                android:textSize="14sp"
-                app:fonttype="text_semi_bold"
-                android:layout_weight="1"/>
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clear All"
+                    android:gravity="right"
+                    android:paddingEnd="10dp"
+                    android:textColor="@color/redColor"
+                    android:textSize="14sp"
+                    app:fonttype="text_semi_bold" />
+            </LinearLayout>
+
         </LinearLayout>
     </Toolbar>
 
@@ -88,6 +98,7 @@
             android:orientation="horizontal"
             android:weightSum="2">
             <tech.iwish.pickmall.extended.TextViewFont
+                android:id="@+id/close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Close"
@@ -101,6 +112,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/club_back_single_text_color"/>
             <tech.iwish.pickmall.extended.TextViewFont
+                android:id="@+id/applybtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="APPLY"
@@ -113,6 +125,13 @@
         </LinearLayout>
     </Toolbar>
 
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:progressTint="@color/redColor"/>
 
 </RelativeLayout>
 

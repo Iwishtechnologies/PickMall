@@ -1,44 +1,32 @@
 package tech.iwish.pickmall.adapter;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.skydoves.powermenu.MenuAnimation;
-import com.skydoves.powermenu.OnMenuItemClickListener;
-import com.skydoves.powermenu.PowerMenu;
-import com.skydoves.powermenu.PowerMenuItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import tech.iwish.pickmall.Interface.CardQtyAmountRef;
@@ -48,7 +36,6 @@ import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.CardActivity;
 import tech.iwish.pickmall.activity.ProductDetailsActivity;
 import tech.iwish.pickmall.config.Constants;
-import tech.iwish.pickmall.countdowntime.CountdownTime;
 import tech.iwish.pickmall.other.CardCount;
 import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.sqlconnection.MyhelperSql;
@@ -127,7 +114,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
 
         if (cardData.get(position).get("PRODUCT_TYPE").equals("flashsale")) {
             holder.timesetcountdown.setVisibility(View.VISIBLE);
-            new CountdownTime(context, holder.timesetcountdown, null, this).Flashsaletimeset();
+//            new CountdownTime();
         } else {
             holder.timesetcountdown.setVisibility(View.GONE);
         }

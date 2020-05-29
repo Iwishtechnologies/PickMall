@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +36,8 @@ public class Share_session {
     public static final String PROFILEIMAGE = "image";
     public static final String ACCOUNTID = "id";
     public static final String WALLET_AMOUNT = "wallet amount";
+    public static final String FILTER_LIST = "filter";
+    public static final String FILTER_LIST_COLOR = "filter_color";
 
 
 
@@ -130,4 +134,57 @@ public class Share_session {
         Animatoo.animateInAndOut(context);
     }
 
+
+    public void filterMethod(JSONObject list){
+        editor.putString(FILTER_LIST ,list.toString());
+        editor.commit();
+    }
+
+    public String getfilterMethod(){
+        return Preferences.getString(FILTER_LIST,null);
+    }
+
+    public void filterSizeRemoveMethod(){
+//        editor.putString(FILTER_LIST ,list.toString());
+        editor.remove(FILTER_LIST).commit();
+    }
+    public void filterColorRemoveMethod(){
+//        editor.putString(FILTER_LIST ,list.toString());
+        editor.remove(FILTER_LIST_COLOR).commit();
+    }
+
+    public void filterColor(JSONObject list){
+        editor.putString(FILTER_LIST_COLOR ,list.toString());
+        editor.commit();
+    }
+
  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

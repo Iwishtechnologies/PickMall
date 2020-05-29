@@ -101,7 +101,7 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:padding="10dp"
-                    android:text="250"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 

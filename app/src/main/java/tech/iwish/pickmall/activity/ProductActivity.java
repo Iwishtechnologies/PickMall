@@ -1,43 +1,18 @@
 package tech.iwish.pickmall.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 import tech.iwish.pickmall.Interface.CardProductRefreshInterface;
 import tech.iwish.pickmall.R;
-import tech.iwish.pickmall.adapter.ProductAdapter;
-import tech.iwish.pickmall.config.Constants;
-import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.fragment.ProductFragment;
-import tech.iwish.pickmall.other.CardCount;
-import tech.iwish.pickmall.other.ProductList;
-import tech.iwish.pickmall.session.Share_session;
 
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -70,6 +45,12 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             case "Category_by_product":
                 productloadfradment(getIntent().getStringExtra("category_id"), getIntent().getStringExtra("category_name"), "Category_by_product");
                 break;
+            case "searchActivity":
+                productloadfradment(getIntent().getStringExtra("name"), getIntent().getStringExtra("name"), "searchActivity");
+                break;
+            case "FilterActivity":
+                productloadfradment(getIntent().getStringExtra("itemId"), getIntent().getStringExtra("itemName"), "FilterActivity");
+                break;
 
         }
 
@@ -84,7 +65,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void productloadfradment(String id, String name, String type) {
-
 
         Bundle bundle = new Bundle();
         ProductFragment productFragment = new ProductFragment();
@@ -117,15 +97,14 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.shorts:
             case R.id.best_sellers:
             case R.id.pricefilter:
-            case R.id.filter:
                 Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
-//                break;
-//            case R.id.filter:
-//                Intent intent = new Intent(ProductActivity.this, FilterActivity.class);
-//                intent.putExtra("item_id", getIntent().getStringExtra("item_id"));
-//                intent.putExtra("item_name", getIntent().getStringExtra("item_name"));
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.bottom_to_top, R.anim.slide_out_up);
+                break;
+            case R.id.filter:
+                Intent intent = new Intent(ProductActivity.this, FilterActivity.class);
+                intent.putExtra("item_id", getIntent().getStringExtra("item_id"));
+                intent.putExtra("item_name", getIntent().getStringExtra("item_name"));
+                startActivity(intent);
+                overridePendingTransition(R.anim.bottom_to_top, R.anim.slide_out_up);
                 break;
         }
     }

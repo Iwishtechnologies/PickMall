@@ -1,11 +1,5 @@
 package tech.iwish.pickmall.config;
 
-import android.widget.Toast;
-
-import tech.iwish.pickmall.fragment.ProductFragment;
-
-import static tech.iwish.pickmall.fragment.ProductFragment.PRODUCT_PERAMETER;
-
 /**
  * Created by iwish on 5/23/2017.
  */
@@ -68,6 +62,11 @@ public class Constants {
     public static String FRIEND_SALE_SIZE = URL + "friendDeal_size";
     public static String PRODUCT_SIZE_COUNT = URL + "product_size_count";
     public static String HOT_PRODUCT = URL + "hot_product";
+    public static String SEARCH_PRODUCT= URL + "search_product";
+    public static String NEXT_DAY_FLASH_SALE= URL + "next_flash_sale";
+    public static String SEARCH_PRODUCT_BY_NAME = URL + "search_product_by_name";
+    public static String PRODUCT_FILTER = URL + "product_filter";
+    public static String FILTER_PRODUCT = URL + "filter_product";
 
 
     public static String IMAGES = "http://173.212.226.143:8086/img/";

@@ -1,50 +1,30 @@
 package tech.iwish.pickmall.countdowntime;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import okhttp3.Call;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 import tech.iwish.pickmall.Interface.FlashsaleTimeIdInterface;
-import tech.iwish.pickmall.activity.MainActivity;
-import tech.iwish.pickmall.config.Constants;
-import tech.iwish.pickmall.connection.JsonHelper;
 
 public class CountdownTime {
 
     private long mTimeLeftInMillis;
-
     TextView settime;
     LinearLayout removelayout;
     Context context;
     String time_id;
     FlashsaleTimeIdInterface flashsaleTimeIdInterface;
+    private CountDownTimer mCountDownTimer;
+
+/*
 
     public CountdownTime(Context context, TextView textView, LinearLayout removelayout, FlashsaleTimeIdInterface flashsaleTimeIdInterface) {
         this.settime = textView;
@@ -144,8 +124,6 @@ public class CountdownTime {
                                                     t.cancel();
                                                 }
                                             } else if (calendar.equals(current_time)) {
-
-
 
 //                                                ((Activity) context).runOnUiThread(new Runnable() {
 //                                                    @Override
@@ -287,9 +265,72 @@ public class CountdownTime {
 
 
     }
+*/
 
 
-    //    countdown star
+//    countdown start
+//    24 houres count down
 
+
+    public CountdownTime(TextView settime) {
+        this.settime = settime;
+        time_count_24_hourse();
+    }
+
+    public void time_count_24_hourse() {
+
+
+        DateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        String stringDate = sdf.format(new Date());
+        String[] breaktime = stringDate.split(":");
+
+        Calendar currenttime = Calendar.getInstance();
+        currenttime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(breaktime[0]));
+        currenttime.set(Calendar.MINUTE, Integer.parseInt(breaktime[1]));
+        currenttime.set(Calendar.SECOND, Integer.parseInt(breaktime[2]));
+
+        Calendar times = Calendar.getInstance();
+        times.set(Calendar.HOUR_OF_DAY, 23);
+        times.set(Calendar.MINUTE, 0);
+        times.set(Calendar.SECOND, 0);
+        long b = times .getTimeInMillis() - currenttime.getTimeInMillis();
+        mTimeLeftInMillis = b;
+        startTimer();
+
+    }
+
+    private void startTimer() {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeftInMillis = millisUntilFinished;
+                updateCountDownText();
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        }.start();
+    }
+
+    private void updateCountDownText() {
+
+        int hours = (int) (mTimeLeftInMillis / 1000) / 3600;
+        int minutes = (int) ((mTimeLeftInMillis / 1000) % 3600) / 60;
+        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
+
+        String timeLeftFormatted;
+        if (hours > 0) {
+            timeLeftFormatted = String.format(Locale.getDefault(),
+                    "%d:%02d:%02d", hours, minutes, seconds);
+        } else {
+            timeLeftFormatted = String.format(Locale.getDefault(),
+                    "%02d:%02d", minutes, seconds);
+        }
+
+        Log.e("updateCountDownText: ", timeLeftFormatted);
+        settime.setText(timeLeftFormatted);
+
+    }
 
 }

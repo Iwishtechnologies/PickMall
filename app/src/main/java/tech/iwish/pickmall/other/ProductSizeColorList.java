@@ -8,6 +8,7 @@ public class ProductSizeColorList {
     private String color;
     private String qty;
     private String count_size;
+    private boolean isSelected = false;
 
     public ProductSizeColorList(String sno, String product_id, String imgname, String size, String color, String qty, String count_size) {
         this.sno = sno;
@@ -17,6 +18,7 @@ public class ProductSizeColorList {
         this.color = color;
         this.qty = qty;
         this.count_size = count_size;
+
     }
 
     public String getSno() {
@@ -73,5 +75,13 @@ public class ProductSizeColorList {
 
     public void setCount_size(String count_size) {
         this.count_size = count_size;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

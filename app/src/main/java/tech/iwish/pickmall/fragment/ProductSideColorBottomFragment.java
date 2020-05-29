@@ -4,58 +4,39 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.StrikethroughSpan;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.SpannableString;
-import android.text.style.StrikethroughSpan;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.Call;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 import tech.iwish.pickmall.Interface.ProductColorInterFace;
 import tech.iwish.pickmall.Interface.ProductCountInterface;
 import tech.iwish.pickmall.Interface.ProductSizeInterFace;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.AddressActivity;
 import tech.iwish.pickmall.activity.CardActivity;
-import tech.iwish.pickmall.activity.ProductDetailsActivity;
 import tech.iwish.pickmall.activity.SaveAddressActivity;
 import tech.iwish.pickmall.activity.Signup;
 import tech.iwish.pickmall.adapter.ProductColorAdapter;
 import tech.iwish.pickmall.adapter.ProductSizeAdapter;
 import tech.iwish.pickmall.config.Constants;
-import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.other.ProductColorList;
-import tech.iwish.pickmall.other.ProductDetailsImageList;
 import tech.iwish.pickmall.other.ProductSizeColorList;
 import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.sqlconnection.MyhelperSql;
@@ -73,7 +54,7 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
     private RecyclerView size_product_recycleview, color_product_recycleview;
     private ImageView product_image;
     private ImageView sub_button, add_button;
-    private TextView quty_value, product_names, actual_prices, dicount_price;
+    private TextView quty_value, product_names, actual_prices, dicount_price,percent;
     private Button confirm_add_to_card, go_to_card;
     private String select_color, select_size, product_id, gst, vendor_id, product_dicount_percent, product_name, actual_price, imagename, product_qty, discount_price, product_type, type;
     private Share_session shareSession;
@@ -103,6 +84,7 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
         product_names = (TextView) view.findViewById(R.id.product_names);
         actual_prices = (TextView) view.findViewById(R.id.actual_prices);
         dicount_price = (TextView) view.findViewById(R.id.dicount_price);
+        percent = (TextView) view.findViewById(R.id.percent);
 
 
         confirm_add_to_card = (Button) view.findViewById(R.id.confirm_add_to_card);
@@ -134,8 +116,11 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
         vendor_id = bundle.getString("vendor_id");
         product_dicount_percent = bundle.getString("product_dicount_percent");
 
+
         product_names.setText(product_name);
         actual_prices.setText(getResources().getString(R.string.rs_symbol) + actual_price);
+        percent.setText(product_dicount_percent+"% OFF");
+
 
         SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + discount_price);
         content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);

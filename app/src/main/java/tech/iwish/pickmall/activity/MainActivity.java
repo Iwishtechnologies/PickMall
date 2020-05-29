@@ -1,23 +1,8 @@
 package tech.iwish.pickmall.activity;
 
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager.widget.ViewPager;
-
-import android.animation.TimeInterpolator;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -25,37 +10,29 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager.widget.ViewPager;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.sql.Time;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.iwish.pickmall.Interface.CardProductRefreshInterface;
 import tech.iwish.pickmall.Interface.FlashsaleTimeIdInterface;
@@ -74,11 +51,9 @@ import tech.iwish.pickmall.other.CardCount;
 import tech.iwish.pickmall.other.FlashsalemainList;
 import tech.iwish.pickmall.other.FriendSaleList;
 import tech.iwish.pickmall.other.ItemList;
+import tech.iwish.pickmall.other.ProductList;
 import tech.iwish.pickmall.other.SilderLists;
-import tech.iwish.pickmall.service.TimeReceiver;
 
-
-import static tech.iwish.pickmall.OkhttpConnection.ProductListF.flash_sale_list_fake;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.friend_deal_list_fake;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.item_fakelist;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.silder_list_fack;
@@ -89,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         SwipeRefreshLayout.OnRefreshListener,
         CardProductRefreshInterface,
         ItemCategoryInterface,
-        FlashsaleTimeIdInterface {
+        FlashsaleTimeIdInterface, InternetConnectivityListener {
 
     private ViewPager viewPages;
     private SilderAdapter silderAdapter;
@@ -101,11 +76,12 @@ public class MainActivity extends AppCompatActivity
     private List<FlashsalemainList> flashsalemainLists = new ArrayList<>();
     private List<FriendSaleList> friendSaleLists = new ArrayList<>();
     private List<ItemList> itemLists = new ArrayList<>();
-
+    private List<ProductList> productListList = new ArrayList<>();
 
     private RecyclerView flash_sale_main_recycle, itemCateroryrecycle, friend_deal_recycleview;
     public static TextView time_countDown, product_count_card;
-    //    private static final long START_TIME_IN_MILLIS = 86400000;
+    private static final long START_TIME_IN_MILLIS = 86400000;
+    //    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     private long mTimeLeftInMillis;
     private LinearLayout viewAll_FreshSale, product_count_card_layout, flash_line, viewall_friend_deal;
     private ImageView homeBottom, feedBottom, cardBottom, accountBottom;
@@ -120,11 +96,20 @@ public class MainActivity extends AppCompatActivity
     public final static String TAG = "mainActivity";
     private RelativeLayout search_bar_layout;
 
+    private InternetAvailabilityChecker mInternetAvailabilityChecker;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        //connection
+//        mInternetAvailabilityChecker = InternetAvailabilityChecker.getInstance();
+//        mInternetAvailabilityChecker.addInternetConnectivityListener(MainActivity.this);
 
         viewPages = (ViewPager) findViewById(R.id.viewPages);
         flash_sale_main_recycle = (RecyclerView) findViewById(R.id.flash_sale_main_recycle);
@@ -142,6 +127,8 @@ public class MainActivity extends AppCompatActivity
         feedBottom = (ImageView) findViewById(R.id.FeedBottom);
         cardBottom = (ImageView) findViewById(R.id.CardBottom);
         accountBottom = (ImageView) findViewById(R.id.AccountBottom);
+
+
 
         swipe_refresh_layout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
@@ -161,10 +148,6 @@ public class MainActivity extends AppCompatActivity
 
         viewAll_FreshSale.setOnClickListener(this);
 
-//        String id = new CountdownTime(this, time_countDown, flash_line).Flashsaletimeset();
-        CountdownTime countdownTime = new CountdownTime(this, time_countDown, flash_line, this);
-        countdownTime.Flashsaletimeset();
-
 
 //    item
         silder();
@@ -179,10 +162,7 @@ public class MainActivity extends AppCompatActivity
         accountBottom.setOnClickListener(this);
         search_bar_layout.setOnClickListener(this);
         viewall_friend_deal.setOnClickListener(this);
-
         homeBottom.setImageDrawable(getResources().getDrawable(R.drawable.home_icon_orange));
-
-
         swipe_refresh_layout.setOnRefreshListener(this);
         cardProductCount();
 
@@ -195,6 +175,8 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
+
 
 
     private void cardProductCount() {
@@ -370,8 +352,8 @@ public class MainActivity extends AppCompatActivity
 
 //        check
 
-        flashSaleAdapter = new FlashSaleAdapter(MainActivity.this, flash_sale_list_fake());
-        flash_sale_main_recycle.setAdapter(flashSaleAdapter);
+//        flashSaleAdapter = new FlashSaleAdapter(MainActivity.this, flash_sale_list_fake());
+//        flash_sale_main_recycle.setAdapter(flashSaleAdapter);
 
         OkHttpClient client = new OkHttpClient();
         final Request request = new Request.Builder()
@@ -392,11 +374,40 @@ public class MainActivity extends AppCompatActivity
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
+
+                            productListList.clear();
+                            if (MainActivity.this != null) {
+                                MainActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        new CountdownTime(time_countDown);
+                                    }
+                                });
+                            }
+
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                flashsalemainLists.add(new FlashsalemainList(jsonHelper.GetResult("product_id"), jsonHelper.GetResult("ProductName"), jsonHelper.GetResult("item_id"), jsonHelper.GetResult("catagory_id"), jsonHelper.GetResult("actual_price"), jsonHelper.GetResult("discount_price"), jsonHelper.GetResult("discount_price_per"), jsonHelper.GetResult("status"), jsonHelper.GetResult("pimg"), jsonHelper.GetResult("vendor_id"), jsonHelper.GetResult("type"), jsonHelper.GetResult("datetime"), jsonHelper.GetResult("FakeRating"), jsonHelper.GetResult("saleid"), jsonHelper.GetResult("gst")));
+                                productListList.add(new ProductList(jsonHelper.GetResult("product_id"),
+                                        jsonHelper.GetResult("ProductName"),
+                                        jsonHelper.GetResult("SKU"),
+                                        jsonHelper.GetResult("item_id"),
+                                        jsonHelper.GetResult("catagory_id"),
+                                        jsonHelper.GetResult("actual_price"),
+                                        jsonHelper.GetResult("discount_price"),
+                                        jsonHelper.GetResult("discount_price_per"),
+                                        jsonHelper.GetResult("status"),
+                                        jsonHelper.GetResult("pimg"),
+                                        jsonHelper.GetResult("vendor_id"),
+                                        jsonHelper.GetResult("FakeRating"),
+                                        jsonHelper.GetResult("gst"),
+                                        jsonHelper.GetResult("hot_product"),
+                                        jsonHelper.GetResult("hsn_no"),
+                                        jsonHelper.GetResult("weight"),
+                                        jsonHelper.GetResult("type"),
+                                        jsonHelper.GetResult("flash_sale")
+                                ));
                             }
 
                             if (MainActivity.this != null) {
@@ -404,12 +415,21 @@ public class MainActivity extends AppCompatActivity
                                 MainActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        flashSaleAdapter = new FlashSaleAdapter(MainActivity.this, flashsalemainLists);
+                                        flashSaleAdapter = new FlashSaleAdapter(MainActivity.this, productListList);
                                         flash_sale_main_recycle.setAdapter(flashSaleAdapter);
                                     }
                                 });
-                            }
 
+                            }
+                        } else {
+                            if (MainActivity.this != null) {
+                                MainActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        flash_line.setVisibility(View.GONE);
+                                    }
+                                });
+                            }
                         }
                     }
                 }
@@ -454,7 +474,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.CardBottom:
                 this.bottomClickCheck = "card";
                 Intent intent = new Intent(MainActivity.this, CardActivity.class);
-                intent.putExtra("context","MainActivity");
+                intent.putExtra("context", "MainActivity");
                 startActivity(intent);
 //                Animatoo.animateDiagonal(MainActivity.this);
                 break;
@@ -483,13 +503,10 @@ public class MainActivity extends AppCompatActivity
         friendSaleLists.clear();
         itemLists.clear();
         silderListsList.clear();
+        productListList.clear();
         itemCat();
         FlashSaleMain();
 //        Flashsaletimeset();
-
-        CountdownTime countdownTime = new CountdownTime(this, time_countDown, flash_line, this);
-        countdownTime.Flashsaletimeset();
-
 
         silder();
         FriendDeal();
@@ -500,6 +517,9 @@ public class MainActivity extends AppCompatActivity
         flashSaleAdapter.notifyDataSetChanged();
         itemAdapter.notifyDataSetChanged();
         silderAdapter.notifyDataSetChanged();
+
+//        swipe_refresh_layout.setRefreshing(false);
+
     }
 
 
@@ -525,9 +545,9 @@ public class MainActivity extends AppCompatActivity
 
         Bundle bundle = new Bundle();
         ProductFragment productFragment = new ProductFragment();
-        bundle.putString("type","hotproduct");
+        bundle.putString("type", "hotproduct");
         productFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.hotProductFramneLayout,productFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.hotProductFramneLayout, productFragment).commit();
 
     }
 
@@ -542,14 +562,16 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
-
-
     @Override
     protected void onResume() {
         super.onResume();
         cardProductCount();
+    }
+
+
+    @Override
+    public void onInternetConnectivityChanged(boolean b) {
+
     }
 }
 

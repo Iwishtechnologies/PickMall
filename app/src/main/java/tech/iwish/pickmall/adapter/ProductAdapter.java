@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
-import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,22 +23,20 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import tech.iwish.pickmall.R;
-import tech.iwish.pickmall.activity.ProductActivity;
 import tech.iwish.pickmall.activity.ProductDetailsActivity;
 import tech.iwish.pickmall.config.Constants;
+import tech.iwish.pickmall.other.CardCount;
 import tech.iwish.pickmall.other.ProductList;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewholder> {
 
     private List<ProductList> productLists;
     private Context context;
-
+    int aaa;
 
     public ProductAdapter(Context productActivity, List<ProductList> productListList) {
-
         this.context = productActivity;
         this.productLists = productListList;
-
     }
 
     @NonNull
@@ -51,6 +49,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, final int position) {
+
         String status = productLists.get(position).getStatus();
         if (status.equals("TRUE")) {
 //            holder.product_rationg.setRating((float) 4.5);
@@ -62,38 +61,54 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
                 case "1.5":
                 case "2":
                 case "2.5":
-                    drawable.setColorFilter(context.getColor(R.color.progress_rating_red_color), PorterDuff.Mode.SRC_ATOP);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        drawable.setColorFilter(context.getColor(R.color.progress_rating_red_color), PorterDuff.Mode.SRC_ATOP);
+                    }
                     break;
                 case "3":
                 case "3.5":
-                    drawable.setColorFilter(context.getColor(R.color.progress_rating_yellow_color), PorterDuff.Mode.SRC_ATOP);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        drawable.setColorFilter(context.getColor(R.color.progress_rating_yellow_color), PorterDuff.Mode.SRC_ATOP);
+                    }
                     break;
                 case "4":
                 case "4.5":
                 case "5":
-                    drawable.setColorFilter(context.getColor(R.color.progress_rating_green_color), PorterDuff.Mode.SRC_ATOP);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        drawable.setColorFilter(context.getColor(R.color.progress_rating_green_color), PorterDuff.Mode.SRC_ATOP);
+                    }
                     break;
-
             }
 
-
             holder.amount.setText(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getActual_price());
-            holder.product_rationg.setRating(Float.parseFloat(productLists.get(position).getFakeRating()));
-
-//            holder.discount_price.setText(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getDiscount_price());
-
             SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getDiscount_price());
             content.setSpan(new StrikethroughSpan(), 0, content.length(), 0 );
             holder.discount_price.setText(content);
 
+            float dicountsAmt = Float.parseFloat(productLists.get(position).getActual_price());
+            float mrp = Float.parseFloat(productLists.get(position).getDiscount_price());
+
+            float sub = mrp - dicountsAmt ;
+            float div = sub/dicountsAmt;
+            aaa = (int) (div *100);
+
+            holder.per_dicount.setText(" "+String.valueOf(aaa)+"% OFF");
+            holder.product_rationg.setRating(Float.parseFloat(productLists.get(position).getFakeRating()));
+            holder.discount_price.setText(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getDiscount_price());
+
             holder.product_name.setText(productLists.get(position).getProductName());
-            holder.per_dicount.setText(" -"+productLists.get(position).getDiscount_price_per());
+
+            CardCount cardCount = new CardCount();
+            cardCount.DicountPercent(productLists.get(position).getActual_price() , productLists.get(position).getDiscount_price());
+
+
 
             String a = Constants.IMAGES + productLists.get(position).getPimg();
             Glide.with(context).load(a).into(holder.product_img);
             holder.product_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     Intent intent = new Intent(context, ProductDetailsActivity.class);
                     intent.putExtra("product_name", productLists.get(position).getProductName());
                     intent.putExtra("actual_price", productLists.get(position).getActual_price());
@@ -101,7 +116,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
                     intent.putExtra("product_id", productLists.get(position).getProduct_id());
                     intent.putExtra("product_Image", productLists.get(position).getPimg());
                     intent.putExtra("vendor_id", productLists.get(position).getVendor_id());
-                    intent.putExtra("discount_price_per", productLists.get(position).getDiscount_price_per());
                     intent.putExtra("gst", productLists.get(position).getGst());
                     intent.putExtra("product_type", "allProduct");
                     context.startActivity(intent);

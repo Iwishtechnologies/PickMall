@@ -1,16 +1,10 @@
 package tech.iwish.pickmall.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,7 +13,10 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.facebook.shimmer.Shimmer;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
@@ -31,7 +28,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -39,11 +35,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.iwish.pickmall.R;
-import tech.iwish.pickmall.adapter.WishListAdapter;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.extended.TextViewFont;
-import tech.iwish.pickmall.gateway.Paymentgateway;
-import tech.iwish.pickmall.other.WishlistList;
 import tech.iwish.pickmall.session.Share_session;
 
 public class WalletActivity extends AppCompatActivity implements PaymentResultListener {
@@ -78,7 +71,7 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
         add_amount = findViewById(R.id.add_amount);
         amount= findViewById(R.id.amount);
         shimmer= findViewById(R.id.shimmer);
-//        layout= findViewById(R.id.layout);
+        layout= findViewById(R.id.layout);
         back= findViewById(R.id.back);
         progressBar= findViewById(R.id.progress);
         scrollView= findViewById(R.id.scroll);

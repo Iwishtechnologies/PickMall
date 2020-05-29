@@ -1,18 +1,15 @@
 package tech.iwish.pickmall.fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -30,12 +27,12 @@ import tech.iwish.pickmall.activity.FlashSaleProductactivity;
 import tech.iwish.pickmall.adapter.FlashSaleAllProductAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
-import tech.iwish.pickmall.other.FlashsalemainList;
+import tech.iwish.pickmall.other.ProductList;
 
 public class FlashSaleNextSaleFragment extends Fragment {
 
     private RecyclerView flash_sale_recycleview_next_sale;
-    private List<FlashsalemainList> flashsalemainLists = new ArrayList<>();
+    private List<ProductList> productListList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -51,7 +48,7 @@ public class FlashSaleNextSaleFragment extends Fragment {
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url(Constants.FLASH_SALE_ALL)
+                .url(Constants.NEXT_DAY_FLASH_SALE)
                 .build();
         client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override
@@ -71,14 +68,32 @@ public class FlashSaleNextSaleFragment extends Fragment {
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                flashsalemainLists.add(new FlashsalemainList(jsonHelper.GetResult("product_id"), jsonHelper.GetResult("ProductName"), jsonHelper.GetResult("item_id"), jsonHelper.GetResult("catagory_id"), jsonHelper.GetResult("actual_price"), jsonHelper.GetResult("discount_price"), jsonHelper.GetResult("discount_price_per"), jsonHelper.GetResult("status"), jsonHelper.GetResult("pimg"), jsonHelper.GetResult("vendor_id"), jsonHelper.GetResult("type"), jsonHelper.GetResult("datetime"), jsonHelper.GetResult("FakeRating"), jsonHelper.GetResult("saleid"), jsonHelper.GetResult("gst")));
+                                productListList.add(new ProductList(jsonHelper.GetResult("product_id"),
+                                        jsonHelper.GetResult("ProductName"),
+                                        jsonHelper.GetResult("SKU"),
+                                        jsonHelper.GetResult("item_id"),
+                                        jsonHelper.GetResult("catagory_id"),
+                                        jsonHelper.GetResult("actual_price"),
+                                        jsonHelper.GetResult("discount_price"),
+                                        jsonHelper.GetResult("discount_price_per"),
+                                        jsonHelper.GetResult("status"),
+                                        jsonHelper.GetResult("pimg"),
+                                        jsonHelper.GetResult("vendor_id"),
+                                        jsonHelper.GetResult("FakeRating"),
+                                        jsonHelper.GetResult("gst"),
+                                        jsonHelper.GetResult("hot_product"),
+                                        jsonHelper.GetResult("hsn_no"),
+                                        jsonHelper.GetResult("weight"),
+                                        jsonHelper.GetResult("type"),
+                                        jsonHelper.GetResult("flash_sale")
+                                ));
 
                             }
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
 
-                                    FlashSaleAllProductAdapter flashSaleAllProductAdapter = new FlashSaleAllProductAdapter((FlashSaleProductactivity) getActivity(), flashsalemainLists);
+                                    FlashSaleAllProductAdapter flashSaleAllProductAdapter = new FlashSaleAllProductAdapter((FlashSaleProductactivity) getActivity(), productListList);
                                     flash_sale_recycleview_next_sale.setAdapter(flashSaleAllProductAdapter);
 
                                 }

@@ -16,23 +16,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.FlashSaleProductactivity;
-import tech.iwish.pickmall.activity.MainActivity;
 import tech.iwish.pickmall.config.Constants;
-import tech.iwish.pickmall.other.FlashsalemainList;
+import tech.iwish.pickmall.other.ProductList;
 
 public class FlashSaleAdapter extends RecyclerView.Adapter<FlashSaleAdapter.Viewholder> {
 
-    private List<FlashsalemainList> flashsalemainLists ;
+//    private List<FlashsalemainList> flashsalemainLists ;
     private Context context;
+    private List<ProductList> productListList ;
 
-    public FlashSaleAdapter(Context context, List<FlashsalemainList> flashsalemainLists) {
+    public FlashSaleAdapter(Context context, List<ProductList> productListList) {
         this.context = context;
-        this.flashsalemainLists = flashsalemainLists;
+        this.productListList = productListList;
     }
 
     @NonNull
@@ -45,13 +44,13 @@ public class FlashSaleAdapter extends RecyclerView.Adapter<FlashSaleAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        String a = Constants.IMAGES + flashsalemainLists.get(position).getPimg();
+
+        String a = Constants.IMAGES + productListList.get(position).getPimg();
         Glide.with(context).load(a).into(holder.image_flash_sale);
 
+        holder.actual_price_flash.setText(context.getResources().getString(R.string.rs_symbol)+ productListList.get(position).getActual_price());
 
-        holder.actual_price_flash.setText(context.getResources().getString(R.string.rs_symbol)+ flashsalemainLists.get(position).getActual_price());
-
-        SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol)+flashsalemainLists.get(position).getDiscount_price());
+        SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol)+productListList.get(position).getDiscount_price());
         content.setSpan(new StrikethroughSpan(), 0, content.length(), 0 );
         holder.dicount_price_flash.setText(content);
 
@@ -62,11 +61,14 @@ public class FlashSaleAdapter extends RecyclerView.Adapter<FlashSaleAdapter.View
                 context.startActivity(new Intent(context , FlashSaleProductactivity.class));
             }
         });
+
+
+
     }
 
     @Override
     public int getItemCount() {
-        return flashsalemainLists.size();
+        return productListList.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {

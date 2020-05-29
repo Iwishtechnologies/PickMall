@@ -5,21 +5,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -38,13 +33,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import tech.iwish.pickmall.Interface.PaymentOptionInterface;
 import tech.iwish.pickmall.R;
-import tech.iwish.pickmall.adapter.CartAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.gateway.Paymentgateway;
-import tech.iwish.pickmall.other.FlashsalemainList;
 import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.sqlconnection.MyhelperSql;
 
@@ -209,8 +201,11 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
     private void walletmethod() {
 
-        if (data.get(WALLET_AMOUNT) != null) {
+        if(data.get(WALLET_AMOUNT) !=null){
 
+        }
+
+        if (data.get(WALLET_AMOUNT) != null) {
             WalletAmount = data.get(WALLET_AMOUNT).toString();
             walletAmtTextview.setText(WalletAmount);
             int IntWalletamt = Integer.parseInt(WalletAmount);

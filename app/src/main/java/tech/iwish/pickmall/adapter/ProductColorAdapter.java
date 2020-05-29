@@ -38,7 +38,6 @@ import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.other.ChechColorList;
 import tech.iwish.pickmall.other.ProductColorList;
-import tech.iwish.pickmall.other.ProductDetailsImageList;
 import tech.iwish.pickmall.other.ProductSizeColorList;
 
 public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapter.Viewholder> {
@@ -104,7 +103,6 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
                         e.printStackTrace();
                     }
-
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                         if (response.isSuccessful()) {
@@ -131,7 +129,6 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
                                             });
                                         }
                                     }
-
                                 }
                             }
                         }

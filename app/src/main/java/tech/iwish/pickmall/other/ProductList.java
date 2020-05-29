@@ -3,6 +3,7 @@ package tech.iwish.pickmall.other;
 public class ProductList {
     private String product_id;
     private String ProductName;
+    private String SKU;
     private String item_id;
     private String catagory_id;
     private String actual_price;
@@ -13,10 +14,16 @@ public class ProductList {
     private String vendor_id;
     private String FakeRating;
     private String gst;
+    private String hot_product;
+    private String hsn_no;
+    private String weight;
+    private String type;
+    private String flash_sale;
 
-    public ProductList(String product_id, String productName, String item_id, String catagory_id, String actual_price, String discount_price, String discount_price_per, String status, String pimg, String vendor_id, String fakeRating, String gst) {
+    public ProductList(String product_id, String productName, String SKU, String item_id, String catagory_id, String actual_price, String discount_price, String discount_price_per, String status, String pimg, String vendor_id, String fakeRating, String gst, String hot_product, String hsn_no, String weight, String type, String flash_sale) {
         this.product_id = product_id;
         ProductName = productName;
+        this.SKU = SKU;
         this.item_id = item_id;
         this.catagory_id = catagory_id;
         this.actual_price = actual_price;
@@ -27,7 +34,13 @@ public class ProductList {
         this.vendor_id = vendor_id;
         FakeRating = fakeRating;
         this.gst = gst;
+        this.hot_product = hot_product;
+        this.hsn_no = hsn_no;
+        this.weight = weight;
+        this.type = type;
+        this.flash_sale = flash_sale;
     }
+
 
     public String getProduct_id() {
         return product_id;
@@ -43,6 +56,14 @@ public class ProductList {
 
     public void setProductName(String productName) {
         ProductName = productName;
+    }
+
+    public String getSKU() {
+        return SKU;
+    }
+
+    public void setSKU(String SKU) {
+        this.SKU = SKU;
     }
 
     public String getItem_id() {
@@ -123,5 +144,45 @@ public class ProductList {
 
     public void setGst(String gst) {
         this.gst = gst;
+    }
+
+    public String getHot_product() {
+        return hot_product;
+    }
+
+    public void setHot_product(String hot_product) {
+        this.hot_product = hot_product;
+    }
+
+    public String getHsn_no() {
+        return hsn_no;
+    }
+
+    public void setHsn_no(String hsn_no) {
+        this.hsn_no = hsn_no;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getFlash_sale() {
+        return flash_sale;
+    }
+
+    public void setFlash_sale(String flash_sale) {
+        this.flash_sale = flash_sale;
     }
 }

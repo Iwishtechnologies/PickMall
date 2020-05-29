@@ -1,10 +1,5 @@
 package tech.iwish.pickmall.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -20,7 +15,11 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -41,7 +40,6 @@ import okhttp3.Response;
 import tech.iwish.pickmall.Interface.ProductCountInterface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.ColorSizeImageAdapter;
-import tech.iwish.pickmall.adapter.ProductColorAdapter;
 import tech.iwish.pickmall.adapter.ProductDetailsImageAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
@@ -63,7 +61,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     //    private List<ProductDetailsImageList> productDetailsListImageList = new ArrayList<>();
     private List<ProductSizeColorList> productSizeColorLists = new ArrayList<>();
     private ViewPager productImageDetailsViewpager;
-    private String product_color, product_name, product_Image, actual_price, discount_price, product_id, vendor_id, discount_price_per;
+    private String product_color, product_name, product_Image, sku,actual_price, discount_price, product_id, vendor_id;
     private RecyclerView color_size_image_recycle_view;
     private RatingBar ratingcheck;
     private Button add_card_btn, buy_now_btn, one_rs_button_place_order;
@@ -76,6 +74,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     private ImageView save_hearth;
     public boolean wishlistchechi;
     private List<ProductColorList> productColorLists = new ArrayList<>();
+    String aaa;
 
 
     @Override
@@ -129,7 +128,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 //                if (movement >= 0 && movement <= maxDistance) {
 //                    Toast.makeText(ProductDetailsActivity.this, "scroll bar work", Toast.LENGTH_SHORT).show();
 //                }
-
             }
         });
 
@@ -150,23 +148,23 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         product_color = intent.getStringExtra("product_color");
         String product_type = intent.getStringExtra("product_type");
         vendor_id = intent.getStringExtra("vendor_id");
-        discount_price_per = intent.getStringExtra("discount_price_per");
         gst = intent.getStringExtra("gst");
+        sku = intent.getStringExtra("sku");
 
         switch (product_type) {
 
+//            case "flashSale":
+//                All_Image(Constants.FLASH_SALE_IMAGE);
+//                coloAndImageData(Constants.FLASH_SALE_COLOR_SIDE);
+//                sizedatafetch(Constants.FLASH_SALE_SIZE);
+//                PRODUCT_TYPE = "flashsale";
+//                product_layout.setVisibility(View.VISIBLE);
+//                one_rs_main_layout.setVisibility(View.GONE);
+//                one_rs_bottom_layout.setVisibility(View.GONE);
+//                one_rs_rule.setVisibility(View.GONE);
+//                button_layout.setVisibility(View.VISIBLE);
+//                break;
             case "flashSale":
-                All_Image(Constants.FLASH_SALE_IMAGE);
-                coloAndImageData(Constants.FLASH_SALE_COLOR_SIDE);
-                sizedatafetch(Constants.FLASH_SALE_SIZE);
-
-                PRODUCT_TYPE = "flashsale";
-                product_layout.setVisibility(View.VISIBLE);
-                one_rs_main_layout.setVisibility(View.GONE);
-                one_rs_bottom_layout.setVisibility(View.GONE);
-                one_rs_rule.setVisibility(View.GONE);
-                button_layout.setVisibility(View.VISIBLE);
-                break;
             case "allProduct":
                 All_Image(Constants.PRODDUCT_IMAGE);
                 coloAndImageData(Constants.PRODDUCT_SIZE_COLOR);
@@ -221,7 +219,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
         ac_priceEdit.setText(getResources().getString(R.string.rs_symbol) + actual_price);
         title_name_edit.setText(product_name);
-        dicount_price_text.setText("-" + discount_price_per);
+
+        float mrp = Float.parseFloat(discount_price);
+        float actual_prices = Float.parseFloat(actual_price);
+        float sub = mrp - actual_prices ;
+        float div = sub/actual_prices;
+        aaa = String.valueOf((int) (div *100));
+
+        dicount_price_text.setText(" "+aaa+"% OFF" );
 
         SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + discount_price);
         content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
@@ -381,6 +386,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         switch (id) {
             case R.id.select_size_color:
             case R.id.add_card_btn:
+
                 bundle = new Bundle();
 //                productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists, this);
                 productSideColorBottomFragment = new ProductSideColorBottomFragment(productColorLists, productSizeColorLists);
@@ -391,7 +397,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 bundle.putString("product_type", PRODUCT_TYPE);
                 bundle.putString("gst", gst);
                 bundle.putString("vendor_id", vendor_id);
-                bundle.putString("product_dicount_percent", discount_price_per);
+                bundle.putString("product_dicount_percent", aaa );
+                bundle.putString("sku", sku);
                 bundle.putString("type", "add_to_card");
                 productSideColorBottomFragment.setArguments(bundle);
                 productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
@@ -426,6 +433,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 bundle.putString("discount_price", discount_price);
                 bundle.putString("product_type", PRODUCT_TYPE);
                 bundle.putString("gst", gst);
+                bundle.putString("sku", sku);
                 bundle.putString("type", "buy_now");
                 productSideColorBottomFragment.setArguments(bundle);
                 productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());

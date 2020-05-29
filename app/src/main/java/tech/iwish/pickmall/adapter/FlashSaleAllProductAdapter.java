@@ -23,20 +23,20 @@ import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.FlashSaleProductactivity;
 import tech.iwish.pickmall.activity.ProductDetailsActivity;
 import tech.iwish.pickmall.config.Constants;
-import tech.iwish.pickmall.other.FlashsalemainList;
+import tech.iwish.pickmall.other.ProductList;
 
 
 public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAllProductAdapter.Viewholder> {
 
     private Context context;
-    private List<FlashsalemainList> flashsalemainLists;
+    private List<ProductList> productListList ;
     private boolean shimmer = true;
     private int shimmernumber = 5;
 
 
-    public FlashSaleAllProductAdapter(FlashSaleProductactivity flashSaleProductactivity, List<FlashsalemainList> flashsalemainLists) {
+    public FlashSaleAllProductAdapter(FlashSaleProductactivity flashSaleProductactivity, List<ProductList> productListList) {
         this.context = flashSaleProductactivity;
-        this.flashsalemainLists = flashsalemainLists;
+        this.productListList = productListList;
     }
 
     @NonNull
@@ -55,7 +55,7 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, final int position) {
 
-        if (!flashsalemainLists.get(position).getActual_price().equals("")) {
+        if (!productListList.get(position).getActual_price().equals("")) {
 
             holder.shimmerLayout.stopShimmer();
             holder.shimmerLayout.setShimmer(null);
@@ -64,30 +64,30 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
             holder.amount_flash.setBackground(null);
 
 
-            holder.amount_flash.setText(context.getResources().getString(R.string.rs_symbol) + flashsalemainLists.get(position).getActual_price());
+            holder.amount_flash.setText(context.getResources().getString(R.string.rs_symbol) + productListList.get(position).getActual_price());
 
-            SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol) + flashsalemainLists.get(position).getDiscount_price());
+            SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol) + productListList.get(position).getDiscount_price());
             content.setSpan(new StrikethroughSpan(), 0, content.length(), 0 );
             holder.dicount_price_flash.setText(content);
 
 
-            String a = Constants.IMAGES + flashsalemainLists.get(position).getPimg();
+            String a = Constants.IMAGES + productListList.get(position).getPimg();
             Glide.with(context).load(a).into(holder.image_flash_sale);
-            holder.product_name_flash.setText(flashsalemainLists.get(position).getProductName());
-            holder.percent_price.setText(flashsalemainLists.get(position).getDiscount_price_per() +"%");
+            holder.product_name_flash.setText(productListList.get(position).getProductName());
+            holder.percent_price.setText(productListList.get(position).getDiscount_price_per() +"%");
             holder.flash_main_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(new Intent(context, ProductDetailsActivity.class));
-                    intent.putExtra("product_name", flashsalemainLists.get(position).getProductName());
-                    intent.putExtra("actual_price", flashsalemainLists.get(position).getActual_price());
-                    intent.putExtra("discount_price", flashsalemainLists.get(position).getDiscount_price());
-                    intent.putExtra("product_id", flashsalemainLists.get(position).getProduct_id());
-//                intent.putExtra("product_color", flashsalemainLists.get(position).getColors());
-                    intent.putExtra("product_Image", flashsalemainLists.get(position).getPimg());
-                    intent.putExtra("vendor_id", flashsalemainLists.get(position).getVendor_id());
-                    intent.putExtra("discount_price_per", flashsalemainLists.get(position).getDiscount_price_per());
-                    intent.putExtra("gst", flashsalemainLists.get(position).getGst());
+                    intent.putExtra("product_name", productListList.get(position).getProductName());
+                    intent.putExtra("actual_price", productListList.get(position).getActual_price());
+                    intent.putExtra("discount_price", productListList.get(position).getDiscount_price());
+                    intent.putExtra("product_id", productListList.get(position).getProduct_id());
+                    intent.putExtra("product_Image", productListList.get(position).getPimg());
+                    intent.putExtra("vendor_id", productListList.get(position).getVendor_id());
+                    intent.putExtra("discount_price_per", productListList.get(position).getDiscount_price_per());
+                    intent.putExtra("gst", productListList.get(position).getGst());
+                    intent.putExtra("sku", productListList.get(position).getSKU());
                     intent.putExtra("product_type", "flashSale");
                     context.startActivity(intent);
                 }
@@ -102,7 +102,7 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
 
     @Override
     public int getItemCount() {
-        return flashsalemainLists.size();
+        return productListList.size();
 //        return flashsalemainLists.size();
     }
 
