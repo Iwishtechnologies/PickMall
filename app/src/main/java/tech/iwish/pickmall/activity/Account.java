@@ -20,7 +20,7 @@ import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.session.Share_session;
 
 public class Account extends AppCompatActivity {
-    ImageView viewall, profile,image,unpaid,wallet,wishlist,shippingaddress,following,vendor,coupens,invite,myorder,entercode,setting,helpcenter;
+    ImageView viewall, profile,image,unpaid,wallet,wishlist,shippingaddress,following,vendor,coupens,invite,myorder,entercode,setting,helpcenter,delivered;
     LinearLayout fullview;
     Share_session share_session;
     TextView name;
@@ -72,6 +72,7 @@ public class Account extends AppCompatActivity {
         entercode= findViewById(R.id.enterinvitecode);
         setting= findViewById(R.id.setting);
         helpcenter= findViewById(R.id.helpcenter);
+        delivered= findViewById(R.id.delivered);
     }
 
 
@@ -192,6 +193,15 @@ public class Account extends AppCompatActivity {
             }
         });
 
+
+        delivered.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(Account.this,DeliveredItemActivity.class);
+                startActivity(intent);
+                Animatoo.animateSlideDown(Account.this);
+            }
+        });
 
 
     }

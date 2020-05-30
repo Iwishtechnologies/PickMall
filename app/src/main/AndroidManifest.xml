@@ -4,11 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,11 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true">
-
-
-        <activity android:name=".activity.SupportAnswerActivity"
-            android:theme="@style/Settingtheme"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.DeliveredItemActivity"
+            android:label="Delivered Order"
+            android:screenOrientation="portrait"
+            android:theme="@style/myordertheme"/>
+        <activity
+            android:name=".activity.SupportAnswerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Settingtheme" />
         <activity
             android:name=".activity.SupportActivity"
             android:screenOrientation="portrait"
@@ -32,11 +32,10 @@
             android:name=".activity.ReturnPolicyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Settingtheme" />
-
-
-        <activity android:name=".activity.ContactUsActivity"
+        <activity
+            android:name=".activity.ContactUsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Settingtheme"/>
+            android:theme="@style/Settingtheme" />
         <activity
             android:name=".activity.TermsAndConditionActivity"
             android:screenOrientation="portrait"
@@ -49,14 +48,11 @@
             android:name=".activity.Setting"
             android:screenOrientation="portrait"
             android:theme="@style/Settingtheme" />
-
         <activity
             android:name=".activity.EnterInviteCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/enterinvitecode" />
-
-
-        <activity android:name=".activity.SuccessfullyActivity"></activity>
+        <activity android:name=".activity.SuccessfullyActivity" />
         <activity android:name=".activity.PaymentOptionActivity" />
         <activity android:name=".gateway.Paymentgateway" />
         <activity
@@ -69,8 +65,9 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.Searchactivity"
-            android:theme="@style/searchtheme"/>
+        <activity
+            android:name=".activity.Searchactivity"
+            android:theme="@style/searchtheme" />
         <activity
             android:name=".activity.FollowingActivity"
             android:screenOrientation="portrait"
@@ -112,7 +109,6 @@
             android:name=".activity.ShipingAddressActivity"
             android:screenOrientation="portrait"
             android:theme="@style/shippingtheme" />
-
         <activity
             android:name=".activity.WalletActivity"
             android:screenOrientation="portrait"

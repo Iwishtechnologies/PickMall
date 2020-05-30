@@ -31,6 +31,7 @@ import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.CouponAdapter;
 import tech.iwish.pickmall.adapter.MyOrderAdapter;
 import tech.iwish.pickmall.adapter.WishListAdapter;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.other.CouponList;
 import tech.iwish.pickmall.other.OrderList;
@@ -88,7 +89,7 @@ public class MyOederActitvity extends AppCompatActivity {
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
         Request request = new Request.Builder().post(body)
-                .url("http://173.212.226.143:8086/api/ordresummary")
+                .url(Constants.ORDER_SUMMERY)
                 .build();
         client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override

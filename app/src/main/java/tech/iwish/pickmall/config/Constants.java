@@ -86,6 +86,8 @@ public class Constants {
     public static String WALLETBALANCE = URL+"WalletBalance";
     public static String REFERREL = URL+"referrel";
     public static String PROCESSREFERREL = URL+"ProcessReferrel";
+    public static String ORDER_SUMMERY = URL+"ordresummary";
+    public static String DELIVERED_PRODUCT = URL+"Delivered_product";
 
     public static String IMAGES = "http://173.212.226.143:8086/img/";
     public static String SHAREDPREFERENCE = "money_pref";

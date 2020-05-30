@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/silderColor"
+    android:orientation="vertical"
+    tools:context=".activity.ProductActivity">
+
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/progress"
+        android:outlineAmbientShadowColor="@color/colorAccent"
+        android:outlineSpotShadowColor="@color/colorAccent"
+        android:progressTint="@color/colorAccent"
+        android:indeterminateTint="@color/colorAccent"
+        android:layout_centerInParent="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/main"
+        android:background="@color/whiteColor">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/back"
+                android:src="@drawable/leftarrow" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/search_design_product"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:paddingStart="10dp"
+                    android:text="Setting"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_below="@id/main"
+        android:id="@+id/scroll"
+        android:alpha="1"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/ruppee_one_background"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:background="#CC0101"
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+                        android:text="congrats! Rohit won oneplus 7T for ₹1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#fff"
+
+                        android:text="Support>"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:background="@drawable/rupee_produxct_backgrount"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_margin="20dp"
+                android:layout_height="wrap_content">
+
+                <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:shape_mode="round_rect"
+                    app:round_radius="10dp"
+                    android:src="@drawable/male_icon"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:layout_height="wrap_content">
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#757373"
+                    android:textSize="18dp"
+                    app:fonttype="text_semi_bold"
+                    android:text="New Lanbogini Car in Red Color "/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:gravity="bottom"
+                    android:layout_height="wrap_content">
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:text="₹1"
+                        android:textSize="20dp"
+                        android:textColor="#FB0000"
+                        app:fonttype="text_semi_bold"
+                        android:layout_height="wrap_content"/>
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:text="₹15,000,00"
+                        android:textSize="12dp"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="#787878"
+                        app:fonttype="text_semi_bold"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13dp"
+                    android:text="50000 users won "/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:src="@drawable/one_win_icon"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/other_refunds_icon"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:weightSum="3"
+                android:gravity="center"
+                android:layout_marginTop="0dp"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#FF0000"
+                    android:layout_marginLeft="30dp"
+                    android:layout_height="5dp"/>
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#FF0000"
+                    app:fonttype="text_semi_bold"
+                    android:layout_marginLeft="-20dp"
+                    android:layout_marginRight="-20dp"
+                    android:textAlignment="center"
+                    android:textSize="20dp"
+                    android:text="Waiting (1/6)"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#FF0000"
+                    android:layout_marginRight="30dp"
+                    android:layout_height="5dp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:weightSum="4"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/circle_starter_plus_icon"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/circle_plus_icon"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/circle_plus_icon"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:src="@drawable/circle_plus_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:src="@drawable/circle_plus_new_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_height="wrap_content"/>
+
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="20dp"
+                android:weightSum="2"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:layout_height="wrap_content">
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        app:fonttype="text_semi_bold"
+                        android:textSize="18dp"
+                        android:text="The deal will expire in  " />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:weightSum="3"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content">
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:padding="5dp"
+                        android:background="#353434"
+                        android:textColor="#FFF"
+                        android:layout_marginRight="5dp"
+                        android:layout_height="wrap_content"
+                        android:text="23"/>
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:padding="5dp"
+                        android:background="#353434"
+                        android:textColor="#FFF"
+                        android:layout_marginRight="5dp"
+                        android:layout_height="wrap_content"
+                        android:text="59"/>
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:padding="5dp"
+                        android:background="#353434"
+                        android:textColor="#FFF"
+                        android:layout_height="wrap_content"
+                        android:text="53"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="wrap_content"
+                    android:textSize="15dp"
+                    android:textColor="#3E3B3B"
+                    android:textAlignment="center"
+                    android:text="Waiting for 5 users(S) to join, Including 2 new users. You may win the product when the deal is completed."
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:gravity="center"
+               android:padding="30dp"
+               android:layout_height="wrap_content">
+
+               <Button
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:background="@drawable/invite_friends_icon"/>
+           </LinearLayout>
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

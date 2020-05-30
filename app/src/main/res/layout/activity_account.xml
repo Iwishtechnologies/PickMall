@@ -150,7 +150,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/settingrectangle"
+                android:background="@drawable/very_small_rectangle"
                 android:layout_margin="10dp"
                 android:orientation="vertical">
 
@@ -171,6 +171,7 @@
                         android:layout_gravity="right"
                         android:layout_marginLeft="-70dp"
                         android:id="@+id/viewall"
+                        android:visibility="gone"
                         android:src="@drawable/viewall" />
 
                 </LinearLayout>
@@ -181,19 +182,22 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:id="@+id/unpaid"
+                    android:visibility="gone"
                     android:src="@drawable/unpaid"/>
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:visibility="gone"
                     android:src="@drawable/shipped"/>
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:src="@drawable/viewedmenu"/>
+                    android:id="@+id/delivered"
+                    android:src="@drawable/delivered_icon"/>
 
 
             </LinearLayout>
@@ -248,21 +252,6 @@
                     android:id="@+id/enterinvitecode"
                     android:src="@drawable/enter_invite_code"/>
 
-
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/settingrectangle"
-                android:layout_margin="10dp"
-                android:visibility="visible"
-                android:orientation="vertical">
-
-
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -274,17 +263,45 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:visibility="gone"
-                    android:src="@drawable/appsugession"/>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:id="@+id/helpcenter"
                     android:src="@drawable/helpcenter"/>
 
+
+
             </LinearLayout>
+
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/settingrectangle"-->
+<!--                android:layout_margin="10dp"-->
+<!--                android:visibility="visible"-->
+<!--                android:orientation="vertical">-->
+
+
+<!--&lt;!&ndash;                <ImageView&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_margin="10dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:id="@+id/setting"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:src="@drawable/setting"/>&ndash;&gt;-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_margin="10dp"-->
+<!--                    android:visibility="gone"-->
+<!--                    android:src="@drawable/appsugession"/>-->
+
+<!--&lt;!&ndash;                <ImageView&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_margin="10dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:id="@+id/helpcenter"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:src="@drawable/helpcenter"/>&ndash;&gt;-->
+
+<!--            </LinearLayout>-->
 
 
         </LinearLayout>
