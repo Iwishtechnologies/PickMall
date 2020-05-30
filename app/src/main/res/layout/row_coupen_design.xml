@@ -5,10 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:layout_width="match_parent"
-        android:id="@+id/shimmer"
-        android:layout_height="wrap_content">
 
 
     <LinearLayout
@@ -105,8 +101,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    </com.facebook.shimmer.ShimmerFrameLayout>
 
 
 </RelativeLayout>

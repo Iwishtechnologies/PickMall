@@ -67,7 +67,7 @@ public class Setting extends AppCompatActivity {
         return_policy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                startActivity(new Intent(Setting.this,EditProfileActivity.class));
+                startActivity(new Intent(Setting.this,ReturnPolicyActivity.class));
             }
         });
         termscondition.setOnClickListener(new View.OnClickListener() {

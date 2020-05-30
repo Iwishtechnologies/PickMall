@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * Created by iwish on 11/30/2016.
  */
-public class ConnectionServer extends AsyncTask <String,String,String> {
+public class ConnectionServer extends AsyncTask<String, String, String> {
 
     ProgressDialog pdLoading = null;
     HttpURLConnection conn;
@@ -33,6 +33,8 @@ public class ConnectionServer extends AsyncTask <String,String,String> {
     String REQUESTED_METHOD = "POST";
     Uri.Builder builder = null;
     String rtn = "FALSE";
+
+
     public AsyncResponse delegate = null;
 
 
@@ -46,8 +48,8 @@ public class ConnectionServer extends AsyncTask <String,String,String> {
 
     private  boolean isFileUpload = true;
 
-    private HashMap<String,String> fileBuildparameter = new HashMap<>();
-    private HashMap<String,String> stringBuildparameter = new HashMap<>();
+    private HashMap<String, String> fileBuildparameter = new HashMap<>();
+    private HashMap<String, String> stringBuildparameter = new HashMap<>();
 
 
     public ConnectionServer(){
@@ -85,7 +87,7 @@ public class ConnectionServer extends AsyncTask <String,String,String> {
 
 
             request = new DataOutputStream(this.conn.getOutputStream());
-            Log.e("request",this.conn.getOutputStream().toString());
+            Log.e("Request",this.conn.getOutputStream().toString());
 
 
 
@@ -93,7 +95,7 @@ public class ConnectionServer extends AsyncTask <String,String,String> {
 
 
            if(fileBuildparameter.size()>0) {
-               for(Map.Entry<String,String> entry :fileBuildparameter.entrySet())
+               for(Map.Entry<String, String> entry :fileBuildparameter.entrySet())
                {
                    FileInputStream fileInputStream = new FileInputStream(entry.getValue());
 
@@ -136,7 +138,7 @@ public class ConnectionServer extends AsyncTask <String,String,String> {
            }
 
             if(stringBuildparameter.size()>0) {
-                for(Map.Entry<String,String> entity :stringBuildparameter.entrySet()) {
+                for(Map.Entry<String, String> entity :stringBuildparameter.entrySet()) {
                     request.writeBytes(twoHyphens + boundary + crlf);
                     request.writeBytes("Content-Disposition: form-data; name=\"" + entity.getKey() + "\"" + crlf);
                     request.writeBytes(crlf);
@@ -157,9 +159,9 @@ public class ConnectionServer extends AsyncTask <String,String,String> {
             request.close();
 
             InputStream responseStream;
-            Log.e("Response Code",String.valueOf(this.conn.getResponseCode()));
+            Log.e("Response Code", String.valueOf(this.conn.getResponseCode()));
 
-            if(this.conn.getResponseCode()==HttpURLConnection.HTTP_OK)
+            if(this.conn.getResponseCode()== HttpURLConnection.HTTP_OK)
             responseStream = new BufferedInputStream(this.conn.getInputStream());
             else
             responseStream = new BufferedInputStream(this.conn.getErrorStream());
@@ -216,7 +218,7 @@ public class ConnectionServer extends AsyncTask <String,String,String> {
       //  Log.e("data",result);
 
     }
-    public void setFilepath(String key,String filePath)
+    public void setFilepath(String key, String filePath)
     {
 
           this.selectedFilePath = filePath;
@@ -270,10 +272,11 @@ public class ConnectionServer extends AsyncTask <String,String,String> {
         void processFinish(String output);
     }
 
-    public void setRequestProperty(String Key,String Value)
+    public void setRequestProperty(String Key, String Value)
     {
         this.conn.setRequestProperty(Key,Value);
     }
+
 
 
 

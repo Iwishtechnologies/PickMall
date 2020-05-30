@@ -157,6 +157,10 @@ public class Share_session {
         editor.putString(FILTER_LIST_COLOR ,list.toString());
         editor.commit();
     }
+    public  void  SetProfileImage(String image){
+        editor.putString(PROFILEIMAGE,image).commit();
+    }
+
 
  }
 

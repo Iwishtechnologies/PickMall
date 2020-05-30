@@ -32,6 +32,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.iwish.pickmall.OkhttpConnection.ConectOkhttp;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.session.UserSession;
@@ -161,7 +162,7 @@ public class UserDetail extends AppCompatActivity {
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/Profile").post(body).build();
+        Request request1 = new Request.Builder().url(Constants.PROFILE).post(body).build();
         okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -230,7 +231,7 @@ public class UserDetail extends AppCompatActivity {
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/Signup").post(body).build();
+        Request request1 = new Request.Builder().url(Constants.SIGNUP).post(body).build();
         okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {

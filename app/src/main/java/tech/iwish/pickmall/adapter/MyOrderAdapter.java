@@ -2,10 +2,12 @@ package tech.iwish.pickmall.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,7 +60,39 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        GetProduct(orderLists.get(position).getProdeuct_id(),orderLists.get(position).getType(),holder,position);
+        Log.e("name",orderLists.get(position).getProduct_name());
+        holder.name.setText(orderLists.get(position).getProduct_name());
+        Glide.with(context).load(Constants.IMAGES+orderLists.get(position).getPimg()).placeholder(R.drawable.male_icon).into(holder.image);
+        holder.status.setText(orderLists.get(position).getOrder_status());
+        if (orderLists.get(position).getOrder_status()=="CANCELLED")
+        {
+          holder.dot.setImageDrawable(context.getDrawable(R.drawable.red_dot));
+        }
+        holder.product.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(context,OrderDetailActivity.class);
+                intent.putExtra("ProductName",orderLists.get(position).getProduct_name());
+                intent.putExtra("orderid",orderLists.get(position).getOrderid());
+                intent.putExtra("address",orderLists.get(position).getDelhivery_address());
+                intent.putExtra("orderdate",orderLists.get(position).getDatetime());
+                intent.putExtra("orderStatus",orderLists.get(position).getOrder_status());
+                intent.putExtra("oederAmount",orderLists.get(position).getOrder_amount());
+                intent.putExtra("color",orderLists.get(position).getColor());
+                intent.putExtra("size",orderLists.get(position).getSize());
+                intent.putExtra("qty",orderLists.get(position).getQty());
+                intent.putExtra("image",orderLists.get(position).getPimg());
+                intent.putExtra("actual_price",orderLists.get(position).getActual_price());
+                intent.putExtra("selling_price",orderLists.get(position).getDiscount_price());
+                intent.putExtra("shipping_charge",orderLists.get(position).getShipping_charge());
+                intent.putExtra("total_amount",orderLists.get(position).getOrder_amount());
+                intent.putExtra("product_id",orderLists.get(position).getProduct_id());
+                intent.putExtra("vendor_id",orderLists.get(position).getVendor_id());
+                context.startActivity(intent);
+
+            }
+        });
+
     }
 
     @Override
@@ -70,7 +104,6 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
         ShapedImageView image,dot;
         TextViewFont name,status;
         LinearLayout product;
-        private ShimmerFrameLayout shimmerLayout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             image=itemView.findViewById(R.id.image);
@@ -78,97 +111,8 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
             name=itemView.findViewById(R.id.name);
             status=itemView.findViewById(R.id.status);
             product=itemView.findViewById(R.id.product);
-            shimmerLayout=itemView.findViewById(R.id.shimmerLayout);
+
         }
     }
 
-
-
-    private void GetProduct(final String product_id, String product_type, final ViewHolder viewHolder, final int position){
-        OkHttpClient client = new OkHttpClient();
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("id",product_id);
-            jsonObject.put("type",product_type);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request = new Request.Builder().post(body)
-                .url("http://173.212.226.143:8086/api/orderProducts")
-                .build();
-        client.newCall(request).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String result = response.body().string();
-
-                    final JsonHelper jsonHelper = new JsonHelper(result);
-                    if (jsonHelper.isValidJson()) {
-                        String responses = jsonHelper.GetResult("response");
-                        if (responses.equals("TRUE")) {
-                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                jsonHelper.setChildjsonObj(jsonArray, i);
-
-                                context.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Glide.with(context).load(Constants.IMAGES+jsonHelper.GetResult("pimg")).into(viewHolder.image);
-                                        viewHolder.name.setText(jsonHelper.GetResult("ProductName"));
-                                        viewHolder.status.setText(orderLists.get(position).getStatus());
-//                                      viewHolder.status.setText(jsonHelper.GetResult("status"));
-                                        viewHolder.name.setText(jsonHelper.GetResult("ProductName"));
-                                        viewHolder.shimmerLayout.stopShimmer();
-                                        viewHolder.shimmerLayout.setShimmer(null);
-                                        viewHolder.product.setAlpha(1);
-                                        final Intent intent= new Intent(context, OrderDetailActivity.class);
-                                        intent.putExtra("ProductName",jsonHelper.GetResult("ProductName"));
-                                        intent.putExtra("item_id",jsonHelper.GetResult("item_id"));
-                                        intent.putExtra("catagory_id",jsonHelper.GetResult("catagory_id"));
-                                        intent.putExtra("actual_price",jsonHelper.GetResult("actual_price"));
-                                        intent.putExtra("discount_price",jsonHelper.GetResult("discount_price"));
-                                        intent.putExtra("discount_price_per",jsonHelper.GetResult("discount_price_per"));
-                                        intent.putExtra("status",jsonHelper.GetResult("status"));
-                                        intent.putExtra("pimg",jsonHelper.GetResult("pimg"));
-                                        intent.putExtra("vendor_id",jsonHelper.GetResult("vendor_id"));
-                                        intent.putExtra("FakeRating",jsonHelper.GetResult("FakeRating"));
-                                        intent.putExtra("orderid",orderLists.get(position).getOrder_id());
-                                        intent.putExtra("address",orderLists.get(position).getDelivery_add());
-                                        intent.putExtra("orderamt",orderLists.get(position).getOoder_amountt());
-                                        intent.putExtra("orderStatus",orderLists.get(position).getStatus());
-                                        intent.putExtra("orderdate",orderLists.get(position).getDate_time());
-                                        intent.putExtra("product_id",product_id);
-                                        viewHolder.product.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                              context.startActivity(intent);
-                                            }
-                                        });
-
-
-                                    }
-                                });
-
-
-
-
-                            }
-
-
-                        }
-                    }
-
-                }
-            }
-        });
-
-    }
 }

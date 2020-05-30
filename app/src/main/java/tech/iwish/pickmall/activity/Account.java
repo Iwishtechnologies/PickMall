@@ -16,10 +16,11 @@ import android.widget.TextView;
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.bumptech.glide.Glide;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.session.Share_session;
 
 public class Account extends AppCompatActivity {
-    ImageView viewall, profile,image,unpaid,wallet,wishlist,shippingaddress,following,vendor,coupens,invite,myorder,entercode,setting;
+    ImageView viewall, profile,image,unpaid,wallet,wishlist,shippingaddress,following,vendor,coupens,invite,myorder,entercode,setting,helpcenter;
     LinearLayout fullview;
     Share_session share_session;
     TextView name;
@@ -45,7 +46,7 @@ public class Account extends AppCompatActivity {
         name.setText(share_session.getUserDetail().get("username"));
         if(!share_session.getUserDetail().get("image").equals("Set Now "))
         {
-            Glide.with(Account.this).load("173.212.226.143:8086/Androidapi/"+share_session.getUserDetail().get("image")).into(image);
+            Glide.with(Account.this).load(Constants.IMAGES+share_session.getUserDetail().get("image")).into(image);
         }
     }
 
@@ -70,6 +71,7 @@ public class Account extends AppCompatActivity {
         shippingaddress= findViewById(R.id.shippingaddress);
         entercode= findViewById(R.id.enterinvitecode);
         setting= findViewById(R.id.setting);
+        helpcenter= findViewById(R.id.helpcenter);
     }
 
 
@@ -181,6 +183,15 @@ public class Account extends AppCompatActivity {
                 Animatoo.animateSlideDown(Account.this);
             }
         });
+        helpcenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(Account.this,SupportActivity.class);
+                startActivity(intent);
+                Animatoo.animateSlideDown(Account.this);
+            }
+        });
+
 
 
     }

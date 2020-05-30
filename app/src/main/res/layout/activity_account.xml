@@ -43,11 +43,12 @@
                     <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        app:shape_mode="round_rect"
+                        app:shape_mode="circle"
                         app:round_radius="30dp"
                         app:stroke_color="#009688"
-                        app:stroke_width="0dp"
+                        app:stroke_width="0.5dp"
                         android:id="@+id/image"
+                        android:scaleType="centerCrop"
                         android:layout_marginRight="20dp"
                         android:src="@drawable/female_icom"/>
                 </LinearLayout>
@@ -113,14 +114,14 @@
                 android:layout_marginTop="0dp"
                 android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:background="@drawable/rectangle">
+                android:background="@drawable/small_rectangle_red">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:id="@+id/wishlist"
-                    android:src="@drawable/wish_list"/>
+                    android:src="@drawable/wish_list_icon"/>
 
 
                 <ImageView
@@ -128,28 +129,28 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:id="@+id/following"
-                    android:src="@drawable/following"/>
+                    android:src="@drawable/following_icon"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:id="@+id/vendoe"
-                    android:src="@drawable/vendor_icon"/>
+                    android:src="@drawable/vendor_icom"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:id="@+id/coupens"
-                    android:src="@drawable/coupens"/>
+                    android:src="@drawable/coupons_icon"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/order_rectangle"
+                android:background="@drawable/settingrectangle"
                 android:layout_margin="10dp"
                 android:orientation="vertical">
 
@@ -186,24 +187,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:src="@drawable/tobeshipeed"/>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:src="@drawable/shipped"/>
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:src="@drawable/rewied"/>
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/indispute"/>
+                    android:src="@drawable/viewedmenu"/>
+
 
             </LinearLayout>
 
@@ -283,12 +274,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:visibility="gone"
                     android:src="@drawable/appsugession"/>
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:id="@+id/helpcenter"
                     android:src="@drawable/helpcenter"/>
 
             </LinearLayout>

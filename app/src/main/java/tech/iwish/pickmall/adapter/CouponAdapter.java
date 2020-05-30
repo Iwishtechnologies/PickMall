@@ -48,8 +48,6 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        holder.shimmer.stopShimmer();
-        holder.shimmer.setShimmer(null);
         holder.title.setText(couponLists.get(position).getTitle());
         holder.subtitle.setText(couponLists.get(position).getSubtitle());
         holder.prize.setText(couponLists.get(position). getPrize());
@@ -80,7 +78,6 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
         TextViewFont title,subtitle,prize,validity,terms;
         ShapedImageView icon;
         ImageView copy;
-        ShimmerFrameLayout shimmer;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title=itemView.findViewById(R.id.title);
@@ -90,8 +87,7 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.ViewHolder
             icon=itemView.findViewById(R.id.icon);
             copy=itemView.findViewById(R.id.copy);
             terms=itemView.findViewById(R.id.terms);
-            shimmer=itemView.findViewById(R.id.shimmer);
-            shimmer.startShimmer();
+
         }
     }
 }

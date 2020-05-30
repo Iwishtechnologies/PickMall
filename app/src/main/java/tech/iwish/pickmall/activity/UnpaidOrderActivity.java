@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +22,8 @@ import tech.iwish.pickmall.session.Share_session;
 public class UnpaidOrderActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     Share_session share_session;
-    TextViewFont noitem;
+    ImageView noitem;
+    LinearLayout shimmer_view;
     ArrayList<HashMap<String, String>> list = new ArrayList<>();
 
 
@@ -28,6 +31,7 @@ public class UnpaidOrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_unpaid_order);
+        setTitle("Unpaid Order");
         InitializeActivity();
         ActivityAction();
         SetRecycleView();
@@ -37,6 +41,7 @@ public class UnpaidOrderActivity extends AppCompatActivity {
     private void InitializeActivity(){
        recyclerView=findViewById(R.id.recycle);
        noitem=findViewById(R.id.noitem);
+       shimmer_view=findViewById(R.id.shimmerView);
        share_session = new Share_session(this);
     }
 
@@ -66,6 +71,9 @@ public class UnpaidOrderActivity extends AppCompatActivity {
         }
         CheckListCount();
         UnpaidOrderAdapter unpaidOrderAdapter = new UnpaidOrderAdapter(this, list);
+        shimmer_view.setVisibility(View.GONE);
+        noitem.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setAdapter(unpaidOrderAdapter);
 
     }
@@ -75,6 +83,7 @@ public class UnpaidOrderActivity extends AppCompatActivity {
         if(list.size()==0){
             noitem.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
+            shimmer_view.setVisibility(View.GONE);
         }
     }
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="r1"> How to Return PICKMALL Order</string>
+    <string name="r2"> Indian customers</string>
+    <string name="r3"> You may return all items sold by PICKMALL within 7 days of delivery for a refund, as long as it is unused and in a good condition.</string>
+    <string name="r4"> *Notice: Underwear and Swimwear are not allowed to be returned.</string>
+    <string name="r5"> How to return</string>
+    <string name="r6"> For non-quality related reason of return, You can raise a request to return your items with these simple steps:</string>
+    <string name="r7"> 1. Log into your account</string>
+    <string name="r8"> 2. Go to Account -> Orders -> Paid Orders ->Order Detail Page</string>
+    <string name="r9"> 3. Click on \'Apply for Return\' at the end of page.</string>
+    <string name="r10"> 4. Fill in the details and submit a return request</string>
+    <string name="r11">After submitting a return request, you can either schedule a pickup or mail the return package by yourself.</string>
+    <string name="r12"> The pickup fee is ₹90Rs/package, which will be deducted from your refund total. But if it is our fault for a return (like wrong products or damaged products), please find customer service under My Account for a free pickup.</string>
+<!--    <string name="r13"> 1. Log into your account</string>-->
+<!--    <string name="r14"> 1. Log into your account</string>-->
+<!--    <string name="r15"> 1. Log into your account</string>-->
+
+
+</resources>

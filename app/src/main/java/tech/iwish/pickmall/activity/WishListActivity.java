@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -33,11 +34,11 @@ import tech.iwish.pickmall.other.WishlistList;
 import tech.iwish.pickmall.session.Share_session;
 
 public class WishListActivity extends AppCompatActivity {
-    ImageView back;
+    ImageView back,no_product;
     RecyclerView recyclerView;
     private List<WishlistList> wishlistLists = new ArrayList<>();
     Share_session share_session;
-
+    LinearLayout shimmer_view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +51,8 @@ public class WishListActivity extends AppCompatActivity {
 
     private void InitializeActivity(){
         back= findViewById(R.id.back);
+        no_product= findViewById(R.id.no_product);
+        shimmer_view= findViewById(R.id.shimmerView);
         recyclerView= findViewById(R.id.recycle);
         share_session= new Share_session(WishListActivity.this);
 
@@ -106,8 +109,18 @@ public class WishListActivity extends AppCompatActivity {
                             WishListActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    WishListAdapter wishListAdapter = new WishListAdapter(WishListActivity.this, wishlistLists);
-                                    recyclerView.setAdapter(wishListAdapter);
+                                    if(wishlistLists.size()==0){
+                                        no_product.setVisibility(View.VISIBLE);
+                                        shimmer_view.setVisibility(View.GONE);
+                                        recyclerView.setVisibility(View.GONE);
+                                    }
+                                    else {
+                                        WishListAdapter wishListAdapter = new WishListAdapter(WishListActivity.this, wishlistLists);
+                                        shimmer_view.setVisibility(View.GONE);
+                                        recyclerView.setVisibility(View.VISIBLE);
+                                        recyclerView.setAdapter(wishListAdapter);
+                                    }
+
                                 }
                             });
 

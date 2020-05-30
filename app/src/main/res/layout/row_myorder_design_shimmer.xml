@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/rectangle_myorder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:gravity="center"
+        android:id="@+id/product"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="1.4"
+            android:id="@+id/click"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent">
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="wrap_content"
+                app:fonttype="text_semi_bold"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:id="@+id/name"
+                android:maxWidth="200dp"
+                android:layout_height="wrap_content"
+                android:text=""/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content">
+
+                <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/dot"
+                    android:src="@drawable/green_dot"/>
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="wrap_content"
+                    app:fonttype="light"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/status"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="0.6"
+            android:gravity="right|center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+                android:layout_width="100dp"
+                android:id="@+id/image"
+                app:shape_mode="round_rect"
+                android:layout_height="80dp"
+                app:round_radius="30dp"
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

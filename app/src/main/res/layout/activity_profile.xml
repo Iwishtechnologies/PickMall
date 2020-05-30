@@ -37,7 +37,7 @@
      <LinearLayout
      android:layout_width="match_parent"
      android:background="@drawable/rectangle"
-     android:padding="15dp"
+     android:padding="30dp"
      android:weightSum="2"
      android:orientation="horizontal"
      android:gravity="center_vertical"
@@ -65,8 +65,9 @@
                  android:layout_width="80dp"
                  android:layout_height="80dp"
                  android:layout_gravity="right"
-                 app:shape_mode="round_rect"
-                 app:round_radius="1dp"
+                 app:shape_mode="circle"
+                 app:round_radius="30dp"
+                 android:scaleType="centerCrop"
                  android:id="@+id/image"
                  android:src="@drawable/female_icom"
                  />

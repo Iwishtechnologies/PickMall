@@ -2,6 +2,7 @@ package tech.iwish.pickmall.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.provider.SyncStateContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.ProductDetailsActivity;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.other.WishlistList;
 
 public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.Viewholder> {
@@ -44,7 +46,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.Viewho
         holder.amount_flash.setText(context.getResources().getString(R.string.rs_symbol)+ wishlistLists.get(position).getActual_price());
         holder.dicount_price_flash.setText(context.getResources().getString(R.string.rs_symbol) + wishlistLists.get(position).getDiscount_price());
 
-        String a = "http://173.212.226.143:8086/img/" + wishlistLists.get(position).getPimg();
+        String a = Constants.IMAGES + wishlistLists.get(position).getPimg();
         Glide.with(context).load(a).into(holder.image_flash_sale);
         holder.product_name_flash.setText(wishlistLists.get(position).getProductName());
         holder.percent_price.setText(wishlistLists.get(position).getDiscount_price_per());
@@ -59,7 +61,7 @@ public class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.Viewho
 //                intent.putExtra("product_color", flashsalemainLists.get(position).getColors());
                 intent.putExtra("product_Image", wishlistLists.get(position).getPimg());
                 intent.putExtra("vendor_id", wishlistLists.get(position).getVendor_id());
-                intent.putExtra("product_type", "flashSale");
+                intent.putExtra("product_type", "allProduct");
                 context.startActivity(intent);
             }
         });

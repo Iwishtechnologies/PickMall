@@ -60,4 +60,8 @@ dependencies {
 
     implementation 'com.github.armcha:SpaceNavigationView:1.6.0'
 
+    implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
+
+    implementation 'com.github.sujithkanna:smileyrating:2.0.0'
+
 }

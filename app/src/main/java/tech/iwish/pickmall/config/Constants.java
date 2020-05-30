@@ -67,7 +67,25 @@ public class Constants {
     public static String SEARCH_PRODUCT_BY_NAME = URL + "search_product_by_name";
     public static String PRODUCT_FILTER = URL + "product_filter";
     public static String FILTER_PRODUCT = URL + "filter_product";
-
+    public static String Wallet_TRANSACTION = URL+"wallet_transaction";
+    public static String SAVE_TRANSACTION = URL+"transaction";
+    public static String REFERREL_TRANSACTION = URL+"referral_transaction";
+    public static String WISH_LIST = URL+"GetUserWishList";
+    public static String SUPPORTQUERY = URL+"supportquery";
+    public static String UPLOAD_PROFILE = URL+"upload_profile";
+    public static String ORDER_ADDRESS = URL+"order_address";
+    public static String UPLOADRATING = URL+"rating";
+    public static String GETRATING = URL+"getProductRating";
+    public static String GETVENDORDETAIL = URL+"getvendordetail";
+    public static String FOLLOWINGVENDOR = URL+"Following_Vendors";
+    public static String PROFILE = URL+"Profile";
+    public static String SIGNUP = URL+"Signup";
+    public static String COUPENS = URL+"Coupons";
+    public static String VENDOR_REQUEST = URL+"Vendor_Request";
+    public static String UPDATEWALLET = URL+"updatewallet";
+    public static String WALLETBALANCE = URL+"WalletBalance";
+    public static String REFERREL = URL+"referrel";
+    public static String PROCESSREFERREL = URL+"ProcessReferrel";
 
     public static String IMAGES = "http://173.212.226.143:8086/img/";
     public static String SHAREDPREFERENCE = "money_pref";

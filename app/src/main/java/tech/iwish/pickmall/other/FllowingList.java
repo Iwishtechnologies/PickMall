@@ -25,9 +25,9 @@ public class FllowingList {
         return name;
     }
     public String getImage(){
-        return name;
+        return image;
     }
     public String getId(){
-        return name;
+        return id;
     }
 }

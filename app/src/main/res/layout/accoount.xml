@@ -95,32 +95,32 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:background="@drawable/rectangle">
+                android:background="@drawable/small_rectangle_red">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:src="@drawable/wish_list"/>
+                    android:src="@drawable/wish_list_icon"/>
 
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:src="@drawable/following"/>
+                    android:src="@drawable/following_icon"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:src="@drawable/viewed"/>
+                    android:src="@drawable/vendor_icom"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:src="@drawable/coupens"/>
+                    android:src="@drawable/coupons_icon"/>
 
             </LinearLayout>
 

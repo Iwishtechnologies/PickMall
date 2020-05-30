@@ -27,6 +27,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.MyOrderAdapter;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.extended.TextViewFont;
 import tech.iwish.pickmall.session.Share_session;
@@ -108,7 +109,7 @@ public class InviteActivity extends AppCompatActivity {
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
         Request request = new Request.Builder().post(body)
-                .url("http://173.212.226.143:8086/api/referrel")
+                .url(Constants.REFERREL)
                 .build();
         client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override

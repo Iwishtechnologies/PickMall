@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.session.Share_session;
 
@@ -142,7 +144,7 @@ public class EnterInviteCodeActivity extends AppCompatActivity {
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
         Request request = new Request.Builder().post(body)
-                .url("http://173.212.226.143:8086/api/ProcessReferrel")
+                .url(Constants.PROCESSREFERREL)
                 .build();
         client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override
@@ -172,6 +174,7 @@ public class EnterInviteCodeActivity extends AppCompatActivity {
                                 public void run() {
                                     progressBar.setVisibility(View.GONE);
                                     scrollView.setAlpha(1);
+                                    SaveTransaction();
                                     Toast.makeText(EnterInviteCodeActivity.this, ""+jsonHelper.GetResult("data"), Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -192,6 +195,61 @@ public class EnterInviteCodeActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void SaveTransaction(){
+        OkHttpClient okHttpClient1 = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("mobile",share_session.getUserDetail().get("UserMobile") );
+            jsonObject.put("description","Earned Referral Amount ");
+            jsonObject.put("type", "Credit");
+            jsonObject.put("status","Completed");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.REFERREL_TRANSACTION).post(body).build();
+        okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    final JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+//
+//                            for (int i = 0; i < jsonArray.length(); i++) {
+//                                jsonHelper.setChildjsonObj(jsonArray, i);
+//                                Balance =jsonHelper.GetResult("wallet");
+//                            }
+//
+//                            WalletActivity.this.runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    progressBar.setVisibility(View.GONE);
+//                                    scrollView.setAlpha(1);
+//                                    balance.setText(jsonHelper.GetResult("wallet"));
+//                                    share_session.walletAmount(jsonHelper.GetResult("wallet"));
+//                                }
+//                            });
+
+                        }
+                    }
+
+                }
+            }
+        });
     }
 
 }

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -37,11 +38,11 @@ import tech.iwish.pickmall.other.WishlistList;
 import tech.iwish.pickmall.session.Share_session;
 
 public class MyOederActitvity extends AppCompatActivity {
-    ImageView back;
+    ImageView back,no_item;
     RecyclerView recyclerView;
     private List<OrderList> orderLists = new ArrayList<>();
     Share_session share_session;
-    ShimmerFrameLayout progresss;
+    LinearLayout shimmer_view;
 
     @Override
     protected void onStart() {
@@ -61,7 +62,8 @@ public class MyOederActitvity extends AppCompatActivity {
 
     private void InitializeActitvity(){
         recyclerView= findViewById(R.id.recycle);
-        progresss= findViewById(R.id.shimmerLayout);
+        shimmer_view= findViewById(R.id.shimmerView);
+        no_item= findViewById(R.id.noitem);
         share_session= new Share_session(MyOederActitvity.this);
 
     }
@@ -107,15 +109,26 @@ public class MyOederActitvity extends AppCompatActivity {
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                orderLists.add(new OrderList(jsonHelper.GetResult("customer_id"),jsonHelper.GetResult("delhivery_address"),jsonHelper.GetResult("order_amount"),jsonHelper.GetResult("payment_method"),jsonHelper.GetResult("status"),jsonHelper.GetResult("datetime"),jsonHelper.GetResult("orderid"),jsonHelper.GetResult("product_id"),jsonHelper.GetResult("qty"),jsonHelper.GetResult("type")));
+                                orderLists.add(new OrderList(jsonHelper.GetResult("orderid"),jsonHelper.GetResult("customer_id"),jsonHelper.GetResult("delhivery_address"),jsonHelper.GetResult("order_amount"),jsonHelper.GetResult("payment_method"),jsonHelper.GetResult("gst"),jsonHelper.GetResult("shipping_charge"),jsonHelper.GetResult("status"),jsonHelper.GetResult("product_id"),jsonHelper.GetResult("qty"),jsonHelper.GetResult("type"),jsonHelper.GetResult("color"),jsonHelper.GetResult("size"),jsonHelper.GetResult("datetime"),
+                                        jsonHelper.GetResult("item_id"),jsonHelper.GetResult("actual_price"),jsonHelper.GetResult("discount_price"),jsonHelper.GetResult("discount_price_per"),jsonHelper.GetResult("pimg"),jsonHelper.GetResult("FakeRating"),jsonHelper.GetResult("hot_product"),jsonHelper.GetResult("hsn_no"),jsonHelper.GetResult("weight"),jsonHelper.GetResult("flash_sale"),jsonHelper.GetResult("product_name"),jsonHelper.GetResult("order_status"),jsonHelper.GetResult("vendor_id")));
                             }
                             MyOederActitvity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    progresss.stopShimmer();
-                                    progresss.setShimmer(null);
-                                    MyOrderAdapter myOrderAdapter = new MyOrderAdapter(MyOederActitvity.this, orderLists);
-                                    recyclerView.setAdapter(myOrderAdapter);
+                                    if(orderLists.size()==0){
+                                        shimmer_view.setVisibility(View.GONE);
+                                        recyclerView.setVisibility(View.GONE);
+                                        no_item.setVisibility(View.VISIBLE);
+                                    }
+                                    else
+                                        {
+                                            shimmer_view.setVisibility(View.GONE);
+                                            no_item.setVisibility(View.GONE);
+                                            recyclerView.setVisibility(View.VISIBLE);
+                                            MyOrderAdapter myOrderAdapter = new MyOrderAdapter(MyOederActitvity.this, orderLists);
+                                            recyclerView.setAdapter(myOrderAdapter);
+
+                                        }
 
                                 }
                             });

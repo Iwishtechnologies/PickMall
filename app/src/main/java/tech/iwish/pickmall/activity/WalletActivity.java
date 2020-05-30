@@ -27,6 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.MediaType;
@@ -35,8 +37,11 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.adapter.WalletAdapter;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.extended.TextViewFont;
+import tech.iwish.pickmall.other.WalletList;
 import tech.iwish.pickmall.session.Share_session;
 
 public class WalletActivity extends AppCompatActivity implements PaymentResultListener {
@@ -46,11 +51,12 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
      Button add_amount;
      EditText amount;
      ShimmerFrameLayout shimmer;
-     LinearLayout layout;
+    LinearLayout layout,shimmerview,noitem;
      ImageView back;
      ProgressBar progressBar;
      ScrollView scrollView;
      RecyclerView recyclerView;
+    List<WalletList> walletLists= new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +65,7 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
         InitializeActivity();
         ActivityAction();
         SetActivityData();
-//        SetRecycleView();
+        SetRecycleView();
 
     }
 
@@ -73,6 +79,9 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
         shimmer= findViewById(R.id.shimmer);
         layout= findViewById(R.id.layout);
         back= findViewById(R.id.back);
+
+        shimmerview= findViewById(R.id.shimmerview);
+        noitem= findViewById(R.id.noitem);
         progressBar= findViewById(R.id.progress);
         scrollView= findViewById(R.id.scroll);
         recyclerView= findViewById(R.id.recycle);
@@ -221,6 +230,7 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
     @Override
     public void onPaymentSuccess(String s) {
        UpdateWallet(share_session.getUserDetail().get("UserMobile"),amount.getText().toString());
+        SaveTransaction();
        if(!(getIntent().getExtras().isEmpty())){
            onBackPressed();
        }
@@ -290,7 +300,7 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
     }
 
 
-    private void SetRecycleView(){
+    private void SetRecycleView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(WalletActivity.this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -299,14 +309,14 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("mobile",share_session.getUserDetail().get("UserMobile") );
+            jsonObject.put("mobile", share_session.getUserDetail().get("UserMobile"));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
         Request request = new Request.Builder().post(body)
-                .url("http://173.212.226.143:8086/api/GetUserWishList")
+                .url(Constants.Wallet_TRANSACTION)
                 .build();
         client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override
@@ -326,23 +336,92 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-//                                wishlistLists.add(new WishlistList(jsonHelper.GetResult("product_id"), jsonHelper.GetResult("ProductName"), jsonHelper.GetResult("item_id"), jsonHelper.GetResult("catagory_id"), jsonHelper.GetResult("actual_price"), jsonHelper.GetResult("discount_price"), jsonHelper.GetResult("discount_price_per"), jsonHelper.GetResult("status"), jsonHelper.GetResult("pimg"), jsonHelper.GetResult("vendor_id"), jsonHelper.GetResult("type"), jsonHelper.GetResult("datetime")));
+                                walletLists.add(new WalletList(jsonHelper.GetResult("id"), jsonHelper.GetResult("client_id"), "₹ " + jsonHelper.GetResult("amount"), jsonHelper.GetResult("date"), jsonHelper.GetResult("description"), jsonHelper.GetResult("type"), jsonHelper.GetResult("status")));
                             }
                             WalletActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-//                                    WishListAdapter wishListAdapter = new WishListAdapter(WalletActivity.this, wishlistLists);
-//                                    recyclerView.setAdapter(wishListAdapter);
+                                    if (walletLists.size() == 0) {
+                                        recyclerView.setVisibility(View.GONE);
+                                        shimmerview.setVisibility(View.GONE);
+                                        noitem.setVisibility(View.VISIBLE);
+                                    } else {
+                                        recyclerView.setVisibility(View.VISIBLE);
+                                        shimmerview.setVisibility(View.GONE);
+                                        WalletAdapter walletAdapter = new WalletAdapter(WalletActivity.this, walletLists);
+                                        recyclerView.setAdapter(walletAdapter);
+                                    }
                                 }
                             });
-
                         }
-                    }
 
+                    }
                 }
             }
         });
 
+    }
+
+
+
+
+        private void SaveTransaction(){
+            OkHttpClient okHttpClient1 = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("mobile",share_session.getUserDetail().get("UserMobile") );
+                jsonObject.put("amount", amount.getText().toString());
+                jsonObject.put("description","Add to wallet");
+                jsonObject.put("type", "Credit");
+                jsonObject.put("status","Completed");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+            Request request1 = new Request.Builder().url(Constants.SAVE_TRANSACTION).post(body).build();
+            okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    if (response.isSuccessful()) {
+
+                        String result = response.body().string();
+                        Log.e("response", result);
+                        final JsonHelper jsonHelper = new JsonHelper(result);
+                        if (jsonHelper.isValidJson()) {
+                            String responses = jsonHelper.GetResult("response");
+                            if (responses.equals("TRUE")) {
+                                JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+//
+//                            for (int i = 0; i < jsonArray.length(); i++) {
+//                                jsonHelper.setChildjsonObj(jsonArray, i);
+//                                Balance =jsonHelper.GetResult("wallet");
+//                            }
+//
+//                            WalletActivity.this.runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    progressBar.setVisibility(View.GONE);
+//                                    scrollView.setAlpha(1);
+//                                    balance.setText(jsonHelper.GetResult("wallet"));
+//                                    share_session.walletAmount(jsonHelper.GetResult("wallet"));
+//                                }
+//                            });
+
+                            }
+                        }
+
+                    }
+                }
+            });
+        }
+
+
+
 
     }
-}
