@@ -9,10 +9,12 @@ import android.widget.ImageView;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.session.Share_session;
 
-public class PrivacyPolicyActivity extends AppCompatActivity {
+public class PrivacyPolicyActivity extends AppCompatActivity  implements InternetConnectivityListener {
     ImageView back;
 
     @Override
@@ -26,6 +28,7 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
 
     protected void InitializeActivity(){
         back= findViewById(R.id.back);
+        Connectivity();
        }
 
     protected void  ActivityAction() {
@@ -36,4 +39,20 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void Connectivity(){
+        InternetAvailabilityChecker mInternetAvailabilityChecker;
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+        mInternetAvailabilityChecker.addInternetConnectivityListener(PrivacyPolicyActivity.this);
+    }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(PrivacyPolicyActivity.this,NoInternetConnectionActivity.class));
+        }
+    }
+
 }

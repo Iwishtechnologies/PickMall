@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +19,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -33,7 +36,7 @@ import tech.iwish.pickmall.other.FlashsalemainList;
 import tech.iwish.pickmall.other.WishlistList;
 import tech.iwish.pickmall.session.Share_session;
 
-public class WishListActivity extends AppCompatActivity {
+public class WishListActivity extends AppCompatActivity implements InternetConnectivityListener {
     ImageView back,no_product;
     RecyclerView recyclerView;
     private List<WishlistList> wishlistLists = new ArrayList<>();
@@ -55,6 +58,7 @@ public class WishListActivity extends AppCompatActivity {
         shimmer_view= findViewById(R.id.shimmerView);
         recyclerView= findViewById(R.id.recycle);
         share_session= new Share_session(WishListActivity.this);
+        Connectivity();
 
     }
 
@@ -133,4 +137,23 @@ public class WishListActivity extends AppCompatActivity {
 
 
     }
+
+
+    public void Connectivity(){
+        InternetAvailabilityChecker mInternetAvailabilityChecker;
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+        mInternetAvailabilityChecker.addInternetConnectivityListener(WishListActivity.this);
+    }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(WishListActivity.this,NoInternetConnectionActivity.class));
+        }
+    }
+
+
+
 }

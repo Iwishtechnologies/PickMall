@@ -24,6 +24,8 @@ import java.io.IOException;
 import javax.sql.RowSetReader;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -36,7 +38,7 @@ import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.extended.TextViewFont;
 import tech.iwish.pickmall.session.Share_session;
 
-public class OrderDetailActivity extends AppCompatActivity {
+public class OrderDetailActivity extends AppCompatActivity implements InternetConnectivityListener {
     TextViewFont name,orderid,color,seller,price,cname,street,city,state,phone,approvedate,delivery_status,cencelled_statement,order_approved,colony,actual_price,selling_price,discount_amount,shipping_fee,total_amount;
     ShapedImageView image;
     ImageView progress;
@@ -89,6 +91,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         shimmer= findViewById(R.id.shimmer);
         GetAddress(getIntent().getExtras().getString("address"));
         GetVendorDetail(getIntent().getExtras().getString("vendor_id"));
+        Connectivity();
 
     }
 
@@ -376,5 +379,21 @@ public class OrderDetailActivity extends AppCompatActivity {
         });
 
     }
+    public void Connectivity(){
+        InternetAvailabilityChecker mInternetAvailabilityChecker;
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+        mInternetAvailabilityChecker.addInternetConnectivityListener(OrderDetailActivity.this);
+    }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(OrderDetailActivity.this,NoInternetConnectionActivity.class));
+        }
+    }
+
+
 
 }

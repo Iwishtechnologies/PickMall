@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -37,7 +39,7 @@ import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.session.Share_session;
 
-public class EditProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class EditProfileActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener , InternetConnectivityListener {
     EditText data;
     Button   save;
     Intent intent;
@@ -92,6 +94,7 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
         data = findViewById(R.id.data);
         save = findViewById(R.id.save);
         back = findViewById(R.id.back);
+        Connectivity();
         select_gender = findViewById(R.id.gender);
         select_gender.setOnItemSelectedListener(EditProfileActivity.this);
         share_session= new Share_session(EditProfileActivity.this);
@@ -183,5 +186,22 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
+    public void Connectivity(){
+        InternetAvailabilityChecker mInternetAvailabilityChecker;
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+        mInternetAvailabilityChecker.addInternetConnectivityListener(EditProfileActivity.this);
+    }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(EditProfileActivity.this,NoInternetConnectionActivity.class));
+        }
+    }
+
+
 
 }

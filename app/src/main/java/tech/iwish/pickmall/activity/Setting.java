@@ -19,11 +19,13 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 
 import java.util.Set;
 
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.extended.TextViewFont;
 import tech.iwish.pickmall.session.Share_session;
 
-public class Setting extends AppCompatActivity {
+public class Setting extends AppCompatActivity  implements InternetConnectivityListener {
     ProgressBar progressBar;
     ScrollView scrollView;
     Button submit;
@@ -52,6 +54,7 @@ public class Setting extends AppCompatActivity {
         contactus= findViewById(R.id.contact);
         privacypolicy= findViewById(R.id.privacypolicy);
         share_session= new Share_session(Setting.this);
+        Connectivity();
 
     }
 
@@ -101,4 +104,21 @@ public class Setting extends AppCompatActivity {
 
     protected void SetActivityData(){
     }
+
+    public void Connectivity(){
+        InternetAvailabilityChecker mInternetAvailabilityChecker;
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+        mInternetAvailabilityChecker.addInternetConnectivityListener(Setting.this);
+    }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(Setting.this,NoInternetConnectionActivity.class));
+        }
+    }
+
+
 }

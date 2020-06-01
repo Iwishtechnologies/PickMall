@@ -21,6 +21,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -33,7 +35,7 @@ import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.other.ShippingAddressList;
 
-public class VendorRequestActivity extends AppCompatActivity {
+public class VendorRequestActivity extends AppCompatActivity  implements InternetConnectivityListener {
     EditText name,mobile,address,altermobile,pincode,gstin,type;
     Button apply;
     ImageView back;
@@ -62,6 +64,7 @@ public class VendorRequestActivity extends AppCompatActivity {
         back= findViewById(R.id.back);
         progressBar= findViewById(R.id.progress);
         main= findViewById(R.id.main);
+        Connectivity();
 
 
     }
@@ -206,5 +209,23 @@ public class VendorRequestActivity extends AppCompatActivity {
         });
 
     }
+
+
+    public void Connectivity(){
+        InternetAvailabilityChecker mInternetAvailabilityChecker;
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+        mInternetAvailabilityChecker.addInternetConnectivityListener(VendorRequestActivity.this);
+    }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(VendorRequestActivity.this,NoInternetConnectionActivity.class));
+        }
+    }
+
+
 }
 

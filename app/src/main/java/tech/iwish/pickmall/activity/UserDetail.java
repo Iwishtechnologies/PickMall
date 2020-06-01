@@ -3,6 +3,7 @@ package tech.iwish.pickmall.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Map;
 
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -39,7 +42,7 @@ import tech.iwish.pickmall.session.UserSession;
 
 import static tech.iwish.pickmall.session.Share_session.USER_NUMBER_CHECK;
 
-public class UserDetail extends AppCompatActivity {
+public class UserDetail extends AppCompatActivity implements InternetConnectivityListener {
 
     private LinearLayout male,female;
     private EditText mobile;
@@ -50,6 +53,7 @@ public class UserDetail extends AppCompatActivity {
     private Map data ;
     ProgressBar progressBar;
     LinearLayout mainview;
+    private String [] permissions = {"android.permission.ACCESS_NETWORK_STATE"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,10 @@ public class UserDetail extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_user_detail);
+        int requestCode = 200;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(permissions, requestCode);
+        }
         userSession= new Share_session(this);
         data = userSession.Fetchdata();
         conectOkhttp= new ConectOkhttp();
@@ -69,7 +77,7 @@ public class UserDetail extends AppCompatActivity {
         next= findViewById(R.id.next);
         progressBar= findViewById(R.id.progress);
         mainview= findViewById(R.id.mainview);
-
+      Connectivity();
         if(data.get(USER_NUMBER_CHECK) != null){
             startActivity(new Intent(UserDetail.this , MainActivity.class));
         }
@@ -281,4 +289,20 @@ public class UserDetail extends AppCompatActivity {
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(1);
     }
+
+    public void Connectivity(){
+        InternetAvailabilityChecker mInternetAvailabilityChecker;
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+        mInternetAvailabilityChecker.addInternetConnectivityListener(UserDetail.this);
+    }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(UserDetail.this,NoInternetConnectionActivity.class));
+        }
+    }
+
 }

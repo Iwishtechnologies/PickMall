@@ -26,6 +26,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -40,7 +42,7 @@ import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.extended.TextViewFont;
 import tech.iwish.pickmall.session.Share_session;
 
-public class Profile extends AppCompatActivity {
+public class Profile extends AppCompatActivity implements InternetConnectivityListener {
     ImageView back,pickimage,profileImage,edit_name,edit_gender;
     TextViewFont name, mobile,r_no,gender;
     public static final int PICK_IMAGE = 1;
@@ -191,6 +193,7 @@ public class Profile extends AppCompatActivity {
         edit_gender = findViewById(R.id.edit_gender);
         edit_name = findViewById(R.id.edit_name);
         share_session= new Share_session(Profile.this);
+        Connectivity();
     }
 
 
@@ -210,4 +213,18 @@ public class Profile extends AppCompatActivity {
         }
     }
 
+    public void Connectivity(){
+        InternetAvailabilityChecker mInternetAvailabilityChecker;
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+        mInternetAvailabilityChecker.addInternetConnectivityListener(Profile.this);
+    }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(Profile.this,NoInternetConnectionActivity.class));
+        }
+    }
 }

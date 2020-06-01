@@ -3,8 +3,15 @@ package tech.iwish.pickmall.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.ContentLoadingProgressBar;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,15 +23,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Random;
 
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import tech.iwish.pickmall.BuildConfig;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.MyOrderAdapter;
 import tech.iwish.pickmall.config.Constants;
@@ -32,7 +45,7 @@ import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.extended.TextViewFont;
 import tech.iwish.pickmall.session.Share_session;
 
-public class InviteActivity extends AppCompatActivity {
+public class InviteActivity extends AppCompatActivity implements InternetConnectivityListener {
     private static final int MAX_LENGTH =20;
     Button invite;
     ImageView back;
@@ -59,6 +72,7 @@ public class InviteActivity extends AppCompatActivity {
         scrollView= findViewById(R.id.scroll);
         share_session= new Share_session(InviteActivity.this);
         SaveReferrelCode(random(share_session.getUserDetail().get("id")),share_session.getUserDetail().get("UserMobile"));
+        Connectivity();
     }
 
 
@@ -72,7 +86,7 @@ public class InviteActivity extends AppCompatActivity {
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-       shareTextUrl();
+       shareTextUrl(invitecode.getText().toString());
             }
         });
     }
@@ -146,16 +160,34 @@ public class InviteActivity extends AppCompatActivity {
     }
 
 
-    private void shareTextUrl() {
-        Intent share = new Intent(android.content.Intent.ACTION_SEND);
-        share.setType("text/plain");
-        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+    private void shareTextUrl(String Code) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "PICKMALL Online Shopping Everything On Factory Price");
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "PICKMALL Online Shopping Everything On Factory Price\n\nPICKMALL, as one of the best online shopping app in India,\n\nyou can shop the latest trendy items with lowest price & high quality at home. Free shipping & Cash on delivery service are supported, all latest trendy products UP TO 90% OFF! \n\nWe Sell Everything On Fair Price Because PICKMALL Is a Platform For Customer Can Buy Everything From Factory’s Without Any Extra Price Or Any Type Of Commission.\n\nHey check out my app at: https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n Referrel Code:-"+ Code);
 
-        // Add data to the intent, the receiving app will decide
-        // what to do with it.
-        share.putExtra(Intent.EXTRA_SUBJECT, "Share pickmall & raen money");
-        share.putExtra(Intent.EXTRA_TEXT,"tech.iwish.pickmall");
-        startActivity(Intent.createChooser(share, "Share link!"));
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
+
+
+    public void Connectivity(){
+        InternetAvailabilityChecker mInternetAvailabilityChecker;
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+        mInternetAvailabilityChecker.addInternetConnectivityListener(InviteActivity.this);
+    }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(InviteActivity.this,NoInternetConnectionActivity.class));
+        }
+    }
+
+
+
+
 
 }

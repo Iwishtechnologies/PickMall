@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextThemeWrapper;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,11 +13,14 @@ import android.widget.TextView;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.bumptech.glide.Glide;
+
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.session.Share_session;
 
-public class Account extends AppCompatActivity {
+public class Account extends AppCompatActivity implements InternetConnectivityListener {
     ImageView viewall, profile,image,unpaid,wallet,wishlist,shippingaddress,following,vendor,coupens,invite,myorder,entercode,setting,helpcenter,delivered;
     LinearLayout fullview;
     Share_session share_session;
@@ -35,9 +36,6 @@ public class Account extends AppCompatActivity {
         InitializeActivity();
         setActivityData();
         ActivityActions();
-
-
-
     }
 
 
@@ -73,6 +71,7 @@ public class Account extends AppCompatActivity {
         setting= findViewById(R.id.setting);
         helpcenter= findViewById(R.id.helpcenter);
         delivered= findViewById(R.id.delivered);
+        Connectivity();
     }
 
 
@@ -205,6 +204,25 @@ public class Account extends AppCompatActivity {
 
 
     }
+
+
+   public void Connectivity(){
+       InternetAvailabilityChecker mInternetAvailabilityChecker;
+       mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+       mInternetAvailabilityChecker.addInternetConnectivityListener(Account.this);
+   }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(Account.this,NoInternetConnectionActivity.class));
+        }
+    }
+
+
+
 
 
 }

@@ -3,6 +3,7 @@ package tech.iwish.pickmall.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,6 +25,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -35,7 +38,7 @@ import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.session.Share_session;
 
-public class EnterInviteCodeActivity extends AppCompatActivity {
+public class EnterInviteCodeActivity extends AppCompatActivity implements InternetConnectivityListener {
     ProgressBar progressBar;
     ScrollView scrollView;
     EditText code;
@@ -59,6 +62,7 @@ public class EnterInviteCodeActivity extends AppCompatActivity {
         submit= findViewById(R.id.submit);
         scrollView= findViewById(R.id.scroll);
         share_session= new Share_session(EnterInviteCodeActivity.this);
+        Connectivity();
 
     }
 
@@ -251,5 +255,22 @@ public class EnterInviteCodeActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void Connectivity(){
+        InternetAvailabilityChecker mInternetAvailabilityChecker;
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+        mInternetAvailabilityChecker.addInternetConnectivityListener(EnterInviteCodeActivity.this);
+    }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(EnterInviteCodeActivity.this,NoInternetConnectionActivity.class));
+        }
+    }
+
+
 
 }

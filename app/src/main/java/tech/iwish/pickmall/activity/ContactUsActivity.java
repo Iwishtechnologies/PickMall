@@ -2,13 +2,16 @@ package tech.iwish.pickmall.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import tech.iwish.pickmall.R;
 
-public class ContactUsActivity extends AppCompatActivity {
+public class ContactUsActivity extends AppCompatActivity  implements InternetConnectivityListener {
     ImageView back;
 
     @Override
@@ -21,6 +24,7 @@ public class ContactUsActivity extends AppCompatActivity {
 
     protected void InitializeActivity(){
         back= findViewById(R.id.back);
+        Connectivity();
     }
 
     protected void ActivityAction(){
@@ -30,5 +34,20 @@ public class ContactUsActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    public void Connectivity(){
+        InternetAvailabilityChecker mInternetAvailabilityChecker;
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+        mInternetAvailabilityChecker.addInternetConnectivityListener(ContactUsActivity.this);
+    }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(ContactUsActivity.this,NoInternetConnectionActivity.class));
+        }
     }
 }

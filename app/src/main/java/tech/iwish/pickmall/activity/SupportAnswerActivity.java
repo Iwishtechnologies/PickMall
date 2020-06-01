@@ -12,10 +12,12 @@ import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.extended.TextViewFont;
 
-public class SupportAnswerActivity extends AppCompatActivity {
+public class SupportAnswerActivity extends AppCompatActivity implements InternetConnectivityListener {
     TextViewFont answer,query;
     ImageView back;
     RelativeLayout contactus;
@@ -37,6 +39,7 @@ public class SupportAnswerActivity extends AppCompatActivity {
         contactus= findViewById(R.id.contact);
         yes= findViewById(R.id.yes);
         no= findViewById(R.id.no);
+        Connectivity();
     }
 
     private void ActivityAction(){
@@ -73,4 +76,22 @@ public class SupportAnswerActivity extends AppCompatActivity {
         answer.setText(getIntent().getStringExtra("answer"));
         query.setText(getIntent().getStringExtra("query"));
     }
+
+    public void Connectivity(){
+        InternetAvailabilityChecker mInternetAvailabilityChecker;
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+        mInternetAvailabilityChecker.addInternetConnectivityListener(SupportAnswerActivity.this);
+    }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(SupportAnswerActivity.this,NoInternetConnectionActivity.class));
+        }
+    }
+
+
+
 }

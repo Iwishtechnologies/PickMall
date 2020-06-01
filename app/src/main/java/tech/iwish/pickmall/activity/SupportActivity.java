@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,6 +23,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -37,7 +40,7 @@ import tech.iwish.pickmall.extended.TextViewFont;
 import tech.iwish.pickmall.other.SupportQueryList;
 import tech.iwish.pickmall.other.WishlistList;
 
-public class SupportActivity extends AppCompatActivity {
+public class SupportActivity extends AppCompatActivity implements InternetConnectivityListener {
     LinearLayout mainView;
     ImageView back;
    RecyclerView recyclerView;
@@ -58,6 +61,7 @@ public class SupportActivity extends AppCompatActivity {
         recyclerView= findViewById(R.id.recycle);
         shimmer_view= findViewById(R.id.shimmerView);
         back= findViewById(R.id.back);
+        Connectivity();
     }
 
     private void ActivityAction(){
@@ -128,6 +132,21 @@ public class SupportActivity extends AppCompatActivity {
             }
         });
 
-
     }
+    public void Connectivity(){
+        InternetAvailabilityChecker mInternetAvailabilityChecker;
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+        mInternetAvailabilityChecker.addInternetConnectivityListener(SupportActivity.this);
+    }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(SupportActivity.this,NoInternetConnectionActivity.class));
+        }
+    }
+
+
 }

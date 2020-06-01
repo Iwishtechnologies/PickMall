@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +21,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -35,7 +38,7 @@ import tech.iwish.pickmall.other.CouponList;
 import tech.iwish.pickmall.other.WishlistList;
 import tech.iwish.pickmall.session.Share_session;
 
-public class CoupenActivity extends AppCompatActivity {
+public class CoupenActivity extends AppCompatActivity implements InternetConnectivityListener {
     ImageView back,no_item;
     RecyclerView recyclerView;
     private List<CouponList> couponLists = new ArrayList<>();
@@ -57,6 +60,7 @@ public class CoupenActivity extends AppCompatActivity {
             shimmer=findViewById(R.id.shimmerView);
             no_item=findViewById(R.id.noitem);
             share_session= new Share_session(CoupenActivity.this);
+            Connectivity();
 
         }
 
@@ -136,4 +140,22 @@ public class CoupenActivity extends AppCompatActivity {
 
 
     }
+
+    public void Connectivity(){
+        InternetAvailabilityChecker mInternetAvailabilityChecker;
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+        mInternetAvailabilityChecker.addInternetConnectivityListener(CoupenActivity.this);
+    }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(CoupenActivity.this,NoInternetConnectionActivity.class));
+        }
+    }
+
+
+
 }

@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -15,10 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.DeliveredItemActivity"
+        <activity android:name=".activity.NoInternetConnectionActivity"></activity>
+        <activity
+            android:name=".activity.DeliveredItemActivity"
             android:label="Delivered Order"
             android:screenOrientation="portrait"
-            android:theme="@style/myordertheme"/>
+            android:theme="@style/myordertheme" />
         <activity
             android:name=".activity.SupportAnswerActivity"
             android:screenOrientation="portrait"

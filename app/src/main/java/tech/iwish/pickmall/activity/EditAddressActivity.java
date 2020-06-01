@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -38,7 +40,7 @@ import tech.iwish.pickmall.other.AddressDataList;
 import tech.iwish.pickmall.other.ShippingAddressList;
 import tech.iwish.pickmall.session.Share_session;
 
-public class EditAddressActivity extends AppCompatActivity implements View.OnClickListener {
+public class EditAddressActivity extends AppCompatActivity implements View.OnClickListener, InternetConnectivityListener {
 
     private List<AddressDataList> addressDataLists = new ArrayList<>();
     private RecyclerView address_recycleview;
@@ -54,6 +56,7 @@ public class EditAddressActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_address);
+        Connectivity();
 
         address_recycleview = (RecyclerView) findViewById(R.id.address_recycleview);
         new_addresss = (LinearLayout) findViewById(R.id.new_addresss);
@@ -215,6 +218,24 @@ public class EditAddressActivity extends AppCompatActivity implements View.OnCli
                 break;
         }
     }
+
+
+    public void Connectivity(){
+        InternetAvailabilityChecker mInternetAvailabilityChecker;
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+        mInternetAvailabilityChecker.addInternetConnectivityListener(EditAddressActivity.this);
+    }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(EditAddressActivity.this,NoInternetConnectionActivity.class));
+        }
+    }
+
+
 }
 
 

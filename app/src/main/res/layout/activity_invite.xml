@@ -76,7 +76,7 @@
          android:id="@+id/sliderimage"
          app:round_radius="0dp"
          android:scaleType="fitXY"
-         android:src="@drawable/refer_earn_image"
+         android:src="@drawable/earn_share_image"
          app:shape_mode="round_rect"
          />
 

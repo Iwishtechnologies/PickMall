@@ -1,5 +1,6 @@
 package tech.iwish.pickmall.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -30,6 +31,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -44,7 +47,7 @@ import tech.iwish.pickmall.extended.TextViewFont;
 import tech.iwish.pickmall.other.WalletList;
 import tech.iwish.pickmall.session.Share_session;
 
-public class WalletActivity extends AppCompatActivity implements PaymentResultListener {
+public class WalletActivity extends AppCompatActivity implements PaymentResultListener , InternetConnectivityListener {
     TextViewFont balance;
      String Balance = "0";
      Share_session share_session;
@@ -85,6 +88,7 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
         progressBar= findViewById(R.id.progress);
         scrollView= findViewById(R.id.scroll);
         recyclerView= findViewById(R.id.recycle);
+        Connectivity();
     }
 
     private void ActivityAction(){
@@ -422,6 +426,23 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
         }
 
 
-
-
+    public void Connectivity(){
+        InternetAvailabilityChecker mInternetAvailabilityChecker;
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+        mInternetAvailabilityChecker.addInternetConnectivityListener(WalletActivity.this);
     }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(WalletActivity.this,NoInternetConnectionActivity.class));
+        }
+    }
+
+
+
+
+
+}
