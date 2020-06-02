@@ -73,12 +73,11 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
 
     @Override
     public void onBindViewHolder(@NonNull final Viewholder holder, final int position) {
-
+/*
         if (sizePosition != -1) {
             sizecolor = productSizeColorLists.get(sizePosition).getColor();
             color = productColorLists.get(position).getColor();
             sizecount = Integer.parseInt(productSizeColorLists.get(sizePosition).getCount_size());
-
             passcolor = null;
             if (sizecolor.equals(color) && sizecount > 1) {
                 Log.e("onBindViewHolder: ", "double");
@@ -103,6 +102,7 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
                         e.printStackTrace();
                     }
+
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                         if (response.isSuccessful()) {
@@ -116,19 +116,36 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
                                     for (int i = 0; i < jsonArray.length(); i++) {
                                         jsonHelper.setChildjsonObj(jsonArray, i);
                                         chechColorLists.add(new ChechColorList(jsonHelper.GetResult("color")));
-                                        if(((Activity)context) != null){
+                                        if (((Activity) context) != null) {
                                             final int finalI = i;
-                                            ((Activity)context).runOnUiThread(new Runnable() {
+                                            ((Activity) context).runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    if(color.equals( chechColorLists.get(finalI).getColor())){
-                                                        holder.product_color.setAlpha(1);
-                                                        holder.product_color.setClickable(true);
+                                                    if (color.equals(chechColorLists.get(finalI).getColor())) {
+                                                        productColorLists.get(position).setaBoolean(true);
+
+//                                                        holder.product_color.setAlpha(1);
+//                                                        holder.product_color.setClickable(true);
                                                     }
                                                 }
                                             });
                                         }
                                     }
+
+                                    ((Activity) context).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (productColorLists.get(position).isaBoolean()) {
+                                                holder.product_color.setText(productColorLists.get(position).getColor());
+                                                holder.product_color.setAlpha(1);
+                                                holder.product_color.setClickable(true);
+                                            } else {
+                                                Log.e("onBindViewHolder: ", "cdsvdsvdfvdfvdf");
+                                            }
+
+                                        }
+                                    });
+
                                 }
                             }
                         }
@@ -144,13 +161,90 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
             }
 
         }
+*/
 
+/*
+        if (sizePosition != -1) {
 
-        holder.product_color.setText(productColorLists.get(position).getColor());
+            chechColorLists = new ArrayList<>();
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("product_id", productSizeColorLists.get(sizePosition).getProduct_id());
+                jsonObject.put("product_size_name", productSizeColorLists.get(sizePosition).getSize());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+            Request request = new Request.Builder().post(body)
+                    .url(Constants.PRODUCT_SIZE_COUNT)
+                    .build();
+            client.newCall(request).enqueue(new okhttp3.Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        String result = response.body().string();
+                        Log.e("result", result);
+                        final JsonHelper jsonHelper = new JsonHelper(result);
+                        if (jsonHelper.isValidJson()) {
+                            String responses = jsonHelper.GetResult("response");
+                            if (responses.equals("TRUE")) {
+                                final JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    jsonHelper.setChildjsonObj(jsonArray, i);
+                                    chechColorLists.add(new ChechColorList(jsonHelper.GetResult("color")));
+                                    if (((Activity) context) != null) {
+                                        final int finalI = i;
+                                        ((Activity) context).runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (chechColorLists.get(finalI).getColor().equals(productColorLists.get(position).getColor())) {
+                                                    productColorLists.get(position).setaBoolean(true);
+                                                    holder.product_color.setAlpha(1);
+                                                    holder.product_color.setClickable(true);
+                                                } else {
+                                                    productColorLists.get(position).setaBoolean(false);
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+
+                                ((Activity) context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (productColorLists.get(position).isaBoolean()) {
+                                            holder.product_color.setText(productColorLists.get(position).getColor());
+                                            holder.product_color.setAlpha(1);
+                                            holder.product_color.setClickable(true);
+                                        } else {
+                                            Log.e("onBindViewHolder: ", "cdsvdsvdfvdfvdf");
+                                        }
+
+                                    }
+                                });
+
+                            }
+                        }
+                    }
+                }
+            });
+        }
+*/
+
+        if (productColorLists.get(position).isaBoolean()) {
+            holder.product_color.setText(productColorLists.get(position).getColor());
+        }
+
 
         int productqty = Integer.parseInt(productColorLists.get(position).getQty());
         if (productqty > 0) {
-
             if (currentSelectedPosition == position) {
                 if (color != null) {
                     if (sizecolor.equals(color)) {
@@ -166,12 +260,12 @@ public class ProductColorAdapter extends RecyclerView.Adapter<ProductColorAdapte
             Toast.makeText(context, "out of stock", Toast.LENGTH_SHORT).show();
         }
 
-      /*  if (currentSelectedPosition == position) {
-            holder.product_color.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
-        }else {
-            holder.product_color.setBackground(context.getResources().getDrawable(R.drawable.size_design));
-        }*/
 
+        if (currentSelectedPosition == position) {
+            holder.product_color.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
+        } else {
+            holder.product_color.setBackground(context.getResources().getDrawable(R.drawable.size_design));
+        }
 
 
     }

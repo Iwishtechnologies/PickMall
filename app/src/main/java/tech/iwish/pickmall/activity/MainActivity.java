@@ -53,6 +53,7 @@ import tech.iwish.pickmall.other.FriendSaleList;
 import tech.iwish.pickmall.other.ItemList;
 import tech.iwish.pickmall.other.ProductList;
 import tech.iwish.pickmall.other.SilderLists;
+import tech.iwish.pickmall.session.Share_session;
 
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.friend_deal_list_fake;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.item_fakelist;
@@ -95,10 +96,6 @@ public class MainActivity extends AppCompatActivity
     private ItemCategoryInterface itemCategoryInterface;
     public final static String TAG = "mainActivity";
     private RelativeLayout search_bar_layout;
-
-    private InternetAvailabilityChecker mInternetAvailabilityChecker;
-
-
 
 
     @Override
@@ -337,9 +334,8 @@ public class MainActivity extends AppCompatActivity
                                     }
                                 });
                             }
-
-
                         }
+
                     }
                 }
             }
@@ -514,7 +510,6 @@ public class MainActivity extends AppCompatActivity
         HotProduct();
 
         friendSaleAdapter.notifyDataSetChanged();
-        flashSaleAdapter.notifyDataSetChanged();
         itemAdapter.notifyDataSetChanged();
         silderAdapter.notifyDataSetChanged();
 

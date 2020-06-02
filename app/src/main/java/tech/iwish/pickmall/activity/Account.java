@@ -44,7 +44,7 @@ public class Account extends AppCompatActivity {
 
     public void setActivityData() {
         name.setText(share_session.getUserDetail().get("username"));
-        if(!share_session.getUserDetail().get("image").equals("Set Now "))
+        if(!share_session.getUserDetail().get("image").equals("Set Now"))
         {
             Glide.with(Account.this).load(Constants.IMAGES+share_session.getUserDetail().get("image")).into(image);
         }

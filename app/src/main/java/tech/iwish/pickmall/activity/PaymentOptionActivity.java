@@ -37,6 +37,7 @@ import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.gateway.Paymentgateway;
+import tech.iwish.pickmall.other.FriendSaleList;
 import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.sqlconnection.MyhelperSql;
 
@@ -142,7 +143,6 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 int pricetot = qtyprod * amtprod;
 
                 if (!productgst.isEmpty()) {
-
                     int productgstint = Integer.parseInt(productgst);
                     double gstPrice = (pricetot / 100.0f) * productgstint;
                     removeDout = (int) gstPrice;
@@ -152,14 +152,34 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 } else {
                     gst_price.setText("0");
                 }
+                grandTotal = Integer.parseInt(product_amt) + removeDout;
+                finalamountsInt = grandTotal;
+                pricr.setText(getResources().getString(R.string.rs_symbol) + product_amt);
+                total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
+                break;
+            case "friendDeal_one_rs":
+                cases.setVisibility(View.GONE);
+
+                product_name = intent.getStringExtra("product_name");
+                select_size = intent.getStringExtra("select_size");
+                product_amt = intent.getStringExtra("actual_price");
+                discount_price = intent.getStringExtra("discount_price");
+                imagename = intent.getStringExtra("imagename");
+                product_qty = intent.getStringExtra("product_qty");
+                product_id = intent.getStringExtra("product_id");
+                select_color = intent.getStringExtra("select_color");
+                product_type = intent.getStringExtra("product_type");
+                productgst = intent.getStringExtra("gst");
+
+                gst_price.setText("0");
 
                 grandTotal = Integer.parseInt(product_amt) + removeDout;
                 finalamountsInt = grandTotal;
-
                 pricr.setText(getResources().getString(R.string.rs_symbol) + product_amt);
                 total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
 
                 break;
+
         }
 
     }
@@ -170,7 +190,6 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
         switch (id) {
             case R.id.paymentButton:
                 if (Checker != null) {
-
                     switch (Checker) {
                         case "cod":
                             coddelivery();
@@ -201,9 +220,6 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
     private void walletmethod() {
 
-        if(data.get(WALLET_AMOUNT) !=null){
-
-        }
 
         if (data.get(WALLET_AMOUNT) != null) {
             WalletAmount = data.get(WALLET_AMOUNT).toString();
@@ -212,10 +228,14 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             if (finalamountsInt <= IntWalletamt) {
                 switch (type) {
                     case "CardActivity":
-                        card_order_place("wallet","WALLET");
+                        card_order_place("wallet", "WALLET");
                         break;
                     case "buy_now":
-                        buy_now_order_place("wallet","WALLET");
+                        buy_now_order_place("wallet", "WALLET");
+                        break;
+                    case "friendDeal_one_rs":
+//                        productChehckFriendeal();
+                        friendDeal_one_rs_order_place("wallet", "WALLET");
                         break;
                 }
             } else if (finalamountsInt > IntWalletamt) {
@@ -225,6 +245,78 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
         }
 
     }
+
+    private void productChehckFriendeal() {
+
+        progressbar.setVisibility(View.VISIBLE);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("client_number", data.get(USERMOBILE).toString());
+            jsonObject.put("client_address", "");
+            jsonObject.put("product_id", product_id);
+            jsonObject.put("product_type", product_type);
+            jsonObject.put("product_color", select_color);
+            jsonObject.put("product_size", select_size);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.FRIENDDEAL_PRODUCT_CHECK).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    final JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+
+                            if (PaymentOptionActivity.this != null) {
+                                PaymentOptionActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (jsonHelper.GetResult("message").equals("all_ready")) {
+//                                            WalletAmountUpdate("friendDeal_one_rs_ord");
+
+                                            Intent intent = new Intent(PaymentOptionActivity.this, OneRsShareActivity.class);
+                                            intent.putExtra("product_name", product_name);
+                                            intent.putExtra("product_image", imagename);
+                                            intent.putExtra("discount_price", discount_price);
+                                            startActivity(intent);
+
+
+                                        } else {
+                                            friendDeal_one_rs_order_place("wallet", "WALLET");
+                                        }
+
+
+                                    }
+                                });
+
+
+                            }
+
+                        }
+                    }
+
+                }
+            }
+        });
+
+
+    }
+
 
     private void setclick(View view) {
 
@@ -378,16 +470,16 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
         switch (type) {
             case "CardActivity":
-                card_order_place("COD","COD");
+                card_order_place("COD", "COD");
                 break;
             case "buy_now":
-                buy_now_order_place("COD","COD");
+                buy_now_order_place("COD", "COD");
                 break;
         }
 
     }
 
-    private void card_order_place(final String value , String paymentmethod) {
+    private void card_order_place(final String value, String paymentmethod) {
 
         progressbar.setVisibility(View.VISIBLE);
 
@@ -457,7 +549,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                                     public void run() {
 
                                         if (value.equals("wallet")) {
-                                            WalletAmountUpdate();
+                                            WalletAmountUpdate(null);
                                             progressbar.setVisibility(View.GONE);
                                         } else {
                                             progressbar.setVisibility(View.GONE);
@@ -479,10 +571,76 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
     }
 
-    private void buy_now_order_place(final String value , String paymentmethod) {
+
+    private void friendDeal_one_rs_order_place(String wallet, String paymentmethod) {
 
         progressbar.setVisibility(View.VISIBLE);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("client_number", data.get(USERMOBILE).toString());
+            jsonObject.put("client_address", "");
+            jsonObject.put("product_id", product_id);
+            jsonObject.put("product_type", product_type);
+            jsonObject.put("product_color", select_color);
+            jsonObject.put("product_size", select_size);
+            jsonObject.put("product_qty", product_qty);
+            jsonObject.put("product_amount", finalamountsInt);
+            jsonObject.put("shippingCharge", shippingchargebuy_now);
+            jsonObject.put("gst", removeDout);
+            jsonObject.put("payment_option", paymentmethod);
 
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.ORDER_PLACE_BUY_NOW).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+
+                            if (PaymentOptionActivity.this != null) {
+
+                                PaymentOptionActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        WalletAmountUpdate("friendDeal_one_rs_ord");
+                                        progressbar.setVisibility(View.GONE);
+
+                                    }
+                                });
+
+
+                            }
+
+                        }
+                    }
+
+                }
+            }
+        });
+
+
+    }
+
+    private void buy_now_order_place(final String value, String paymentmethod) {
+
+        progressbar.setVisibility(View.VISIBLE);
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
@@ -528,7 +686,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                                     public void run() {
 
                                         if (value.equals("wallet")) {
-                                            WalletAmountUpdate();
+                                            WalletAmountUpdate(null);
                                             progressbar.setVisibility(View.GONE);
                                         } else {
                                             progressbar.setVisibility(View.GONE);
@@ -551,7 +709,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
     }
 
-    private void WalletAmountUpdate() {
+    private void WalletAmountUpdate(final String check_friend_deal) {
 
         int wallint = Integer.parseInt(WalletAmount);
         String remainAmtWallet = String.valueOf(wallint - finalamountsInt);
@@ -586,7 +744,19 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
-                            startActivity(new Intent(PaymentOptionActivity.this, SuccessfullyActivity.class));
+
+                            if (check_friend_deal.equals("friendDeal_one_rs_ord")) {
+
+                                Intent intent = new Intent(PaymentOptionActivity.this, OneRsShareActivity.class);
+                                intent.putExtra("product_name", product_name);
+                                intent.putExtra("product_image", imagename);
+                                intent.putExtra("discount_price", discount_price);
+                                startActivity(intent);
+
+                            } else {
+                                startActivity(new Intent(PaymentOptionActivity.this, SuccessfullyActivity.class));
+                            }
+
                         }
                     }
 
