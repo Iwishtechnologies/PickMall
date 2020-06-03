@@ -60,7 +60,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
     private ArrayList<HashMap<String, String>> list = new ArrayList<>();
     private String product_amt, shippingCharege, WalletAmount;
     private int shippinsAmt = -1, productsAmt, grandTotal, gstint, removeDout;
-    private String product_name, select_size, product_type, discount_price, imagename, product_qty, product_id, select_color, productgst;
+    private String product_name, select_size, product_type, discount_price, imagename, product_qty, product_id, select_color, productgst,referCode;
     private Share_session shareSession;
     private ProgressBar progressbar;
     private int finalamountsInt, shippingchargebuy_now;
@@ -245,6 +245,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
         }
 
     }
+/*
 
     private void productChehckFriendeal() {
 
@@ -316,6 +317,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
 
     }
+*/
 
 
     private void setclick(View view) {
@@ -615,6 +617,8 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
                             if (PaymentOptionActivity.this != null) {
 
+                                referCode = jsonHelper.GetResult("data");
+
                                 PaymentOptionActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -674,13 +678,12 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
                     String result = response.body().string();
                     Log.e("response", result);
-                    JsonHelper jsonHelper = new JsonHelper(result);
+                    final JsonHelper jsonHelper = new JsonHelper(result);
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
 
                             if (PaymentOptionActivity.this != null) {
-
                                 PaymentOptionActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -751,6 +754,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                                 intent.putExtra("product_name", product_name);
                                 intent.putExtra("product_image", imagename);
                                 intent.putExtra("discount_price", discount_price);
+                                intent.putExtra("refer_code", referCode);
                                 startActivity(intent);
 
                             } else {

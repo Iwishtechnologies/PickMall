@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,7 +76,8 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
     private TextView cart_product_name, cart_product_act_amount, cart_product_size, product_qty, dicount_price;
     private ImageView card_product_image;
 
-    private String B_N_product_name, product_type, product_id, select_color, gst, B_N_product_qty, B_N_product_size, B_N_product_acture_price, B_N_product_image, type, number_client;
+    private String B_N_product_name,referCode, product_type, product_id, select_color, gst,
+            B_N_product_qty, B_N_product_size, B_N_product_acture_price, B_N_product_image, type, number_client,referCount;
 
     private Button place_order_btn;
 
@@ -398,16 +400,29 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
 
+
+
                             if (SaveAddressActivity.this != null) {
                                 SaveAddressActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         if (jsonHelper.GetResult("message").equals("all_ready")) {
 //                                            WalletAmountUpdate("friendDeal_one_rs_ord");
+
+                                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                                            for (int i = 0; i < jsonArray.length(); i++) {
+                                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                                referCode = jsonHelper.GetResult("code");
+                                                referCount = jsonHelper.GetResult("counts");;
+                                            }
+
                                             Intent intent = new Intent(SaveAddressActivity.this, OneRsShareActivity.class);
                                             intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
                                             intent.putExtra("product_image", getIntent().getStringExtra("imagename"));
                                             intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                                            intent.putExtra("refer_code", referCode);
+                                            intent.putExtra("refer_count", referCount);
+
                                             startActivity(intent);
                                         } else {
                                             Intent intent;
