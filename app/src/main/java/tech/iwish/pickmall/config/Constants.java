@@ -15,6 +15,7 @@ public class Constants {
 
 //    public static String SUBFOLDER = "/api/";
 
+//    public static String URL = "http://pickmall.iwishtech.xyz/api/";
     public static String URL = "http://173.212.226.143:8086/api/";
 
     public static String SILDER_IMAGE = URL + "main/silder/images";
@@ -88,6 +89,8 @@ public class Constants {
     public static String PROCESSREFERREL = URL+"ProcessReferrel";
     public static String ORDER_SUMMERY = URL+"ordresummary";
     public static String DELIVERED_PRODUCT = URL+"Delivered_product";
+    public static String GETADDRESS = URL+"Address";
+    public static String REWARD_RANK = URL+"reward_rank";
 
     public static String IMAGES = "http://173.212.226.143:8086/img/";
     public static String SHAREDPREFERENCE = "money_pref";

@@ -150,7 +150,7 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/WalletBalance").post(body).build();
+        Request request1 = new Request.Builder().url(Constants.WALLETBALANCE).post(body).build();
         okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -260,7 +260,7 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/updatewallet").post(body).build();
+        Request request1 = new Request.Builder().url(Constants.UPDATEWALLET).post(body).build();
         okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {

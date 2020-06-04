@@ -269,7 +269,8 @@ public class UserDetail extends AppCompatActivity implements InternetConnectivit
                                 @Override
                                 public void run() {
                                     userSession.user_number_check();
-                                    GetUserProfile(userSession.getUserDetail().get("UserMobile"));
+//                                    GetUserProfile(userSession.getUserDetail().get("UserMobile"));
+                                    GetAddress(userSession.getUserDetail().get("UserMobile"));
                                 }
                             });
 
@@ -282,6 +283,67 @@ public class UserDetail extends AppCompatActivity implements InternetConnectivit
 
     }
 
+    public void GetAddress(String mobile)
+    {
+
+
+        OkHttpClient okHttpClient1 = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("mobile", mobile);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.GETADDRESS).post(body).build();
+        okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+                UserDetail.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                        mainview.setAlpha(1);
+                        Toast.makeText(UserDetail.this, "Connection Time Out", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+
+                            for (int i = 0; i < 1; i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                userSession.address(jsonHelper.GetResult("name"),jsonHelper.GetResult("mobile"),jsonHelper.GetResult("pincode"),jsonHelper.GetResult("house_no"),jsonHelper.GetResult("colony"),jsonHelper.GetResult("landmark"),jsonHelper.GetResult("state"),jsonHelper.GetResult("city"));
+
+                            }
+                            GetUserProfile(userSession.getUserDetail().get("UserMobile"));
+
+
+                        }
+                        else {
+                            GetUserProfile(userSession.getUserDetail().get("UserMobile"));
+                        }
+                    }
+
+                }
+
+
+            }
+
+        });
+    }
     @Override
     public void onBackPressed() {
          isDestroyed();

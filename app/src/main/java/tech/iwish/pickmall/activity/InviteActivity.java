@@ -2,6 +2,8 @@ package tech.iwish.pickmall.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.ContentLoadingProgressBar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -27,6 +29,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
@@ -40,9 +44,13 @@ import okhttp3.Response;
 import tech.iwish.pickmall.BuildConfig;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.MyOrderAdapter;
+import tech.iwish.pickmall.adapter.RevardRankAdapter;
+import tech.iwish.pickmall.adapter.WishListAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.extended.TextViewFont;
+import tech.iwish.pickmall.other.RankList;
+import tech.iwish.pickmall.other.WishlistList;
 import tech.iwish.pickmall.session.Share_session;
 
 public class InviteActivity extends AppCompatActivity implements InternetConnectivityListener {
@@ -53,6 +61,8 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
     Share_session share_session;
     ProgressBar progressBar;
     ScrollView scrollView;
+    RecyclerView recyclerView;
+    List<RankList>rankLists= new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +70,7 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
         InitializeActivity();
         SetActivityData();
         ActivityAction();
+        SetRecycleView();
     }
 
 
@@ -70,6 +81,7 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
         invitecode= findViewById(R.id.invitecode);
         progressBar= findViewById(R.id.progress);
         scrollView= findViewById(R.id.scroll);
+        recyclerView= findViewById(R.id.recycle);
         share_session= new Share_session(InviteActivity.this);
         SaveReferrelCode(random(share_session.getUserDetail().get("id")),share_session.getUserDetail().get("UserMobile"));
         Connectivity();
@@ -188,6 +200,70 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
 
 
 
+    private void SetRecycleView(){
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(InviteActivity.this);
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
+
+        OkHttpClient client = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("mobile",share_session.getUserDetail().get("UserMobile") );
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request = new Request.Builder().post(body)
+                .url(Constants.REWARD_RANK)
+                .build();
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                rankLists.add(new RankList(String.valueOf(i), jsonHelper.GetResult("name"), "₹ "+jsonHelper.GetResult("tot")));
+                            }
+                            InviteActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(rankLists.size()==0){
+//                                        no_product.setVisibility(View.VISIBLE);
+//                                        shimmer_view.setVisibility(View.GONE);
+//                                        recyclerView.setVisibility(View.GONE);
+                                    }
+                                    else {
+                                        RevardRankAdapter revardRankAdapter = new RevardRankAdapter(InviteActivity.this, rankLists);
+                                        recyclerView.setVisibility(View.VISIBLE);
+                                        recyclerView.setAdapter(revardRankAdapter);
+                                    }
+
+                                }
+                            });
+
+                        }
+                    }
+
+                }
+            }
+        });
+
+
+    }
 
 }

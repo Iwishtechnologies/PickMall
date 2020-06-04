@@ -97,13 +97,13 @@
                     android:text="The Total Asset(₹)"/>
 
                 <tech.iwish.pickmall.extended.TextViewFont
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
                     android:id="@+id/balance"
-                    app:fonttype="text_semi_bold"
+                    android:layout_width="14dp"
+                    android:layout_height="25dp"
+                    android:text="0.0"
+                    android:textColor="@color/white"
                     android:textSize="20dp"
-                    android:text="0.0"/>
+                    app:fonttype="text_semi_bold" />
 
             </LinearLayout>
 
