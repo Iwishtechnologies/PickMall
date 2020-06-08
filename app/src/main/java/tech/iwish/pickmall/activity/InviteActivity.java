@@ -237,7 +237,7 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                rankLists.add(new RankList(String.valueOf(i), jsonHelper.GetResult("name"), "₹ "+jsonHelper.GetResult("tot")));
+                                rankLists.add(new RankList(String.valueOf(i+1), jsonHelper.GetResult("name"), "₹ "+jsonHelper.GetResult("tot")));
                             }
                             InviteActivity.this.runOnUiThread(new Runnable() {
                                 @Override

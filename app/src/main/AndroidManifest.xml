@@ -16,6 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".activity.Product">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.SelectGenderActivity"></activity>
         <activity android:name=".activity.OTPActivity" />
         <activity android:name=".activity.MobileNOActivity" />
@@ -158,11 +165,7 @@
             android:theme="@style/flashsaleproduct" />
         <activity android:name=".activity.ProductActivity" />
         <activity android:name=".activity.SplashActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.Register1Activity" />
         <activity

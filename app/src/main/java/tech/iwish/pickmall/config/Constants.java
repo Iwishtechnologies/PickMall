@@ -91,6 +91,7 @@ public class Constants {
     public static String DELIVERED_PRODUCT = URL+"Delivered_product";
     public static String GETADDRESS = URL+"Address";
     public static String REWARD_RANK = URL+"reward_rank";
+    public static String FRIENDDEAL_PRODUCT_CHECK = URL+"friend_deal_product_check";
 
 //    public static String IMAGES = "http://pickmall.iwishtech.xyz/img/";
         public static String IMAGES = "http://173.212.226.143:8086/img/";
