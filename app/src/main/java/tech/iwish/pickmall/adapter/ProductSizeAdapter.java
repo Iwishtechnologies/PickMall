@@ -106,7 +106,7 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
         public Viewholder(@NonNull View itemView) {
             super(itemView);
 
-            size_name = (TextView) itemView.findViewById(R.id.size_name);
+//            size_name = (TextView) itemView.findViewById(R.id.size_name);
             main_layout_size = (LinearLayout) itemView.findViewById(R.id.main_layout_size);
             main_layout_size.setOnClickListener(this);
 

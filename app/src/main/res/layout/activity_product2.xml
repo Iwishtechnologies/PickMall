@@ -24,23 +24,46 @@
                 android:gravity="center"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:layout_width="300dp"
-                    android:src="@drawable/logo"
-                    android:layout_height="300dp"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="360dp"
+                    android:layout_marginBottom="20dp">
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/productImageDetailsViewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </RelativeLayout>
 
                      </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginBottom="-40dp"
                 android:layout_height="wrap_content">
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:padding="10dp"
                     android:orientation="vertical"
                     android:background="@drawable/product_bottom_background"
                     android:layout_height="400dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="-20dp"
+                        android:gravity="right"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:src="@drawable/product_like"/>
+                        </LinearLayout>
+
+                    </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -68,12 +91,14 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:orientation="horizontal"
+                        android:weightSum="2"
                         android:layout_height="wrap_content">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:paddingLeft="20dp"
                             android:paddingTop="10dp"
+                            android:layout_weight="1"
                             android:orientation="vertical"
                             android:layout_height="wrap_content">
                                     <LinearLayout
@@ -119,6 +144,11 @@
 
                         <LinearLayout
                             android:layout_width="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:paddingLeft="30dp"
+                            android:layout_gravity="right"
                             android:layout_height="wrap_content">
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -127,24 +157,33 @@
                                 android:gravity="center"
                                 android:layout_height="wrap_content">
                                 <ImageView
-                                    android:layout_width="50dp"
+                                    android:layout_width="40dp"
                                     android:layout_weight="1"
-                                    android:src="@drawable/product_cart_plus"
-                                    android:layout_height="80dp"/>
+                                    android:src="@drawable/cart_minus"
+                                    android:layout_height="60dp"/>
                                 <tech.iwish.pickmall.extended.TextViewFont
                                     android:layout_width="wrap_content"
                                     android:layout_weight="1"
                                     android:text="1"
-                                    android:layout_marginLeft="10dp"
-                                    android:layout_marginRight="10dp"
+                                    android:layout_marginLeft="20dp"
+                                    android:layout_marginRight="20dp"
                                     android:textColor="@color/white"
                                     android:textSize="20dp"
                                     android:layout_height="wrap_content"/>
                                 <ImageView
-                                    android:layout_width="50dp"
+                                    android:layout_width="40dp"
                                     android:layout_weight="1"
-                                    android:src="@drawable/product_cart_plus"
-                                    android:layout_height="80dp"/>
+                                    android:src="@drawable/cart_plus"
+                                    android:layout_height="60dp"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_height="wrap_content">
+                                <Button
+                                    android:layout_width="120dp"
+                                    android:layout_height="30dp"
+                                    android:background="@drawable/add_to_cart"/>
                             </LinearLayout>
 
                         </LinearLayout>
@@ -152,6 +191,51 @@
 
 
                     </LinearLayout>
+
+                    <LinearLayout
+                    android:layout_width="match_parent"
+                    android:paddingLeft="20dp"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:text="Color"
+                        android:textSize="18dp"
+                        app:fonttype="text_semi_bold"
+                        android:textColor="@color/white"
+                        android:layout_marginBottom="10dp"
+                        android:layout_height="wrap_content"/>
+                    <Button
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:text="Red"
+                        android:textColor="@color/white"
+                        android:background="@drawable/procuct_size_background"/>
+                </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:paddingLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:text="Size"
+                            android:textSize="18dp"
+                            app:fonttype="text_semi_bold"
+                            android:textColor="@color/white"
+                            android:layout_marginBottom="10dp"
+                            android:layout_height="wrap_content"/>
+
+                             <androidx.recyclerview.widget.RecyclerView
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+
 
 
 

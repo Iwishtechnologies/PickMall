@@ -289,8 +289,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                     @Override
                                     public void run() {
 
-                                        ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
-                                        productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
+//                                        ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
+//                                        productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
 
                                     }
                                 });
