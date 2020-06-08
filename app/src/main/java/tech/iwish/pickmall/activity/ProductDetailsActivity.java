@@ -61,7 +61,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     //    private List<ProductDetailsImageList> productDetailsListImageList = new ArrayList<>();
     private List<ProductSizeColorList> productSizeColorLists = new ArrayList<>();
     private ViewPager productImageDetailsViewpager;
-    private String product_color, product_name, product_Image, sku,actual_price, discount_price, product_id, vendor_id;
+    private String product_color, product_name, product_Image, sku, actual_price, discount_price, product_id, vendor_id;
     private RecyclerView color_size_image_recycle_view;
     private RatingBar ratingcheck;
     private Button add_card_btn, buy_now_btn, one_rs_button_place_order;
@@ -191,16 +191,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
                 one_rs_dicount_price.setText(content);
 
-
                 one_rs_button_place_order.setText(getResources().getString(R.string.rs_symbol) + actual_price + " Start a Deal");
-
                 total_request_user = getIntent().getStringExtra("total_request_user");
                 new_user_request = getIntent().getStringExtra("new_user_request");
                 total_user_req.setText("Request " + total_request_user + " Users Total");
                 new_user_text.setText("(" + new_user_request + " new user at least)");
-
                 PRODUCT_TYPE = "frienddeal";
-
                 All_Image(Constants.FRIEND_SALE_IMAGE);
                 coloAndImageData(Constants.FRIEND_SALE_SIZE_COLOR);
                 sizedatafetch(Constants.FRIEND_SALE_SIZE);
@@ -222,11 +218,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
         float mrp = Float.parseFloat(discount_price);
         float actual_prices = Float.parseFloat(actual_price);
-        float sub = mrp - actual_prices ;
-        float div = sub/actual_prices;
-        aaa = String.valueOf((int) (div *100));
+        float sub = mrp - actual_prices;
+        float div = sub / actual_prices;
+        aaa = String.valueOf((int) (div * 100));
 
-        dicount_price_text.setText(" "+aaa+"% OFF" );
+        dicount_price_text.setText(" " + aaa + "% OFF");
 
         SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + discount_price);
         content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
@@ -397,7 +393,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 bundle.putString("product_type", PRODUCT_TYPE);
                 bundle.putString("gst", gst);
                 bundle.putString("vendor_id", vendor_id);
-                bundle.putString("product_dicount_percent", aaa );
+                bundle.putString("product_dicount_percent", aaa);
                 bundle.putString("sku", sku);
                 bundle.putString("type", "add_to_card");
                 productSideColorBottomFragment.setArguments(bundle);
@@ -405,10 +401,20 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.one_rs_button_place_order:
 //                one rs place order check
-                Intent intent1 = new Intent(ProductDetailsActivity.this, SaveAddressActivity.class);
-                intent1.putExtra("type", "friendDeal_one_rs");
-                startActivity(intent1);
-
+//                Intent intent1 = new Intent(ProductDetailsActivity.this, SaveAddressActivity.class);
+//                intent1.putExtra("type", "friendDeal_one_rs");
+//                startActivity(intent1);
+                bundle = new Bundle();
+                productSideColorBottomFragment = new ProductSideColorBottomFragment(productColorLists, productSizeColorLists);
+                bundle.putString("product_name", product_name);
+                bundle.putString("actual_price", actual_price);
+                bundle.putString("product_id", product_id);
+                bundle.putString("discount_price", discount_price);
+                bundle.putString("product_type", PRODUCT_TYPE);
+                bundle.putString("gst", gst);
+                bundle.putString("type", "friendDeal_one_rs");
+                productSideColorBottomFragment.setArguments(bundle);
+                productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
                 break;
             case R.id.card:
                 startActivity(new Intent(ProductDetailsActivity.this, CardActivity.class));

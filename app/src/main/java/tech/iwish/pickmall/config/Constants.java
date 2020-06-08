@@ -92,7 +92,8 @@ public class Constants {
     public static String GETADDRESS = URL+"Address";
     public static String REWARD_RANK = URL+"reward_rank";
 
-    public static String IMAGES = "http://173.212.226.143:8086/img/";
+//    public static String IMAGES = "http://pickmall.iwishtech.xyz/img/";
+        public static String IMAGES = "http://173.212.226.143:8086/img/";
     public static String SHAREDPREFERENCE = "money_pref";
     public static final String SHAREDPREFERENCE_STR = "money_pref_str";
 //    public static final String COUPENiMAGE = "http://173.212.226.143:8086/template";

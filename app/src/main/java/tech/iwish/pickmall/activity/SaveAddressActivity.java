@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,19 +25,30 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import tech.iwish.pickmall.Interface.CardQtyAmountRef;
 import tech.iwish.pickmall.Interface.PaymentOptionInterface;
 import tech.iwish.pickmall.Interface.RefreshCartAmountInterface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.CartAdapter;
 import tech.iwish.pickmall.config.Constants;
+import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.fragment.CoupanBottom;
 import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.sqlconnection.MyhelperSql;
@@ -64,7 +76,8 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
     private TextView cart_product_name, cart_product_act_amount, cart_product_size, product_qty, dicount_price;
     private ImageView card_product_image;
 
-    private String B_N_product_name, product_type, product_id, select_color, gst, B_N_product_qty, B_N_product_size, B_N_product_acture_price, B_N_product_image, type, number_client;
+    private String B_N_product_name,referCode, product_type, product_id, select_color, gst,
+            B_N_product_qty, B_N_product_size, B_N_product_acture_price, B_N_product_image, type, number_client,referCount;
 
     private Button place_order_btn;
 
@@ -153,6 +166,9 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
     }
 
     private void friendDeal_one_rs() {
+
+        buy_now();
+
     }
 
 
@@ -266,7 +282,19 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
 //                        startActivity(new Intent(SaveAddressActivity.this, EditAddressActivity.class));
                         break;
                     case "friendDeal_one_rs":
-//                        Toast.makeText(this, "friendDeal_one_rs", Toast.LENGTH_SHORT).show();
+                        intent = new Intent(SaveAddressActivity.this, EditAddressActivity.class);
+                        intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                        intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
+                        intent.putExtra("actual_price", getIntent().getStringExtra("actual_price"));
+                        intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                        intent.putExtra("imagename", getIntent().getStringExtra("imagename"));
+                        intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
+                        intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
+                        intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
+                        intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
+                        intent.putExtra("gst", getIntent().getStringExtra("gst"));
+                        intent.putExtra("type", "friendDeal_one_rs");
+                        startActivity(intent);
                         break;
                     case "buy_now":
                         intent = new Intent(SaveAddressActivity.this, EditAddressActivity.class);
@@ -316,7 +344,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
 //                card_order_place();
                 break;
             case "friendDeal_one_rs":
-//                        Toast.makeText(this, "friendDeal_one_rs", Toast.LENGTH_SHORT).show();
+                productChehckFriendeal();
                 break;
             case "buy_now":
                 intent = new Intent(SaveAddressActivity.this, PaymentOptionActivity.class);
@@ -331,10 +359,103 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
                 intent.putExtra("gst", getIntent().getStringExtra("gst"));
                 intent.putExtra("type", "buy_now");
-
                 startActivity(intent);
                 break;
         }
+    }
+
+
+    private void productChehckFriendeal() {
+
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("client_number", data.get(USERMOBILE).toString());
+            jsonObject.put("product_id", product_id);
+            jsonObject.put("product_type", product_type);
+            jsonObject.put("product_color", select_color);
+            jsonObject.put("product_size", getIntent().getStringExtra("select_size"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.FRIENDDEAL_PRODUCT_CHECK).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    final JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+
+
+
+                            if (SaveAddressActivity.this != null) {
+                                SaveAddressActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (jsonHelper.GetResult("message").equals("all_ready")) {
+//                                            WalletAmountUpdate("friendDeal_one_rs_ord");
+
+                                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                                            for (int i = 0; i < jsonArray.length(); i++) {
+                                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                                referCode = jsonHelper.GetResult("code");
+                                                referCount = jsonHelper.GetResult("counts");;
+                                            }
+
+                                            Intent intent = new Intent(SaveAddressActivity.this, OneRsShareActivity.class);
+                                            intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                                            intent.putExtra("product_image", getIntent().getStringExtra("imagename"));
+                                            intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                                            intent.putExtra("refer_code", referCode);
+                                            intent.putExtra("refer_count", referCount);
+
+                                            startActivity(intent);
+                                        } else {
+                                            Intent intent;
+                                            intent = new Intent(SaveAddressActivity.this, PaymentOptionActivity.class);
+                                            intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                                            intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
+                                            intent.putExtra("actual_price", getIntent().getStringExtra("actual_price"));
+                                            intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                                            intent.putExtra("imagename", getIntent().getStringExtra("imagename"));
+                                            intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
+                                            intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
+                                            intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
+                                            intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
+                                            intent.putExtra("gst", getIntent().getStringExtra("gst"));
+                                            intent.putExtra("type", "friendDeal_one_rs");
+                                            startActivity(intent);
+                                        }
+
+
+                                    }
+                                });
+
+
+                            }
+
+                        }
+                    }
+
+                }
+            }
+        });
+
+
     }
 
 

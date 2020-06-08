@@ -8,6 +8,7 @@ public class ProductColorList {
     private String size;
     private String color;
     private String qty;
+    private boolean aBoolean = true;
 
     public ProductColorList(String sno, String product_id, String imgname, String size, String color, String qty) {
         this.sno = sno;
@@ -16,6 +17,7 @@ public class ProductColorList {
         this.size = size;
         this.color = color;
         this.qty = qty;
+        this.aBoolean = aBoolean;
     }
 
     public String getSno() {
@@ -64,5 +66,13 @@ public class ProductColorList {
 
     public void setQty(String qty) {
         this.qty = qty;
+    }
+
+    public boolean isaBoolean() {
+        return aBoolean;
+    }
+
+    public void setaBoolean(boolean aBoolean) {
+        this.aBoolean = aBoolean;
     }
 }

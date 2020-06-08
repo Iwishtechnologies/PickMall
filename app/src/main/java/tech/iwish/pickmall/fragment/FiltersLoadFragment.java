@@ -56,13 +56,6 @@ public class FiltersLoadFragment extends Fragment {
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         filterRecycview.setLayoutManager(linearLayoutManager);
 
-
-
-
-//        Toast.makeText(getContext(), ""+getArguments().get("value"), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getContext(), "item_id  "+getArguments().get("item_id"), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getContext(), "item_name  "+getArguments().get("item_name"), Toast.LENGTH_SHORT).show();
-
         progressBar.setVisibility(View.VISIBLE);
 
         OkHttpClient okHttpClient = new OkHttpClient();
