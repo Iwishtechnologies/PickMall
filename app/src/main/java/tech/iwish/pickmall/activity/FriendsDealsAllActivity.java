@@ -41,7 +41,6 @@ public class FriendsDealsAllActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_deals_all);
 
-        Toast.makeText(this, ""+getIntent().getStringExtra("item_id"), Toast.LENGTH_SHORT).show();
 
         Bundle bundle = new Bundle();
         FriendOneRsFragment friendOneRsFragment = new FriendOneRsFragment();
