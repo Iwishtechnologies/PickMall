@@ -34,7 +34,7 @@ public class MobileNOActivity extends AppCompatActivity {
 
     }
 
-    public void ValidateInput(String no){
-        if(no.isEmpty())
-    }
+//    public void ValidateInput(String no){
+//        if(no.isEmpty())
+//    }
 }
