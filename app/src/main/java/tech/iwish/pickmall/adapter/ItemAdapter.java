@@ -23,6 +23,7 @@ import java.util.List;
 
 import tech.iwish.pickmall.Interface.ItemCategoryInterface;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.activity.FriendsDealsAllActivity;
 import tech.iwish.pickmall.activity.MainActivity;
 import tech.iwish.pickmall.activity.ProductActivity;
 import tech.iwish.pickmall.config.Constants;
@@ -74,22 +75,36 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
     public void onBindViewHolder(@NonNull Viewholder holder, final int position) {
 
         if (!itemLists.get(position).getItem_name().equals("")) {
-
             if (context instanceof MainActivity) {
 
                 holder.layoutItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Bundle bundle = new Bundle();
-                        Intent intent = new Intent(context, ProductActivity.class);
-                        bundle.putString("item_id", itemLists.get(position).getItem_id());
-                        bundle.putString("item_name", itemLists.get(position).getItem_name());
-                        bundle.putString("type", "MainActivity_product");
-                        intent.putExtras(bundle);
-//                    intent.putExtra("item",itemLists.get(position).getItem_id());
-//                    intent.putExtra("type","product");
-//                    intent.putExtra("image",itemLists.get(position).getIcon_img());
-                        context.startActivity(intent);
+                        Intent intent;
+                        switch (itemLists.get(position).getItem_type()) {
+                            case "friend_deal":
+                                intent = new Intent(new Intent(context, FriendsDealsAllActivity.class));
+                                intent.putExtra("item_id",itemLists.get(position).getItem_id());
+                                context.startActivity(intent);
+                                break;
+                            case "one_rs":
+                                Toast.makeText(context, "One rs", Toast.LENGTH_SHORT).show();
+                                break;
+                            case "share_and_earn":
+                                Toast.makeText(context, "share_and_earn", Toast.LENGTH_SHORT).show();
+                                break;
+                            case "product":
+                            default:
+                                Bundle bundle = new Bundle();
+                                intent = new Intent(context, ProductActivity.class);
+                                bundle.putString("item_id", itemLists.get(position).getItem_id());
+                                bundle.putString("item_name", itemLists.get(position).getItem_name());
+                                bundle.putString("type", "MainActivity_product");
+                                intent.putExtras(bundle);
+                                context.startActivity(intent);
+                                break;
+                        }
+
                     }
                 });
                 String a = Constants.IMAGES + itemLists.get(position).getIcon_img();
@@ -109,11 +124,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
                 holder.main_layout_category.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
                         itemCategoryInterface.itemcatinterface(itemLists.get(position).getItem_id());
                         cuurentposition = position;
                         notifyDataSetChanged();
-
                     }
                 });
 

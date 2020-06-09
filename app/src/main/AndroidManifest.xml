@@ -20,6 +20,11 @@
 
         </activity>
         <activity android:name=".activity.SelectGenderActivity"></activity>
+
+        <activity android:name=".activity.OneRsShareActivity"
+            android:theme="@style/Settingtheme"
+            android:screenOrientation="portrait"/>
+
         <activity android:name=".activity.OTPActivity" />
         <activity android:name=".activity.MobileNOActivity" >
             <intent-filter>

@@ -26,6 +26,7 @@
     <color name="product_back_silder">#F1F2F4</color>
     <color name="rating_star_color">#606060</color>
     <color name="four_rating_progress_color">#6FC017</color>
+    <color name="background_silver_color">#A39E9E</color>
 
 <!--    rating color-->
 
@@ -33,4 +34,33 @@
     <color name="progress_rating_red_color">#E32F30</color>
     <color name="progress_rating_green_color">#70C115</color>
 
+<!--    new design -->
+
+    <color name="dark_brown_color">#462423</color>
+    <color name="light_brown_color">#DC9B40</color>
+
+
 </resources>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

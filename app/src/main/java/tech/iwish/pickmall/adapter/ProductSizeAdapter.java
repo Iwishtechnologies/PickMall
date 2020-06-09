@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +34,7 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
     private List<JSONObject> sizeJsonObject = new ArrayList<>();
 
 
-    public ProductSizeAdapter(FragmentActivity activity, List<ProductSizeColorList> productSizeColorLists, ProductSizeInterFace productSizeInterFace) {
+    public ProductSizeAdapter(Context activity, List<ProductSizeColorList> productSizeColorLists, ProductSizeInterFace productSizeInterFace) {
         this.context = activity;
         this.productSizeColorLists = productSizeColorLists;
         this.productSizeInterFace = productSizeInterFace;
@@ -78,12 +79,18 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
 
 
         holder.size_name.setText(productSizeColorLists.get(position).getSize());
+        holder.size_nameButton.setText(productSizeColorLists.get(position).getSize());
+
         int qtyproduct = Integer.parseInt(productSizeColorLists.get(position).getQty());
         if (qtyproduct > 0) {
             if (currentSelectedPosition == position) {
-                holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
+//                holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
+                holder.size_name.setVisibility(View.GONE);
+                holder.size_nameButton.setVisibility(View.VISIBLE);
             } else {
-                holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_design));
+//                holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_design));
+                holder.size_name.setVisibility(View.VISIBLE);
+                holder.size_nameButton.setVisibility(View.GONE);
             }
         }else {
             Toast.makeText(context, "out of stock", Toast.LENGTH_SHORT).show();
@@ -102,12 +109,14 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
 
         private TextView size_name;
         private LinearLayout main_layout_size;
+        private Button size_nameButton;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
 
-//            size_name = (TextView) itemView.findViewById(R.id.size_name);
+            size_name = (TextView) itemView.findViewById(R.id.size_name);
             main_layout_size = (LinearLayout) itemView.findViewById(R.id.main_layout_size);
+            size_nameButton = (Button) itemView.findViewById(R.id.size_nameButton);
             main_layout_size.setOnClickListener(this);
 
         }

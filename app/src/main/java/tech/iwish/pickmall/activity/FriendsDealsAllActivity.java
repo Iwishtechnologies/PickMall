@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -27,6 +28,7 @@ import tech.iwish.pickmall.adapter.FriendSaleAllProductAdapter;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.fragment.FriendDealRuleFragment;
 import tech.iwish.pickmall.fragment.FriendOneRsFragment;
+import tech.iwish.pickmall.fragment.GroupByFriendDealFragment;
 import tech.iwish.pickmall.other.FriendSale;
 import tech.iwish.pickmall.other.FriendSaleList;
 
@@ -39,7 +41,12 @@ public class FriendsDealsAllActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_deals_all);
 
+        Toast.makeText(this, ""+getIntent().getStringExtra("item_id"), Toast.LENGTH_SHORT).show();
+
+        Bundle bundle = new Bundle();
         FriendOneRsFragment friendOneRsFragment = new FriendOneRsFragment();
+        bundle.putString("item_id",getIntent().getStringExtra("item_id"));
+        friendOneRsFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutFriendDeal, friendOneRsFragment).commit();
     }
 
@@ -50,6 +57,9 @@ public class FriendsDealsAllActivity extends AppCompatActivity {
         switch (id) {
             case "one_rs_win":
                 fragment = new FriendOneRsFragment();
+                break;
+            case "group_buy":
+                fragment = new GroupByFriendDealFragment();
                 break;
             case "how_to_play":
                 fragment = new FriendDealRuleFragment();

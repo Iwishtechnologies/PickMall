@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,14 +76,13 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
     private LinearLayout coupon, paymentoption, buy_now_product;
     private TextView cart_product_name, cart_product_act_amount, cart_product_size, product_qty, dicount_price;
     private ImageView card_product_image;
+    private ProgressBar progress_bar;
 
-    private String B_N_product_name,referCode, product_type, product_id, select_color, gst,
-            B_N_product_qty, B_N_product_size, B_N_product_acture_price, B_N_product_image, type, number_client,referCount;
+    private String B_N_product_name, referCode, product_type, product_id, select_color, gst,
+            B_N_product_qty, B_N_product_size, B_N_product_acture_price, B_N_product_image, type, number_client, referCount;
 
     private Button place_order_btn;
-
     private RelativeLayout layouthide;
-
     private int finalAmount;
     private double finaGst;
     private Map data;
@@ -116,6 +116,9 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
 
         layouthide = (RelativeLayout) findViewById(R.id.layouthide);
 
+        progress_bar = (ProgressBar) findViewById(R.id.progress_bar);
+        progress_bar.setVisibility(View.GONE);
+
         shareSession = new Share_session(this);
         data = shareSession.Fetchdata();
 
@@ -135,24 +138,19 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         card_product_recycleview.setLayoutManager(linearLayoutManager);
 
 //        *********************************************************************************
-
         type = getIntent().getStringExtra("type");
 
         switch (type) {
             case "CardActivity":
-//                Toast.makeText(this, "CardActivity", Toast.LENGTH_SHORT).show();
                 buy_now_product.setVisibility(View.GONE);
                 card_product_recycleview.setVisibility(View.VISIBLE);
                 productshow();
                 amount_set.setText(getResources().getString(R.string.rs_symbol) + finalAmount);
-
                 break;
             case "friendDeal_one_rs":
-//                Toast.makeText(this, "friendDeal_one_rs", Toast.LENGTH_SHORT).show();
                 friendDeal_one_rs();
                 break;
             case "buy_now":
-//                Toast.makeText(this, "buy_now", Toast.LENGTH_SHORT).show();
                 buy_now();
                 break;
         }
@@ -166,9 +164,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
     }
 
     private void friendDeal_one_rs() {
-
         buy_now();
-
     }
 
 
@@ -319,13 +315,17 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 break;
             case R.id.place_order_btn:
                 orderplace();
-//                startActivity(new Intent(SaveAddressActivity.this ,));
                 break;
-
         }
+
+
     }
 
     private void orderplace() {
+
+        progress_bar.setVisibility(View.VISIBLE);
+        place_order_btn.setClickable(false);
+
 
         Intent intent;
 
@@ -362,6 +362,10 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 startActivity(intent);
                 break;
         }
+
+        progress_bar.setVisibility(View.GONE);
+        place_order_btn.setClickable(true);
+
     }
 
 
@@ -401,7 +405,6 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                         if (responses.equals("TRUE")) {
 
 
-
                             if (SaveAddressActivity.this != null) {
                                 SaveAddressActivity.this.runOnUiThread(new Runnable() {
                                     @Override
@@ -413,7 +416,8 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                                             for (int i = 0; i < jsonArray.length(); i++) {
                                                 jsonHelper.setChildjsonObj(jsonArray, i);
                                                 referCode = jsonHelper.GetResult("code");
-                                                referCount = jsonHelper.GetResult("counts");;
+                                                referCount = jsonHelper.GetResult("counts");
+                                                ;
                                             }
 
                                             Intent intent = new Intent(SaveAddressActivity.this, OneRsShareActivity.class);

@@ -229,7 +229,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
 
     private void productdescription() {
 
-        OkHttpClient okHttpClient = new OkHttpClient();
+        final OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
@@ -274,10 +274,15 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                                         @Override
                                         public void run() {
 
+
+//                                            LinearLayout linearLayout = new LinearLayout(getActivity());
+//                                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//                                            layoutParams.setMargins(50, 0, 15, 0);
+//                                            linearLayout.setLayoutParams(layoutParams);
+
                                             TableRow tr = new TableRow(getContext());
                                             tr.setWeightSum(2);
                                             tr.getResources().getDrawable(R.color.silderColor);
-
 
                                             TextView c1 = new TextView(getContext());
 
@@ -293,6 +298,8 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                                             tr.addView(c1);
                                             tr.addView(c2);
                                             tableLayout.addView(tr);
+//                                            linearLayout.addView(tr);
+//                                            tableLayout.addView(linearLayout);
 
                                         }
                                     });

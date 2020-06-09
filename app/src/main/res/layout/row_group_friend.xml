@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="@drawable/group_frame_back">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="5dp">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/image"
+            android:layout_width="120dp"
+            android:layout_height="120dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:id="@+id/product_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BmW"
+                android:maxLines="2"
+                app:fonttype="text_semi_bold"
+                android:textColor="@color/black"
+                android:ellipsize="end"
+                android:textSize="16dp"/>
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:id="@+id/product_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#E11818"
+                android:text="1"
+                android:layout_marginTop="4dp"
+                android:textSize="14dp"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:id="@+id/product_diccount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="50000"
+                    android:textSize="14dp"/>
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="40 left"
+                    android:layout_marginStart="5dp"
+                    android:textSize="14dp"/>
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:gravity="end"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/hot_image"
+                    android:textSize="14dp"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_gravity="bottom"
+                android:gravity="bottom">
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Request 10 New User"
+                    android:textSize="12dp"
+                    app:fonttype="light"
+                    android:textColor="#E11818"
+                    android:layout_marginTop="4dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

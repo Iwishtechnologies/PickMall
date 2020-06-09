@@ -2,6 +2,7 @@ package tech.iwish.pickmall.activity;
 
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -53,6 +55,7 @@ import tech.iwish.pickmall.other.FriendSaleList;
 import tech.iwish.pickmall.other.ItemList;
 import tech.iwish.pickmall.other.ProductList;
 import tech.iwish.pickmall.other.SilderLists;
+import tech.iwish.pickmall.reciver.InterNetConnection;
 import tech.iwish.pickmall.session.Share_session;
 
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.friend_deal_list_fake;
@@ -103,6 +106,11 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        InterNetConnection interNetConnection = new InterNetConnection();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        intentFilter.addAction("android.net.wifi.WIFI_STATE_CHANGED");
+        registerReceiver(interNetConnection,intentFilter);
 
         //connection
 //        mInternetAvailabilityChecker = InternetAvailabilityChecker.getInstance();
@@ -266,7 +274,7 @@ public class MainActivity extends AppCompatActivity
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                itemLists.add(new ItemList(jsonHelper.GetResult("item_id"), jsonHelper.GetResult("item_name"), jsonHelper.GetResult("icon_img"), jsonHelper.GetResult("type")));
+                                itemLists.add(new ItemList(jsonHelper.GetResult("item_id"), jsonHelper.GetResult("item_name"), jsonHelper.GetResult("icon_img"), jsonHelper.GetResult("type"), jsonHelper.GetResult("item_type")));
 
                             }
 

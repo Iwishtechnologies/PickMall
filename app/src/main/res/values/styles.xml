@@ -14,7 +14,7 @@
     </style>
 
     <style name="MainTheme" parent="AppTheme">
-        <item name="colorPrimaryDark">@color/orangeColor</item>
+        <item name="colorPrimaryDark">@color/dark_brown_color</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
     </style>
@@ -117,7 +117,7 @@
     </style>
 
     <style name="Settingtheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimaryDark">@color/redColor</item>
+        <item name="colorPrimaryDark">@color/dark_brown_color</item>
         <item name="colorPrimary">@color/redColor</item>
     </style>
     <style name="searchtheme" parent="Theme.AppCompat.Light.NoActionBar">

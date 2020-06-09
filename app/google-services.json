@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "569377591805",
+    "firebase_url": "https://pickmall.firebaseio.com",
+    "project_id": "pickmall",
+    "storage_bucket": "pickmall.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569377591805:android:40eac21ce7db1b111ec994",
+        "android_client_info": {
+          "package_name": "tech.iwish.pickmall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "569377591805-sh0cfau7p2ruv3hm1fo95paeg38f0n6b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tech.iwish.pickmall",
+            "certificate_hash": "d58ab37350c14d9cafc0aa28a9bcbe0810f0b12d"
+          }
+        },
+        {
+          "client_id": "569377591805-q0aki6gn5git05fqnpb4m92igt94mt75.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwXxBMR7a1142_-Pbn65r-EHN8C84tll4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "569377591805-q0aki6gn5git05fqnpb4m92igt94mt75.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

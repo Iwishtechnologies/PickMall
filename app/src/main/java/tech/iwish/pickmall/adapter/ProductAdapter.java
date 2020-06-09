@@ -94,7 +94,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
 
             holder.per_dicount.setText(" "+String.valueOf(aaa)+"% OFF");
             holder.product_rationg.setRating(Float.parseFloat(productLists.get(position).getFakeRating()));
-            holder.discount_price.setText(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getDiscount_price());
 
             holder.product_name.setText(productLists.get(position).getProductName());
 

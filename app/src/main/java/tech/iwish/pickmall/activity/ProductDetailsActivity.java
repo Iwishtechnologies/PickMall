@@ -1,6 +1,7 @@
 package tech.iwish.pickmall.activity;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
@@ -15,6 +16,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,9 +40,11 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.iwish.pickmall.Interface.ProductCountInterface;
+import tech.iwish.pickmall.Interface.ProductSizeInterFace;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.ColorSizeImageAdapter;
 import tech.iwish.pickmall.adapter.ProductDetailsImageAdapter;
+import tech.iwish.pickmall.adapter.ProductSizeAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.fragment.ProductOverViewFragment;
@@ -50,32 +54,35 @@ import tech.iwish.pickmall.other.ProductColorList;
 import tech.iwish.pickmall.other.ProductDetailsImageList;
 import tech.iwish.pickmall.other.ProductSizeColorList;
 import tech.iwish.pickmall.session.Share_session;
+import tech.iwish.pickmall.sqlconnection.MyhelperSql;
 
+import static tech.iwish.pickmall.session.Share_session.HOUSE_NO_ADDRESS;
+import static tech.iwish.pickmall.session.Share_session.LOGIN_CHECk;
+import static tech.iwish.pickmall.session.Share_session.NUMBER_ADDRESS;
+import static tech.iwish.pickmall.session.Share_session.PINCODE_ADDRESS;
 import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 
 public class ProductDetailsActivity extends AppCompatActivity implements View.OnClickListener, ProductCountInterface {
 
-    private TextView ac_priceEdit, dicount_price_Edit, title_name_edit, select_size_color, one_product_name,
+    private TextView ac_priceEdit, dicount_price_Edit, title_name_edit, select_size_color, one_product_name, quty_value,
             one_rs_amount, one_rs_dicount_price, dicount_price_text, product_count_value, new_user_text, total_user_req;
     private List<ProductDetailsImageList> productDetailsListImageList = new ArrayList<>();
-    //    private List<ProductDetailsImageList> productDetailsListImageList = new ArrayList<>();
     private List<ProductSizeColorList> productSizeColorLists = new ArrayList<>();
     private ViewPager productImageDetailsViewpager;
-    private String product_color, product_name, product_Image, sku, actual_price, discount_price, product_id, vendor_id;
-    private RecyclerView color_size_image_recycle_view;
+    private String product_color, product_name, product_Image, sku, actual_price, discount_price, product_id, vendor_id,aaa;
+    private RecyclerView color_size_image_recycle_view, size_product_recycleview;
     private RatingBar ratingcheck;
-    private Button add_card_btn, buy_now_btn, one_rs_button_place_order;
+    private Button add_card_btn, buy_now_btn, one_rs_button_place_order,product_colorbtn;
     private LinearLayout product_layout, one_rs_main_layout, button_layout, one_rs_bottom_layout, one_rs_rule, store, wishlist, product_count_layout;
-    private String PRODUCT_TYPE, total_request_user, new_user_request, gst;
     private ScrollView scrollview;
+    private String PRODUCT_TYPE, total_request_user, new_user_request, gst , select_size,product_qty,type,product_type;
     private RelativeLayout card;
     private Map data;
     Share_session shareSession;
-    private ImageView save_hearth;
+    private ImageView save_hearth, sub_button, add_button;
     public boolean wishlistchechi;
     private List<ProductColorList> productColorLists = new ArrayList<>();
-    String aaa;
-
+    private ProductSizeInterFace productSizeInterFace ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +102,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         product_count_value = (TextView) findViewById(R.id.product_count_value);
         new_user_text = (TextView) findViewById(R.id.new_user_text);
         total_user_req = (TextView) findViewById(R.id.total_user_req);
+        sub_button = (ImageView) findViewById(R.id.sub_button);
+        add_button = (ImageView) findViewById(R.id.add_button);
+        quty_value = (TextView) findViewById(R.id.quty_value);
+        size_product_recycleview = (RecyclerView) findViewById(R.id.size_product_recycleview);
 
         productImageDetailsViewpager = (ViewPager) findViewById(R.id.productImageDetailsViewpager);
         color_size_image_recycle_view = (RecyclerView) findViewById(R.id.color_size_image_recycle_view);
@@ -103,6 +114,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         add_card_btn = (Button) findViewById(R.id.add_card_btn);
         buy_now_btn = (Button) findViewById(R.id.buy_now_btn);
         one_rs_button_place_order = (Button) findViewById(R.id.one_rs_button_place_order);
+        product_colorbtn = (Button) findViewById(R.id.product_colorbtn);
 
         product_layout = (LinearLayout) findViewById(R.id.product_layout);
         one_rs_main_layout = (LinearLayout) findViewById(R.id.one_rs_main_layout);
@@ -135,6 +147,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         color_size_image_recycle_view.setLayoutManager(linearLayoutManager);
 
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
+        linearLayoutManager1.setOrientation(RecyclerView.HORIZONTAL);
+        size_product_recycleview.setLayoutManager(linearLayoutManager1);
+
 
         shareSession = new Share_session(this);
         data = shareSession.Fetchdata();
@@ -146,7 +162,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         product_id = intent.getStringExtra("product_id");
         product_Image = intent.getStringExtra("product_Image");
         product_color = intent.getStringExtra("product_color");
-        String product_type = intent.getStringExtra("product_type");
+        product_type = intent.getStringExtra("product_type");
         vendor_id = intent.getStringExtra("vendor_id");
         gst = intent.getStringExtra("gst");
         sku = intent.getStringExtra("sku");
@@ -204,6 +220,14 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 break;
         }
 
+
+        productSizeInterFace = new ProductSizeInterFace() {
+            @Override
+            public void productSizeResponse(String val, int position) {
+                select_size = val;
+            }
+        };
+
         select_size_color.setOnClickListener(this);
         add_card_btn.setOnClickListener(this);
         buy_now_btn.setOnClickListener(this);
@@ -211,7 +235,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         store.setOnClickListener(this);
         wishlist.setOnClickListener(this);
         card.setOnClickListener(this);
-
+        add_button.setOnClickListener(this);
+        sub_button.setOnClickListener(this);
 
         ac_priceEdit.setText(getResources().getString(R.string.rs_symbol) + actual_price);
         title_name_edit.setText(product_name);
@@ -289,8 +314,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                     @Override
                                     public void run() {
 
-//                                        ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
-//                                        productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
+                                        ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
+                                        productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
 
                                     }
                                 });
@@ -382,22 +407,25 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         switch (id) {
             case R.id.select_size_color:
             case R.id.add_card_btn:
+//                product_colorbtn.getText().toString()
+                type = "add_to_card";
+                addCardProcees();
+//                bundle = new Bundle();
+//                productSideColorBottomFragment = new ProductSideColorBottomFragment(productColorLists, productSizeColorLists);
+//                bundle.putString("product_name", product_name);
+//                bundle.putString("actual_price", actual_price);
+//                bundle.putString("product_id", product_id);
+//                bundle.putString("discount_price", discount_price);
+//                bundle.putString("product_type", PRODUCT_TYPE);
+//                bundle.putString("gst", gst);
+//                bundle.putString("vendor_id", vendor_id);
+//                bundle.putString("product_dicount_percent", aaa);
+//                bundle.putString("sku", sku);
+//                bundle.putString("type", "add_to_card");
+//                productSideColorBottomFragment.setArguments(bundle);
+//                productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
 
-                bundle = new Bundle();
-//                productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists, this);
-                productSideColorBottomFragment = new ProductSideColorBottomFragment(productColorLists, productSizeColorLists);
-                bundle.putString("product_name", product_name);
-                bundle.putString("actual_price", actual_price);
-                bundle.putString("product_id", product_id);
-                bundle.putString("discount_price", discount_price);
-                bundle.putString("product_type", PRODUCT_TYPE);
-                bundle.putString("gst", gst);
-                bundle.putString("vendor_id", vendor_id);
-                bundle.putString("product_dicount_percent", aaa);
-                bundle.putString("sku", sku);
-                bundle.putString("type", "add_to_card");
-                productSideColorBottomFragment.setArguments(bundle);
-                productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
+
                 break;
             case R.id.one_rs_button_place_order:
 //                one rs place order check
@@ -431,7 +459,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.buy_now_btn:
                 bundle = new Bundle();
-//                productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists, this);
                 productSideColorBottomFragment = new ProductSideColorBottomFragment(productColorLists, productSizeColorLists);
                 bundle.putString("product_name", product_name);
                 bundle.putString("actual_price", actual_price);
@@ -444,9 +471,122 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 productSideColorBottomFragment.setArguments(bundle);
                 productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
                 break;
+            case R.id.add_button:
+                String value = quty_value.getText().toString();
+                int a = Integer.parseInt(value);
+                int total = a + 1;
+                String b = String.valueOf(total);
+                quty_value.setText(b);
+                break;
+            case R.id.sub_button:
+                String values = quty_value.getText().toString();
+                int as = Integer.parseInt(values);
+                if (as != 1) {
+                    int totals = as - 1;
+                    String bs = String.valueOf(totals);
+                    quty_value.setText(bs);
+                }
+                break;
         }
     }
 
+    private void addCardProcees() {
+
+        if(select_size == null){
+            Toast.makeText(this, "Select size", Toast.LENGTH_SHORT).show();
+        }else {
+            InsertDataCard();
+        }
+
+    }
+
+
+    private void InsertDataCard() {
+
+
+        shareSession.Login_check();
+        if (data.get(LOGIN_CHECk) != null) {
+            switch (type) {
+                case "add_to_card":
+                    product_qty = quty_value.getText().toString();
+                    MyhelperSql myhelperSql = new MyhelperSql(this);
+                    SQLiteDatabase sqLiteDatabase = myhelperSql.getWritableDatabase();
+                    myhelperSql.dataAddCard(product_id, product_name, product_qty, product_colorbtn.getText().toString(), select_size, product_Image, actual_price, discount_price, product_type, gst, vendor_id, dicount_price_text.getText().toString(), sqLiteDatabase);
+                    cardcount();
+                    break;
+                case "buy_now":
+                    data = shareSession.Fetchdata();
+                    if ((data.get(NUMBER_ADDRESS) != null) && (data.get(PINCODE_ADDRESS) != null) && (data.get(HOUSE_NO_ADDRESS) != null)) {
+                        Intent intent = new Intent(this, SaveAddressActivity.class);
+                        intent.putExtra("product_id", product_id);
+                        intent.putExtra("product_name", product_name);
+                        intent.putExtra("select_size", select_size);
+                        intent.putExtra("actual_price", actual_price);
+                        intent.putExtra("discount_price", discount_price);
+                        intent.putExtra("imagename", product_Image);
+                        intent.putExtra("select_color", product_colorbtn.getText().toString());
+                        intent.putExtra("product_qty", quty_value.getText().toString());
+                        intent.putExtra("product_type", product_type);
+                        intent.putExtra("type", "buy_now");
+                        intent.putExtra("gst", gst);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(this, AddressActivity.class);
+                        intent.putExtra("product_id", product_id);
+                        intent.putExtra("product_name", product_name);
+                        intent.putExtra("select_size", select_size);
+                        intent.putExtra("actual_price", actual_price);
+                        intent.putExtra("discount_price", discount_price);
+                        intent.putExtra("imagename", product_Image);
+                        intent.putExtra("product_qty", quty_value.getText().toString());
+                        intent.putExtra("select_color", product_colorbtn.getText().toString());
+                        intent.putExtra("product_type", product_type);
+                        intent.putExtra("gst", gst);
+                        intent.putExtra("type", "buy_now");
+                        intent.putExtra("gst", gst);
+                        startActivity(intent);
+                    }
+                    break;
+                case "friendDeal_one_rs":
+                    data = shareSession.Fetchdata();
+                    if ((data.get(NUMBER_ADDRESS) != null) && (data.get(PINCODE_ADDRESS) != null) && (data.get(HOUSE_NO_ADDRESS) != null)) {
+                        Intent intent = new Intent(this, SaveAddressActivity.class);
+                        intent.putExtra("product_id", product_id);
+                        intent.putExtra("product_name", product_name);
+                        intent.putExtra("select_size", select_size);
+                        intent.putExtra("actual_price", actual_price);
+                        intent.putExtra("discount_price", discount_price);
+                        intent.putExtra("imagename", product_Image);
+                        intent.putExtra("select_color", product_colorbtn.getText().toString());
+                        intent.putExtra("product_qty", quty_value.getText().toString());
+                        intent.putExtra("product_type", product_type);
+                        intent.putExtra("type", "friendDeal_one_rs");
+                        intent.putExtra("gst", gst);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(this, AddressActivity.class);
+                        intent.putExtra("product_id", product_id);
+                        intent.putExtra("product_name", product_name);
+                        intent.putExtra("select_size", select_size);
+                        intent.putExtra("actual_price", actual_price);
+                        intent.putExtra("discount_price", discount_price);
+                        intent.putExtra("imagename", product_Image);
+                        intent.putExtra("product_qty", quty_value.getText().toString());
+                        intent.putExtra("select_color", product_colorbtn.getText().toString());
+                        intent.putExtra("product_type", product_type);
+                        intent.putExtra("gst", gst);
+                        intent.putExtra("type", "friendDeal_one_rs");
+                        intent.putExtra("gst", gst);
+                        startActivity(intent);
+                    }
+                    break;
+            }
+        } else {
+            startActivity(new Intent(this, Signup.class));
+        }
+
+
+    }
 
     private void cardcount() {
         if (!CardCount.card_count(this).equals("0")) {
@@ -510,6 +650,21 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                 productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("imgname"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty"), jsonHelper.GetResult("count_size")));
 
                             }
+
+                            if (ProductDetailsActivity.this != null) {
+
+                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        ProductSizeAdapter productSizeAdapter = new ProductSizeAdapter(ProductDetailsActivity.this, productSizeColorLists, productSizeInterFace);
+                                        size_product_recycleview.setAdapter(productSizeAdapter);
+
+                                    }
+                                });
+
+                            }
+
                         }
                     }
                 }

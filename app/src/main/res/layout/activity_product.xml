@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/product_back_silder"
+    android:background="@color/light_brown_color"
     android:orientation="vertical"
     tools:context=".activity.ProductActivity">
 
@@ -12,14 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/whiteColor">
+        android:background="@color/light_brown_color">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:background="@color/dark_brown_color">
 
             <ImageView
                 android:id="@+id/back"
@@ -46,6 +47,22 @@
             </LinearLayout>
         </LinearLayout>
 
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0.5dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:background="@color/tint" />-->
+<!--        -->
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/product_design_layout"
+        android:layout_marginTop="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,6 +70,8 @@
             android:orientation="horizontal"
             android:weightSum="4"
             android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_gravity="center">
             <TextView
                 android:id="@+id/shorts"
@@ -83,68 +102,47 @@
                 android:gravity="center"
                 android:text="Filter"/>
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/tint" />
 
-<!--
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="4"
-            android:gravity="center"
-            android:padding="4dp"
-            android:layout_gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Rating"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Style"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Material"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Sale material"/>
-        </LinearLayout>
--->
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="5dp">
-        <ScrollView
-            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical">
-            <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginTop="5dp">
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-                <FrameLayout
-                    android:id="@+id/product_framelayout"
+                android:scrollbars="vertical">
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-            </LinearLayout>
-        </ScrollView>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <FrameLayout
+                        android:id="@+id/product_framelayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+
     </LinearLayout>
+
 </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

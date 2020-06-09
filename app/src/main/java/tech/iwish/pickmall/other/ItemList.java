@@ -6,12 +6,14 @@ public class ItemList {
     private String item_name;
     private String icon_img;
     private String type;
+    private String item_type;
 
-    public ItemList(String item_id, String item_name, String icon_img, String type) {
+    public ItemList(String item_id, String item_name, String icon_img, String type, String item_type) {
         this.item_id = item_id;
         this.item_name = item_name;
         this.icon_img = icon_img;
         this.type = type;
+        this.item_type = item_type;
     }
 
     public String getItem_id() {
@@ -44,5 +46,13 @@ public class ItemList {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getItem_type() {
+        return item_type;
+    }
+
+    public void setItem_type(String item_type) {
+        this.item_type = item_type;
     }
 }

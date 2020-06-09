@@ -5,6 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
+    android:layout_gravity="center"
     android:orientation="vertical">
 
 <!--    <tech.iwish.pickmall.extended.TextViewFont-->
@@ -23,20 +24,44 @@
 <!--        android:textColor="@color/black"-->
 <!--        android:textSize="14sp"-->
 <!--        app:fonttype="light" />-->
-    <Button
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_height="100dp">
+
+    <Button
+        android:id="@+id/size_nameButton"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
         android:text="M"
-        android:textSize="50dp"
+        android:textSize="20dp"
         android:visibility="gone"
         android:textColor="@color/white"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_margin="4dp"
+        android:paddingTop="3dp"
+        android:layout_marginBottom="20dp"
+        android:paddingBottom="3dp"
         android:background="@drawable/size_box"/>
-    <tech.iwish.pickmall.extended.TextViewFont
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="M"
-        android:textSize="25dp"
-        android:textColor="@color/white"/>
+
+
+        <tech.iwish.pickmall.extended.TextViewFont
+            android:id="@+id/size_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_margin="4dp"
+            android:paddingTop="3dp"
+            android:visibility="visible"
+            android:paddingBottom="3dp"
+            android:textSize="25dp"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
 
 
 </LinearLayout>

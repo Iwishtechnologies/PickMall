@@ -29,13 +29,24 @@
             android:orientation="vertical"
             android:padding="5dp">
 
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:id="@+id/product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:fonttype="text_semi_bold" />
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:weightSum="2"
-                >
+                android:weightSum="2">
 
                 <tech.iwish.pickmall.extended.TextViewFont
                     android:id="@+id/amount"
@@ -44,8 +55,8 @@
                     android:layout_weight="1"
                     android:text="255"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
-                    app:fonttype="black" />
+                    android:textSize="14sp"
+                    app:fonttype="regular" />
 
 <!--                400 + sold-->
                 <tech.iwish.pickmall.extended.TextViewFont
@@ -85,16 +96,7 @@
                     app:fonttype="text_semi_bold" />
             </LinearLayout>
 
-            <tech.iwish.pickmall.extended.TextViewFont
-                android:id="@+id/product_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text=""
-                android:textColor="@color/club_back_single_text_color"
-                android:textSize="11sp"
-                app:fonttype="regular" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -116,6 +118,7 @@
                     android:text="(50)"
                     android:textColor="@color/redColor"
                     android:textSize="10sp"
+                    android:visibility="gone"
                     app:fonttype="text_semi_bold" />
             </LinearLayout>
 
