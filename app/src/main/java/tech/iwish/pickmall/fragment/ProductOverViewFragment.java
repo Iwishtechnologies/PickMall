@@ -286,14 +286,18 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
 
                                             TextView c1 = new TextView(getContext());
 
-                                            c1.setText(productDescriptionlists.get(finalI).getDescription_title());
-                                            c1.setPadding(0, 4, 0, 4);
+                                            c1.setText(productDescriptionlists.get(finalI).getDescription_title()+" ");
+                                            c1.setPadding(20, 20, 20, 20);
                                             c1.setTextSize(14);
+                                            c1.setBackgroundResource(R.drawable.table_border);
+                                            c1.setTextColor(getResources().getColor(R.color.white));
 
                                             TextView c2 = new TextView(getContext());
                                             c2.setText(productDescriptionlists.get(finalI).getDescription_data());
-                                            c2.setPadding(0, 4, 0, 4);
+                                            c2.setPadding(20, 20, 20, 20);
                                             c2.setTextSize(14);
+                                            c2.setBackgroundResource(R.drawable.table_border);
+                                            c2.setTextColor(getResources().getColor(R.color.white));
 
                                             tr.addView(c1);
                                             tr.addView(c2);

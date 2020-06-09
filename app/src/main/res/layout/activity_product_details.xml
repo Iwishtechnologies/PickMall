@@ -346,7 +346,6 @@
                     android:id="@+id/one_rs_rule"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/one_rs_main_layout"
                     android:layout_marginTop="10dp"
                     android:background="@color/whiteColor"
                     android:orientation="horizontal"
@@ -431,7 +430,6 @@
 
 
             <FrameLayout
-                android:id="@+id/product_overview_frame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -443,6 +441,7 @@
         android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_alignParentBottom="true">
 
         <LinearLayout
@@ -587,48 +586,68 @@
 
             </LinearLayout>
 
+
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="-40dp"
+                android:id="@+id/main"
+                android:layout_marginTop="-20dp"
                 android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="500dp"
-                    android:background="@drawable/product_bottom_background"
+                    android:layout_height="400dp"
+                    android:layout_marginTop="-20dp"
+                    android:layout_marginBottom="-30dp"
+                    android:background="@drawable/bottom"
                     android:orientation="vertical">
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="-20dp"
-                        android:gravity="right">
-
-                        <LinearLayout
+                        android:orientation="horizontal"
+                        android:gravity="right"
+                        android:paddingRight="30dp"
+                        android:layout_marginTop="40dp"
+                        android:layout_height="wrap_content">
+                        <RatingBar
+                            android:id="@+id/ratingcheck"
+                            style="@style/Widget.AppCompat.RatingBar.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:layout_marginTop="50dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:elevation="2dp"
+                            android:gravity="center"
+                            android:visibility="gone"
+                            android:progressTint="@color/white" />
 
-                            <RatingBar
-                                android:id="@+id/ratingcheck"
-                                style="@style/Widget.AppCompat.RatingBar.Small"
+                        <LinearLayout
+                            android:layout_width="40dp"
+                            android:layout_height="60dp"
+                            android:gravity="center"
+                            android:paddingTop="5dp"
+                            android:background="@drawable/rating_background">
+
+                            <tech.iwish.pickmall.extended.TextViewFont
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="50dp"
-                                android:layout_marginEnd="5dp"
-                                android:elevation="2dp"
-                                android:gravity="center"
-                                android:progressTint="@color/white" />
-
-                            <ImageView
-                                android:layout_width="80dp"
-                                android:layout_height="80dp"
-                                android:src="@drawable/product_like" />
+                                android:text="4.2"
+                                android:id="@+id/ratingbox"
+                                app:fonttype="text_semi_bold"
+                                android:layout_marginTop="10dp"
+                                android:textColor="@color/white"
+                                android:layout_height="wrap_content"/>
 
                         </LinearLayout>
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginLeft="20dp"
+                            android:src="@drawable/product_like" />
 
-                    </RelativeLayout>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -828,14 +847,47 @@
 
 
                     </LinearLayout>
-
-
                 </LinearLayout>
-
 
             </RelativeLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_below="@id/main"
+                android:id="@+id/main2"
+                android:paddingRight="1dp"
+                android:paddingLeft="1dp"
+                android:background="#E8A851"
+                android:layout_marginTop="40dp"
+                android:layout_height="wrap_content">
+
+<!--                <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="15dp"-->
+<!--                    app:fonttype="text_semi_bold"-->
+<!--                    android:text="Discrition-"/>-->
+<!--                <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="15dp"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    app:fonttype="regular"-->
+<!--                    android:text="dfdjs sdfnsda sdfbads  sdfsadjdkf sdfbadsjk asdfnsdjka sdfbas  asbf afbj  asbfjksd effnd  seedfjns  sefjb sg jw   efn eqs"/>-->
+                <FrameLayout
+                    android:id="@+id/product_overview_frame"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
         </LinearLayout>
+
+
 
 
     </ScrollView>

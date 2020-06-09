@@ -65,7 +65,7 @@ import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 public class ProductDetailsActivity extends AppCompatActivity implements View.OnClickListener, ProductCountInterface {
 
     private TextView ac_priceEdit, dicount_price_Edit, title_name_edit, select_size_color, one_product_name, quty_value,
-            one_rs_amount, one_rs_dicount_price, dicount_price_text, product_count_value, new_user_text, total_user_req;
+            one_rs_amount, one_rs_dicount_price, dicount_price_text, product_count_value, new_user_text, total_user_req,rating;
     private List<ProductDetailsImageList> productDetailsListImageList = new ArrayList<>();
     private List<ProductSizeColorList> productSizeColorLists = new ArrayList<>();
     private ViewPager productImageDetailsViewpager;
@@ -92,6 +92,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         getSupportActionBar().hide();
 
         ac_priceEdit = (TextView) findViewById(R.id.priceEdit);
+        rating = (TextView) findViewById(R.id.ratingbox);
         dicount_price_Edit = (TextView) findViewById(R.id.dicount_price);
         title_name_edit = (TextView) findViewById(R.id.title_name_edit);
         select_size_color = (TextView) findViewById(R.id.select_size_color);
@@ -253,6 +254,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
         dicount_price_Edit.setText(content);
         ratingcheck.setRating((float) 3.3);
+        rating.setText("4.0");
 
         if (!vendor_id.equals("1")) {
             store.setVisibility(View.VISIBLE);

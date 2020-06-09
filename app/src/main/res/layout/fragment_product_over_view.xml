@@ -1,4 +1,807 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:layout_marginStart="10dp"-->
+<!--    android:layout_marginEnd="10dp"-->
+<!--    android:orientation="vertical"-->
+<!--    tools:context=".fragment.ProductOverViewFragment">-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:background="@color/whiteColor"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="4dp"-->
+<!--        android:paddingBottom="3dp">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:weightSum="2">-->
+
+<!--            <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:padding="5dp"-->
+<!--                android:text="Delivery"-->
+<!--                android:textColor="@color/black"-->
+<!--                app:fonttype="text_semi_bold" />-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="end"-->
+<!--                android:orientation="vertical">-->
+
+<!--                <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                    android:id="@+id/select_pincode"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:background="@drawable/pincode_design"-->
+<!--                    android:paddingStart="12dp"-->
+<!--                    android:paddingTop="7dp"-->
+<!--                    android:paddingEnd="12dp"-->
+<!--                    android:paddingBottom="7dp"-->
+<!--                    android:text="Select pincode"-->
+<!--                    android:textColor="@color/redColor"-->
+<!--                    android:textSize="10sp"-->
+<!--                    app:fonttype="text_semi_bold" />-->
+
+<!--            </LinearLayout>-->
+
+<!--        </LinearLayout>-->
+
+<!--        <tech.iwish.pickmall.extended.TextViewFont-->
+<!--            android:id="@+id/checker_pincode"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="5dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:paddingStart="10dp"-->
+<!--            android:paddingTop="5dp"-->
+<!--            android:paddingEnd="5dp"-->
+<!--            android:paddingBottom="5dp"-->
+<!--            android:text="Enter pincode to check more delivery service"-->
+<!--            android:textColor="@color/address_text_color"-->
+<!--            android:textSize="13sp"-->
+<!--            app:fonttype="regular" />-->
+
+<!--    </LinearLayout>-->
+
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="@color/club_back_single_line_color"-->
+<!--        android:padding="5dp" />-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/whiteColor"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="10dp">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:weightSum="2">-->
+
+<!--            <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="2"-->
+<!--                android:padding="5dp"-->
+<!--                android:text="Cash on Delivery availabe for this pincode"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="10sp"-->
+<!--                app:fonttype="regular" />-->
+
+<!--            <ImageView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="end"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:gravity="right"-->
+<!--                android:src="@drawable/right_arrow" />-->
+
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:weightSum="2">-->
+
+<!--            <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="2"-->
+<!--                android:padding="5dp"-->
+<!--                android:text="Cash on Delivery availabe for this pincode"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="10sp"-->
+<!--                app:fonttype="regular" />-->
+
+<!--            <ImageView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="end"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:gravity="right"-->
+<!--                android:src="@drawable/right_arrow" />-->
+
+<!--        </LinearLayout>-->
+<!--    </LinearLayout>-->
+
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="@color/club_back_single_line_color"-->
+<!--        android:padding="5dp" />-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/whiteColor"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:paddingStart="5dp"-->
+<!--        android:paddingTop="10dp"-->
+<!--        android:paddingEnd="5dp"-->
+<!--        android:paddingBottom="10dp"-->
+<!--        android:weightSum="2">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="2">-->
+
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/product_overview"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content" />-->
+<!--        </LinearLayout>-->
+
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="end|center"-->
+<!--            android:layout_marginStart="5dp"-->
+<!--            android:gravity="right"-->
+<!--            android:src="@drawable/right_arrow" />-->
+<!--    </LinearLayout>-->
+
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="@color/club_back_single_line_color"-->
+<!--        android:padding="5dp" />-->
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/return_policy"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/whiteColor"-->
+<!--        android:elevation="1dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:paddingStart="5dp"-->
+<!--        android:paddingTop="5dp"-->
+<!--        android:paddingEnd="5dp"-->
+<!--        android:paddingBottom="5dp"-->
+<!--        android:weightSum="2">-->
+
+<!--        <tech.iwish.pickmall.extended.TextViewFont-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="2"-->
+<!--            android:padding="5dp"-->
+<!--            android:text="Return Policy"-->
+<!--            android:textColor="@color/address_text_color"-->
+<!--            app:fonttype="black" />-->
+
+<!--        <ImageView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="end|center"-->
+<!--            android:layout_marginStart="5dp"-->
+<!--            android:gravity="right"-->
+<!--            android:src="@drawable/right_arrow" />-->
+<!--    </LinearLayout>-->
+
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:background="@color/whiteColor"-->
+<!--        android:elevation="1dp"-->
+<!--        android:orientation="vertical"-->
+<!--        android:paddingStart="10dp"-->
+<!--        android:paddingTop="10dp"-->
+<!--        android:paddingEnd="5dp"-->
+<!--        android:paddingBottom="20dp">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:paddingBottom="10dp"-->
+<!--            android:weightSum="2">-->
+
+<!--            <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Rating and Review"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="14sp"-->
+<!--                app:fonttype="light" />-->
+
+<!--            <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:drawableRight="@drawable/right_arrow"-->
+<!--                android:gravity="end"-->
+<!--                android:text="View all"-->
+<!--                android:textSize="14sp" />-->
+<!--        </LinearLayout>-->
+
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:background="@color/club_back_single_line_color" />-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:background="@color/whiteColor"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:weightSum="2">-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:orientation="vertical"-->
+<!--                android:paddingTop="10dp"-->
+<!--                android:paddingBottom="10dp">-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:padding="4dp">-->
+
+<!--                    <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:background="@drawable/rating_design"-->
+<!--                        android:gravity="center"-->
+<!--                        android:paddingStart="15dp"-->
+<!--                        android:paddingTop="3dp"-->
+<!--                        android:paddingEnd="15dp"-->
+<!--                        android:paddingBottom="3dp"-->
+<!--                        android:text="4.5"-->
+<!--                        android:textSize="18sp" />-->
+<!--                </LinearLayout>-->
+
+<!--                <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="251 Rating and 94 Review"-->
+<!--                    android:textSize="14sp"-->
+<!--                    app:fonttype="medium_text" />-->
+
+<!--                <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="satisfied"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="12sp" />-->
+
+<!--            </LinearLayout>-->
+
+<!--            <View-->
+<!--                android:layout_width="1dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:layout_marginEnd="5dp"-->
+<!--                android:background="@color/club_back_single_line_color" />-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="vertical"-->
+<!--                android:weightSum="1">-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:weightSum="1">-->
+
+<!--                    <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginEnd="4dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="5"-->
+<!--                        android:textColor="@color/rating_star_color"-->
+<!--                        android:textSize="12sp" />-->
+
+<!--                    <RatingBar-->
+<!--                        android:id="@+id/rating_1"-->
+<!--                        style="@style/Widget.AppCompat.RatingBar.Small"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:gravity="center"-->
+<!--                        android:isIndicator="true"-->
+<!--                        android:numStars="1"-->
+<!--                        android:progressTint="@color/rating_star_color"-->
+<!--                        android:rating="1" />-->
+
+<!--                    <ProgressBar-->
+<!--                        android:id="@+id/progress_2"-->
+<!--                        style="@style/CustomProgressBarHorizontal"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="5dp"-->
+<!--                        android:layout_marginEnd="5dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:gravity="center"-->
+<!--                        android:progress="20" />-->
+
+<!--                    <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="4dp"-->
+<!--                        android:layout_marginEnd="10dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="126"-->
+<!--                        android:textSize="12sp" />-->
+<!--                </LinearLayout>-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:weightSum="1">-->
+
+<!--                    <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginEnd="4dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="4"-->
+<!--                        android:textColor="@color/rating_star_color"-->
+<!--                        android:textSize="12sp" />-->
+
+<!--                    <RatingBar-->
+
+<!--                        style="@style/Widget.AppCompat.RatingBar.Small"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:gravity="center"-->
+<!--                        android:isIndicator="true"-->
+<!--                        android:numStars="1"-->
+<!--                        android:progressTint="@color/rating_star_color"-->
+<!--                        android:rating="1" />-->
+
+<!--                    <ProgressBar-->
+
+<!--                        style="@style/CustomProgressBarHorizontal"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="5dp"-->
+<!--                        android:layout_marginEnd="5dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:gravity="center"-->
+<!--                        android:progress="20" />-->
+
+<!--                    <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="4dp"-->
+<!--                        android:layout_marginEnd="10dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="126"-->
+<!--                        android:textSize="12sp" />-->
+<!--                </LinearLayout>-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:weightSum="1">-->
+
+<!--                    <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginEnd="4dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="3"-->
+<!--                        android:textColor="@color/rating_star_color"-->
+<!--                        android:textSize="12sp" />-->
+
+<!--                    <RatingBar-->
+
+<!--                        style="@style/Widget.AppCompat.RatingBar.Small"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:gravity="center"-->
+<!--                        android:isIndicator="true"-->
+<!--                        android:numStars="1"-->
+<!--                        android:progressTint="@color/rating_star_color"-->
+<!--                        android:rating="1" />-->
+
+<!--                    <ProgressBar-->
+
+<!--                        style="@style/CustomProgressBarHorizontal"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="5dp"-->
+<!--                        android:layout_marginEnd="5dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:gravity="center"-->
+<!--                        android:progress="20" />-->
+
+<!--                    <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="4dp"-->
+<!--                        android:layout_marginEnd="10dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="126"-->
+<!--                        android:textSize="12sp" />-->
+<!--                </LinearLayout>-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:weightSum="1">-->
+
+<!--                    <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginEnd="4dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="2"-->
+<!--                        android:textColor="@color/rating_star_color"-->
+<!--                        android:textSize="12sp" />-->
+
+<!--                    <RatingBar-->
+
+<!--                        style="@style/Widget.AppCompat.RatingBar.Small"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:gravity="center"-->
+<!--                        android:isIndicator="true"-->
+<!--                        android:numStars="1"-->
+<!--                        android:progressTint="@color/rating_star_color"-->
+<!--                        android:rating="1" />-->
+
+<!--                    <ProgressBar-->
+
+<!--                        style="@style/CustomProgressBarHorizontal"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="5dp"-->
+<!--                        android:layout_marginEnd="5dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:gravity="center"-->
+<!--                        android:progress="20" />-->
+
+<!--                    <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="4dp"-->
+<!--                        android:layout_marginEnd="10dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="126"-->
+<!--                        android:textSize="12sp" />-->
+<!--                </LinearLayout>-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:weightSum="1">-->
+
+<!--                    <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginEnd="4dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="1"-->
+<!--                        android:textColor="@color/rating_star_color"-->
+<!--                        android:textSize="12sp" />-->
+
+<!--                    <RatingBar-->
+
+<!--                        style="@style/Widget.AppCompat.RatingBar.Small"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:gravity="center"-->
+<!--                        android:isIndicator="true"-->
+<!--                        android:numStars="1"-->
+<!--                        android:progressTint="@color/rating_star_color"-->
+<!--                        android:rating="1" />-->
+
+<!--                    <ProgressBar-->
+
+<!--                        style="@style/CustomProgressBarHorizontal"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="5dp"-->
+<!--                        android:layout_marginEnd="5dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:gravity="center"-->
+<!--                        android:progress="20" />-->
+
+<!--                    <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="4dp"-->
+<!--                        android:layout_marginEnd="10dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:text="126"-->
+<!--                        android:textSize="12sp" />-->
+<!--                </LinearLayout>-->
+
+
+<!--            </LinearLayout>-->
+<!--        </LinearLayout>-->
+
+<!--    </LinearLayout>-->
+
+
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="5dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:background="@color/silderColor" />-->
+
+<!--    &lt;!&ndash;    <ProgressBar&ndash;&gt;-->
+<!--    &lt;!&ndash;        android:id="@+id/progress_1"&ndash;&gt;-->
+<!--    &lt;!&ndash;        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"&ndash;&gt;-->
+<!--    &lt;!&ndash;        android:layout_width="match_parent"&ndash;&gt;-->
+<!--    &lt;!&ndash;        android:layout_height="wrap_content"&ndash;&gt;-->
+<!--    &lt;!&ndash;        android:layout_marginLeft="5dp"&ndash;&gt;-->
+<!--    &lt;!&ndash;        android:layout_toRightOf="@+id/rating_5"&ndash;&gt;-->
+<!--    &lt;!&ndash;        android:progress="10" />&ndash;&gt;-->
+
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/whiteColor"-->
+<!--        android:elevation="1dp"-->
+<!--        android:orientation="vertical"-->
+<!--        android:paddingStart="10dp"-->
+<!--        android:paddingEnd="10dp">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:paddingTop="5dp"-->
+<!--            android:paddingBottom="5dp"-->
+<!--            android:weightSum="2">-->
+
+<!--            <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Description"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="16sp"-->
+<!--                app:fonttype="text_semi_bold" />-->
+
+<!--            <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:drawableRight="@drawable/right_arrow"-->
+<!--                android:gravity="end"-->
+<!--                android:text="View all"-->
+<!--                android:textSize="14sp"-->
+<!--                app:fonttype="regular" />-->
+<!--        </LinearLayout>-->
+
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:paddingTop="10dp"-->
+<!--            android:paddingBottom="10dp">-->
+
+<!--            <TableLayout-->
+<!--                android:id="@+id/tableLayout"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@color/whiteColor">-->
+
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/product_description"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:visibility="gone" />-->
+<!--            </TableLayout>-->
+<!--        </RelativeLayout>-->
+
+
+<!--    </LinearLayout>-->
+
+<!--    &lt;!&ndash;    vendor &ndash;&gt;-->
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/venodr_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:background="@color/whiteColor"-->
+<!--        android:orientation="vertical">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="10dp"-->
+<!--            android:layout_marginEnd="10dp"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:paddingTop="10dp"-->
+<!--            android:paddingBottom="10dp"-->
+<!--            android:weightSum="2">-->
+
+<!--            <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--                android:id="@+id/profile_image"-->
+<!--                android:layout_width="60dp"-->
+<!--                android:layout_height="60dp"-->
+<!--                android:src="@drawable/demo_image" />-->
+
+<!--            <LinearLayout-->
+
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:layout_weight="2"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:weightSum="2">-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="2"-->
+<!--                    android:orientation="vertical">-->
+
+
+<!--                    <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginEnd="4dp"-->
+<!--                        android:ellipsize="end"-->
+<!--                        android:gravity="center"-->
+<!--                        android:maxLines="1"-->
+<!--                        android:text="Iwish tech"-->
+<!--                        android:textColor="@color/address_text_color"-->
+<!--                        android:textSize="14sp" />-->
+
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal">-->
+
+<!--                        <RatingBar-->
+
+<!--                            style="@style/Widget.AppCompat.RatingBar.Small"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:gravity="center"-->
+<!--                            android:isIndicator="true"-->
+<!--                            android:numStars="5"-->
+<!--                            android:progressTint="@color/rating_star_color"-->
+<!--                            android:rating="1" />-->
+
+<!--                        <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginEnd="4dp"-->
+<!--                            android:gravity="center"-->
+<!--                            android:text="4.5/"-->
+<!--                            android:textColor="@color/rating_star_color"-->
+<!--                            android:textSize="12sp"-->
+<!--                            app:fonttype="regular" />-->
+
+<!--                        <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginEnd="4dp"-->
+<!--                            android:gravity="center"-->
+<!--                            android:text="5.0"-->
+<!--                            android:textColor="@color/rating_star_color"-->
+<!--                            android:textSize="12sp"-->
+<!--                            app:fonttype="regular" />-->
+
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal">-->
+
+<!--                        <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginEnd="4dp"-->
+<!--                            android:gravity="center"-->
+<!--                            android:text="Followers 649 Products: 4"-->
+<!--                            android:textColor="@color/rating_star_color"-->
+<!--                            android:textSize="10sp"-->
+<!--                            app:fonttype="regular" />-->
+
+<!--                    </LinearLayout>-->
+
+<!--                </LinearLayout>-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@drawable/change_btn">-->
+
+<!--                </LinearLayout>-->
+
+<!--            </LinearLayout>-->
+
+
+<!--        </LinearLayout>-->
+
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:background="@color/club_back_single_line_color" />-->
+
+<!--    </LinearLayout>-->
+
+<!--    <FrameLayout-->
+<!--        android:id="@+id/similer_product_framelayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content" />-->
+
+<!--</LinearLayout>-->
+
+<!--  Change design   -->
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,13 +810,15 @@
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
     android:orientation="vertical"
+    android:background="#E8A851"
     tools:context=".fragment.ProductOverViewFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@color/whiteColor"
+        android:background="#462423"
+        android:visibility="gone"
         android:orientation="vertical"
         android:padding="4dp"
         android:paddingBottom="3dp">
@@ -32,7 +837,7 @@
                 android:layout_weight="1"
                 android:padding="5dp"
                 android:text="Delivery"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 app:fonttype="text_semi_bold" />
 
             <LinearLayout
@@ -53,7 +858,7 @@
                     android:paddingEnd="12dp"
                     android:paddingBottom="7dp"
                     android:text="Select pincode"
-                    android:textColor="@color/redColor"
+                    android:textColor="#FF0700"
                     android:textSize="10sp"
                     app:fonttype="text_semi_bold" />
 
@@ -72,7 +877,7 @@
             android:paddingEnd="5dp"
             android:paddingBottom="5dp"
             android:text="Enter pincode to check more delivery service"
-            android:textColor="@color/address_text_color"
+            android:textColor="@color/white"
             android:textSize="13sp"
             app:fonttype="regular" />
 
@@ -81,14 +886,14 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/club_back_single_line_color"
+        android:background="#E8A851"
         android:padding="5dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/whiteColor"
         android:orientation="vertical"
+        android:background="#462423"
         android:padding="10dp">
 
         <LinearLayout
@@ -103,7 +908,7 @@
                 android:layout_weight="2"
                 android:padding="5dp"
                 android:text="Cash on Delivery availabe for this pincode"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="10sp"
                 app:fonttype="regular" />
 
@@ -129,7 +934,7 @@
                 android:layout_weight="2"
                 android:padding="5dp"
                 android:text="Cash on Delivery availabe for this pincode"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="10sp"
                 app:fonttype="regular" />
 
@@ -147,13 +952,13 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/club_back_single_line_color"
+        android:background="#E8A851"
         android:padding="5dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/whiteColor"
+        android:background="#462423"
         android:orientation="horizontal"
         android:paddingStart="5dp"
         android:paddingTop="10dp"
@@ -184,14 +989,14 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/club_back_single_line_color"
+        android:background="#E8A851"
         android:padding="5dp" />
 
     <LinearLayout
         android:id="@+id/return_policy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/whiteColor"
+        android:background="#462423"
         android:elevation="1dp"
         android:orientation="horizontal"
         android:paddingStart="5dp"
@@ -206,7 +1011,7 @@
             android:layout_weight="2"
             android:padding="5dp"
             android:text="Return Policy"
-            android:textColor="@color/address_text_color"
+            android:textColor="@color/white"
             app:fonttype="black" />
 
         <ImageView
@@ -222,8 +1027,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/whiteColor"
+        android:layout_marginTop="5dp"
+        android:background="#462423"
         android:elevation="1dp"
         android:orientation="vertical"
         android:paddingStart="10dp"
@@ -236,6 +1041,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingBottom="10dp"
+            android:background="#462423"
             android:weightSum="2">
 
             <tech.iwish.pickmall.extended.TextViewFont
@@ -244,7 +1050,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:text="Rating and Review"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 app:fonttype="light" />
 
@@ -254,6 +1060,7 @@
                 android:layout_weight="1"
                 android:drawableRight="@drawable/right_arrow"
                 android:gravity="end"
+                android:textColor="@color/white"
                 android:text="View all"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -261,13 +1068,13 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/club_back_single_line_color" />
+            android:background="#E8A851" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@color/whiteColor"
+            android:background="#462423"
             android:orientation="horizontal"
             android:weightSum="2">
 
@@ -297,6 +1104,7 @@
                         android:paddingEnd="15dp"
                         android:paddingBottom="3dp"
                         android:text="4.5"
+                        android:textColor="@color/white"
                         android:textSize="18sp" />
                 </LinearLayout>
 
@@ -306,6 +1114,7 @@
                     android:gravity="center"
                     android:text="251 Rating and 94 Review"
                     android:textSize="14sp"
+                    android:textColor="@color/white"
                     app:fonttype="medium_text" />
 
                 <tech.iwish.pickmall.extended.TextViewFont
@@ -314,7 +1123,7 @@
                     android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:text="satisfied"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -325,7 +1134,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="5dp"
-                android:background="@color/club_back_single_line_color" />
+                android:background="#E8A851" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -350,7 +1159,7 @@
                         android:layout_marginEnd="4dp"
                         android:gravity="center"
                         android:text="5"
-                        android:textColor="@color/rating_star_color"
+                        android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <RatingBar
@@ -361,7 +1170,7 @@
                         android:gravity="center"
                         android:isIndicator="true"
                         android:numStars="1"
-                        android:progressTint="@color/rating_star_color"
+                        android:progressTint="@color/white"
                         android:rating="1" />
 
                     <ProgressBar
@@ -382,6 +1191,7 @@
                         android:layout_marginEnd="10dp"
                         android:gravity="center"
                         android:text="126"
+                        android:textColor="@color/white"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -398,7 +1208,7 @@
                         android:layout_marginEnd="4dp"
                         android:gravity="center"
                         android:text="4"
-                        android:textColor="@color/rating_star_color"
+                        android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <RatingBar
@@ -409,7 +1219,7 @@
                         android:gravity="center"
                         android:isIndicator="true"
                         android:numStars="1"
-                        android:progressTint="@color/rating_star_color"
+                        android:progressTint="@color/white"
                         android:rating="1" />
 
                     <ProgressBar
@@ -430,6 +1240,7 @@
                         android:layout_marginEnd="10dp"
                         android:gravity="center"
                         android:text="126"
+                        android:textColor="@color/white"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -446,7 +1257,7 @@
                         android:layout_marginEnd="4dp"
                         android:gravity="center"
                         android:text="3"
-                        android:textColor="@color/rating_star_color"
+                        android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <RatingBar
@@ -457,7 +1268,7 @@
                         android:gravity="center"
                         android:isIndicator="true"
                         android:numStars="1"
-                        android:progressTint="@color/rating_star_color"
+                        android:progressTint="@color/white"
                         android:rating="1" />
 
                     <ProgressBar
@@ -478,6 +1289,7 @@
                         android:layout_marginEnd="10dp"
                         android:gravity="center"
                         android:text="126"
+                        android:textColor="@color/white"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -494,7 +1306,7 @@
                         android:layout_marginEnd="4dp"
                         android:gravity="center"
                         android:text="2"
-                        android:textColor="@color/rating_star_color"
+                        android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <RatingBar
@@ -505,7 +1317,7 @@
                         android:gravity="center"
                         android:isIndicator="true"
                         android:numStars="1"
-                        android:progressTint="@color/rating_star_color"
+                        android:progressTint="@color/white"
                         android:rating="1" />
 
                     <ProgressBar
@@ -526,6 +1338,7 @@
                         android:layout_marginEnd="10dp"
                         android:gravity="center"
                         android:text="126"
+                        android:textColor="@color/white"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -542,7 +1355,7 @@
                         android:layout_marginEnd="4dp"
                         android:gravity="center"
                         android:text="1"
-                        android:textColor="@color/rating_star_color"
+                        android:textColor="@color/white"
                         android:textSize="12sp" />
 
                     <RatingBar
@@ -553,7 +1366,7 @@
                         android:gravity="center"
                         android:isIndicator="true"
                         android:numStars="1"
-                        android:progressTint="@color/rating_star_color"
+                        android:progressTint="@color/white"
                         android:rating="1" />
 
                     <ProgressBar
@@ -574,6 +1387,7 @@
                         android:layout_marginEnd="10dp"
                         android:gravity="center"
                         android:text="126"
+                        android:textColor="@color/white"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -587,8 +1401,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/silderColor" />
+        android:layout_marginTop="0dp"
+        android:background="#E8A851" />
 
     <!--    <ProgressBar-->
     <!--        android:id="@+id/progress_1"-->
@@ -603,7 +1417,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/whiteColor"
+        android:background="#462423"
         android:elevation="1dp"
         android:orientation="vertical"
         android:paddingStart="10dp"
@@ -614,6 +1428,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingTop="5dp"
+            android:background="#462423"
             android:paddingBottom="5dp"
             android:weightSum="2">
 
@@ -623,7 +1438,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:text="Description"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 app:fonttype="text_semi_bold" />
 
@@ -633,6 +1448,7 @@
                 android:layout_weight="1"
                 android:drawableRight="@drawable/right_arrow"
                 android:gravity="end"
+                android:textColor="@color/white"
                 android:text="View all"
                 android:textSize="14sp"
                 app:fonttype="regular" />
@@ -642,13 +1458,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
+            android:background="#462423"
             android:paddingBottom="10dp">
 
             <TableLayout
                 android:id="@+id/tableLayout"
                 android:layout_width="match_parent"
+                android:background="#462423"
                 android:layout_height="wrap_content"
-                android:background="@color/whiteColor">
+               >
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/product_description"
@@ -667,8 +1485,8 @@
         android:id="@+id/venodr_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/whiteColor"
+        android:layout_marginTop="5dp"
+        android:background="#462423"
         android:orientation="vertical">
 
         <LinearLayout
@@ -712,7 +1530,7 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:text="Iwish tech"
-                        android:textColor="@color/address_text_color"
+                        android:textColor="@color/white"
                         android:textSize="14sp" />
 
 
@@ -729,7 +1547,7 @@
                             android:gravity="center"
                             android:isIndicator="true"
                             android:numStars="5"
-                            android:progressTint="@color/rating_star_color"
+                            android:progressTint="@color/white"
                             android:rating="1" />
 
                         <tech.iwish.pickmall.extended.TextViewFont
@@ -738,7 +1556,7 @@
                             android:layout_marginEnd="4dp"
                             android:gravity="center"
                             android:text="4.5/"
-                            android:textColor="@color/rating_star_color"
+                            android:textColor="@color/white"
                             android:textSize="12sp"
                             app:fonttype="regular" />
 
@@ -748,7 +1566,7 @@
                             android:layout_marginEnd="4dp"
                             android:gravity="center"
                             android:text="5.0"
-                            android:textColor="@color/rating_star_color"
+                            android:textColor="@color/white"
                             android:textSize="12sp"
                             app:fonttype="regular" />
 
@@ -765,7 +1583,7 @@
                             android:layout_marginEnd="4dp"
                             android:gravity="center"
                             android:text="Followers 649 Products: 4"
-                            android:textColor="@color/rating_star_color"
+                            android:textColor="@color/white"
                             android:textSize="10sp"
                             app:fonttype="regular" />
 
@@ -798,8 +1616,6 @@
         android:layout_height="wrap_content" />
 
 </LinearLayout>
-
-
 
 
 
