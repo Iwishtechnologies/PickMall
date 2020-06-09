@@ -11,49 +11,86 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:gravity="center"
+        android:weightSum="2"
         android:orientation="vertical"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="20dp"
-            android:src="@drawable/number_1_icon"/>
-
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            android:src="@drawable/logo"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="-15dp"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/enter_mobile_number_and_login"/>
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:background="@drawable/enter_mobile">
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/right_shade"
+            android:layout_height="200dp">
 
-            <EditText
+            <ImageView
                 android:layout_width="wrap_content"
-                android:hint="Enter mobile here "
-                android:layout_marginLeft="30dp"
-                android:backgroundTint="#FFF"
-                android:id="@+id/mobile"
-                android:layout_height="wrap_content"/>
+                android:layout_marginTop="40dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/number_1_icon"/>
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_marginTop="80dp"
+                android:layout_height="150dp"
+                android:src="@drawable/logo"/>
 
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/next"
-            android:src="@drawable/next_icon"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_marginBottom="-50dp"
+            android:padding="30dp"
+            android:background="@drawable/login_bottom_background"
+            android:layout_height="250dp">
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="29dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="18dp"
+                android:textColor="@color/white"
+                app:fonttype="text_semi_bold"
+               android:text="Enter mobile number &amp; login"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:layout_marginTop="-10dp"
+                android:background="@drawable/enter_mobile">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:hint="Enter mobile here "
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="7dp"
+                    android:backgroundTint="#FFF"
+                    android:id="@+id/mobile"
+                    android:maxLength="10"
+                    android:maxLines="1"
+                    android:inputType="number"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="-20dp"
+                android:background="@drawable/next"
+                android:textColor="@color/white"
+                android:id="@+id/next"
+                android:layout_height="50dp"
+                />
+
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
