@@ -135,7 +135,6 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 product_type = intent.getStringExtra("product_type");
                 productgst = intent.getStringExtra("gst");
 
-
                 int qtyprod = Integer.parseInt(product_qty);
                 int amtprod = Integer.parseInt(product_amt);
                 product_amt = String.valueOf(qtyprod * amtprod);
@@ -219,7 +218,6 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
     }
 
     private void walletmethod() {
-
 
         if (data.get(WALLET_AMOUNT) != null) {
             WalletAmount = data.get(WALLET_AMOUNT).toString();
@@ -438,7 +436,6 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
     }
 
     private void Online_payment() {
-
 
         Intent intent;
         intent = new Intent(PaymentOptionActivity.this, Paymentgateway.class);

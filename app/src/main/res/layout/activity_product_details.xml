@@ -760,10 +760,17 @@
                                         android:layout_height="30dp"
                                         android:background="@drawable/add_to_cart" />
                                     <Button
+                                        android:id="@+id/go_to_card"
                                         android:layout_width="120dp"
                                         android:layout_height="30dp"
                                         android:visibility="gone"
-                                        android:background="@drawable/add_to_cart" />
+                                        android:background="@drawable/go_to_card_image" />
+                                    <Button
+                                        android:id="@+id/friend_deal_image"
+                                        android:layout_width="120dp"
+                                        android:layout_height="30dp"
+                                        android:visibility="gone"
+                                        android:background="@drawable/continue_image" />
 
                                 </RelativeLayout>
                             </LinearLayout>

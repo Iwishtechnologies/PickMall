@@ -1,6 +1,7 @@
 package tech.iwish.pickmall.activity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -72,7 +73,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     private String product_color, product_name, product_Image, sku, actual_price, discount_price, product_id, vendor_id,aaa;
     private RecyclerView color_size_image_recycle_view, size_product_recycleview;
     private RatingBar ratingcheck;
-    private Button add_card_btn, buy_now_btn, one_rs_button_place_order,product_colorbtn;
+    private Button add_card_btn, buy_now_btn, one_rs_button_place_order,product_colorbtn,go_to_card,friend_deal_image;
     private LinearLayout product_layout, one_rs_main_layout, button_layout, one_rs_bottom_layout, one_rs_rule, store, wishlist, product_count_layout;
     private ScrollView scrollview;
     private String PRODUCT_TYPE, total_request_user, new_user_request, gst , select_size,product_qty,type,product_type;
@@ -115,6 +116,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         buy_now_btn = (Button) findViewById(R.id.buy_now_btn);
         one_rs_button_place_order = (Button) findViewById(R.id.one_rs_button_place_order);
         product_colorbtn = (Button) findViewById(R.id.product_colorbtn);
+        go_to_card = (Button) findViewById(R.id.go_to_card);
+        friend_deal_image = (Button) findViewById(R.id.friend_deal_image);
 
         product_layout = (LinearLayout) findViewById(R.id.product_layout);
         one_rs_main_layout = (LinearLayout) findViewById(R.id.one_rs_main_layout);
@@ -168,7 +171,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         sku = intent.getStringExtra("sku");
 
         switch (product_type) {
-
 //            case "flashSale":
 //                All_Image(Constants.FLASH_SALE_IMAGE);
 //                coloAndImageData(Constants.FLASH_SALE_COLOR_SIDE);
@@ -192,6 +194,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 one_rs_bottom_layout.setVisibility(View.GONE);
                 one_rs_rule.setVisibility(View.GONE);
                 button_layout.setVisibility(View.VISIBLE);
+
                 break;
             case "friendsaleoneRs":
 
@@ -202,6 +205,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 one_rs_main_layout.setVisibility(View.VISIBLE);
                 one_rs_bottom_layout.setVisibility(View.VISIBLE);
                 one_rs_rule.setVisibility(View.VISIBLE);
+
+                add_card_btn.setVisibility(View.GONE);
+                friend_deal_image.setVisibility(View.VISIBLE);
+
 
                 SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + discount_price);
                 content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
@@ -218,6 +225,19 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 sizedatafetch(Constants.FRIEND_SALE_SIZE);
 
                 break;
+        }
+
+        MyhelperSql myhelperSql = new MyhelperSql(this);
+        SQLiteDatabase sqLiteDatabase = myhelperSql.getWritableDatabase();
+        String query = "Select *  from PRODUCT_CARD WHERE PRODUCT_ID = ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{product_id});
+        cursor.moveToFirst();
+        if (cursor.getCount() != 0) {
+            go_to_card.setVisibility(View.VISIBLE);
+            add_card_btn.setVisibility(View.GONE);
+        } else {
+            go_to_card.setVisibility(View.GONE);
+            add_card_btn.setVisibility(View.VISIBLE);
         }
 
 
@@ -237,6 +257,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         card.setOnClickListener(this);
         add_button.setOnClickListener(this);
         sub_button.setOnClickListener(this);
+        go_to_card.setOnClickListener(this);
+        friend_deal_image.setOnClickListener(this);
 
         ac_priceEdit.setText(getResources().getString(R.string.rs_symbol) + actual_price);
         title_name_edit.setText(product_name);
@@ -408,7 +430,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             case R.id.select_size_color:
             case R.id.add_card_btn:
 //                product_colorbtn.getText().toString()
-                type = "add_to_card";
+
                 addCardProcees();
 //                bundle = new Bundle();
 //                productSideColorBottomFragment = new ProductSideColorBottomFragment(productColorLists, productSizeColorLists);
@@ -444,6 +466,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 productSideColorBottomFragment.setArguments(bundle);
                 productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
                 break;
+            case R.id.go_to_card:
             case R.id.card:
                 startActivity(new Intent(ProductDetailsActivity.this, CardActivity.class));
                 break;
@@ -487,7 +510,49 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                     quty_value.setText(bs);
                 }
                 break;
+            case R.id.friend_deal_image:
+                frienddeaalmethod();
+
+                break;
         }
+    }
+
+    private void frienddeaalmethod() {
+
+        if(select_size == null){
+            Toast.makeText(this, "Select size", Toast.LENGTH_SHORT).show();
+        }else {
+            data = shareSession.Fetchdata();
+            if ((data.get(NUMBER_ADDRESS) != null) && (data.get(PINCODE_ADDRESS) != null) && (data.get(HOUSE_NO_ADDRESS) != null)) {
+                Intent intent = new Intent(this, SaveAddressActivity.class);
+                intent.putExtra("product_id", product_id);
+                intent.putExtra("product_name", product_name);
+                intent.putExtra("select_size", select_size);
+                intent.putExtra("actual_price", actual_price);
+                intent.putExtra("discount_price", discount_price);
+                intent.putExtra("imagename", product_Image);
+                intent.putExtra("select_color", product_colorbtn.getText().toString());
+                intent.putExtra("product_qty", quty_value.getText().toString());
+                intent.putExtra("product_type", product_type);
+                intent.putExtra("type", "friendDeal_one_rs");
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(this, AddressActivity.class);
+                intent.putExtra("product_id", product_id);
+                intent.putExtra("product_name", product_name);
+                intent.putExtra("select_size", select_size);
+                intent.putExtra("actual_price", actual_price);
+                intent.putExtra("discount_price", discount_price);
+                intent.putExtra("imagename", product_Image);
+                intent.putExtra("product_qty", quty_value.getText().toString());
+                intent.putExtra("select_color", product_colorbtn.getText().toString());
+                intent.putExtra("product_type", product_type);
+                intent.putExtra("type", "friendDeal_one_rs");
+                intent.putExtra("gst", gst);
+                startActivity(intent);
+            }
+        }
+
     }
 
     private void addCardProcees() {
@@ -513,6 +578,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                     SQLiteDatabase sqLiteDatabase = myhelperSql.getWritableDatabase();
                     myhelperSql.dataAddCard(product_id, product_name, product_qty, product_colorbtn.getText().toString(), select_size, product_Image, actual_price, discount_price, product_type, gst, vendor_id, dicount_price_text.getText().toString(), sqLiteDatabase);
                     cardcount();
+                    add_card_btn.setVisibility(View.GONE);
+                    go_to_card.setVisibility(View.VISIBLE);
                     break;
                 case "buy_now":
                     data = shareSession.Fetchdata();

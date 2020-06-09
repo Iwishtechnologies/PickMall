@@ -27,11 +27,7 @@
 
         <activity android:name=".activity.OTPActivity" />
         <activity android:name=".activity.MobileNOActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.NoInternetConnectionActivity" />
         <activity
@@ -172,7 +168,11 @@
             android:theme="@style/flashsaleproduct" />
         <activity android:name=".activity.ProductActivity" />
         <activity android:name=".activity.SplashActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".activity.Register1Activity" />
         <activity
