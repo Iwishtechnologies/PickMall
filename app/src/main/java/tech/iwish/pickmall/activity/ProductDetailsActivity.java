@@ -432,7 +432,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             case R.id.select_size_color:
             case R.id.add_card_btn:
 //                product_colorbtn.getText().toString()
-
+                 type="add_to_card";
                 addCardProcees();
 //                bundle = new Bundle();
 //                productSideColorBottomFragment = new ProductSideColorBottomFragment(productColorLists, productSizeColorLists);

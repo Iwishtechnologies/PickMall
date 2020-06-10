@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +18,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.TimerTask;
 
+import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
+import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -28,9 +33,11 @@ import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.session.Share_session;
 
-public class MobileNOActivity extends AppCompatActivity {
+public class MobileNOActivity extends AppCompatActivity  implements InternetConnectivityListener {
     EditText mobile;
     Button next;
+    ProgressBar progressBar;
+    LinearLayout mainview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +45,9 @@ public class MobileNOActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mobile_n_o);
         mobile = findViewById(R.id.mobile);
         next = findViewById(R.id.next);
+        progressBar = findViewById(R.id.progress);
+        mainview = findViewById(R.id.mainview);
+        Connectivity();
 
 
         next.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +62,8 @@ public class MobileNOActivity extends AppCompatActivity {
                 } else {
                     mobileinsert();
                 }
+                mainview.setAlpha((float) 0.5);
+                progressBar.setVisibility(View.VISIBLE);
                 next.setEnabled(true);
 
 
@@ -77,6 +89,9 @@ public class MobileNOActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
+                mainview.setAlpha(1);
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(MobileNOActivity.this, "Connection Timeout", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -88,15 +103,38 @@ public class MobileNOActivity extends AppCompatActivity {
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
-                            Intent intent = new Intent(MobileNOActivity.this, OTPActivity.class);
-                            intent.putExtra("number",mobile.getText().toString());
-                            startActivity(intent);
+                            MobileNOActivity.this.runOnUiThread(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(MobileNOActivity.this, OTPActivity.class);
+                                    intent.putExtra("number",mobile.getText().toString());
+                                    mainview.setAlpha(1);
+                                    progressBar.setVisibility(View.GONE);
+                                    startActivity(intent);
+                                }
+                            });
+
                         }
                     }
                 }
             }
         });
 
+    }
+
+    public void Connectivity(){
+        InternetAvailabilityChecker mInternetAvailabilityChecker;
+        mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
+        mInternetAvailabilityChecker.addInternetConnectivityListener(MobileNOActivity.this);
+    }
+
+    @Override
+    public void onInternetConnectivityChanged(boolean isConnected) {
+        if (isConnected){
+        }
+        else {
+            startActivity(new Intent(MobileNOActivity.this,NoInternetConnectionActivity.class));
+        }
     }
 
 }

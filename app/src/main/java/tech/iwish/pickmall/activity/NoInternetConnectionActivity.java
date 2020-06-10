@@ -39,7 +39,7 @@ public class NoInternetConnectionActivity extends AppCompatActivity   implements
     public void onInternetConnectivityChanged(boolean isConnected) {
         if (isConnected){
             layout.setBackground(getDrawable(R.drawable.back_online));
-        Intent intent= new Intent(NoInternetConnectionActivity.this,UserDetail.class);
+        Intent intent= new Intent(NoInternetConnectionActivity.this,MainActivity.class);
         startActivity(intent);
 
         }

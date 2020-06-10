@@ -175,8 +175,8 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
     private void shareTextUrl(String Code) {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "PICKMALL Online Shopping Everything On Factory Price");
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "PICKMALL Online Shopping Everything On Factory Price\n\nPICKMALL, as one of the best online shopping app in India,\n\nyou can shop the latest trendy items with lowest price & high quality at home. Free shipping & Cash on delivery service are supported, all latest trendy products UP TO 90% OFF! \n\nWe Sell Everything On Fair Price Because PICKMALL Is a Platform For Customer Can Buy Everything From Factory’s Without Any Extra Price Or Any Type Of Commission.\n\nHey check out my app at: https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n Referrel Code:-"+ Code);
+//        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "PICKMALL Online Shopping Everything On Factory Price");
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "PICKMALL Online Shopping Everything On Factory Price\n\nPICKMALL, as one of the best online shopping app in India,\n\nyou can shop the latest trendy items with lowest price & high quality at home. Free shipping & Cash on delivery service are supported, all latest trendy products UP TO 90% OFF! \n\nWe Sell Everything On Fair Price Because PICKMALL Is a Platform For Customer Can Buy Everything From Factory’s Without Any Extra Price Or Any Type Of Commission.\n\nHey check out my app at: https://play.google.com/store/apps/details?id=tech.iwish.pickmall \n\n Referrel Code:-"+ Code);
 
         sendIntent.setType("text/plain");
         startActivity(sendIntent);

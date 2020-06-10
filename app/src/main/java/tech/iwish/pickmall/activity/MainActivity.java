@@ -26,6 +26,7 @@ import org.json.JSONArray;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -61,6 +62,7 @@ import tech.iwish.pickmall.session.Share_session;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.friend_deal_list_fake;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.item_fakelist;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.silder_list_fack;
+import static tech.iwish.pickmall.session.Share_session.USER_NUMBER_CHECK;
 
 
 public class MainActivity extends AppCompatActivity
@@ -99,12 +101,24 @@ public class MainActivity extends AppCompatActivity
     private ItemCategoryInterface itemCategoryInterface;
     public final static String TAG = "mainActivity";
     private RelativeLayout search_bar_layout;
+    Share_session share_session;
+    private Map data ;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        share_session= new Share_session(MainActivity.this);
+        data = share_session.Fetchdata();
+        if(data.get(USER_NUMBER_CHECK) != null){
+//            startActivity(new Intent(MainActivity.this , MainActivity.class));
+        }
+        else
+        {
+            Intent mainIntent = new Intent(MainActivity.this,MobileNOActivity.class);
+            startActivity(mainIntent);
+        }
 
         InterNetConnection interNetConnection = new InterNetConnection();
         IntentFilter intentFilter = new IntentFilter();

@@ -19,9 +19,9 @@
         <item name="android:windowFullscreen">false</item>
     </style>
 
-    <style name="CardTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimaryDark">@color/redColor</item>
-        <item name="colorPrimary">@color/redColor</item>
+    <style name="CardTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">#381B1A</item>
+        <item name="colorPrimary">#DC9B40 </item>
     </style>
 
     <style name="CustomProgressBarHorizontal" parent="android:Widget.ProgressBar.Horizontal">

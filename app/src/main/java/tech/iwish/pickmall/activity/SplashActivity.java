@@ -34,7 +34,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Intent mainIntent = new Intent(SplashActivity.this,UserDetail.class);
+                    Intent mainIntent = new Intent(SplashActivity.this,MobileNOActivity.class);
                     startActivity(mainIntent);
                 }
 

@@ -61,6 +61,7 @@ public class Share_session {
     public void  Login_check(){
         editor.putBoolean(LOGIN_CHECk, true).commit();
     }
+
     public void  user_number_check(){
         editor.putBoolean(USER_NUMBER_CHECK, true).commit();
     }

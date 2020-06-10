@@ -7,11 +7,22 @@
     android:background="#F8F8F9"
     android:gravity="center"
     tools:context=".activity.MobileNOActivity">
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/progress"
+        android:outlineAmbientShadowColor="@color/colorAccent"
+        android:outlineSpotShadowColor="@color/colorAccent"
+        android:progressTint="@color/colorAccent"
+        android:indeterminateTint="@color/colorAccent"
+        android:layout_centerInParent="true"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:weightSum="2"
+        android:id="@+id/mainview"
         android:layout_height="match_parent">
 
         <LinearLayout
