@@ -17,11 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.dynamiclinks.DynamicLink;
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
-import com.google.firebase.dynamiclinks.ShortDynamicLink;
 
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.config.Constants;
@@ -81,73 +76,14 @@ public class OneRsShareActivity extends AppCompatActivity {
 //                google-site-verification=mzUJN-Fxf1sqqZo8haCkkID4Ba-tyyjebfatcP44m1Y
 //                Toast.makeText(OneRsShareActivity.this, "" + refer_code, Toast.LENGTH_SHORT).show();
 
-                referCodeSend();
+
 
             }
         });
 
     }
 
-    private void referCodeSend() {
 
-        String a = "{\"data\" : \"TRUE\" , \"refer_code\" : \"" + refer_code + "\"}";
-
-        DynamicLink dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
-                .setLink(Uri.parse("https://pickmall.com/?refer_code=" + refer_code.toString()))
-//                    .setDomainUriPrefix("https://rayru.page.link")
-                .setDomainUriPrefix("https://pickmall.page.link")
-                // Open links with this app on Android
-                .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
-                // Open links with com.example.ios on iOS
-                .setIosParameters(new DynamicLink.IosParameters.Builder("refer code" + refer_code.toString()).build())
-                .buildDynamicLink();
-
-        Uri dynamicLinkUri = dynamicLink.getUri();
-        Log.e("Tag", dynamicLinkUri + "?");
-        Task<ShortDynamicLink> shortLinkTask = FirebaseDynamicLinks.getInstance().createDynamicLink()
-                .setLongLink(dynamicLinkUri)
-//                    .setLongLink(Uri.parse(sharelinktext))
-                .buildShortDynamicLink()
-                .addOnCompleteListener(OneRsShareActivity.this, task -> {
-
-                    if (task.isSuccessful()) {
-                        // Short link created
-//                        Uri shortLink = task.getResult().getShortLink();
-//                        Uri flowchartLink = task.getResult().getPreviewLink();
-//                        Intent intent = new Intent();
-//                        intent.setType("text/plain");
-//                        intent.setAction(Intent.ACTION_SEND);
-//                        intent.putExtra(intent.EXTRA_TEXT, shortLink.toString());
-//                        startActivity(intent);
-
-//***************************************************************************************************
-
-                        Uri imageUri = Uri.parse("http://stacktoheap.com/images/stackoverflow.png");
-
-                        Uri shortLink = task.getResult().getShortLink();
-                        Uri flowchartLink = task.getResult().getPreviewLink();
-                        Intent intent = new Intent();
-                        intent.setType("text/plain");
-                        intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_SEND);
-                        intent.putExtra(intent.EXTRA_TEXT, shortLink.toString());
-                        intent.putExtra(Intent.EXTRA_STREAM, imageUri);
-                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        startActivity(intent);
-
-
-//                        Intent intent = new Intent();
-//                        intent.setAction(Intent.ACTION_SEND);
-//                        intent.setType("image/*");
-//                        Uri imageUri = Uri.parse("http://stacktoheap.com/images/stackoverflow.png");
-//                        intent.putExtra(Intent.EXTRA_STREAM, imageUri);
-//                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    } else {
-                        Log.e("error", task.getException().getMessage());
-                    }
-                });
-
-    }
 
 
 }
