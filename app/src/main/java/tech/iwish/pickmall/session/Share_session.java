@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import tech.iwish.pickmall.activity.MobileNOActivity;
 import tech.iwish.pickmall.activity.UserDetail;
 
 public class Share_session {
@@ -131,7 +132,7 @@ public class Share_session {
 
     public void Logout(){
         editor.clear().commit();
-        context.startActivity(new Intent(context, UserDetail.class));
+        context.startActivity(new Intent(context, MobileNOActivity.class));
         Animatoo.animateInAndOut(context);
     }
 

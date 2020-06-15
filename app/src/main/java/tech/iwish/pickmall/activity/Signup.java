@@ -141,14 +141,7 @@ public class Signup extends AppCompatActivity implements GoogleApiClient.OnConne
 
     protected void getUserDetails(LoginResult loginResult) {
         GraphRequest data_request = GraphRequest.newMeRequest(
-                loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-
-                    @Override
-                    public void onCompleted(
-                            JSONObject json_object,
-                            GraphResponse response) {
-
-                    }
+                loginResult.getAccessToken(), (json_object, response) -> {
 
                 });
         Bundle permission_param = new Bundle();
@@ -209,12 +202,7 @@ public class Signup extends AppCompatActivity implements GoogleApiClient.OnConne
             GoogleSignInResult result = opr.get();
             handleSignInResult(result);
         } else {
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
-                    handleSignInResult(googleSignInResult);
-                }
-            });
+            opr.setResultCallback(googleSignInResult -> handleSignInResult(googleSignInResult));
         }
     }
 
@@ -249,6 +237,7 @@ public class Signup extends AppCompatActivity implements GoogleApiClient.OnConne
 //            startActivity(main);
         }
     }
+
 
 
 

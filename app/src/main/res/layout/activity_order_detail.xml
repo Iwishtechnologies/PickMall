@@ -257,29 +257,28 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="10dp"
-                android:layout_height="wrap_content">
+                android:padding="10dp">
 
 
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:layout_width="wrap_content"
-                android:id="@+id/shimmer"
-                android:layout_height="wrap_content">
-                <RatingBar
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:numStars="5"
-                    android:progressTint="@color/colorAccent"
-                    style="@style/RatingBar"
-                    android:id="@+id/rating"
-                    android:outlineSpotShadowColor="@color/colorAccent"
-                    android:stepSize="0.5"/>
-             </com.facebook.shimmer.ShimmerFrameLayout>
+                    android:layout_height="wrap_content">
+
+                    <RatingBar
+                        android:id="@+id/rating"
+                        style="@style/RatingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:numStars="5"
+                        android:outlineSpotShadowColor="@color/colorAccent"
+                        android:progressTint="@color/colorAccent"
+                        android:stepSize="0.5" />
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
             </LinearLayout>
-
-
 
 
         </LinearLayout>
@@ -386,7 +385,7 @@
                 android:layout_width="match_parent"
                 android:background="@color/white"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="2dp"
                 android:orientation="vertical"
                 android:layout_below="@id/detail"
                 android:layout_height="wrap_content">
@@ -655,7 +654,23 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="2dp"
+                android:background="@color/white"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/returnorder"
+                    android:background="#DC9B40"
+                    android:textColor="@color/white"
+                    android:text="Return order"/>
+        </LinearLayout>
+
      </LinearLayout>
+
 
   </ScrollView>
 

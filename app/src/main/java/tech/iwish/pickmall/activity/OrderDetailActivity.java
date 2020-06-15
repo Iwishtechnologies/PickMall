@@ -48,6 +48,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
     Button help;
     RatingBar RatingBar;
     ShimmerFrameLayout shimmer;
+    Button returnorder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         help= findViewById(R.id.help);
         RatingBar= findViewById(R.id.rating);
         shimmer= findViewById(R.id.shimmer);
+        returnorder= findViewById(R.id.returnorder);
         GetAddress(getIntent().getExtras().getString("address"));
         GetVendorDetail(getIntent().getExtras().getString("vendor_id"));
         Connectivity();
@@ -96,28 +98,14 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
     }
 
     private void ActivityAction(){
-        help.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(OrderDetailActivity.this,SupportActivity.class));
-            }
-        });
-        RatingBar.setOnRatingBarChangeListener(new android.widget.RatingBar.OnRatingBarChangeListener() {
-            public void onRatingChanged(RatingBar ratingBar, float rating,
-                                        boolean fromUser) {
-                uploadRating(getIntent().getExtras().getString("product_id"),share_session.getUserDetail().get("id"), String.valueOf(rating));
+        help.setOnClickListener(view -> startActivity(new Intent(OrderDetailActivity.this,SupportActivity.class)));
+        RatingBar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> uploadRating(getIntent().getExtras().getString("product_id"),share_session.getUserDetail().get("id"), String.valueOf(rating)));
+//        returnorder.setOnClickListener(view -> startActivity(new Intent(OrderDetailActivity.this,ReturnOrderActivity.class).putExtra("image",getIntent().getExtras().getString("image")).putExtra("name",getIntent().getExtras().getString("ProductName")).putExtra("orderId",getIntent().getExtras().getString("orderid")).putExtra("orerAmt",getIntent().getExtras().getString("oederAmount")).putExtra("product_id",getIntent().getExtras().getString("product_id"))));
+        seller.setOnClickListener(view -> {
+            Intent intent= new Intent(OrderDetailActivity.this,VendorStoreActivity.class);
+            intent.putExtra("vendor_id",getIntent().getExtras().getString("vendor_id"));
+            startActivity(intent);
 
-            }
-        });
-
-        seller.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(OrderDetailActivity.this,VendorStoreActivity.class);
-                intent.putExtra("vendor_id",getIntent().getExtras().getString("vendor_id"));
-                startActivity(intent);
-
-            }
         });
     }
 
@@ -321,6 +309,18 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
                                 });
 
                             }
+
+                        }
+                        else {
+                            OrderDetailActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+//                                      Log.e("vggh",jsonHelper.GetResult("data"));
+                                    shimmer.setShimmer(null);
+                                    shimmer.stopShimmer();
+//                                    RatingBar.setRating(Float.parseFloat(jsonHelper.GetResult("rating")));
+                                }
+                            });
                         }
                     }
 

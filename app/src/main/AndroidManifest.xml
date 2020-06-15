@@ -12,23 +12,20 @@
         android:allowBackup="true"
         android:icon="@drawable/applogo"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/applogo"
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.Product">
-
-        </activity>
-        <activity android:name=".activity.SelectGenderActivity"></activity>
-
-        <activity android:name=".activity.OneRsShareActivity"
-            android:theme="@style/Settingtheme"
-            android:screenOrientation="portrait"/>
-
+        <activity android:name=".activity.ReturnOrderActivity"></activity>
+        <activity android:name=".activity.Product"></activity>
+        <activity android:name=".activity.SelectGenderActivity" />
+        <activity
+            android:name=".activity.OneRsShareActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Settingtheme" />
         <activity android:name=".activity.OTPActivity" />
-        <activity android:name=".activity.MobileNOActivity" >
-
-        </activity>
+        <activity android:name=".activity.MobileNOActivity"></activity>
         <activity android:name=".activity.NoInternetConnectionActivity" />
         <activity
             android:name=".activity.DeliveredItemActivity"
@@ -145,9 +142,7 @@
             android:name=".activity.Profile"
             android:screenOrientation="portrait"
             android:theme="@style/profileTheme" />
-        <activity android:name=".activity.UserDetail">
-
-        </activity>
+        <activity android:name=".activity.UserDetail"></activity>
         <activity
             android:name=".activity.SaveAddressActivity"
             android:theme="@style/flashsaleproduct" />
@@ -167,7 +162,7 @@
             android:name=".activity.ProductDetailsActivity"
             android:theme="@style/flashsaleproduct" />
         <activity android:name=".activity.ProductActivity" />
-        <activity android:name=".activity.SplashActivity" >
+        <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
