@@ -243,17 +243,17 @@ public class FriendDeaTimeSet {
                             ProductSetTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(h));
                             ProductSetTime.set(Calendar.MINUTE, Integer.parseInt(m));
                             ProductSetTime.set(Calendar.SECOND, Integer.parseInt(s));
-                            ProductSetTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(d) + 1);
-                            ProductSetTime.set(Calendar.MONTH, Integer.parseInt(mo) + 01);
+                            ProductSetTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(d) - 1);
+                            ProductSetTime.set(Calendar.MONTH, Integer.parseInt(mo) +0);
                             ProductSetTime.set(Calendar.YEAR, Integer.parseInt(y));
                             Calendar a = ProductSetTime;
 //                            a.setTime(ProductSetTime.getTime());
 //                            a = ProductClientTime;
-                            a.add(ProductSetTime.HOUR_OF_DAY, 24);
-                            a.add(ProductSetTime.MINUTE, 0);
+                            a.add(ProductSetTime.HOUR_OF_DAY, Integer.parseInt(h));
+                            a.add(ProductSetTime.MINUTE, Integer.parseInt(m));
                             a.add(ProductSetTime.SECOND, -1);
-                            a.set(ProductSetTime.DAY_OF_MONTH, Integer.parseInt(d) + 1);
-                            a.set(ProductSetTime.MONTH, Integer.parseInt(mo) + 01);
+                            a.set(ProductSetTime.DAY_OF_MONTH, Integer.parseInt(d) - 1);
+                            a.set(ProductSetTime.MONTH, Integer.parseInt(mo) + 0);
                             a.set(ProductSetTime.YEAR, Integer.parseInt(y));
 
 

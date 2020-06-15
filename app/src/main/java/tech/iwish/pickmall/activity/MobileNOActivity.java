@@ -136,14 +136,15 @@ public class MobileNOActivity extends AppCompatActivity  implements InternetConn
                         accessToken,
                         (object, response) -> {
                             try {
-                                if(object.getString("first_name").isEmpty()){
+                                if(object.getString("email").isEmpty()){
                                     error.setText("access Denied use different signin method");
                                 }else {
 //                                    String first_name = object.getString("first_name");
 //                                    String last_name = object.getString("last_name");
 //                                    String email = object.getString("email");
 //                                    String id = object.getString("id");
-                                    GetAddress(object.getString("email"));
+                                    share_session.CreateSession(object.getString("email"));
+                                    GoogleApi(object.getString("email"),object.getString("first_name")+" "+object.getString("last_name"));
                                 }
 
                             } catch (JSONException e) {
@@ -162,12 +163,14 @@ public class MobileNOActivity extends AppCompatActivity  implements InternetConn
             }
             @Override
             public void onError(FacebookException exception) {
-           Log.e("fghbjnmk,.", String.valueOf(exception));
-             error.setText("access Denied use different signin method");
+                Log.e("fghbjnmk,.", String.valueOf(exception));
+                error.setText("access Denied use different signin method");
             }
         });
 
     }
+
+
     private void mobileinsert() {
         mainview.setAlpha((float) 0.5);
         progressBar.setVisibility(View.VISIBLE);
