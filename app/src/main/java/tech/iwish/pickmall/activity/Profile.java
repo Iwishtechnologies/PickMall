@@ -3,6 +3,7 @@ package tech.iwish.pickmall.activity;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.bumptech.glide.Glide;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -47,7 +50,7 @@ public class Profile extends AppCompatActivity implements InternetConnectivityLi
     TextViewFont name, mobile,r_no,gender;
     public static final int PICK_IMAGE = 1;
     Share_session share_session;
-    private String [] permissions = {"android.permission.WRITE_EXTERNAL_STORAGE","android.permission.CAMERA"};
+    private String [] permissions = {"android.permission.WRITE_EXTERNAL_STORAGE","android.permission.CAMERA", "android.permission.WRITE_EXTERNAL_STORAGE"};
 
 
     @Override
@@ -57,43 +60,26 @@ public class Profile extends AppCompatActivity implements InternetConnectivityLi
         InitializeActivity();
         setActivityData();
 
-        pickimage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
-            }
-        });
+        pickimage.setOnClickListener(view -> ImagePicker.Companion.with(Profile.this).compress(1024).maxResultSize(1080, 1080).start());
 
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Profile.this,Account.class);
-                startActivity(intent);
-                Animatoo.animateInAndOut(Profile.this);
-            }
+        back.setOnClickListener(view -> {
+            Intent intent= new Intent(Profile.this,Account.class);
+            startActivity(intent);
+            Animatoo.animateInAndOut(Profile.this);
         });
 
-        edit_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Profile.this,EditProfileActivity.class);
-                intent.putExtra("action","name");
-                startActivity(intent);
-                Animatoo.animateInAndOut(Profile.this);
-            }
+        edit_name.setOnClickListener(view -> {
+            Intent intent= new Intent(Profile.this,EditProfileActivity.class);
+            intent.putExtra("action","name");
+            startActivity(intent);
+            Animatoo.animateInAndOut(Profile.this);
         });
-        edit_gender.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Profile.this,EditProfileActivity.class);
-                intent.putExtra("action","gender");
-                startActivity(intent);
-                Animatoo.animateInAndOut(Profile.this);
-            }
+        edit_gender.setOnClickListener(view -> {
+            Intent intent= new Intent(Profile.this,EditProfileActivity.class);
+            intent.putExtra("action","gender");
+            startActivity(intent);
+            Animatoo.animateInAndOut(Profile.this);
         });
 
 
@@ -117,7 +103,7 @@ public class Profile extends AppCompatActivity implements InternetConnectivityLi
 
     public void UploadProfileImage(String mobile, Uri path,String name)
     {
-        File finalFile = new File(getRealPathFromURI(path));
+        File finalFile = new File(String.valueOf(path).substring(7));
         OkHttpClient okHttpClient1 = new OkHttpClient();
          final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -131,7 +117,8 @@ public class Profile extends AppCompatActivity implements InternetConnectivityLi
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
-                Toast.makeText(Profile.this, "Connection Timeout", Toast.LENGTH_SHORT).show();
+                Profile.this.runOnUiThread(() -> Toast.makeText(Profile.this, "Connection Timeout", Toast.LENGTH_SHORT).show());
+                Log.e("error", String.valueOf(e));
             }
 
             @Override
@@ -196,13 +183,30 @@ public class Profile extends AppCompatActivity implements InternetConnectivityLi
         Connectivity();
     }
 
+    private String getRealPathFromURI(Uri uri) {
+        String filePath = "";
+        String wholeID = DocumentsContract.getDocumentId(uri);
 
-    public String getRealPathFromURI(Uri uri) {
-        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-        cursor.moveToFirst();
-        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-        return cursor.getString(idx);
+        // Split at colon, use second item in the array
+        String id = wholeID.split(":")[1];
+
+        String[] column = { MediaStore.Images.Media.DATA };
+
+        // where id is equal to
+        String sel = MediaStore.Images.Media._ID + "=?";
+
+        Cursor cursor = Profile.this.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                column, sel, new String[]{ id }, null);
+
+        int columnIndex = cursor.getColumnIndex(column[0]);
+
+        if (cursor.moveToFirst()) {
+            filePath = cursor.getString(columnIndex);
+        }
+        cursor.close();
+        return filePath;
     }
+
 
     public static void restartActivity(Activity activity){
         if (Build.VERSION.SDK_INT >= 11) {

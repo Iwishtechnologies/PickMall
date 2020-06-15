@@ -94,10 +94,8 @@ public class Constants {
     public static String FRIENDDEAL_PRODUCT_CHECK = URL+"friend_deal_product_check";
     public static String MOBILE_NUMBER = URL+"mobile_number_check";
     public static String OTP_CHECK = URL+"otp_check";
-    public static String REFERCODE_FRIEND_INVITE = URL+"referCode_friend_invite";
-    public static String FRIENDDEAL_TIME_SET = URL+"friendDeal_time_set";
-    public static String FRIENDEAL_PRODUCT_REMOVE = URL+"friendDeal_product_remove";
-    public static String GENDER_UPDATE = URL+"gender_update";
+    public static String GOOGLEAPI = URL+"GoogleApi";
+    public static String RETURNORDER = URL+"ReturnOrder";
 
 //    public static String IMAGES = "http://pickmall.iwishtech.xyz/img/";
         public static String IMAGES = "http://173.212.226.143:8086/img/";
