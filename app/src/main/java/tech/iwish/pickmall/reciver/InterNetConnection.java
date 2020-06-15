@@ -8,20 +8,24 @@ import android.net.Network;
 import android.net.NetworkInfo;
 import android.widget.Toast;
 
+import tech.iwish.pickmall.Interface.InterNetConnectionCheckInteface;
+
 
 public class InterNetConnection extends BroadcastReceiver {
 
     public boolean aBoolean;
 
+
     @Override
     public void onReceive(Context context, Intent intent) {
+
 
         ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
         if (networkInfo != null) {
             aBoolean = true;
-            CheckInternet();
+            CheckInternet(true);
 
 //            if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
 //            } else if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
@@ -29,11 +33,11 @@ public class InterNetConnection extends BroadcastReceiver {
 
         } else {
             aBoolean = false;
-            CheckInternet();
+            CheckInternet(false);
         }
     }
 
-    public boolean CheckInternet(){
+    public boolean CheckInternet(boolean b){
         return aBoolean;
     }
 

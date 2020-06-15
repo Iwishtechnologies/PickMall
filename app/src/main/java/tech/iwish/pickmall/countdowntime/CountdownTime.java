@@ -291,8 +291,8 @@ public class CountdownTime {
 
         Calendar times = Calendar.getInstance();
         times.set(Calendar.HOUR_OF_DAY, 23);
-        times.set(Calendar.MINUTE, 0);
-        times.set(Calendar.SECOND, 0);
+        times.set(Calendar.MINUTE, 59);
+        times.set(Calendar.SECOND, 59);
         long b = times .getTimeInMillis() - currenttime.getTimeInMillis();
         mTimeLeftInMillis = b;
         startTimer();

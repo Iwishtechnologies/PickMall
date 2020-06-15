@@ -122,6 +122,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         getChildFragmentManager().beginTransaction().add(R.id.similer_product_framelayout, productFragment).commit();
 
         return view;
+
     }
 
     private void vendorstore() {

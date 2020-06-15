@@ -4,6 +4,7 @@ package tech.iwish.pickmall.activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -24,8 +25,12 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -86,8 +91,8 @@ public class MainActivity extends AppCompatActivity
 
     private RecyclerView flash_sale_main_recycle, itemCateroryrecycle, friend_deal_recycleview;
     public static TextView time_countDown, product_count_card;
-    private static final long START_TIME_IN_MILLIS = 86400000;
-    //    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+//    private static final long START_TIME_IN_MILLIS = 86400000;
+//        private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     private long mTimeLeftInMillis;
     private LinearLayout viewAll_FreshSale, product_count_card_layout, flash_line, viewall_friend_deal;
     private ImageView homeBottom, feedBottom, cardBottom, accountBottom;
@@ -102,21 +107,20 @@ public class MainActivity extends AppCompatActivity
     public final static String TAG = "mainActivity";
     private RelativeLayout search_bar_layout;
     Share_session share_session;
-    private Map data ;
+    private Map data;
+    private CountDownTimer mCountDownTimer;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        share_session= new Share_session(MainActivity.this);
+        share_session = new Share_session(MainActivity.this);
         data = share_session.Fetchdata();
-        if(data.get(USER_NUMBER_CHECK) != null){
+        if (data.get(USER_NUMBER_CHECK) != null) {
 //            startActivity(new Intent(MainActivity.this , MainActivity.class));
-        }
-        else
-        {
-            Intent mainIntent = new Intent(MainActivity.this,MobileNOActivity.class);
+        } else {
+            Intent mainIntent = new Intent(MainActivity.this, MobileNOActivity.class);
             startActivity(mainIntent);
         }
 
@@ -124,11 +128,8 @@ public class MainActivity extends AppCompatActivity
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         intentFilter.addAction("android.net.wifi.WIFI_STATE_CHANGED");
-        registerReceiver(interNetConnection,intentFilter);
+        registerReceiver(interNetConnection, intentFilter);
 
-        //connection
-//        mInternetAvailabilityChecker = InternetAvailabilityChecker.getInstance();
-//        mInternetAvailabilityChecker.addInternetConnectivityListener(MainActivity.this);
 
         viewPages = (ViewPager) findViewById(R.id.viewPages);
         flash_sale_main_recycle = (RecyclerView) findViewById(R.id.flash_sale_main_recycle);
@@ -146,7 +147,6 @@ public class MainActivity extends AppCompatActivity
         feedBottom = (ImageView) findViewById(R.id.FeedBottom);
         cardBottom = (ImageView) findViewById(R.id.CardBottom);
         accountBottom = (ImageView) findViewById(R.id.AccountBottom);
-
 
 
         swipe_refresh_layout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
@@ -192,8 +192,65 @@ public class MainActivity extends AppCompatActivity
             }
         };
 
+//        ***************  Time Set friend deal   **********************
+
+
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd:MM:yyyy:hh:mm:ss");
+//
+//        Calendar calendar2 = null;
+//
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.HOUR, 16);
+//        calendar.set(Calendar.MINUTE, 0);
+//        calendar.set(Calendar.SECOND, 0);
+//        calendar = calendar2 ;
+//        Calendar calendar1 = calendar;
+//        calendar1.add(calendar.HOUR, 23);
+//        calendar1.add(calendar.MINUTE, 59);
+//        calendar1.add(calendar.SECOND, 59);
+//        Log.e("timess",sdf.format(calendar2.getTime()));
+//        Log.e("timess",sdf.format(calendar1.getTime()));
+
+
+
+//        mTimeLeftInMillis = when;
+//        startTimer();
+    }
+
+
+    private void startTimer() {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                mTimeLeftInMillis = millisUntilFinished;
+                updateCountDownText();
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        }.start();
+    }
+
+    private void updateCountDownText() {
+
+        int hours = (int) (mTimeLeftInMillis / 1000) / 3600;
+        int minutes = (int) ((mTimeLeftInMillis / 1000) % 3600) / 60;
+        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
+
+        String timeLeftFormatted;
+        if (hours > 0) {
+            timeLeftFormatted = String.format(Locale.getDefault(),
+                    "%d:%02d:%02d", hours, minutes, seconds);
+        } else {
+            timeLeftFormatted = String.format(Locale.getDefault(),
+                    "%02d:%02d", minutes, seconds);
+        }
+        Log.e("updateCountDownText: time", timeLeftFormatted);
+
 
     }
+
 
 
 
@@ -224,6 +281,12 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
             }
 
             @Override
@@ -362,6 +425,9 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+
+
+
 
     }
 

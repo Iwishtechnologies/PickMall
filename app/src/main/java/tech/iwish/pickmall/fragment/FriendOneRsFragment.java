@@ -43,7 +43,7 @@ public class FriendOneRsFragment extends Fragment implements View.OnClickListene
     private RecyclerView friend_deal_all_recycleview;
     private List<FriendSale> friendSaleLists = new ArrayList<>();
 
-    private String item_id;
+    private String item_id,item_type;
 
     @Nullable
     @Override
@@ -54,6 +54,7 @@ public class FriendOneRsFragment extends Fragment implements View.OnClickListene
         rule_image = (ImageView) view.findViewById(R.id.rule_image);
 
         item_id = getArguments().getString("item_id");
+        item_type = getArguments().getString("item_type");
 
         rule_image.setOnClickListener(this);
 
@@ -100,7 +101,7 @@ public class FriendOneRsFragment extends Fragment implements View.OnClickListene
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        FriendSaleAllProductAdapter friendSaleAllProductAdapter = new FriendSaleAllProductAdapter((FriendsDealsAllActivity) getActivity(), friendSaleLists);
+                                        FriendSaleAllProductAdapter friendSaleAllProductAdapter = new FriendSaleAllProductAdapter((FriendsDealsAllActivity) getActivity(), friendSaleLists,item_type);
                                         friend_deal_all_recycleview.setAdapter(friendSaleAllProductAdapter);
                                     }
                                 });

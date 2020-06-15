@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,10 +28,12 @@ public class FriendSaleAllProductAdapter extends RecyclerView.Adapter<FriendSale
 
     private Context context;
     private List<FriendSale> friendSaleLists;
+    private String item_type;
 
-    public FriendSaleAllProductAdapter(FriendsDealsAllActivity friendsDealsAllActivity, List<FriendSale> friendSaleLists) {
+    public FriendSaleAllProductAdapter(FriendsDealsAllActivity friendsDealsAllActivity, List<FriendSale> friendSaleLists , String item_type) {
         this.context = friendsDealsAllActivity;
         this.friendSaleLists = friendSaleLists;
+        this.item_type = item_type;
     }
 
 
@@ -52,17 +55,16 @@ public class FriendSaleAllProductAdapter extends RecyclerView.Adapter<FriendSale
         holder.start_deal_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(context, ProductDetailsActivity.class);
                 intent.putExtra("product_name", friendSaleLists.get(position).getProductName());
                 intent.putExtra("actual_price", friendSaleLists.get(position).getActual_price());
                 intent.putExtra("discount_price", friendSaleLists.get(position).getDiscount_price());
                 intent.putExtra("product_id", friendSaleLists.get(position).getProduct_id());
-//                intent.putExtra("product_color", flashsalemainLists.get(position).getColors());
                 intent.putExtra("product_Image", friendSaleLists.get(position).getPimg());
                 intent.putExtra("vendor_id", friendSaleLists.get(position).getVendor_id());
-                intent.putExtra("total_request_user", friendSaleLists.get(position).getReq_users_shares());
                 intent.putExtra("new_user_request", friendSaleLists.get(position).getNew_users_atleast());
-
+                intent.putExtra("item_type", item_type);
                 intent.putExtra("product_type", "friendsaleoneRs");
                 context.startActivity(intent);
             }

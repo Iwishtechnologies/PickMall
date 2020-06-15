@@ -79,7 +79,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
     private ProgressBar progress_bar;
 
     private String B_N_product_name, referCode, product_type, product_id, select_color, gst,
-            B_N_product_qty, B_N_product_size, B_N_product_acture_price, B_N_product_image, type, number_client, referCount;
+            B_N_product_qty, B_N_product_size, B_N_product_acture_price, B_N_product_image, type, number_client, referCount,item_type;
 
     private Button place_order_btn;
     private RelativeLayout layouthide;
@@ -187,6 +187,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         product_id = getIntent().getStringExtra("product_id");
         select_color = getIntent().getStringExtra("select_color");
         product_type = getIntent().getStringExtra("product_type");
+        item_type = getIntent().getStringExtra("item_type");
         gst = getIntent().getStringExtra("gst");
 
         cart_product_name.setText(B_N_product_name);
@@ -289,6 +290,8 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                         intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
                         intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
                         intent.putExtra("gst", getIntent().getStringExtra("gst"));
+                        intent.putExtra("item_type", item_type);
+                        intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
                         intent.putExtra("type", "friendDeal_one_rs");
                         startActivity(intent);
                         break;
@@ -378,10 +381,6 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         try {
             jsonObject.put("client_number", data.get(USERMOBILE).toString());
             jsonObject.put("product_id", product_id);
-            jsonObject.put("product_type", product_type);
-            jsonObject.put("product_color", select_color);
-            jsonObject.put("product_size", getIntent().getStringExtra("select_size"));
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -404,7 +403,6 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
 
-
                             if (SaveAddressActivity.this != null) {
                                 SaveAddressActivity.this.runOnUiThread(new Runnable() {
                                     @Override
@@ -417,13 +415,12 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                                                 jsonHelper.setChildjsonObj(jsonArray, i);
                                                 referCode = jsonHelper.GetResult("code");
                                                 referCount = jsonHelper.GetResult("counts");
-                                                ;
                                             }
-
                                             Intent intent = new Intent(SaveAddressActivity.this, OneRsShareActivity.class);
                                             intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
                                             intent.putExtra("product_image", getIntent().getStringExtra("imagename"));
                                             intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                                            intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
                                             intent.putExtra("refer_code", referCode);
                                             intent.putExtra("refer_count", referCount);
 
@@ -440,7 +437,9 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                                             intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
                                             intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
                                             intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
+                                            intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
                                             intent.putExtra("gst", getIntent().getStringExtra("gst"));
+                                            intent.putExtra("item_type", item_type);
                                             intent.putExtra("type", "friendDeal_one_rs");
                                             startActivity(intent);
                                         }

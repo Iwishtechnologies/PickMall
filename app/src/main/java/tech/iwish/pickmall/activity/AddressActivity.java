@@ -192,6 +192,7 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
                                                 intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
                                                 intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
                                                 intent.putExtra("gst", getIntent().getStringExtra("gst"));
+                                                intent.putExtra("item_type", getIntent().getStringExtra("item_type"));
                                                 intent.putExtra("type", "friendDeal_one_rs");
                                                 startActivity(intent);
                                                 break;

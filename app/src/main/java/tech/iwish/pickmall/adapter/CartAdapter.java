@@ -312,10 +312,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
             String type = null;
 
             switch (cardData.get(getAdapterPosition()).get("PRODUCT_TYPE")){
-                case "product":
+                case "allProduct":
                     type = "allProduct";
                     break;
-                case "flashsale":
+                case "flashSale":
                     type = "flashSale";
                     break;
                 case "frienddeal":

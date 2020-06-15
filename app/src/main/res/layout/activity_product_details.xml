@@ -116,7 +116,6 @@
                 android:layout_height="wrap_content"
                 android:elevation="1dp">
 
-
                 <!--              Product                -->
                 <LinearLayout
                     android:id="@+id/product_layout"
@@ -707,9 +706,9 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/dicount_price_per_mrp_layout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content">
-
                                 <tech.iwish.pickmall.extended.TextViewFont
                                     android:id="@+id/dicount_price_text"
                                     android:layout_width="wrap_content"
@@ -720,9 +719,24 @@
                                     app:fonttype="text_semi_bold" />
 
                             </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/friendDealTimeLayout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:id="@+id/timeset"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:textColor="@color/white"
+                                    android:textSize="20dp"
+                                    app:fonttype="text_semi_bold" />
+
+                            </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/qty_layouts"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
@@ -784,19 +798,20 @@
                                         android:layout_height="30dp"
                                         android:visibility="gone"
                                         android:background="@drawable/go_to_card_image" />
-                                    <Button
-                                        android:id="@+id/friend_deal_image"
-                                        android:layout_width="120dp"
-                                        android:layout_height="30dp"
-                                        android:visibility="gone"
-                                        android:background="@drawable/continue_image" />
 
                                 </RelativeLayout>
                             </LinearLayout>
 
+
                         </LinearLayout>
 
-
+                        <Button
+                            android:id="@+id/friend_deal_image"
+                            android:layout_width="120dp"
+                            android:layout_height="30dp"
+                            android:visibility="gone"
+                            android:layout_marginStart="10dp"
+                            android:background="@drawable/continue_image" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -825,6 +840,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/sizeLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -843,7 +859,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:gravity="center"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="70dp">
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/size_product_recycleview"
@@ -866,7 +883,6 @@
                 android:paddingRight="1dp"
                 android:paddingLeft="1dp"
                 android:background="#E8A851"
-                android:layout_marginTop="40dp"
                 android:layout_height="wrap_content">
 
 <!--                <tech.iwish.pickmall.extended.TextViewFont-->

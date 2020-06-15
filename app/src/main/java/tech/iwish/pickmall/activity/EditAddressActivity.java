@@ -149,6 +149,8 @@ public class EditAddressActivity extends AppCompatActivity implements View.OnCli
                         intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
                         intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
                         intent.putExtra("gst", getIntent().getStringExtra("gst"));
+                        intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
+                        intent.putExtra("item_type", getIntent().getStringExtra("item_type"));
                         intent.putExtra("type", "friendDeal_one_rs");
                         break;
                     case "buy_now":

@@ -55,6 +55,7 @@ public class FriendSaleAdapter extends RecyclerView.Adapter<FriendSaleAdapter.Vi
             public void onClick(View view) {
                 Intent intent = new Intent(new Intent(context , FriendsDealsAllActivity.class));
                 intent.putExtra("item_id","26");
+                intent.putExtra("item_type","friend_deal");
                 context.startActivity(intent);
             }
         });

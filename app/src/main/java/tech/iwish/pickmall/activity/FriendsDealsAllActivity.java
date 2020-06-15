@@ -45,6 +45,7 @@ public class FriendsDealsAllActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         FriendOneRsFragment friendOneRsFragment = new FriendOneRsFragment();
         bundle.putString("item_id",getIntent().getStringExtra("item_id"));
+        bundle.putString("item_type",getIntent().getStringExtra("item_type"));
         friendOneRsFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutFriendDeal, friendOneRsFragment).commit();
     }

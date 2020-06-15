@@ -60,7 +60,8 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
     private ArrayList<HashMap<String, String>> list = new ArrayList<>();
     private String product_amt, shippingCharege, WalletAmount;
     private int shippinsAmt = -1, productsAmt, grandTotal, gstint, removeDout;
-    private String product_name, select_size, product_type, discount_price, imagename, product_qty, product_id, select_color, productgst,referCode;
+    private String product_name, select_size, product_type, discount_price,
+            imagename, product_qty, product_id, select_color, productgst,referCode,item_type;
     private Share_session shareSession;
     private ProgressBar progressbar;
     private int finalamountsInt, shippingchargebuy_now;
@@ -169,6 +170,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 select_color = intent.getStringExtra("select_color");
                 product_type = intent.getStringExtra("product_type");
                 productgst = intent.getStringExtra("gst");
+                item_type = intent.getStringExtra("item_type");
 
                 gst_price.setText("0");
 
@@ -588,6 +590,8 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             jsonObject.put("product_amount", finalamountsInt);
             jsonObject.put("shippingCharge", shippingchargebuy_now);
             jsonObject.put("gst", removeDout);
+            Log.e( "a:",item_type );
+            jsonObject.put("item_type", item_type);
             jsonObject.put("payment_option", paymentmethod);
 
         } catch (JSONException e) {
@@ -656,6 +660,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             jsonObject.put("product_amount", finalamountsInt);
             jsonObject.put("shippingCharge", shippingchargebuy_now);
             jsonObject.put("gst", removeDout);
+            jsonObject.put("item_type", item_type);
             jsonObject.put("payment_option", paymentmethod);
 
         } catch (JSONException e) {
@@ -752,6 +757,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                                 intent.putExtra("product_image", imagename);
                                 intent.putExtra("discount_price", discount_price);
                                 intent.putExtra("refer_code", referCode);
+                                intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
                                 startActivity(intent);
 
                             } else {

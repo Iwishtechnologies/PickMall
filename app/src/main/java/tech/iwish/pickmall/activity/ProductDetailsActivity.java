@@ -48,6 +48,7 @@ import tech.iwish.pickmall.adapter.ProductDetailsImageAdapter;
 import tech.iwish.pickmall.adapter.ProductSizeAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
+import tech.iwish.pickmall.countdowntime.FriendDeaTimeSet;
 import tech.iwish.pickmall.fragment.ProductOverViewFragment;
 import tech.iwish.pickmall.fragment.ProductSideColorBottomFragment;
 import tech.iwish.pickmall.other.CardCount;
@@ -66,28 +67,32 @@ import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 public class ProductDetailsActivity extends AppCompatActivity implements View.OnClickListener, ProductCountInterface {
 
     private TextView ac_priceEdit, dicount_price_Edit, title_name_edit, select_size_color, one_product_name, quty_value,
-            one_rs_amount, one_rs_dicount_price, dicount_price_text, product_count_value, new_user_text, total_user_req,rating;
+            one_rs_amount, one_rs_dicount_price, dicount_price_text, product_count_value, new_user_text, total_user_req, rating,timeset;
     private List<ProductDetailsImageList> productDetailsListImageList = new ArrayList<>();
     private List<ProductSizeColorList> productSizeColorLists = new ArrayList<>();
     private ViewPager productImageDetailsViewpager;
-    private String product_color, product_name, product_Image, sku, actual_price, discount_price, product_id, vendor_id,aaa;
+    private String product_color, product_name, product_Image, sku, actual_price, discount_price, product_id, vendor_id, aaa;
     private RecyclerView color_size_image_recycle_view, size_product_recycleview;
     private RatingBar ratingcheck;
-    private Button add_card_btn, buy_now_btn, one_rs_button_place_order,product_colorbtn,go_to_card,friend_deal_image;
+    private Button add_card_btn, buy_now_btn, one_rs_button_place_order, product_colorbtn, go_to_card, friend_deal_image;
     private LinearLayout product_layout, one_rs_main_layout, button_layout, one_rs_bottom_layout, one_rs_rule, store, wishlist, product_count_layout;
     private ScrollView scrollview;
-    private String PRODUCT_TYPE, total_request_user, new_user_request, gst , select_size,product_qty,type,product_type;
+    private String PRODUCT_TYPE, total_request_user, new_user_request, gst, select_size, product_qty, type, product_type ,item_type;
     private RelativeLayout card;
     private Map data;
     Share_session shareSession;
     private ImageView save_hearth, sub_button, add_button;
     public boolean wishlistchechi;
     private List<ProductColorList> productColorLists = new ArrayList<>();
-    private ProductSizeInterFace productSizeInterFace ;
+    private ProductSizeInterFace productSizeInterFace;
+    private LinearLayout sizeLayout, qty_layouts,dicount_price_per_mrp_layout,friendDealTimeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(R.layout.activity_product_details);
 
         getSupportActionBar().hide();
@@ -107,6 +112,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         sub_button = (ImageView) findViewById(R.id.sub_button);
         add_button = (ImageView) findViewById(R.id.add_button);
         quty_value = (TextView) findViewById(R.id.quty_value);
+        timeset = (TextView) findViewById(R.id.timeset);
         size_product_recycleview = (RecyclerView) findViewById(R.id.size_product_recycleview);
 
         productImageDetailsViewpager = (ViewPager) findViewById(R.id.productImageDetailsViewpager);
@@ -128,6 +134,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         store = (LinearLayout) findViewById(R.id.store);
         wishlist = (LinearLayout) findViewById(R.id.wishlist);
         product_count_layout = (LinearLayout) findViewById(R.id.product_count_layout);
+        sizeLayout = (LinearLayout) findViewById(R.id.sizeLayout);
+        qty_layouts = (LinearLayout) findViewById(R.id.qty_layouts);
+        dicount_price_per_mrp_layout = (LinearLayout) findViewById(R.id.dicount_price_per_mrp_layout);
+        friendDealTimeLayout = (LinearLayout) findViewById(R.id.friendDealTimeLayout);
 
         scrollview = (ScrollView) findViewById(R.id.scrollview);
 
@@ -172,30 +182,27 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         sku = intent.getStringExtra("sku");
 
         switch (product_type) {
-//            case "flashSale":
-//                All_Image(Constants.FLASH_SALE_IMAGE);
-//                coloAndImageData(Constants.FLASH_SALE_COLOR_SIDE);
-//                sizedatafetch(Constants.FLASH_SALE_SIZE);
-//                PRODUCT_TYPE = "flashsale";
-//                product_layout.setVisibility(View.VISIBLE);
-//                one_rs_main_layout.setVisibility(View.GONE);
-//                one_rs_bottom_layout.setVisibility(View.GONE);
-//                one_rs_rule.setVisibility(View.GONE);
-//                button_layout.setVisibility(View.VISIBLE);
-//                break;
             case "flashSale":
             case "allProduct":
                 All_Image(Constants.PRODDUCT_IMAGE);
                 coloAndImageData(Constants.PRODDUCT_SIZE_COLOR);
                 sizedatafetch(Constants.PRODDUCT_SIZE);
-
                 PRODUCT_TYPE = "product";
                 product_layout.setVisibility(View.VISIBLE);
                 one_rs_main_layout.setVisibility(View.GONE);
                 one_rs_bottom_layout.setVisibility(View.GONE);
                 one_rs_rule.setVisibility(View.GONE);
+                friendDealTimeLayout.setVisibility(View.GONE);
                 button_layout.setVisibility(View.VISIBLE);
+                sizeLayout.setVisibility(View.VISIBLE);
+                qty_layouts.setVisibility(View.VISIBLE);
+                dicount_price_per_mrp_layout.setVisibility(View.VISIBLE);
 
+                float mrp = Float.parseFloat(discount_price);
+                float actual_prices = Float.parseFloat(actual_price);
+                float sub = mrp - actual_prices;
+                float div = sub / actual_prices;
+                aaa = String.valueOf((int) (div * 100));
                 break;
             case "friendsaleoneRs":
 
@@ -206,18 +213,17 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 one_rs_main_layout.setVisibility(View.VISIBLE);
                 one_rs_bottom_layout.setVisibility(View.VISIBLE);
                 one_rs_rule.setVisibility(View.VISIBLE);
-
                 add_card_btn.setVisibility(View.GONE);
                 friend_deal_image.setVisibility(View.VISIBLE);
-
-
-                SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + discount_price);
-                content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
-                one_rs_dicount_price.setText(content);
+                friendDealTimeLayout.setVisibility(View.VISIBLE);
+                sizeLayout.setVisibility(View.GONE);
+                qty_layouts.setVisibility(View.GONE);
+                dicount_price_per_mrp_layout.setVisibility(View.GONE);
 
                 one_rs_button_place_order.setText(getResources().getString(R.string.rs_symbol) + actual_price + " Start a Deal");
                 total_request_user = getIntent().getStringExtra("total_request_user");
                 new_user_request = getIntent().getStringExtra("new_user_request");
+                item_type = getIntent().getStringExtra("item_type");
                 total_user_req.setText("Request " + total_request_user + " Users Total");
                 new_user_text.setText("(" + new_user_request + " new user at least)");
                 PRODUCT_TYPE = "frienddeal";
@@ -225,6 +231,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 coloAndImageData(Constants.FRIEND_SALE_SIZE_COLOR);
                 sizedatafetch(Constants.FRIEND_SALE_SIZE);
 
+                Log.e("ppp",item_type);
+                if(item_type.equals("friend_deal")){
+                    new FriendDeaTimeSet(product_id,shareSession.getUserDetail().get("UserMobile"),ProductDetailsActivity.this,timeset,item_type).Time_12_H();
+                }else {
+                    new FriendDeaTimeSet(product_id,shareSession.getUserDetail().get("UserMobile"),ProductDetailsActivity.this,timeset,item_type).Time_24_H();
+                }
                 break;
         }
 
@@ -240,7 +252,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             go_to_card.setVisibility(View.GONE);
             add_card_btn.setVisibility(View.VISIBLE);
         }
-
 
         productSizeInterFace = new ProductSizeInterFace() {
             @Override
@@ -264,11 +275,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         ac_priceEdit.setText(getResources().getString(R.string.rs_symbol) + actual_price);
         title_name_edit.setText(product_name);
 
-        float mrp = Float.parseFloat(discount_price);
-        float actual_prices = Float.parseFloat(actual_price);
-        float sub = mrp - actual_prices;
-        float div = sub / actual_prices;
-        aaa = String.valueOf((int) (div * 100));
 
         dicount_price_text.setText(" " + aaa + "% OFF");
 
@@ -432,7 +438,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             case R.id.select_size_color:
             case R.id.add_card_btn:
 //                product_colorbtn.getText().toString()
-                 type="add_to_card";
+                type = "add_to_card";
                 addCardProcees();
 //                bundle = new Bundle();
 //                productSideColorBottomFragment = new ProductSideColorBottomFragment(productColorLists, productSizeColorLists);
@@ -514,54 +520,55 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.friend_deal_image:
                 frienddeaalmethod();
-
                 break;
         }
     }
 
     private void frienddeaalmethod() {
 
-        if(select_size == null){
-            Toast.makeText(this, "Select size", Toast.LENGTH_SHORT).show();
-        }else {
-            data = shareSession.Fetchdata();
-            if ((data.get(NUMBER_ADDRESS) != null) && (data.get(PINCODE_ADDRESS) != null) && (data.get(HOUSE_NO_ADDRESS) != null)) {
-                Intent intent = new Intent(this, SaveAddressActivity.class);
-                intent.putExtra("product_id", product_id);
-                intent.putExtra("product_name", product_name);
-                intent.putExtra("select_size", select_size);
-                intent.putExtra("actual_price", actual_price);
-                intent.putExtra("discount_price", discount_price);
-                intent.putExtra("imagename", product_Image);
-                intent.putExtra("select_color", product_colorbtn.getText().toString());
-                intent.putExtra("product_qty", quty_value.getText().toString());
-                intent.putExtra("product_type", product_type);
-                intent.putExtra("type", "friendDeal_one_rs");
-                startActivity(intent);
-            } else {
-                Intent intent = new Intent(this, AddressActivity.class);
-                intent.putExtra("product_id", product_id);
-                intent.putExtra("product_name", product_name);
-                intent.putExtra("select_size", select_size);
-                intent.putExtra("actual_price", actual_price);
-                intent.putExtra("discount_price", discount_price);
-                intent.putExtra("imagename", product_Image);
-                intent.putExtra("product_qty", quty_value.getText().toString());
-                intent.putExtra("select_color", product_colorbtn.getText().toString());
-                intent.putExtra("product_type", product_type);
-                intent.putExtra("type", "friendDeal_one_rs");
-                intent.putExtra("gst", gst);
-                startActivity(intent);
-            }
+//        Toast.makeText(this, ""+getIntent().getStringExtra("new_user_request"), Toast.LENGTH_SHORT).show();
+        data = shareSession.Fetchdata();
+        if ((data.get(NUMBER_ADDRESS) != null) && (data.get(PINCODE_ADDRESS) != null) && (data.get(HOUSE_NO_ADDRESS) != null)) {
+            Intent intent = new Intent(this, SaveAddressActivity.class);
+            intent.putExtra("product_id", product_id);
+            intent.putExtra("product_name", product_name);
+            intent.putExtra("select_size", select_size);
+            intent.putExtra("actual_price", actual_price);
+            intent.putExtra("discount_price", discount_price);
+            intent.putExtra("imagename", product_Image);
+            intent.putExtra("select_color", product_colorbtn.getText().toString());
+            intent.putExtra("product_qty", quty_value.getText().toString());
+            intent.putExtra("product_type", product_type);
+            intent.putExtra("item_type", item_type);
+            intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
+            intent.putExtra("type", "friendDeal_one_rs");
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, AddressActivity.class);
+            intent.putExtra("product_id", product_id);
+            intent.putExtra("product_name", product_name);
+            intent.putExtra("select_size", select_size);
+            intent.putExtra("actual_price", actual_price);
+            intent.putExtra("discount_price", discount_price);
+            intent.putExtra("imagename", product_Image);
+            intent.putExtra("product_qty", quty_value.getText().toString());
+            intent.putExtra("select_color", product_colorbtn.getText().toString());
+            intent.putExtra("product_type", product_type);
+            intent.putExtra("item_type", item_type);
+            intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
+            intent.putExtra("type", "friendDeal_one_rs");
+            intent.putExtra("gst", gst);
+            startActivity(intent);
         }
+
 
     }
 
     private void addCardProcees() {
 
-        if(select_size == null){
+        if (select_size == null) {
             Toast.makeText(this, "Select size", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             InsertDataCard();
         }
 

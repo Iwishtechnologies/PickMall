@@ -83,8 +83,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
                         Intent intent;
                         switch (itemLists.get(position).getItem_type()) {
                             case "friend_deal":
+                            case "90_Rs":
                                 intent = new Intent(new Intent(context, FriendsDealsAllActivity.class));
                                 intent.putExtra("item_id",itemLists.get(position).getItem_id());
+                                intent.putExtra("item_type",itemLists.get(position).getItem_type());
                                 context.startActivity(intent);
                                 break;
                             case "one_rs":
