@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +21,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.sql.RowSetReader;
 
@@ -45,6 +50,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
     Intent intent;
     Share_session share_session;
     String dis_amt;
+    LinearLayout returnview;
     Button help;
     RatingBar RatingBar;
     ShimmerFrameLayout shimmer;
@@ -62,7 +68,9 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         InitializeActivity();
         SetActivityData();
         ActivityAction();
+
     }
+
     private  void InitializeActivity(){
         share_session= new Share_session(OrderDetailActivity.this);
         actual_price= findViewById(R.id.actual_price);
@@ -91,6 +99,13 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         RatingBar= findViewById(R.id.rating);
         shimmer= findViewById(R.id.shimmer);
         returnorder= findViewById(R.id.returnorder);
+        returnview= findViewById(R.id.returnview);
+        Log.e("dateadd", String.valueOf(addDay(getIntent().getExtras().getString("delivery_date"),7)));
+        if(addDay(getIntent().getExtras().getString("delivery_date"),7)){
+            returnview.setVisibility(View.VISIBLE);
+        }else {
+            returnview.setVisibility(View.GONE);
+        }
         GetAddress(getIntent().getExtras().getString("address"));
         GetVendorDetail(getIntent().getExtras().getString("vendor_id"));
         Connectivity();
@@ -100,7 +115,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
     private void ActivityAction(){
         help.setOnClickListener(view -> startActivity(new Intent(OrderDetailActivity.this,SupportActivity.class)));
         RatingBar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> uploadRating(getIntent().getExtras().getString("product_id"),share_session.getUserDetail().get("id"), String.valueOf(rating)));
-//        returnorder.setOnClickListener(view -> startActivity(new Intent(OrderDetailActivity.this,ReturnOrderActivity.class).putExtra("image",getIntent().getExtras().getString("image")).putExtra("name",getIntent().getExtras().getString("ProductName")).putExtra("orderId",getIntent().getExtras().getString("orderid")).putExtra("orerAmt",getIntent().getExtras().getString("oederAmount")).putExtra("product_id",getIntent().getExtras().getString("product_id"))));
+        returnorder.setOnClickListener(view -> startActivity(new Intent(OrderDetailActivity.this,ReturnOrderActivity.class).putExtra("image",getIntent().getExtras().getString("image")).putExtra("name",getIntent().getExtras().getString("ProductName")).putExtra("orderId",getIntent().getExtras().getString("orderid")).putExtra("orerAmt",getIntent().getExtras().getString("oederAmount")).putExtra("product_id",getIntent().getExtras().getString("product_id"))));
         seller.setOnClickListener(view -> {
             Intent intent= new Intent(OrderDetailActivity.this,VendorStoreActivity.class);
             intent.putExtra("vendor_id",getIntent().getExtras().getString("vendor_id"));
@@ -213,8 +228,6 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         });
 
     }
-
-
 
     private void uploadRating(String pid , String cid, final String rating){
         OkHttpClient client = new OkHttpClient();
@@ -379,6 +392,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         });
 
     }
+
     public void Connectivity(){
         InternetAvailabilityChecker mInternetAvailabilityChecker;
         mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
@@ -394,6 +408,37 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         }
     }
 
+    public static boolean addDay(String oldDate, int numberOfDays) {
+        Date current = null,result = null;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(dateFormat.parse(oldDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        c.add(Calendar.DAY_OF_YEAR,numberOfDays);
+        dateFormat=new SimpleDateFormat("dd-MM-yyyy");
+        Date newDate=new Date(c.getTimeInMillis());
+        String resultDate=dateFormat.format(newDate);
 
+        Date date = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        String formattedDate = df.format(date);
+        try {
+             current = df.parse(formattedDate);
+             result = df.parse(resultDate);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if(current.after(result)){
+            return false;
+        }else {
+            return true;
+        }
+
+    }
 
 }

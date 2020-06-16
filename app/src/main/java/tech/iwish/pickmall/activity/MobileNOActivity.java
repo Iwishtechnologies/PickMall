@@ -371,6 +371,7 @@ public class MobileNOActivity extends AppCompatActivity  implements InternetConn
     }
 
 
+
     public void GoogleApi(final String mobile, String name)
     {
 //        File finalFile = new File(getRealPathFromURI(path));
@@ -391,7 +392,15 @@ public class MobileNOActivity extends AppCompatActivity  implements InternetConn
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
-                Toast.makeText(MobileNOActivity.this, "Connection Timeout", Toast.LENGTH_SHORT).show();
+                MobileNOActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                        mainview.setAlpha(1);
+                        Toast.makeText(MobileNOActivity.this, "Connection Timeout", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
 
             @Override
@@ -440,6 +449,7 @@ public class MobileNOActivity extends AppCompatActivity  implements InternetConn
         });
     }
 
+
     public void GetAddress(String mobile)
     {
         OkHttpClient okHttpClient1 = new OkHttpClient();
@@ -456,13 +466,10 @@ public class MobileNOActivity extends AppCompatActivity  implements InternetConn
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
-                MobileNOActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBar.setVisibility(View.GONE);
-                        mainview.setAlpha(1);
-                        Toast.makeText(MobileNOActivity.this, "Connection Time Out", Toast.LENGTH_SHORT).show();
-                    }
+                MobileNOActivity.this.runOnUiThread(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    mainview.setAlpha(1);
+                    Toast.makeText(MobileNOActivity.this, "Connection Time Out", Toast.LENGTH_SHORT).show();
                 });
             }
 
@@ -499,6 +506,7 @@ public class MobileNOActivity extends AppCompatActivity  implements InternetConn
 
         });
     }
+
 
     public void GetUserProfile(String mobile)
     {
@@ -546,15 +554,12 @@ public class MobileNOActivity extends AppCompatActivity  implements InternetConn
 
                             }
 
-                            MobileNOActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    progressBar.setVisibility(View.GONE);
-                                    mainview.setAlpha(1);
-                                    Intent intent= new Intent(MobileNOActivity.this,MainActivity.class);
-                                    startActivity(intent);
+                            MobileNOActivity.this.runOnUiThread(() -> {
+                                progressBar.setVisibility(View.GONE);
+                                mainview.setAlpha(1);
+                                Intent intent= new Intent(MobileNOActivity.this,MainActivity.class);
+                                startActivity(intent);
 //                                    Animatoo.animateFade(UserDetail.this);
-                                }
                             });
 
                         }
@@ -567,6 +572,8 @@ public class MobileNOActivity extends AppCompatActivity  implements InternetConn
 
         });
     }
+
+
 
 
 }

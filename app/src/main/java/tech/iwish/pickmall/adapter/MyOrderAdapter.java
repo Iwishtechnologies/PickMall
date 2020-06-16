@@ -88,6 +88,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
                 intent.putExtra("total_amount",orderLists.get(position).getOrder_amount());
                 intent.putExtra("product_id",orderLists.get(position).getProduct_id());
                 intent.putExtra("vendor_id",orderLists.get(position).getVendor_id());
+                intent.putExtra("delivery_date",orderLists.get(position).getDelivery_date());
                 context.startActivity(intent);
 
             }

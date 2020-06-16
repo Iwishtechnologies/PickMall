@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -49,6 +51,8 @@ public class ReturnOrderActivity extends AppCompatActivity {
     int UploadCode=0,opencode=0;
     File path1,path2,path3;
     Boolean img1=false,img2=false,img3=false;
+    LinearLayout imageview ,mainview;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +76,16 @@ public class ReturnOrderActivity extends AppCompatActivity {
         upload1=findViewById(R.id.upload1);
         upload2=findViewById(R.id.upload2);
         upload3=findViewById(R.id.upload3);
+        imageview=findViewById(R.id.Imagesview);
+        mainview=findViewById(R.id.mainview);
+        progressBar=findViewById(R.id.progress);
         Log.e("dsfsfdsag",getIntent().getExtras().getString("orderId"));
     }
     private void ActivityAction(){
      Image1.setOnClickListener(view -> { UploadCode=1;ImagePicker.Companion.with(ReturnOrderActivity.this).compress(1024).maxResultSize(1080, 1080).start(); });
      Image2.setOnClickListener(view -> { UploadCode=2;ImagePicker.Companion.with(ReturnOrderActivity.this).compress(1024).maxResultSize(1080, 1080).start(); });
      Image3.setOnClickListener(view -> { UploadCode=3;ImagePicker.Companion.with(ReturnOrderActivity.this).compress(1024).maxResultSize(1080, 1080).start(); });
-     submit.setOnClickListener(view ->{ MakeRequest(path1,path2,path3,getIntent().getExtras().getString("orderId"),reason.getText().toString(),getIntent().getExtras().getString("orerAmt"));
-     });
+     submit.setOnClickListener(view ->{if(ValidateInput(reason.getText().toString())){mainview.setAlpha((float) 0.2);progressBar.setVisibility(View.VISIBLE);  MakeRequest(path1,path2,path3,getIntent().getExtras().getString("orderId"),reason.getText().toString(),getIntent().getExtras().getString("orerAmt")); } });
      }
     private void SetActivityData(){
         Glide.with(ReturnOrderActivity.this).load(Constants.IMAGES+getIntent().getExtras().getString("image")).into(productImage);
@@ -93,7 +99,8 @@ public class ReturnOrderActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data != null) {
+        if (data.getData() != null) {
+            imageview.setVisibility(View.VISIBLE);
           if(UploadCode==1){
               img1=true;
               path1 = new File(String.valueOf(data.getData()).substring(7));
@@ -132,7 +139,7 @@ public class ReturnOrderActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
-                ReturnOrderActivity.this.runOnUiThread(() -> Toast.makeText(ReturnOrderActivity.this, "Connection Timeout", Toast.LENGTH_SHORT).show());
+                ReturnOrderActivity.this.runOnUiThread(() -> {mainview.setAlpha(1);progressBar.setVisibility(View.GONE);Toast.makeText(ReturnOrderActivity.this, "Connection Timeout", Toast.LENGTH_SHORT).show(); });
                 Log.e("error", String.valueOf(e));
             }
 
@@ -146,12 +153,16 @@ public class ReturnOrderActivity extends AppCompatActivity {
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
-                            ReturnOrderActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-
-
-                                }
+                            ReturnOrderActivity.this.runOnUiThread(() -> {
+                              mainview.setAlpha(1);
+                              progressBar.setVisibility(View.GONE);
+                                Toast.makeText(ReturnOrderActivity.this, "return request received", Toast.LENGTH_SHORT).show();
+                            });
+                        }else {
+                            ReturnOrderActivity.this.runOnUiThread(() -> {
+                                mainview.setAlpha(1);
+                                progressBar.setVisibility(View.VISIBLE);
+                                Toast.makeText(ReturnOrderActivity.this, "Connection Timeout", Toast.LENGTH_SHORT).show();
                             });
                         }
                     }
@@ -159,5 +170,31 @@ public class ReturnOrderActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private boolean ValidateInput(String  reas){
+        if(reas.isEmpty()){
+            reason.setError("Write Reason");
+            return false;
+        }else {
+            if(img1){
+               if(img2){
+                   if(img3){
+                       return true;
+                   }
+                   else {
+                       Toast.makeText(this, "Image3 Empty", Toast.LENGTH_SHORT).show();
+                       return false;
+                   }
+               }else {
+                   Toast.makeText(this, "Image2 Empty", Toast.LENGTH_SHORT).show();
+                   return false;
+               }
+            }else {
+                Toast.makeText(this, "Image1 Empty", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+        }
     }
 }

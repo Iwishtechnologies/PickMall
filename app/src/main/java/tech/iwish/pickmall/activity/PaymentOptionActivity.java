@@ -550,7 +550,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                                     public void run() {
 
                                         if (value.equals("wallet")) {
-                                            WalletAmountUpdate(null);
+                                            WalletAmountUpdate("scsdcdsvd");
                                             progressbar.setVisibility(View.GONE);
                                         } else {
                                             progressbar.setVisibility(View.GONE);
@@ -691,7 +691,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                                     public void run() {
 
                                         if (value.equals("wallet")) {
-                                            WalletAmountUpdate(null);
+                                            WalletAmountUpdate("");
                                             progressbar.setVisibility(View.GONE);
                                         } else {
                                             progressbar.setVisibility(View.GONE);
@@ -749,7 +749,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
-
+                            Log.d("ss",check_friend_deal);
                             if (check_friend_deal.equals("friendDeal_one_rs_ord")) {
 
                                 Intent intent = new Intent(PaymentOptionActivity.this, OneRsShareActivity.class);

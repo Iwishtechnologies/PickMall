@@ -130,7 +130,6 @@ public class EditAddressActivity extends AppCompatActivity implements View.OnCli
 
 
                 Intent intent;
-
                 switch (types) {
                     case "CardActivity":
                         intent = new Intent(EditAddressActivity.this, AddressActivity.class);
@@ -152,6 +151,7 @@ public class EditAddressActivity extends AppCompatActivity implements View.OnCli
                         intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
                         intent.putExtra("item_type", getIntent().getStringExtra("item_type"));
                         intent.putExtra("type", "friendDeal_one_rs");
+                        startActivity(intent);
                         break;
                     case "buy_now":
                         intent = new Intent(EditAddressActivity.this, AddressActivity.class);
@@ -203,26 +203,88 @@ public class EditAddressActivity extends AppCompatActivity implements View.OnCli
                         startActivity(new Intent(EditAddressActivity.this, CardActivity.class));
                     } else {
 
-                        if (getIntent().getStringExtra("product_qty") != null) {
-                            Intent intent = new Intent(EditAddressActivity.this, SaveAddressActivity.class);
-                            intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
-                            intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
-                            intent.putExtra("actual_price", getIntent().getStringExtra("actual_price"));
-                            intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
-                            intent.putExtra("imagename", getIntent().getStringExtra("imagename"));
-                            intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
-                            intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
-                            intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
-                            intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
-                            intent.putExtra("gst", getIntent().getStringExtra("gst"));
-                            intent.putExtra("type", "buy_now");
-                            startActivity(intent);
+//                        if (getIntent().getStringExtra("product_qty") != null) {
+//                            Intent intent = new Intent(EditAddressActivity.this, SaveAddressActivity.class);
+//                            intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+//                            intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
+//                            intent.putExtra("actual_price", getIntent().getStringExtra("actual_price"));
+//                            intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+//                            intent.putExtra("imagename", getIntent().getStringExtra("imagename"));
+//                            intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
+//                            intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
+//                            intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
+//                            intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
+//                            intent.putExtra("gst", getIntent().getStringExtra("gst"));
+//                            intent.putExtra("type", "buy_now");
+//                            startActivity(intent);
+//
+//                        }else if (getIntent().getStringExtra("type").equals("friendDeal_one_rs")){
+//                            Intent intent = new Intent();
+//                            intent = new Intent(EditAddressActivity.this, AddressActivity.class);
+//                            intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+//                            intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
+//                            intent.putExtra("actual_price", getIntent().getStringExtra("actual_price"));
+//                            intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+//                            intent.putExtra("imagename", getIntent().getStringExtra("imagename"));
+//                            intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
+//                            intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
+//                            intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
+//                            intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
+//                            intent.putExtra("gst", getIntent().getStringExtra("gst"));
+//                            intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
+//                            intent.putExtra("item_type", getIntent().getStringExtra("item_type"));
+//                            intent.putExtra("type", "friendDeal_one_rs");
+//                            startActivity(intent);
 
-                        } else {
-                            Intent intent = new Intent(EditAddressActivity.this, SaveAddressActivity.class);
-                            intent.putExtra("type", "CardActivity");
-                            startActivity(intent);
+
+                        Intent intent;
+                        switch (types) {
+                            case "CardActivity":
+                                intent = new Intent(EditAddressActivity.this, SaveAddressActivity.class);
+                                intent.putExtra("type", "CardActivity");
+                                startActivity(intent);
+                                break;
+                            case "friendDeal_one_rs":
+                                intent = new Intent(EditAddressActivity.this, SaveAddressActivity.class);
+                                intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                                intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
+                                intent.putExtra("actual_price", getIntent().getStringExtra("actual_price"));
+                                intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                                intent.putExtra("imagename", getIntent().getStringExtra("imagename"));
+                                intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
+                                intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
+                                intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
+                                intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
+                                intent.putExtra("gst", getIntent().getStringExtra("gst"));
+                                intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
+                                intent.putExtra("item_type", getIntent().getStringExtra("item_type"));
+                                intent.putExtra("type", "friendDeal_one_rs");
+                                startActivity(intent);
+                                break;
+                            case "buy_now":
+                                intent = new Intent(EditAddressActivity.this, SaveAddressActivity.class);
+                                intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                                intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
+                                intent.putExtra("actual_price", getIntent().getStringExtra("actual_price"));
+                                intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                                intent.putExtra("imagename", getIntent().getStringExtra("imagename"));
+                                intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
+                                intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
+                                intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
+                                intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
+                                intent.putExtra("gst", getIntent().getStringExtra("gst"));
+                                intent.putExtra("type", "buy_now");
+                                startActivity(intent);
+                                break;
+
                         }
+
+
+//                        }else {
+//                            Intent intent = new Intent(EditAddressActivity.this, SaveAddressActivity.class);
+//                            intent.putExtra("type", "CardActivity");
+//                            startActivity(intent);
+//                        }
 
                     }
 

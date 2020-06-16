@@ -7,12 +7,23 @@
     android:background="@color/silderColor"
     android:orientation="vertical"
     tools:context=".activity.ProductActivity">
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/progress"
+        android:outlineAmbientShadowColor="@color/colorAccent"
+        android:outlineSpotShadowColor="@color/colorAccent"
+        android:progressTint="@color/colorAccent"
+        android:indeterminateTint="@color/colorAccent"
+        android:layout_centerInParent="true"/>
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
+        android:id="@+id/mainview"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -186,6 +197,7 @@
             android:layout_width="match_parent"
             android:padding="20dp"
             android:id="@+id/Imagesview"
+            android:visibility="gone"
             android:background="@color/white"
             android:orientation="horizontal"
             android:layout_marginTop="5dp"

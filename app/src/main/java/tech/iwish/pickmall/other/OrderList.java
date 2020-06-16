@@ -1,10 +1,10 @@
 package tech.iwish.pickmall.other;
 
 public class OrderList  {
-    String orderid,customerid,delhivery_address,order_amount,payment_method,gst,shipping_charge,status,product_id,qty,type,color,size,datetime,item_id,actual_price,discount_price,discount_price_per,pimg,FakeRating,hot_product,hsn_no,weight,flash_sale,product_name,order_status,vendor_id;
+    String orderid,customerid,delhivery_address,order_amount,payment_method,gst,shipping_charge,status,product_id,qty,type,color,size,datetime,item_id,actual_price,discount_price,discount_price_per,pimg,FakeRating,hot_product,hsn_no,weight,flash_sale,product_name,order_status,vendor_id,delivery_date;
 
 
-    public OrderList(String orderid,String customerid,String delhivery_address,String order_amount,String payment_method,String gst,String shipping_charge,String status,String product_id,String qty,String type,String color,String size,String datetime,String item_id,String actual_price,String discount_price,String discount_price_per,String pimg,String FakeRating,String hot_product,String hsn_no,String weight,String flash_sale,String product_name,String order_status ,String vendor_id){
+    public OrderList(String orderid,String customerid,String delhivery_address,String order_amount,String payment_method,String gst,String shipping_charge,String status,String product_id,String qty,String type,String color,String size,String datetime,String item_id,String actual_price,String discount_price,String discount_price_per,String pimg,String FakeRating,String hot_product,String hsn_no,String weight,String flash_sale,String product_name,String order_status ,String vendor_id,String delivery_date){
          this.orderid=orderid;
          this.customerid=customerid;
          this.delhivery_address=delhivery_address;
@@ -32,6 +32,8 @@ public class OrderList  {
          this.product_name=product_name;
          this.order_status=order_status;
          this.vendor_id=vendor_id;
+         this.delivery_date=delivery_date;
+
     }
 
     public void setOrderid(String orderid){
@@ -115,6 +117,9 @@ public class OrderList  {
     public void  setVendor_id(String vendor_id){
         this.vendor_id=vendor_id;
     }
+    public void  setDelivery_date(String delivery_date){
+        this.delivery_date=delivery_date;
+    }
 
     public String getOrderid(){
         return orderid;
@@ -170,6 +175,8 @@ public class OrderList  {
         return order_status;
     } public String getVendor_id(){
         return vendor_id;
+    }  public String getDelivery_date(){
+        return delivery_date;
     }
 
 
