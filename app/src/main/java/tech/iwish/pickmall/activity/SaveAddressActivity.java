@@ -194,9 +194,11 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         cart_product_size.setText("Size : " + B_N_product_size);
         cart_product_act_amount.setText(getResources().getString(R.string.rs_symbol) + B_N_product_acture_price);
         product_qty.setText(B_N_product_qty);
-        SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + getIntent().getStringExtra("discount_price"));
-        content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
-        dicount_price.setText(content);
+        if(!type.equals("friendDeal_one_rs")){
+            SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + getIntent().getStringExtra("discount_price"));
+            content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
+            dicount_price.setText(content);
+        }
         String a = Constants.IMAGES + getIntent().getStringExtra("imagename");
         Glide.with(this).load(a).into(card_product_image);
         card_product_recycleview.setVisibility(View.GONE);

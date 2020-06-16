@@ -100,6 +100,7 @@ public class Constants {
     public static String FRIENDDEAL_TIME_SET = URL+"friendDeal_time_set";
     public static String FRIENDEAL_PRODUCT_REMOVE = URL+"friendDeal_product_remove";
     public static String GENDER_UPDATE = URL+"gender_update";
+    public static String PREPAID_PRODUCT = URL+"prepaid_product";
 
     public static String IMAGES = "http://pickmall.iwishtech.xyz/img/";
 //        public static String IMAGES = "http://173.212.226.143:8086/img/";

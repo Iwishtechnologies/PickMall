@@ -51,6 +51,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             case "FilterActivity":
                 productloadfradment(getIntent().getStringExtra("itemId"), getIntent().getStringExtra("itemName"), "FilterActivity");
                 break;
+            case "prepaid":
+                productloadfradment("", getIntent().getStringExtra("itemName"), "prepaid");
+                break;
 
         }
 

@@ -48,7 +48,7 @@ public class FriendDeaTimeSet {
     TextView timeset;
     String item_type;
 
-    public FriendDeaTimeSet(String product_id, String client_number, Activity activity, TextView textView , String item_type) {
+    public FriendDeaTimeSet(String product_id, String client_number, Activity activity, TextView textView, String item_type) {
         this.product_id = product_id;
         this.client_number = client_number;
         this.activity = activity;
@@ -244,7 +244,7 @@ public class FriendDeaTimeSet {
                             ProductSetTime.set(Calendar.MINUTE, Integer.parseInt(m));
                             ProductSetTime.set(Calendar.SECOND, Integer.parseInt(s));
                             ProductSetTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(d) - 1);
-                            ProductSetTime.set(Calendar.MONTH, Integer.parseInt(mo) +0);
+                            ProductSetTime.set(Calendar.MONTH, Integer.parseInt(mo) + 0);
                             ProductSetTime.set(Calendar.YEAR, Integer.parseInt(y));
                             Calendar a = ProductSetTime;
 //                            a.setTime(ProductSetTime.getTime());
@@ -359,12 +359,24 @@ public class FriendDeaTimeSet {
 
     private void updateCountDownText() {
 
+//        https://stackoverflow.com/questions/12475873/android-countdown-timer-time
+
+        int days = (int) ((mTimeLeftInMillis / 1000) / 86400);
         int hours = (int) (mTimeLeftInMillis / 1000) / 3600;
         int minutes = (int) ((mTimeLeftInMillis / 1000) % 3600) / 60;
         int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
 
+        Log.e("ppp", String.valueOf(days));
+
         String timeLeftFormatted;
-        if (hours > 0) {
+        if (days > 0) {
+
+            hours = (int) (((mTimeLeftInMillis / 1000) - (days
+                    * 86400)) / 3600);
+
+            timeLeftFormatted = String.format(Locale.getDefault(),
+                    "%dD:%d:%02d:%02d", days, hours, minutes, seconds);
+        } else if (hours > 0) {
             timeLeftFormatted = String.format(Locale.getDefault(),
                     "%d:%02d:%02d", hours, minutes, seconds);
         } else {

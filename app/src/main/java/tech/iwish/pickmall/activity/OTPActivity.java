@@ -45,6 +45,7 @@ public class OTPActivity extends AppCompatActivity implements  InternetConnectiv
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_o_t_p);
+
         progressBar = findViewById(R.id.progress);
         mainview = findViewById(R.id.mainview);
         Connectivity();
@@ -86,10 +87,16 @@ public class OTPActivity extends AppCompatActivity implements  InternetConnectiv
         okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
-                mainview.setAlpha(1);
-                progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(OTPActivity.this, "Connection Timeout", Toast.LENGTH_SHORT).show();
+                OTPActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        e.printStackTrace();
+                        mainview.setAlpha(1);
+                        progressBar.setVisibility(View.INVISIBLE);
+                        Toast.makeText(OTPActivity.this, "Connection Timeout", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override

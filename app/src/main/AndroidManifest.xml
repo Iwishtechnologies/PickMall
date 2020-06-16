@@ -200,7 +200,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
         <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="rzp_test_cqTSMSd3guM3Ej" />

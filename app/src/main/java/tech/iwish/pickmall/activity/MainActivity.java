@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity
 //    private static final long START_TIME_IN_MILLIS = 86400000;
 //        private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     private long mTimeLeftInMillis;
-    private LinearLayout viewAll_FreshSale, product_count_card_layout, flash_line, viewall_friend_deal;
+    private LinearLayout viewAll_FreshSale, product_count_card_layout, flash_line, viewall_friend_deal,prepaid_layout;
     private ImageView homeBottom, feedBottom, cardBottom, accountBottom;
     private String bottomClickCheck;
     private SwipeRefreshLayout swipe_refresh_layout;
@@ -115,6 +115,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         share_session = new Share_session(MainActivity.this);
         data = share_session.Fetchdata();
         if (data.get(USER_NUMBER_CHECK) != null) {
@@ -142,6 +144,7 @@ public class MainActivity extends AppCompatActivity
         product_count_card_layout = (LinearLayout) findViewById(R.id.product_count_card_layout);
         flash_line = (LinearLayout) findViewById(R.id.flash_line);
         viewall_friend_deal = (LinearLayout) findViewById(R.id.viewall_friend_deal);
+        prepaid_layout = (LinearLayout) findViewById(R.id.prepaid_layout);
 
         homeBottom = (ImageView) findViewById(R.id.HomeBottom);
         feedBottom = (ImageView) findViewById(R.id.FeedBottom);
@@ -181,6 +184,7 @@ public class MainActivity extends AppCompatActivity
         accountBottom.setOnClickListener(this);
         search_bar_layout.setOnClickListener(this);
         viewall_friend_deal.setOnClickListener(this);
+        prepaid_layout.setOnClickListener(this);
         homeBottom.setImageDrawable(getResources().getDrawable(R.drawable.home_icon_orange));
         swipe_refresh_layout.setOnRefreshListener(this);
         cardProductCount();
@@ -573,6 +577,12 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.viewall_friend_deal:
                 startActivity(new Intent(MainActivity.this, FriendsDealsAllActivity.class));
+                break;
+            case R.id.prepaid_layout:
+                Intent intent1 = new Intent(MainActivity.this,ProductActivity.class);
+                intent1.putExtra("type","prepaid");
+                intent1.putExtra("itemName","Prepaid");
+                startActivity(intent1);
                 break;
         }
 

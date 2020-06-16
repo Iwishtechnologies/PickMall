@@ -101,6 +101,9 @@ public class ProductFragment extends Fragment {
             case "FilterActivity":
                 FilterProduct(Constants.FILTER_PRODUCT , getActivity().getIntent().getStringExtra("itemId"));
                 break;
+            case "prepaid":
+                datafetchProduct(Constants.PREPAID_PRODUCT , "prepaid");
+                break;
         }
 
 

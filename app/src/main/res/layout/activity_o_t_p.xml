@@ -77,11 +77,13 @@
                 android:background="@drawable/enter_mobile">
 
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:hint="Enter OTP here "
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="7dp"
                     android:backgroundTint="#FFF"
+                    android:inputType="number"
+                    android:maxLength="4"
                     android:id="@+id/otp"
                     android:layout_height="wrap_content"/>
             </LinearLayout>

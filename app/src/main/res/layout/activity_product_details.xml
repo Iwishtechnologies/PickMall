@@ -440,8 +440,8 @@
         android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/button_layout"
@@ -586,14 +586,14 @@
             </LinearLayout>
 
 
-
             <RelativeLayout
+                android:id="@+id/main"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="-40dp"
-                android:id="@+id/main"
                 android:layout_marginTop="-20dp"
+                android:layout_marginBottom="-40dp"
                 android:layout_weight="1">
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -605,41 +605,43 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:orientation="horizontal"
-                        android:gravity="right"
-                        android:paddingRight="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="40dp"
-                        android:layout_height="wrap_content">
+                        android:gravity="right"
+                        android:orientation="horizontal"
+                        android:paddingRight="30dp">
+
                         <RatingBar
                             android:id="@+id/ratingcheck"
                             style="@style/Widget.AppCompat.RatingBar.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="50dp"
                             android:layout_marginLeft="10dp"
+                            android:layout_marginTop="50dp"
                             android:layout_marginEnd="5dp"
                             android:elevation="2dp"
                             android:gravity="center"
-                            android:visibility="gone"
-                            android:progressTint="@color/white" />
+                            android:progressTint="@color/white"
+                            android:visibility="gone" />
 
                         <LinearLayout
                             android:layout_width="40dp"
                             android:layout_height="60dp"
+                            android:background="@drawable/rating_background"
                             android:gravity="center"
-                            android:paddingTop="5dp"
-                            android:background="@drawable/rating_background">
+                            android:paddingTop="5dp">
 
                             <tech.iwish.pickmall.extended.TextViewFont
-                                android:layout_width="wrap_content"
-                                android:text="4.2"
                                 android:id="@+id/ratingbox"
-                                app:fonttype="text_semi_bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
+                                android:text="4.2"
                                 android:textColor="@color/white"
-                                android:layout_height="wrap_content"/>
+                                app:fonttype="text_semi_bold" />
 
                         </LinearLayout>
+
                         <ImageView
                             android:layout_width="60dp"
                             android:layout_height="60dp"
@@ -648,269 +650,315 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingLeft="20dp"
-                        android:paddingTop="10dp">
+                        android:layout_height="wrap_content">
 
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:id="@+id/title_name_edit"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:maxLines="2"
-                            android:text="Men's FootWear"
-                            android:textColor="@color/white"
-                            android:textSize="18dp"
-                            app:fonttype="text_semi_bold" />
-                    </LinearLayout>
+                        <!--    other product            -->
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:paddingLeft="20dp"
-                            android:paddingTop="10dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-
-                                <tech.iwish.pickmall.extended.TextViewFont
-                                    android:id="@+id/priceEdit"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="₹1924"
-                                    android:textColor="@color/white"
-                                    android:textSize="20dp"
-                                    app:fonttype="text_semi_bold" />
-
-                                <tech.iwish.pickmall.extended.TextViewFont
-                                    android:id="@+id/dicount_price"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="10dp"
-                                    android:text="₹2500"
-                                    android:textColor="@color/white"
-                                    android:textSize="15dp"
-                                    app:fonttype="text_semi_bold" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/dicount_price_per_mrp_layout"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-                                <tech.iwish.pickmall.extended.TextViewFont
-                                    android:id="@+id/dicount_price_text"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="95%"
-                                    android:textColor="@color/white"
-                                    android:textSize="20dp"
-                                    app:fonttype="text_semi_bold" />
-
-                            </LinearLayout>
-                            <LinearLayout
-                                android:id="@+id/friendDealTimeLayout"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-                                <tech.iwish.pickmall.extended.TextViewFont
-                                    android:id="@+id/timeset"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text=""
-                                    android:textColor="@color/white"
-                                    android:textSize="20dp"
-                                    app:fonttype="text_semi_bold" />
-
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/qty_layouts"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical"
-                            android:paddingLeft="30dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:orientation="horizontal"
-                                android:weightSum="3">
-
-                                <ImageView
-                                    android:id="@+id/sub_button"
-                                    android:layout_width="40dp"
-                                    android:layout_height="60dp"
-                                    android:layout_weight="1"
-                                    android:src="@drawable/cart_minus" />
-
-                                <tech.iwish.pickmall.extended.TextViewFont
-                                    android:id="@+id/quty_value"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="20dp"
-                                    android:layout_marginRight="20dp"
-                                    android:layout_weight="1"
-                                    android:text="1"
-                                    android:textColor="@color/white"
-                                    android:textSize="20dp" />
-
-                                <ImageView
-                                    android:id="@+id/add_button"
-                                    android:layout_width="40dp"
-                                    android:layout_height="60dp"
-                                    android:layout_weight="1"
-                                    android:src="@drawable/cart_plus" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp">
-
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent">
-
-                                    <Button
-                                        android:id="@+id/add_card_btn"
-                                        android:layout_width="120dp"
-                                        android:layout_height="30dp"
-                                        android:background="@drawable/add_to_cart" />
-                                    <Button
-                                        android:id="@+id/go_to_card"
-                                        android:layout_width="120dp"
-                                        android:layout_height="30dp"
-                                        android:visibility="gone"
-                                        android:background="@drawable/go_to_card_image" />
-
-                                </RelativeLayout>
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-                        <Button
-                            android:id="@+id/friend_deal_image"
-                            android:layout_width="120dp"
-                            android:layout_height="30dp"
-                            android:visibility="gone"
-                            android:layout_marginStart="10dp"
-                            android:background="@drawable/continue_image" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone"
-                        android:paddingLeft="20dp">
-
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:text="Color"
-                            android:textColor="@color/white"
-                            android:textSize="18dp"
-                            app:fonttype="text_semi_bold" />
-
-                        <Button
-                            android:id="@+id/product_colorbtn"
-                            android:layout_width="100dp"
-                            android:layout_height="30dp"
-                            android:background="@drawable/procuct_size_background"
-                            android:text="Red"
-                            android:textColor="@color/white" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/sizeLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical"
-                        android:paddingLeft="20dp">
-
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dp"
-                            android:text="Size"
-                            android:textColor="@color/white"
-                            android:textSize="18dp"
-                            app:fonttype="text_semi_bold" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:gravity="center"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="70dp">
+                            android:orientation="vertical">
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/size_product_recycleview"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:paddingLeft="20dp"
+                                android:paddingTop="10dp">
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:id="@+id/title_name_edit"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:maxLines="2"
+                                    android:text="Men's FootWear"
+                                    android:textColor="@color/white"
+                                    android:textSize="18dp"
+                                    app:fonttype="text_semi_bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:paddingLeft="20dp"
+                                    android:paddingTop="10dp">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content">
+
+                                        <tech.iwish.pickmall.extended.TextViewFont
+                                            android:id="@+id/priceEdit"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="₹1924"
+                                            android:textColor="@color/white"
+                                            android:textSize="20dp"
+                                            app:fonttype="text_semi_bold" />
+
+                                        <tech.iwish.pickmall.extended.TextViewFont
+                                            android:id="@+id/dicount_price"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:text=""
+                                            android:textColor="@color/white"
+                                            android:textSize="15dp"
+                                            app:fonttype="text_semi_bold" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/dicount_price_per_mrp_layout"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content">
+
+                                        <tech.iwish.pickmall.extended.TextViewFont
+                                            android:id="@+id/dicount_price_text"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="95%"
+                                            android:textColor="@color/white"
+                                            android:textSize="20dp"
+                                            app:fonttype="text_semi_bold" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/friendDealTimeLayout"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
+
+                                        <tech.iwish.pickmall.extended.TextViewFont
+                                            android:id="@+id/timeset"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text=""
+                                            android:textColor="@color/white"
+                                            android:textSize="20dp"
+                                            app:fonttype="text_semi_bold" />
+
+                                        <tech.iwish.pickmall.extended.TextViewFont
+                                            android:id="@+id/a"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="invite (    ) New Users You Will Win This Product In Just 1Rs Friends Deal..Complete This Task In Just 24 Houres..Hurry....."
+                                            android:textColor="@color/white"
+                                            android:textSize="16dp"
+                                            android:visibility="gone"
+                                            app:fonttype="text_semi_bold" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
+
+
+                                <Button
+                                    android:id="@+id/friend_deal_image"
+                                    android:layout_width="120dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="end"
+                                    android:layout_marginStart="80dp"
+                                    android:background="@drawable/continue_image"
+                                    android:gravity="end"
+                                    android:visibility="gone" />
+
+                                <LinearLayout
+                                    android:id="@+id/qty_layouts"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:paddingLeft="30dp">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:orientation="horizontal"
+                                        android:weightSum="3">
+
+                                        <ImageView
+                                            android:id="@+id/sub_button"
+                                            android:layout_width="40dp"
+                                            android:layout_height="60dp"
+                                            android:layout_weight="1"
+                                            android:src="@drawable/cart_minus" />
+
+                                        <tech.iwish.pickmall.extended.TextViewFont
+                                            android:id="@+id/quty_value"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="20dp"
+                                            android:layout_marginRight="20dp"
+                                            android:layout_weight="1"
+                                            android:text="1"
+                                            android:textColor="@color/white"
+                                            android:textSize="20dp" />
+
+                                        <ImageView
+                                            android:id="@+id/add_button"
+                                            android:layout_width="40dp"
+                                            android:layout_height="60dp"
+                                            android:layout_weight="1"
+                                            android:src="@drawable/cart_plus" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp">
+
+                                        <RelativeLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent">
+
+                                            <Button
+                                                android:id="@+id/add_card_btn"
+                                                android:layout_width="120dp"
+                                                android:layout_height="30dp"
+                                                android:background="@drawable/add_to_cart" />
+
+                                            <Button
+                                                android:id="@+id/go_to_card"
+                                                android:layout_width="120dp"
+                                                android:layout_height="30dp"
+                                                android:background="@drawable/go_to_card_image"
+                                                android:visibility="gone" />
+
+                                        </RelativeLayout>
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:paddingLeft="20dp"
+                                android:visibility="gone">
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="10dp"
+                                    android:text="Color"
+                                    android:textColor="@color/white"
+                                    android:textSize="18dp"
+                                    app:fonttype="text_semi_bold" />
+
+                                <Button
+                                    android:id="@+id/product_colorbtn"
+                                    android:layout_width="100dp"
+                                    android:layout_height="30dp"
+                                    android:background="@drawable/procuct_size_background"
+                                    android:text="Red"
+                                    android:textColor="@color/white" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/sizeLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:orientation="vertical"
+                                android:paddingLeft="20dp"
+                                android:visibility="gone">
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:text="Size"
+                                    android:textColor="@color/white"
+                                    android:textSize="18dp"
+                                    app:fonttype="text_semi_bold" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="70dp"
+                                    android:gravity="center">
+
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/size_product_recycleview"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
+                        <!--    friend deal  product            -->
 
-                    </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
                 </LinearLayout>
+
 
             </RelativeLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_below="@id/main"
                 android:id="@+id/main2"
-                android:paddingRight="1dp"
-                android:paddingLeft="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/main"
                 android:background="#E8A851"
-                android:layout_height="wrap_content">
+                android:orientation="vertical"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp">
 
-<!--                <tech.iwish.pickmall.extended.TextViewFont-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="15dp"-->
-<!--                    app:fonttype="text_semi_bold"-->
-<!--                    android:text="Discrition-"/>-->
-<!--                <tech.iwish.pickmall.extended.TextViewFont-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="15dp"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    app:fonttype="regular"-->
-<!--                    android:text="dfdjs sdfnsda sdfbads  sdfsadjdkf sdfbadsjk asdfnsdjka sdfbas  asbf afbj  asbfjksd effnd  seedfjns  sefjb sg jw   efn eqs"/>-->
+                <!--                <tech.iwish.pickmall.extended.TextViewFont-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:textColor="@color/white"-->
+                <!--                    android:textSize="15dp"-->
+                <!--                    app:fonttype="text_semi_bold"-->
+                <!--                    android:text="Discrition-"/>-->
+                <!--                <tech.iwish.pickmall.extended.TextViewFont-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:textColor="@color/white"-->
+                <!--                    android:textSize="15dp"-->
+                <!--                    android:layout_marginTop="10dp"-->
+                <!--                    app:fonttype="regular"-->
+                <!--                    android:text="dfdjs sdfnsda sdfbads  sdfsadjdkf sdfbadsjk asdfnsdjka sdfbas  asbf afbj  asbfjksd effnd  seedfjns  sefjb sg jw   efn eqs"/>-->
                 <FrameLayout
+                    android:name="com.example.android.fragments.HeadlinesFragment"
                     android:id="@+id/product_overview_frame"
                     android:layout_width="match_parent"
-                    android:layout_marginBottom="5dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp" />
 
             </LinearLayout>
 
         </LinearLayout>
-
-
 
 
     </ScrollView>

@@ -91,8 +91,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         setContentView(R.layout.activity_product_details);
 
         getSupportActionBar().hide();
@@ -203,6 +201,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 float sub = mrp - actual_prices;
                 float div = sub / actual_prices;
                 aaa = String.valueOf((int) (div * 100));
+
+                SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + discount_price);
+                content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
+                dicount_price_Edit.setText(content);
                 break;
             case "friendsaleoneRs":
 
@@ -278,9 +280,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
         dicount_price_text.setText(" " + aaa + "% OFF");
 
-        SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + discount_price);
-        content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
-        dicount_price_Edit.setText(content);
         ratingcheck.setRating((float) 3.3);
         rating.setText("4.0");
 
