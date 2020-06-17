@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,19 +56,22 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
     private ImageView product_image;
     private ImageView sub_button, add_button;
     private TextView quty_value, product_names, actual_prices, dicount_price, percent;
-    private Button confirm_add_to_card, go_to_card;
-    private String select_color, select_size, product_id, gst, vendor_id, product_dicount_percent, product_name, actual_price, imagename, product_qty, discount_price, product_type, type;
+    private Button confirm_add_to_card, go_to_card, buy_now;
+    private String select_color, select_size, product_id, gst, vendor_id,
+            product_dicount_percent, product_name, actual_price, imagename,
+            product_qty, discount_price, product_type, type,prepaid;
     private Share_session shareSession;
     private Map data;
     private ProductCountInterface productCountInterface;
     private ProductColorInterFace productColorInterFace;
     private List<ProductColorList> productColorLists;
     private int sizeselectPosition;
+    private LinearLayout orderLayout;
 
 
-    public ProductSideColorBottomFragment(List<ProductColorList> productColorLists, List<ProductSizeColorList> productSizeColorLists) {
-        this.productColorLists = productColorLists;
+    public ProductSideColorBottomFragment(List<ProductSizeColorList> productSizeColorLists, ProductCountInterface productCountInterface) {
         this.productSizeColorLists = productSizeColorLists;
+        this.productCountInterface = productCountInterface;
     }
 
     @Nullable
@@ -89,11 +93,16 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
 
         confirm_add_to_card = (Button) view.findViewById(R.id.confirm_add_to_card);
         go_to_card = (Button) view.findViewById(R.id.go_to_card);
+        buy_now = (Button) view.findViewById(R.id.buy_now);
+
+        orderLayout = (LinearLayout) view.findViewById(R.id.orderLayout);
+
 
         add_button.setOnClickListener(this);
         sub_button.setOnClickListener(this);
         confirm_add_to_card.setOnClickListener(this);
         go_to_card.setOnClickListener(this);
+        buy_now.setOnClickListener(this);
 
         productColorInterFace = new ProductColorInterFace() {
             @Override
@@ -115,6 +124,9 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
         gst = bundle.getString("gst");
         vendor_id = bundle.getString("vendor_id");
         product_dicount_percent = bundle.getString("product_dicount_percent");
+        imagename = bundle.getString("imagename");
+        product_qty = bundle.getString("product_qty");
+        prepaid = bundle.getString("prepaid");
 
 
         product_names.setText(product_name);
@@ -126,7 +138,8 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
         content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
         dicount_price.setText(content);
 
-        String a = Constants.IMAGES + productSizeColorLists.get(0).getImgname();
+
+        String a = Constants.IMAGES + bundle.get("imagename");
         Glide.with(ProductSideColorBottomFragment.this).load(a).into(product_image);
 
 
@@ -137,10 +150,11 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
         cursor.moveToFirst();
         if (cursor.getCount() != 0) {
             go_to_card.setVisibility(View.VISIBLE);
-            confirm_add_to_card.setVisibility(View.GONE);
+            orderLayout.setVisibility(View.GONE);
+
         } else {
             go_to_card.setVisibility(View.GONE);
-            confirm_add_to_card.setVisibility(View.VISIBLE);
+            orderLayout.setVisibility(View.VISIBLE);
         }
 
 
@@ -156,8 +170,9 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
         ProductSizeAdapter productSizeAdapter = new ProductSizeAdapter(getActivity(), productSizeColorLists, this);
         size_product_recycleview.setAdapter(productSizeAdapter);
 
-        ProductColorAdapter productColorAdapter = new ProductColorAdapter(getActivity(), productColorLists, product_image, productColorInterFace, -1, productSizeColorLists);
-        color_product_recycleview.setAdapter(productColorAdapter);
+//        ProductColorAdapter productColorAdapter = new ProductColorAdapter(getActivity(), productColorLists, product_image, productColorInterFace, -1, productSizeColorLists);
+//        color_product_recycleview.setAdapter(productColorAdapter);
+
 
         return view;
 
@@ -189,10 +204,6 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
             case R.id.confirm_add_to_card:
                 if (select_size == null) {
                     Toast.makeText(getActivity(), "Select Size", Toast.LENGTH_SHORT).show();
-                } else if (select_color == null) {
-                    Toast.makeText(getActivity(), "Select color", Toast.LENGTH_SHORT).show();
-                } else if (!productSizeColorLists.get(sizeselectPosition).getColor().equals(select_color)) {
-
                 } else {
                     InsertDataCard();
                 }
@@ -200,91 +211,107 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
             case R.id.go_to_card:
                 getActivity().startActivity(new Intent(getActivity(), CardActivity.class));
                 break;
+            case R.id.buy_now:
+                if (select_size == null) {
+                    Toast.makeText(getActivity(), "Select Size", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getContext(), SaveAddressActivity.class);
+                    intent.putExtra("product_name", product_name);
+                    intent.putExtra("actual_price", actual_price);
+                    intent.putExtra("product_id", product_id);
+                    intent.putExtra("discount_price", discount_price);
+                    intent.putExtra("product_qty", product_qty);
+                    intent.putExtra("imagename", imagename);
+                    intent.putExtra("select_size", select_size);
+                    intent.putExtra("prepaid", prepaid);
+                    intent.putExtra("type", "buy_now");
+                    startActivity(intent);
+                }
+                break;
 
         }
     }
 
     private void InsertDataCard() {
-
         shareSession = new Share_session(getActivity());
         data = shareSession.Fetchdata();
         shareSession.Login_check();
         if (data.get(LOGIN_CHECk) != null) {
             switch (type) {
                 case "add_to_card":
-                    product_qty = quty_value.getText().toString();
+//                    prepaid set
                     MyhelperSql myhelperSql = new MyhelperSql(getActivity());
                     SQLiteDatabase sqLiteDatabase = myhelperSql.getWritableDatabase();
                     myhelperSql.dataAddCard(product_id, product_name, product_qty, select_color, select_size, imagename, actual_price, discount_price, product_type, gst, vendor_id, product_dicount_percent, sqLiteDatabase);
-//                    productCountInterface.counntproduct();
+                    productCountInterface.counntproduct();
                     dismiss();
                     break;
-                case "buy_now":
-                    data = shareSession.Fetchdata();
-                    if ((data.get(NUMBER_ADDRESS) != null) && (data.get(PINCODE_ADDRESS) != null) && (data.get(HOUSE_NO_ADDRESS) != null)) {
-                        Intent intent = new Intent(getActivity(), SaveAddressActivity.class);
-                        intent.putExtra("product_id", product_id);
-                        intent.putExtra("product_name", product_name);
-                        intent.putExtra("select_size", select_size);
-                        intent.putExtra("actual_price", actual_price);
-                        intent.putExtra("discount_price", discount_price);
-                        intent.putExtra("imagename", imagename);
-                        intent.putExtra("select_color", select_color);
-                        intent.putExtra("product_qty", quty_value.getText().toString());
-                        intent.putExtra("product_type", product_type);
-                        intent.putExtra("type", "buy_now");
-                        intent.putExtra("gst", gst);
-                        startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(getActivity(), AddressActivity.class);
-                        intent.putExtra("product_id", product_id);
-                        intent.putExtra("product_name", product_name);
-                        intent.putExtra("select_size", select_size);
-                        intent.putExtra("actual_price", actual_price);
-                        intent.putExtra("discount_price", discount_price);
-                        intent.putExtra("imagename", imagename);
-                        intent.putExtra("product_qty", quty_value.getText().toString());
-                        intent.putExtra("select_color", select_color);
-                        intent.putExtra("product_type", product_type);
-                        intent.putExtra("gst", gst);
-                        intent.putExtra("type", "buy_now");
-                        intent.putExtra("gst", gst);
-                        startActivity(intent);
-                    }
-                    break;
-                case "friendDeal_one_rs":
-                    data = shareSession.Fetchdata();
-                    if ((data.get(NUMBER_ADDRESS) != null) && (data.get(PINCODE_ADDRESS) != null) && (data.get(HOUSE_NO_ADDRESS) != null)) {
-                        Intent intent = new Intent(getActivity(), SaveAddressActivity.class);
-                        intent.putExtra("product_id", product_id);
-                        intent.putExtra("product_name", product_name);
-                        intent.putExtra("select_size", select_size);
-                        intent.putExtra("actual_price", actual_price);
-                        intent.putExtra("discount_price", discount_price);
-                        intent.putExtra("imagename", imagename);
-                        intent.putExtra("select_color", select_color);
-                        intent.putExtra("product_qty", quty_value.getText().toString());
-                        intent.putExtra("product_type", product_type);
-                        intent.putExtra("type", "friendDeal_one_rs");
-                        intent.putExtra("gst", gst);
-                        startActivity(intent);
-                    } else {
-                        Intent intent = new Intent(getActivity(), AddressActivity.class);
-                        intent.putExtra("product_id", product_id);
-                        intent.putExtra("product_name", product_name);
-                        intent.putExtra("select_size", select_size);
-                        intent.putExtra("actual_price", actual_price);
-                        intent.putExtra("discount_price", discount_price);
-                        intent.putExtra("imagename", imagename);
-                        intent.putExtra("product_qty", quty_value.getText().toString());
-                        intent.putExtra("select_color", select_color);
-                        intent.putExtra("product_type", product_type);
-                        intent.putExtra("gst", gst);
-                        intent.putExtra("type", "friendDeal_one_rs");
-                        intent.putExtra("gst", gst);
-                        startActivity(intent);
-                    }
-                    break;
+//                case "buy_now":
+//                    data = shareSession.Fetchdata();
+//                    if ((data.get(NUMBER_ADDRESS) != null) && (data.get(PINCODE_ADDRESS) != null) && (data.get(HOUSE_NO_ADDRESS) != null)) {
+//                        Intent intent = new Intent(getActivity(), SaveAddressActivity.class);
+//                        intent.putExtra("product_id", product_id);
+//                        intent.putExtra("product_name", product_name);
+//                        intent.putExtra("select_size", select_size);
+//                        intent.putExtra("actual_price", actual_price);
+//                        intent.putExtra("discount_price", discount_price);
+//                        intent.putExtra("imagename", imagename);
+//                        intent.putExtra("select_color", select_color);
+//                        intent.putExtra("product_qty", quty_value.getText().toString());
+//                        intent.putExtra("product_type", product_type);
+//                        intent.putExtra("type", "buy_now");
+//                        intent.putExtra("gst", gst);
+//                        startActivity(intent);
+//                    } else {
+//                        Intent intent = new Intent(getActivity(), AddressActivity.class);
+//                        intent.putExtra("product_id", product_id);
+//                        intent.putExtra("product_name", product_name);
+//                        intent.putExtra("select_size", select_size);
+//                        intent.putExtra("actual_price", actual_price);
+//                        intent.putExtra("discount_price", discount_price);
+//                        intent.putExtra("imagename", imagename);
+//                        intent.putExtra("product_qty", quty_value.getText().toString());
+//                        intent.putExtra("select_color", select_color);
+//                        intent.putExtra("product_type", product_type);
+//                        intent.putExtra("gst", gst);
+//                        intent.putExtra("type", "buy_now");
+//                        intent.putExtra("gst", gst);
+//                        startActivity(intent);
+//                    }
+//                    break;
+//                case "friendDeal_one_rs":
+//                    data = shareSession.Fetchdata();
+//                    if ((data.get(NUMBER_ADDRESS) != null) && (data.get(PINCODE_ADDRESS) != null) && (data.get(HOUSE_NO_ADDRESS) != null)) {
+//                        Intent intent = new Intent(getActivity(), SaveAddressActivity.class);
+//                        intent.putExtra("product_id", product_id);
+//                        intent.putExtra("product_name", product_name);
+//                        intent.putExtra("select_size", select_size);
+//                        intent.putExtra("actual_price", actual_price);
+//                        intent.putExtra("discount_price", discount_price);
+//                        intent.putExtra("imagename", imagename);
+//                        intent.putExtra("select_color", select_color);
+//                        intent.putExtra("product_qty", quty_value.getText().toString());
+//                        intent.putExtra("product_type", product_type);
+//                        intent.putExtra("type", "friendDeal_one_rs");
+//                        intent.putExtra("gst", gst);
+//                        startActivity(intent);
+//                    } else {
+//                        Intent intent = new Intent(getActivity(), AddressActivity.class);
+//                        intent.putExtra("product_id", product_id);
+//                        intent.putExtra("product_name", product_name);
+//                        intent.putExtra("select_size", select_size);
+//                        intent.putExtra("actual_price", actual_price);
+//                        intent.putExtra("discount_price", discount_price);
+//                        intent.putExtra("imagename", imagename);
+//                        intent.putExtra("product_qty", quty_value.getText().toString());
+//                        intent.putExtra("select_color", select_color);
+//                        intent.putExtra("product_type", product_type);
+//                        intent.putExtra("gst", gst);
+//                        intent.putExtra("type", "friendDeal_one_rs");
+//                        intent.putExtra("gst", gst);
+//                        startActivity(intent);
+//                    }
+//                    break;
             }
         } else {
             getActivity().startActivity(new Intent(getActivity(), Signup.class));

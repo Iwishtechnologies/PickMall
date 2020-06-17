@@ -72,7 +72,6 @@ import static tech.iwish.pickmall.session.Share_session.USER_NUMBER_CHECK;
 
 public class MainActivity extends AppCompatActivity
         implements View.OnClickListener,
-        SwipeRefreshLayout.OnRefreshListener,
         CardProductRefreshInterface,
         ItemCategoryInterface,
         FlashsaleTimeIdInterface, InternetConnectivityListener {
@@ -152,7 +151,7 @@ public class MainActivity extends AppCompatActivity
         accountBottom = (ImageView) findViewById(R.id.AccountBottom);
 
 
-        swipe_refresh_layout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+//        swipe_refresh_layout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
         search_bar_layout = (RelativeLayout) findViewById(R.id.search_bar_layout);
 
@@ -186,7 +185,7 @@ public class MainActivity extends AppCompatActivity
         viewall_friend_deal.setOnClickListener(this);
         prepaid_layout.setOnClickListener(this);
         homeBottom.setImageDrawable(getResources().getDrawable(R.drawable.home_icon_orange));
-        swipe_refresh_layout.setOnRefreshListener(this);
+//        swipe_refresh_layout.setOnRefreshListener(this);
         cardProductCount();
 
         itemCategoryInterface = new ItemCategoryInterface() {
@@ -419,7 +418,7 @@ public class MainActivity extends AppCompatActivity
                                     public void run() {
                                         friendSaleAdapter = new FriendSaleAdapter(MainActivity.this, friendSaleLists);
                                         friend_deal_recycleview.setAdapter(friendSaleAdapter);
-                                        swipe_refresh_layout.setRefreshing(false);
+
                                     }
                                 });
                             }
@@ -586,32 +585,6 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-
-    }
-
-    @Override
-    public void onRefresh() {
-        swipe_refresh_layout.setRefreshing(true);
-        silderListsList.clear();
-        flashsalemainLists.clear();
-        friendSaleLists.clear();
-        itemLists.clear();
-        silderListsList.clear();
-        productListList.clear();
-        itemCat();
-        FlashSaleMain();
-//        Flashsaletimeset();
-
-        silder();
-        FriendDeal();
-        cardProductCount();
-        HotProduct();
-
-        friendSaleAdapter.notifyDataSetChanged();
-        itemAdapter.notifyDataSetChanged();
-        silderAdapter.notifyDataSetChanged();
-
-//        swipe_refresh_layout.setRefreshing(false);
 
     }
 

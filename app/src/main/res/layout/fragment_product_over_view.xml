@@ -894,7 +894,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#462423"
-        android:visibility="gone"
         android:padding="10dp">
 
         <LinearLayout
@@ -1077,6 +1076,7 @@
             android:layout_marginTop="10dp"
             android:background="#462423"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:weightSum="2">
 
             <LinearLayout

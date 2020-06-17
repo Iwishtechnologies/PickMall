@@ -38,6 +38,11 @@ public class SuccessfullyActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(SuccessfullyActivity.this,MainActivity.class));
+    }
 }
 
 

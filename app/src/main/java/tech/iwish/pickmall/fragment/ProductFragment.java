@@ -49,7 +49,7 @@ public class ProductFragment extends Fragment {
     private Map data;
 
 
-    public ProductFragment(){
+    public ProductFragment() {
     }
 
     @Nullable
@@ -66,7 +66,7 @@ public class ProductFragment extends Fragment {
         Bundle arguments = getArguments();
         if (arguments != null) {
             type = arguments.getString("type");
-        }else {
+        } else {
             type = getActivity().getIntent().getExtras().getString("type");
         }
         Log.e("type", type);
@@ -74,45 +74,43 @@ public class ProductFragment extends Fragment {
             case "similar_product":
 //                item = arguments.getString("product_id");
 //                PRODUCT_PERAMETER = "similar_product";
-                datafetchProduct(Constants.SIMILAER_PRODUCT,arguments.getString("product_id"));
+                datafetchProduct(Constants.SIMILAER_PRODUCT, arguments.getString("product_id"));
                 break;
             case "product":
 //                PRODUCT_PERAMETER = "product";
 //                item = getActivity().getIntent().getExtras().getString("item");
 //                item = arguments.getString("item");
-                datafetchProduct(Constants.ALL_PRODUCT,arguments.getString("item"));
+                datafetchProduct(Constants.ALL_PRODUCT, arguments.getString("item"));
                 break;
             case "vendorStoreAllProduct":
 //                PRODUCT_PERAMETER = "vendor_store_all_product";
 //                item = getActivity().getIntent().getExtras().getString("vendor_id");
-                datafetchProduct(Constants.VENDOR_STORE_ALL_PRODUCT,getActivity().getIntent().getExtras().getString("vendor_id"));
+                datafetchProduct(Constants.VENDOR_STORE_ALL_PRODUCT, getActivity().getIntent().getExtras().getString("vendor_id"));
                 break;
             case "Category_by_product":
 //                PRODUCT_PERAMETER = "Category_by_product";
 //                item =  getActivity().getIntent().getExtras().getString("category_id");
-                datafetchProduct(Constants.CATEGORY_BY_PRODUUCT , getActivity().getIntent().getExtras().getString("category_id"));
+                datafetchProduct(Constants.CATEGORY_BY_PRODUUCT, getActivity().getIntent().getExtras().getString("category_id"));
                 break;
             case "hotproduct":
-                 hotproducts(Constants.HOT_PRODUCT);
+                hotproducts(Constants.HOT_PRODUCT);
                 break;
             case "searchActivity":
-                datafetchProduct(Constants.SEARCH_PRODUCT_BY_NAME , getActivity().getIntent().getStringExtra("name"));
+                datafetchProduct(Constants.SEARCH_PRODUCT_BY_NAME, getActivity().getIntent().getStringExtra("name"));
                 break;
             case "FilterActivity":
-                FilterProduct(Constants.FILTER_PRODUCT , getActivity().getIntent().getStringExtra("itemId"));
+                FilterProduct(Constants.FILTER_PRODUCT, getActivity().getIntent().getStringExtra("itemId"));
                 break;
             case "prepaid":
-                datafetchProduct(Constants.PREPAID_PRODUCT , "prepaid");
+                datafetchProduct(Constants.PREPAID_PRODUCT, "prepaid");
                 break;
         }
-
 
         return view;
     }
 
 
-
-    private void FilterProduct(String Api, String item_id ) {
+    private void FilterProduct(String Api, String item_id) {
 
 
         shareSession = new Share_session(getActivity());
@@ -124,14 +122,14 @@ public class ProductFragment extends Fragment {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("item_id", item_id);
-            if(data.get(FILTER_LIST) != null){
+            if (data.get(FILTER_LIST) != null) {
                 jsonObject.put("size_filter", data.get(FILTER_LIST).toString());
-            }else {
+            } else {
                 jsonObject.put("size_filter", false);
             }
-            if(data.get(FILTER_LIST_COLOR) != null){
+            if (data.get(FILTER_LIST_COLOR) != null) {
                 jsonObject.put("color_filter", data.get(FILTER_LIST_COLOR).toString());
-            }else {
+            } else {
                 jsonObject.put("color_filter", false);
             }
 
@@ -146,6 +144,7 @@ public class ProductFragment extends Fragment {
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
             }
+
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
@@ -183,11 +182,11 @@ public class ProductFragment extends Fragment {
 
                             }
 
-                            if(getActivity() != null){
+                            if (getActivity() != null) {
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList);
+                                        ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id);
                                         product_recycleview.setAdapter(productAdapter);
 //                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
                                         productAdapter.notifyDataSetChanged();
@@ -204,8 +203,7 @@ public class ProductFragment extends Fragment {
     }
 
 
-
-    private void datafetchProduct(String Api , String item_id) {
+    private void datafetchProduct(String Api, String item_id) {
 
 
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -224,6 +222,7 @@ public class ProductFragment extends Fragment {
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
             }
+
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
@@ -261,11 +260,11 @@ public class ProductFragment extends Fragment {
 
                             }
 
-                            if(getActivity() != null){
+                            if (getActivity() != null) {
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList);
+                                        ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id);
                                         product_recycleview.setAdapter(productAdapter);
 //                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
                                         productAdapter.notifyDataSetChanged();
@@ -281,7 +280,7 @@ public class ProductFragment extends Fragment {
         });
     }
 
-    private void hotproducts(String Api){
+    private void hotproducts(String Api) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(Api)
@@ -330,11 +329,11 @@ public class ProductFragment extends Fragment {
 
                                 }
 
-                                if(getActivity() != null){
+                                if (getActivity() != null) {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList);
+                                            ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, "");
                                             product_recycleview.setAdapter(productAdapter);
 //                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
                                             productAdapter.notifyDataSetChanged();

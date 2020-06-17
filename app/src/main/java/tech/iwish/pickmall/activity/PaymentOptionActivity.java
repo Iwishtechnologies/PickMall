@@ -60,7 +60,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
     private ArrayList<HashMap<String, String>> list = new ArrayList<>();
     private String product_amt, shippingCharege, WalletAmount;
     private int shippinsAmt = -1, productsAmt, grandTotal, gstint, removeDout;
-    private String product_name, select_size, product_type, discount_price,
+    private String product_name, select_size, product_type, discount_price,prepaid,
             imagename, product_qty, product_id, select_color, productgst,referCode,item_type;
     private Share_session shareSession;
     private ProgressBar progressbar;
@@ -135,6 +135,11 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 select_color = intent.getStringExtra("select_color");
                 product_type = intent.getStringExtra("product_type");
                 productgst = intent.getStringExtra("gst");
+                prepaid = intent.getStringExtra("prepaid");
+
+                if(prepaid.equals("prepaid")){
+                    cases.setVisibility(View.GONE);
+                }
 
                 int qtyprod = Integer.parseInt(product_qty);
                 int amtprod = Integer.parseInt(product_amt);
@@ -142,16 +147,16 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
                 int pricetot = qtyprod * amtprod;
 
-                if (!productgst.isEmpty()) {
-                    int productgstint = Integer.parseInt(productgst);
-                    double gstPrice = (pricetot / 100.0f) * productgstint;
-                    removeDout = (int) gstPrice;
-                    String StrGstPrice = String.valueOf(removeDout);
-                    gst_price.setText(StrGstPrice);
-
-                } else {
-                    gst_price.setText("0");
-                }
+//                if (!productgst.isEmpty()) {
+//                    int productgstint = Integer.parseInt(productgst);
+//                    double gstPrice = (pricetot / 100.0f) * productgstint;
+//                    removeDout = (int) gstPrice;
+//                    String StrGstPrice = String.valueOf(removeDout);
+//                    gst_price.setText(StrGstPrice);
+//
+//                } else {
+//                    gst_price.setText("0");
+//                }
                 grandTotal = Integer.parseInt(product_amt) + removeDout;
                 finalamountsInt = grandTotal;
                 pricr.setText(getResources().getString(R.string.rs_symbol) + product_amt);

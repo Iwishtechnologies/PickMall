@@ -33,10 +33,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
     private List<ProductList> productLists;
     private Context context;
     int aaa;
+    private String prepaid;
 
-    public ProductAdapter(Context productActivity, List<ProductList> productListList) {
+    public ProductAdapter(Context productActivity, List<ProductList> productListList, String prepaid) {
         this.context = productActivity;
         this.productLists = productListList;
+        this.prepaid = prepaid;
     }
 
     @NonNull
@@ -54,17 +56,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
         if (status.equals("TRUE")) {
 //            holder.product_rationg.setRating((float) 4.5);
             Drawable drawable = holder.product_rationg.getProgressDrawable();
-            switch (productLists.get(position).getFakeRating()){
+            switch (productLists.get(position).getFakeRating()) {
 
-                case "1":
                 case "0.5":
+                case "1":
                 case "1.5":
                 case "2":
-                case "2.5":
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         drawable.setColorFilter(context.getColor(R.color.progress_rating_red_color), PorterDuff.Mode.SRC_ATOP);
                     }
                     break;
+                case "2.5":
                 case "3":
                 case "3.5":
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -82,24 +84,23 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
 
             holder.amount.setText(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getActual_price());
             SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getDiscount_price());
-            content.setSpan(new StrikethroughSpan(), 0, content.length(), 0 );
+            content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
             holder.discount_price.setText(content);
 
             float dicountsAmt = Float.parseFloat(productLists.get(position).getActual_price());
             float mrp = Float.parseFloat(productLists.get(position).getDiscount_price());
 
-            float sub = mrp - dicountsAmt ;
-            float div = sub/dicountsAmt;
-            aaa = (int) (div *100);
+            float sub = mrp - dicountsAmt;
+            float div = sub / dicountsAmt;
+            aaa = (int) (div * 100);
 
-            holder.per_dicount.setText(" "+String.valueOf(aaa)+"% OFF");
+            holder.per_dicount.setText(" " + String.valueOf(aaa) + "% OFF");
             holder.product_rationg.setRating(Float.parseFloat(productLists.get(position).getFakeRating()));
 
             holder.product_name.setText(productLists.get(position).getProductName());
 
             CardCount cardCount = new CardCount();
-            cardCount.DicountPercent(productLists.get(position).getActual_price() , productLists.get(position).getDiscount_price());
-
+            cardCount.DicountPercent(productLists.get(position).getActual_price(), productLists.get(position).getDiscount_price());
 
 
             String a = Constants.IMAGES + productLists.get(position).getPimg();
@@ -116,11 +117,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
                     intent.putExtra("product_Image", productLists.get(position).getPimg());
                     intent.putExtra("vendor_id", productLists.get(position).getVendor_id());
                     intent.putExtra("gst", productLists.get(position).getGst());
+                    intent.putExtra("prepaid", prepaid);
                     intent.putExtra("product_type", "allProduct");
                     context.startActivity(intent);
                 }
             });
-        }else{
+        } else {
             holder.mainproduct.setVisibility(View.GONE);
         }
     }
@@ -134,9 +136,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
     public class Viewholder extends RecyclerView.ViewHolder {
 
         private ImageView product_img;
-        private LinearLayout product_layout ,mainproduct;
-        private TextView amount , discount_price , product_name , per_dicount;
-        private RatingBar product_rationg ;
+        private LinearLayout product_layout, mainproduct;
+        private TextView amount, discount_price, product_name, per_dicount;
+        private RatingBar product_rationg;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -144,11 +146,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
             product_img = (ImageView) itemView.findViewById(R.id.product_img);
             product_layout = (LinearLayout) itemView.findViewById(R.id.product_layout);
             mainproduct = (LinearLayout) itemView.findViewById(R.id.mainproduct);
-            amount = (TextView)itemView.findViewById(R.id.amount);
-            discount_price = (TextView)itemView.findViewById(R.id.discount_price);
-            product_name = (TextView)itemView.findViewById(R.id.product_name);
-            per_dicount = (TextView)itemView.findViewById(R.id.per_dicount);
-            product_rationg = (RatingBar)itemView.findViewById(R.id.product_rationg);
+            amount = (TextView) itemView.findViewById(R.id.amount);
+            discount_price = (TextView) itemView.findViewById(R.id.discount_price);
+            product_name = (TextView) itemView.findViewById(R.id.product_name);
+            per_dicount = (TextView) itemView.findViewById(R.id.per_dicount);
+            product_rationg = (RatingBar) itemView.findViewById(R.id.product_rationg);
         }
     }
 

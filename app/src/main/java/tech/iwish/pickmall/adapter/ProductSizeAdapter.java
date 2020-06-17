@@ -79,18 +79,16 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
 
 
         holder.size_name.setText(productSizeColorLists.get(position).getSize());
-        holder.size_nameButton.setText(productSizeColorLists.get(position).getSize());
+
 
         int qtyproduct = Integer.parseInt(productSizeColorLists.get(position).getQty());
         if (qtyproduct > 0) {
             if (currentSelectedPosition == position) {
-//                holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
-                holder.size_name.setVisibility(View.GONE);
-                holder.size_nameButton.setVisibility(View.VISIBLE);
+                holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
+//                holder.size_name.setVisibility(View.GONE);
             } else {
-//                holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_design));
-                holder.size_name.setVisibility(View.VISIBLE);
-                holder.size_nameButton.setVisibility(View.GONE);
+//                holder.size_name.setVisibility(View.VISIBLE);
+                holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_design));
             }
         }else {
             Toast.makeText(context, "out of stock", Toast.LENGTH_SHORT).show();
@@ -116,7 +114,7 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
 
             size_name = (TextView) itemView.findViewById(R.id.size_name);
             main_layout_size = (LinearLayout) itemView.findViewById(R.id.main_layout_size);
-            size_nameButton = (Button) itemView.findViewById(R.id.size_nameButton);
+//            size_nameButton = (Button) itemView.findViewById(R.id.size_nameButton);
             main_layout_size.setOnClickListener(this);
 
         }

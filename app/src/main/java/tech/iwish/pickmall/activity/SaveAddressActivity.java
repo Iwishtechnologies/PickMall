@@ -79,7 +79,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
     private ProgressBar progress_bar;
 
     private String B_N_product_name, referCode, product_type, product_id, select_color, gst,
-            B_N_product_qty, B_N_product_size, B_N_product_acture_price, B_N_product_image, type, number_client, referCount,item_type;
+            B_N_product_qty, B_N_product_size, B_N_product_acture_price, B_N_product_image, type, number_client, referCount,item_type,prepaid;
 
     private Button place_order_btn;
     private RelativeLayout layouthide;
@@ -189,6 +189,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         product_type = getIntent().getStringExtra("product_type");
         item_type = getIntent().getStringExtra("item_type");
         gst = getIntent().getStringExtra("gst");
+        prepaid = getIntent().getStringExtra("prepaid");
 
         cart_product_name.setText(B_N_product_name);
         cart_product_size.setText("Size : " + B_N_product_size);
@@ -308,7 +309,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                         intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
                         intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
                         intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
-                        intent.putExtra("gst", getIntent().getStringExtra("gst"));
+                        intent.putExtra("prepaid", prepaid);
                         intent.putExtra("type", "buy_now");
                         startActivity(intent);
                         break;
@@ -362,7 +363,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
                 intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
                 intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
-                intent.putExtra("gst", getIntent().getStringExtra("gst"));
+                intent.putExtra("prepaid",prepaid);
                 intent.putExtra("type", "buy_now");
                 startActivity(intent);
                 break;

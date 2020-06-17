@@ -568,13 +568,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:background="@color/white"
                 android:orientation="vertical"
                 android:padding="20dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="360dp"
-                    android:layout_marginBottom="20dp">
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/white">
 
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/productImageDetailsViewpager"
@@ -872,14 +874,14 @@
                                     android:textColor="@color/white" />
                             </LinearLayout>
 
-                            <LinearLayout
+                            <!--<LinearLayout
                                 android:id="@+id/sizeLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:orientation="vertical"
                                 android:paddingLeft="20dp"
-                                android:visibility="gone">
+                                >
 
                                 <tech.iwish.pickmall.extended.TextViewFont
                                     android:layout_width="wrap_content"
@@ -904,7 +906,7 @@
                                 </LinearLayout>
 
 
-                            </LinearLayout>
+                            </LinearLayout>-->
 
                         </LinearLayout>
 

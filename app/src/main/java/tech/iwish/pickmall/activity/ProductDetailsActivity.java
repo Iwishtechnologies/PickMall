@@ -67,7 +67,7 @@ import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 public class ProductDetailsActivity extends AppCompatActivity implements View.OnClickListener, ProductCountInterface {
 
     private TextView ac_priceEdit, dicount_price_Edit, title_name_edit, select_size_color, one_product_name, quty_value,
-            one_rs_amount, one_rs_dicount_price, dicount_price_text, product_count_value, new_user_text, total_user_req, rating,timeset;
+            one_rs_amount, one_rs_dicount_price, dicount_price_text, product_count_value, new_user_text, total_user_req, rating, timeset;
     private List<ProductDetailsImageList> productDetailsListImageList = new ArrayList<>();
     private List<ProductSizeColorList> productSizeColorLists = new ArrayList<>();
     private ViewPager productImageDetailsViewpager;
@@ -77,7 +77,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     private Button add_card_btn, buy_now_btn, one_rs_button_place_order, product_colorbtn, go_to_card, friend_deal_image;
     private LinearLayout product_layout, one_rs_main_layout, button_layout, one_rs_bottom_layout, one_rs_rule, store, wishlist, product_count_layout;
     private ScrollView scrollview;
-    private String PRODUCT_TYPE, total_request_user, new_user_request, gst, select_size, product_qty, type, product_type ,item_type;
+    private String PRODUCT_TYPE, total_request_user, new_user_request, gst, select_size, product_qty, type, product_type, item_type, prepaid;
     private RelativeLayout card;
     private Map data;
     Share_session shareSession;
@@ -85,7 +85,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     public boolean wishlistchechi;
     private List<ProductColorList> productColorLists = new ArrayList<>();
     private ProductSizeInterFace productSizeInterFace;
-    private LinearLayout sizeLayout, qty_layouts,dicount_price_per_mrp_layout,friendDealTimeLayout;
+    private LinearLayout qty_layouts, dicount_price_per_mrp_layout, friendDealTimeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +132,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         store = (LinearLayout) findViewById(R.id.store);
         wishlist = (LinearLayout) findViewById(R.id.wishlist);
         product_count_layout = (LinearLayout) findViewById(R.id.product_count_layout);
-        sizeLayout = (LinearLayout) findViewById(R.id.sizeLayout);
         qty_layouts = (LinearLayout) findViewById(R.id.qty_layouts);
         dicount_price_per_mrp_layout = (LinearLayout) findViewById(R.id.dicount_price_per_mrp_layout);
         friendDealTimeLayout = (LinearLayout) findViewById(R.id.friendDealTimeLayout);
@@ -159,10 +158,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         color_size_image_recycle_view.setLayoutManager(linearLayoutManager);
 
-        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
-        linearLayoutManager1.setOrientation(RecyclerView.HORIZONTAL);
-        size_product_recycleview.setLayoutManager(linearLayoutManager1);
-
 
         shareSession = new Share_session(this);
         data = shareSession.Fetchdata();
@@ -178,6 +173,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         vendor_id = intent.getStringExtra("vendor_id");
         gst = intent.getStringExtra("gst");
         sku = intent.getStringExtra("sku");
+        prepaid = intent.getStringExtra("prepaid");
+
+        Toast.makeText(this, "" + prepaid, Toast.LENGTH_SHORT).show();
 
         switch (product_type) {
             case "flashSale":
@@ -192,7 +190,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 one_rs_rule.setVisibility(View.GONE);
                 friendDealTimeLayout.setVisibility(View.GONE);
                 button_layout.setVisibility(View.VISIBLE);
-                sizeLayout.setVisibility(View.VISIBLE);
                 qty_layouts.setVisibility(View.VISIBLE);
                 dicount_price_per_mrp_layout.setVisibility(View.VISIBLE);
 
@@ -218,7 +215,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 add_card_btn.setVisibility(View.GONE);
                 friend_deal_image.setVisibility(View.VISIBLE);
                 friendDealTimeLayout.setVisibility(View.VISIBLE);
-                sizeLayout.setVisibility(View.GONE);
                 qty_layouts.setVisibility(View.GONE);
                 dicount_price_per_mrp_layout.setVisibility(View.GONE);
 
@@ -233,27 +229,15 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 coloAndImageData(Constants.FRIEND_SALE_SIZE_COLOR);
                 sizedatafetch(Constants.FRIEND_SALE_SIZE);
 
-                Log.e("ppp",item_type);
-                if(item_type.equals("friend_deal")){
-                    new FriendDeaTimeSet(product_id,shareSession.getUserDetail().get("UserMobile"),ProductDetailsActivity.this,timeset,item_type).Time_12_H();
-                }else {
-                    new FriendDeaTimeSet(product_id,shareSession.getUserDetail().get("UserMobile"),ProductDetailsActivity.this,timeset,item_type).Time_24_H();
+                Log.e("ppp", item_type);
+                if (item_type.equals("friend_deal")) {
+                    new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), ProductDetailsActivity.this, timeset, item_type).Time_12_H();
+                } else {
+                    new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), ProductDetailsActivity.this, timeset, item_type).Time_24_H();
                 }
                 break;
         }
 
-        MyhelperSql myhelperSql = new MyhelperSql(this);
-        SQLiteDatabase sqLiteDatabase = myhelperSql.getWritableDatabase();
-        String query = "Select *  from PRODUCT_CARD WHERE PRODUCT_ID = ?";
-        Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{product_id});
-        cursor.moveToFirst();
-        if (cursor.getCount() != 0) {
-            go_to_card.setVisibility(View.VISIBLE);
-            add_card_btn.setVisibility(View.GONE);
-        } else {
-            go_to_card.setVisibility(View.GONE);
-            add_card_btn.setVisibility(View.VISIBLE);
-        }
 
         productSizeInterFace = new ProductSizeInterFace() {
             @Override
@@ -436,44 +420,44 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         switch (id) {
             case R.id.select_size_color:
             case R.id.add_card_btn:
-//                product_colorbtn.getText().toString()
                 type = "add_to_card";
-                addCardProcees();
-//                bundle = new Bundle();
-//                productSideColorBottomFragment = new ProductSideColorBottomFragment(productColorLists, productSizeColorLists);
-//                bundle.putString("product_name", product_name);
-//                bundle.putString("actual_price", actual_price);
-//                bundle.putString("product_id", product_id);
-//                bundle.putString("discount_price", discount_price);
-//                bundle.putString("product_type", PRODUCT_TYPE);
-//                bundle.putString("gst", gst);
-//                bundle.putString("vendor_id", vendor_id);
-//                bundle.putString("product_dicount_percent", aaa);
-//                bundle.putString("sku", sku);
-//                bundle.putString("type", "add_to_card");
-//                productSideColorBottomFragment.setArguments(bundle);
-//                productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
-
-
-                break;
-            case R.id.one_rs_button_place_order:
-//                one rs place order check
-//                Intent intent1 = new Intent(ProductDetailsActivity.this, SaveAddressActivity.class);
-//                intent1.putExtra("type", "friendDeal_one_rs");
-//                startActivity(intent1);
+//                addCardProcees();
                 bundle = new Bundle();
-                productSideColorBottomFragment = new ProductSideColorBottomFragment(productColorLists, productSizeColorLists);
+                productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists,this);
                 bundle.putString("product_name", product_name);
                 bundle.putString("actual_price", actual_price);
                 bundle.putString("product_id", product_id);
                 bundle.putString("discount_price", discount_price);
                 bundle.putString("product_type", PRODUCT_TYPE);
                 bundle.putString("gst", gst);
+                bundle.putString("vendor_id", vendor_id);
+                bundle.putString("product_dicount_percent", aaa);
+                bundle.putString("sku", sku);
+                bundle.putString("imagename", product_Image);
+                bundle.putString("prepaid", prepaid);
+                bundle.putString("product_qty", quty_value.getText().toString());
+                bundle.putString("prepaid", prepaid);
+                bundle.putString("type", "add_to_card");
+                productSideColorBottomFragment.setArguments(bundle);
+                productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
+
+
+                break;
+            case R.id.one_rs_button_place_order:
+                bundle = new Bundle();
+                productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists,this);
+                bundle.putString("product_name", product_name);
+                bundle.putString("actual_price", actual_price);
+                bundle.putString("product_id", product_id);
+                bundle.putString("discount_price", discount_price);
+                bundle.putString("imagename", product_Image);
+                bundle.putString("product_type", PRODUCT_TYPE);
+                bundle.putString("gst", gst);
+                bundle.putString("product_qty", quty_value.getText().toString());
                 bundle.putString("type", "friendDeal_one_rs");
                 productSideColorBottomFragment.setArguments(bundle);
                 productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
                 break;
-            case R.id.go_to_card:
             case R.id.card:
                 startActivity(new Intent(ProductDetailsActivity.this, CardActivity.class));
                 break;
@@ -486,20 +470,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 wishlist.setClickable(false);
                 wishlistchechk(product_id, data.get(USERMOBILE).toString(), PRODUCT_TYPE, "dsdas");
                 wishlist.setClickable(true);
-                break;
-            case R.id.buy_now_btn:
-                bundle = new Bundle();
-                productSideColorBottomFragment = new ProductSideColorBottomFragment(productColorLists, productSizeColorLists);
-                bundle.putString("product_name", product_name);
-                bundle.putString("actual_price", actual_price);
-                bundle.putString("product_id", product_id);
-                bundle.putString("discount_price", discount_price);
-                bundle.putString("product_type", PRODUCT_TYPE);
-                bundle.putString("gst", gst);
-                bundle.putString("sku", sku);
-                bundle.putString("type", "buy_now");
-                productSideColorBottomFragment.setArguments(bundle);
-                productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
                 break;
             case R.id.add_button:
                 String value = quty_value.getText().toString();
@@ -726,19 +696,19 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
                             }
 
-                            if (ProductDetailsActivity.this != null) {
-
-                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-
-                                        ProductSizeAdapter productSizeAdapter = new ProductSizeAdapter(ProductDetailsActivity.this, productSizeColorLists, productSizeInterFace);
-                                        size_product_recycleview.setAdapter(productSizeAdapter);
-
-                                    }
-                                });
-
-                            }
+//                            if (ProductDetailsActivity.this != null) {
+//
+//                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//
+//                                        ProductSizeAdapter productSizeAdapter = new ProductSizeAdapter(ProductDetailsActivity.this, productSizeColorLists, productSizeInterFace);
+//                                        size_product_recycleview.setAdapter(productSizeAdapter);
+//
+//                                    }
+//                                });
+//
+//                            }
 
                         }
                     }
