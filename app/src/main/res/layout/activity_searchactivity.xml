@@ -40,6 +40,9 @@
                 android:layout_height="wrap_content"
                 android:hint="search"
                 android:background="@color/white"
+                android:imeOptions="actionSearch"
+                android:maxLines="1"
+                android:inputType="text"
                 android:backgroundTint="@color/white"
                 android:layout_marginStart="5dp" />
 

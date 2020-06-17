@@ -61,37 +61,39 @@ public class SilderAdapter extends PagerAdapter {
         String a = Constants.IMAGES+silderLists.get(position).getImage();
         Glide.with(context).load(a).into(imageView);
 
-        silderLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent;
-//                switch (silderLists.get(position).getCategoryid()) {
-//                    case "friend_deal":
-//                    case "90_Rs":
-//                        intent = new Intent(new Intent(context, FriendsDealsAllActivity.class));
-//                        intent.putExtra("item_id",itemLists.get(position).getItem_id());
-//                        intent.putExtra("item_type",itemLists.get(position).getItem_type());
+        if(silderLists.get(position).getCategoryid() != null){
+            silderLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent;
+                    switch (silderLists.get(position).getCategoryid()) {
+                        case "friend_deal":
+                        case "90_Rs":
+                            intent = new Intent(new Intent(context, FriendsDealsAllActivity.class));
+                            intent.putExtra("item_id",silderLists.get(position).getCategoryid());
+                            intent.putExtra("item_type",silderLists.get(position).getItem_name());
 //                        context.startActivity(intent);
-//                        break;
-//                    case "one_rs":
-//                        Toast.makeText(context, "One rs", Toast.LENGTH_SHORT).show();
-//                        break;
-//                    case "share_and_earn":
-//                        Toast.makeText(context, "share_and_earn", Toast.LENGTH_SHORT).show();
-//                        break;
-//                    case "product":
-//                    default:
-//                        Bundle bundle = new Bundle();
-//                        intent = new Intent(context, ProductActivity.class);
-//                        bundle.putString("item_id", itemLists.get(position).getItem_id());
-//                        bundle.putString("item_name", itemLists.get(position).getItem_name());
-//                        bundle.putString("type", "MainActivity_product");
-//                        intent.putExtras(bundle);
-//                        context.startActivity(intent);
-//                        break;
-//                }
-            }
-        });
+                            break;
+                        case "one_rs":
+                            Toast.makeText(context, "One rs", Toast.LENGTH_SHORT).show();
+                            break;
+                        case "share_and_earn":
+                            Toast.makeText(context, "share_and_earn", Toast.LENGTH_SHORT).show();
+                            break;
+                        case "product":
+                        default:
+                            Bundle bundle = new Bundle();
+                            intent = new Intent(context, ProductActivity.class);
+                            bundle.putString("item_id", silderLists.get(position).getCategoryid());
+                            bundle.putString("item_name", silderLists.get(position).getItem_name());
+                            bundle.putString("type", "MainActivity_product");
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+                            break;
+                    }
+                }
+            });
+        }
 
 
 

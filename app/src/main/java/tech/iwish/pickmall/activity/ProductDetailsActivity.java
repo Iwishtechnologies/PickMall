@@ -75,13 +75,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     private RecyclerView color_size_image_recycle_view, size_product_recycleview;
     private RatingBar ratingcheck;
     private Button add_card_btn, buy_now_btn, one_rs_button_place_order, product_colorbtn, go_to_card, friend_deal_image;
-    private LinearLayout product_layout, one_rs_main_layout, button_layout, one_rs_bottom_layout, one_rs_rule, store, wishlist, product_count_layout;
+    private LinearLayout product_layout, one_rs_main_layout, button_layout, one_rs_bottom_layout, one_rs_rule, store, product_count_layout;
     private ScrollView scrollview;
     private String PRODUCT_TYPE, total_request_user, new_user_request, gst, select_size, product_qty, type, product_type, item_type, prepaid;
     private RelativeLayout card;
     private Map data;
     Share_session shareSession;
-    private ImageView save_hearth, sub_button, add_button;
+    private ImageView save_hearth, sub_button, add_button,wishlist;
     public boolean wishlistchechi;
     private List<ProductColorList> productColorLists = new ArrayList<>();
     private ProductSizeInterFace productSizeInterFace;
@@ -130,7 +130,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         one_rs_bottom_layout = (LinearLayout) findViewById(R.id.one_rs_bottom_layout);
         one_rs_rule = (LinearLayout) findViewById(R.id.one_rs_rule);
         store = (LinearLayout) findViewById(R.id.store);
-        wishlist = (LinearLayout) findViewById(R.id.wishlist);
+        wishlist = (ImageView) findViewById(R.id.wishlists);
         product_count_layout = (LinearLayout) findViewById(R.id.product_count_layout);
         qty_layouts = (LinearLayout) findViewById(R.id.qty_layouts);
         dicount_price_per_mrp_layout = (LinearLayout) findViewById(R.id.dicount_price_per_mrp_layout);
@@ -466,7 +466,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 intent.putExtra("vendor_id", vendor_id);
                 startActivity(intent);
                 break;
-            case R.id.wishlist:
+            case R.id.wishlists:
                 wishlist.setClickable(false);
                 wishlistchechk(product_id, data.get(USERMOBILE).toString(), PRODUCT_TYPE, "dsdas");
                 wishlist.setClickable(true);
@@ -755,7 +755,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                 public void run() {
 
                                     if (type != null) {
-
                                         if (responses.equals("TRUE")) {
                                             new CardCount().delect_wishlist(PRODUCT_TYPE, product_id, data.get(USERMOBILE).toString());
                                             save_hearth.setImageDrawable(getDrawable(R.drawable.heart_icon));

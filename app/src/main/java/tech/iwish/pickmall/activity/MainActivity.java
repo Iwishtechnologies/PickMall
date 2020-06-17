@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity
             timeLeftFormatted = String.format(Locale.getDefault(),
                     "%02d:%02d", minutes, seconds);
         }
-        Log.e("updateCountDownText: time", timeLeftFormatted);
+        Log.e("updateCountDownText:", timeLeftFormatted);
 
 
     }
@@ -305,7 +305,7 @@ public class MainActivity extends AppCompatActivity
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                silderListsList.add(new SilderLists(jsonHelper.GetResult("sno"), jsonHelper.GetResult("image"), jsonHelper.GetResult("categoryid"), jsonHelper.GetResult("status")));
+                                silderListsList.add(new SilderLists(jsonHelper.GetResult("sno"), jsonHelper.GetResult("image"), jsonHelper.GetResult("categoryid"), jsonHelper.GetResult("item_name"), jsonHelper.GetResult("status")));
                             }
                             if (MainActivity.this != null) {
                                 MainActivity.this.runOnUiThread(new Runnable() {

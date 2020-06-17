@@ -25,9 +25,9 @@ public class ProductListF {
 
     public static List silder_list_fack() {
         List<SilderLists> silderListsList = new ArrayList<>();
-        silderListsList.add(new SilderLists("null", "", "", ""));
-        silderListsList.add(new SilderLists("null", "", "", ""));
-        silderListsList.add(new SilderLists("null", "", "", ""));
+        silderListsList.add(new SilderLists("null", "", "", "", ""));
+        silderListsList.add(new SilderLists("null", "", "", "", ""));
+        silderListsList.add(new SilderLists("null", "", "", "", ""));
         return silderListsList;
     }
 
