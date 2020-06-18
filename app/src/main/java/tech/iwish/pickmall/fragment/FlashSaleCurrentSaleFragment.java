@@ -69,7 +69,6 @@ public class FlashSaleCurrentSaleFragment extends Fragment implements FlashsaleT
 
         new CountdownTime(time_count);
         image();
-
 //        FlashSaleAllProductAdapter flashSaleAllProductAdapter = new FlashSaleAllProductAdapter((FlashSaleProductactivity) getActivity(), FlashSalefake());
 //        flash_sale_recycleview.setAdapter(flashSaleAllProductAdapter);
 

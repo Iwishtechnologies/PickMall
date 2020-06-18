@@ -144,19 +144,6 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 int qtyprod = Integer.parseInt(product_qty);
                 int amtprod = Integer.parseInt(product_amt);
                 product_amt = String.valueOf(qtyprod * amtprod);
-
-                int pricetot = qtyprod * amtprod;
-
-//                if (!productgst.isEmpty()) {
-//                    int productgstint = Integer.parseInt(productgst);
-//                    double gstPrice = (pricetot / 100.0f) * productgstint;
-//                    removeDout = (int) gstPrice;
-//                    String StrGstPrice = String.valueOf(removeDout);
-//                    gst_price.setText(StrGstPrice);
-//
-//                } else {
-//                    gst_price.setText("0");
-//                }
                 grandTotal = Integer.parseInt(product_amt) + removeDout;
                 finalamountsInt = grandTotal;
                 pricr.setText(getResources().getString(R.string.rs_symbol) + product_amt);
@@ -164,7 +151,6 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 break;
             case "friendDeal_one_rs":
                 cases.setVisibility(View.GONE);
-
                 product_name = intent.getStringExtra("product_name");
                 select_size = intent.getStringExtra("select_size");
                 product_amt = intent.getStringExtra("actual_price");

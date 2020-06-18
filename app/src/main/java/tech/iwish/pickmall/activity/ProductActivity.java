@@ -11,7 +11,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,14 +28,17 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.iwish.pickmall.Interface.CardProductRefreshInterface;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.config.Constants;
+import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.fragment.ProductFragment;
+import tech.iwish.pickmall.fragment.ProductSideColorBottomFragment;
 
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     public CardProductRefreshInterface cardProductRefre;
-    private ImageView back;
-    private LinearLayout search_product;
+    private ImageView back, image_item;
+    private LinearLayout search_product, item_image_layout;
     private TextView itme_name, filter, shorts, best_sellers, pricefilter;
 
     @Override
@@ -41,7 +47,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_product);
 
         back = (ImageView) findViewById(R.id.back);
+        image_item = (ImageView) findViewById(R.id.image_item);
         search_product = (LinearLayout) findViewById(R.id.search_product);
+        item_image_layout = (LinearLayout) findViewById(R.id.item_image_layout);
         itme_name = (TextView) findViewById(R.id.itme_name);
         filter = (TextView) findViewById(R.id.filter);
         shorts = (TextView) findViewById(R.id.shorts);
@@ -53,6 +61,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
         switch (type) {
             case "MainActivity_product":
+                image(getIntent().getStringExtra("item_id"));
                 productloadfradment(getIntent().getStringExtra("item_id"), getIntent().getStringExtra("item_name"), "product");
                 break;
             case "Category_by_product":
@@ -65,10 +74,13 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 productloadfradment(getIntent().getStringExtra("itemId"), getIntent().getStringExtra("itemName"), "FilterActivity");
                 break;
             case "prepaid":
-                productloadfradment("", getIntent().getStringExtra("itemName"), "prepaid");
+                image("30");
+                productloadfradment("30", getIntent().getStringExtra("itemName"), "prepaid");
                 break;
 
         }
+
+
 
         search_product.setOnClickListener(this);
         back.setOnClickListener(this);
@@ -87,12 +99,12 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("item_id", "7");
+            jsonObject.put("item_id", item_id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/categoryapi").post(body).build();
+        Request request1 = new Request.Builder().url(Constants.ITEM_IMAGE).post(body).build();
         okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -102,7 +114,35 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    Log.e("response", response.body().string());
+                    String result = response.body().string();
+                    Log.e("result",result);
+                    final JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                ProductActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        item_image_layout.setVisibility(View.VISIBLE);
+                                        String image = jsonHelper.GetResult("banner_img");
+                                        String a = Constants.IMAGES + image;
+                                        Glide.with(ProductActivity.this).load(a).into(image_item);
+                                    }
+                                });
+                            }
+                        } else {
+                            ProductActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    item_image_layout.setVisibility(View.GONE);
+                                }
+                            });
+                        }
+                    }
+
                 }
             }
         });
