@@ -1504,8 +1504,7 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/profile_image"
                 android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/demo_image" />
+                android:layout_height="60dp" />
 
             <LinearLayout
 

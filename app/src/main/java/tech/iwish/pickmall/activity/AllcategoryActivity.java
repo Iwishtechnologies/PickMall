@@ -45,7 +45,7 @@ public class AllcategoryActivity extends AppCompatActivity  {
     private ItemAdapter itemAdapter;
     private ItemCategoryInterface itemCategoryInterface;
     private List<CategoryList> categoryLists = new ArrayList<>();
-    private ImageView back;
+    private ImageView back,FeedBottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,10 @@ public class AllcategoryActivity extends AppCompatActivity  {
 
         all_itemrecycleview = (RecyclerView) findViewById(R.id.all_item);
         back= findViewById(R.id.back);
+        FeedBottom = findViewById(R.id.FeedBottom);
 
+
+//        FeedBottom.setImageDrawable(getResources().getDrawable(R.drawable.red_feed_icon));
 
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(AllcategoryActivity.this);
         linearLayoutManager1.setOrientation(RecyclerView.VERTICAL);

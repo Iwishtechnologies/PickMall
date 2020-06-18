@@ -21,7 +21,8 @@ import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.session.Share_session;
 
 public class Account extends AppCompatActivity implements InternetConnectivityListener {
-    ImageView viewall, profile,image,unpaid,wallet,wishlist,shippingaddress,following,vendor,coupens,invite,myorder,entercode,setting,helpcenter,delivered;
+    ImageView viewall, profile,image,unpaid,wallet,wishlist,shippingaddress
+            ,following,vendor,coupens,invite,myorder,entercode,setting,helpcenter,delivered,accountBottom;
     LinearLayout fullview;
     Share_session share_session;
     TextView name;
@@ -36,6 +37,9 @@ public class Account extends AppCompatActivity implements InternetConnectivityLi
         InitializeActivity();
         setActivityData();
         ActivityActions();
+
+
+
     }
 
 
@@ -71,6 +75,9 @@ public class Account extends AppCompatActivity implements InternetConnectivityLi
         setting= findViewById(R.id.setting);
         helpcenter= findViewById(R.id.helpcenter);
         delivered= findViewById(R.id.delivered);
+        accountBottom= (ImageView) findViewById(R.id.accountBottom);
+//        accountBottom.setImageDrawable(getResources().getDrawable(R.drawable.account_icon));
+//        accountBottom.setVisibility(View.GONE);
         Connectivity();
     }
 

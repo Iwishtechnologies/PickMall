@@ -58,27 +58,61 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
             Drawable drawable = holder.product_rationg.getProgressDrawable();
             switch (productLists.get(position).getFakeRating()) {
 
+                case "0.1":
+                case "0.2":
+                case "0.3":
+                case "0.4":
                 case "0.5":
+                case "0.6":
+                case "0.7":
+                case "0.8":
+                case "0.9":
                 case "1":
+                case "1.1":
+                case "1.2":
+                case "1.3":
+                case "1..4":
                 case "1.5":
+                case "1.6":
+                case "1.7":
+                case "1.8":
+                case "1.9":
                 case "2":
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                case "2.1":
+                case "2.2":
+                case "2.3":
+                case "2.4":
                         drawable.setColorFilter(context.getColor(R.color.progress_rating_red_color), PorterDuff.Mode.SRC_ATOP);
-                    }
                     break;
                 case "2.5":
+                case "2.6":
+                case "2.7":
+                case "2.8":
+                case "2.9":
                 case "3":
+                case "3.1":
+                case "3.2":
+                case "3.3":
+                case "3.4":
                 case "3.5":
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                case "3.6":
+                case "3.7":
+                case "3.8":
+                case "3.9":
                         drawable.setColorFilter(context.getColor(R.color.progress_rating_yellow_color), PorterDuff.Mode.SRC_ATOP);
-                    }
                     break;
                 case "4":
+                case "4.1":
+                case "4.2":
+                case "4.3":
+                case "4.4":
                 case "4.5":
+                case "4.6":
+                case "4.7":
+                case "4.8":
+                case "4.9":
                 case "5":
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         drawable.setColorFilter(context.getColor(R.color.progress_rating_green_color), PorterDuff.Mode.SRC_ATOP);
-                    }
                     break;
             }
 
@@ -91,7 +125,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
             float mrp = Float.parseFloat(productLists.get(position).getDiscount_price());
 
             float sub = mrp - dicountsAmt;
-            float div = sub / dicountsAmt;
+            float div = sub / mrp;
             aaa = (int) (div * 100);
 
             holder.per_dicount.setText(" " + String.valueOf(aaa) + "% OFF");

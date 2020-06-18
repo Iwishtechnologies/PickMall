@@ -16,6 +16,8 @@
         android:roundIcon="@drawable/applogo"
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
         android:usesCleartextTraffic="true">
         <activity android:name=".activity.ReturnOrderActivity"></activity>
         <activity android:name=".activity.Product"></activity>

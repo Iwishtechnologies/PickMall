@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -81,7 +83,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     private RelativeLayout card;
     private Map data;
     Share_session shareSession;
-    private ImageView save_hearth, sub_button, add_button,wishlist;
+    private ImageView save_hearth, sub_button, add_button, wishlist;
     public boolean wishlistchechi;
     private List<ProductColorList> productColorLists = new ArrayList<>();
     private ProductSizeInterFace productSizeInterFace;
@@ -175,7 +177,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         sku = intent.getStringExtra("sku");
         prepaid = intent.getStringExtra("prepaid");
 
-        Toast.makeText(this, "" + prepaid, Toast.LENGTH_SHORT).show();
 
         switch (product_type) {
             case "flashSale":
@@ -196,7 +197,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 float mrp = Float.parseFloat(discount_price);
                 float actual_prices = Float.parseFloat(actual_price);
                 float sub = mrp - actual_prices;
-                float div = sub / actual_prices;
+                float div = sub / mrp;
                 aaa = String.valueOf((int) (div * 100));
 
                 SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + discount_price);
@@ -279,6 +280,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         bundle.putString("vendor_id", vendor_id);
         productOverViewFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.product_overview_frame, productOverViewFragment).commit();
+
+
+
         cardcount();
 
         wishlistchechk(product_id, data.get(USERMOBILE).toString(), PRODUCT_TYPE, null);
@@ -423,7 +427,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 type = "add_to_card";
 //                addCardProcees();
                 bundle = new Bundle();
-                productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists,this);
+                productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists, this);
                 bundle.putString("product_name", product_name);
                 bundle.putString("actual_price", actual_price);
                 bundle.putString("product_id", product_id);
@@ -445,7 +449,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.one_rs_button_place_order:
                 bundle = new Bundle();
-                productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists,this);
+                productSideColorBottomFragment = new ProductSideColorBottomFragment(productSizeColorLists, this);
                 bundle.putString("product_name", product_name);
                 bundle.putString("actual_price", actual_price);
                 bundle.putString("product_id", product_id);

@@ -953,7 +953,7 @@
                 <!--                    app:fonttype="regular"-->
                 <!--                    android:text="dfdjs sdfnsda sdfbads  sdfsadjdkf sdfbadsjk asdfnsdjka sdfbas  asbf afbj  asbfjksd effnd  seedfjns  sefjb sg jw   efn eqs"/>-->
                 <FrameLayout
-                    android:name="com.example.android.fragments.HeadlinesFragment"
+                    android:name="tech.iwish.pickmall.activity.ProductDetailsActivity"
                     android:id="@+id/product_overview_frame"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

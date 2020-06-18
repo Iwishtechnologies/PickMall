@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity
         homeBottom = (ImageView) findViewById(R.id.HomeBottom);
         feedBottom = (ImageView) findViewById(R.id.FeedBottom);
         cardBottom = (ImageView) findViewById(R.id.CardBottom);
-        accountBottom = (ImageView) findViewById(R.id.AccountBottom);
+        accountBottom = (ImageView) findViewById(R.id.accountBottom);
 
 
 //        swipe_refresh_layout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
@@ -543,7 +543,7 @@ public class MainActivity extends AppCompatActivity
             public void run() {
                 handler.post(runnable);
             }
-        }, 250, 15000);
+        }, 0, 60000);
 
 
     }
@@ -565,7 +565,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
 //                Animatoo.animateDiagonal(MainActivity.this);
                 break;
-            case R.id.AccountBottom:
+            case R.id.accountBottom:
                 startActivity(new Intent(MainActivity.this, Account.class));
                 break;
             case R.id.search_bar_layout:

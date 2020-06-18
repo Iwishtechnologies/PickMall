@@ -61,13 +61,13 @@ import static tech.iwish.pickmall.session.Share_session.STATE_ADDRESS;
 
 public class CardActivity extends AppCompatActivity implements View.OnClickListener, RefreshCartAmountInterface, CardQtyAmountRef {
 
-    private ImageView homeBottom, feedBottom, cardBottom, accountBottom, cardImage;
+    private ImageView homeBottom, feedBottom, cardBottom, accountBottom, cardImage,CardBottom;
     private MyhelperSql myhelperSql;
     private SQLiteDatabase sqLiteDatabase;
     private RecyclerView card_recycle_view;
     private ArrayList<HashMap<String, String>> data;
     private TextView edit_amount, pincode, name_address, full_address, product_count_card, pricr, total_amount_tax;
-    private LinearLayout price_layout, product_count_card_layout, price_details_layout, address_layout, change_address;
+    private LinearLayout price_layout, product_count_card_layout, price_details_layout, address_layout, change_address,prepaid_layout;
     private int TotalAMT;
     private int final_total_amount, check;
     private String valuecheck;
@@ -88,8 +88,9 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
         homeBottom = (ImageView) findViewById(R.id.HomeBottom);
         feedBottom = (ImageView) findViewById(R.id.FeedBottom);
         cardBottom = (ImageView) findViewById(R.id.CardBottom);
-        accountBottom = (ImageView) findViewById(R.id.AccountBottom);
+        accountBottom = (ImageView) findViewById(R.id.accountBottom);
         cardImage = (ImageView) findViewById(R.id.cardImage);
+        CardBottom = (ImageView) findViewById(R.id.CardBottom);
         card_recycle_view = (RecyclerView) findViewById(R.id.card_recycle_view);
 
         edit_amount = (TextView) findViewById(R.id.edit_amount);
@@ -107,6 +108,7 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
         price_details_layout = (LinearLayout) findViewById(R.id.price_details_layout);
         address_layout = (LinearLayout) findViewById(R.id.address_layout);
         change_address = (LinearLayout) findViewById(R.id.change_address);
+        prepaid_layout = (LinearLayout) findViewById(R.id.prepaid_layout);
 
         place_order_btn = (Button) findViewById(R.id.place_order_btn);
 
@@ -127,6 +129,8 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
                     data.get(STATE_ADDRESS).toString());
         }
 
+        CardBottom.setImageDrawable(getResources().getDrawable(R.drawable.red_card_icon));
+
         card_product();
 
 
@@ -136,6 +140,7 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
         accountBottom.setOnClickListener(this);
         place_order_btn.setOnClickListener(this);
         change_address.setOnClickListener(this);
+        prepaid_layout.setOnClickListener(this);
 
 
         if (!CardCount.card_count(this).equals("0")) {
@@ -232,7 +237,7 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.CardBottom:
                 break;
-            case R.id.AccountBottom:
+            case R.id.accountBottom:
                 startActivity(new Intent(CardActivity.this, Account.class));
                 break;
             case R.id.place_order_btn:
@@ -243,6 +248,12 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
                 intent1.putExtra("context", "CardActivity");
                 intent1.putExtra("type", "CardActivity");
                 startActivity(intent1);
+                break;
+            case R.id.prepaid_layout:
+                Intent intent2 = new Intent(CardActivity.this,ProductActivity.class);
+                intent2.putExtra("type","prepaid");
+                intent2.putExtra("itemName","Prepaid");
+                startActivity(intent2);
                 break;
         }
     }
