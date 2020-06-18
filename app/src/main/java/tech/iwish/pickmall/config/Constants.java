@@ -102,6 +102,8 @@ public class Constants {
     public static String GENDER_UPDATE = URL+"gender_update";
     public static String PREPAID_PRODUCT = URL+"prepaid_product";
     public static String FLASH_SALE_IMAGE_OPTION = URL+"flash_sale_image_option";
+    public static String OFFERBANNER = URL+"OfferBanner";
+
 
     public static String IMAGES = "http://pickmall.iwishtech.xyz/img/";
 //        public static String IMAGES = "http://173.212.226.143:8086/img/";

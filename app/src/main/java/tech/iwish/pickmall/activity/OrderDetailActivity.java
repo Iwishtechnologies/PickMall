@@ -50,7 +50,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
     Intent intent;
     Share_session share_session;
     String dis_amt;
-    LinearLayout returnview;
+    LinearLayout returnview,ratingview;
     Button help;
     RatingBar RatingBar;
     ShimmerFrameLayout shimmer;
@@ -100,6 +100,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         shimmer= findViewById(R.id.shimmer);
         returnorder= findViewById(R.id.returnorder);
         returnview= findViewById(R.id.returnview);
+        ratingview= findViewById(R.id.ratingview);
         Log.e("dateadd", String.valueOf(addDay(getIntent().getExtras().getString("delivery_date"),7)));
         if(addDay(getIntent().getExtras().getString("delivery_date"),7)){
             returnview.setVisibility(View.VISIBLE);
@@ -156,21 +157,25 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
             delivery_status.setText("Pending");
             order_approved.setText("Pending");
             cencelled_statement.setVisibility(View.GONE);
+            ratingview.setVisibility(View.GONE);
         }else if(getIntent().getExtras().getString("orderStatus").equals("DELIVERED")){
            progress.setImageResource(R.drawable.full_fill_progressbar);
            delivery_status.setText("Delivered");
            order_approved.setText("Ordered And Approvep");
            cencelled_statement.setVisibility(View.GONE);
+           ratingview.setVisibility(View.VISIBLE);
        }else if(getIntent().getExtras().getString("orderStatus").equals("CENCELLED")){
            progress.setImageResource(R.drawable.half_fill_progressbar);
            delivery_status.setText("Cancelled");
            order_approved.setText("Ordered And Approvep");
            cencelled_statement.setVisibility(View.VISIBLE);
+           ratingview.setVisibility(View.GONE);
        }else if(getIntent().getExtras().getString("orderStatus").equals("CONFIRM")){
            progress.setImageResource(R.drawable.half_fill_progressbar);
            delivery_status.setText("Pending");
            order_approved.setText("Ordered And Approvep");
            cencelled_statement.setVisibility(View.GONE);
+           ratingview.setVisibility(View.GONE);
        }
 
     }

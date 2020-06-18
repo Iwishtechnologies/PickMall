@@ -810,7 +810,7 @@
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
     android:orientation="vertical"
-    android:background="#E8A851"
+
     tools:context=".fragment.ProductOverViewFragment">
 
     <LinearLayout
@@ -818,7 +818,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="#462423"
-        android:visibility="gone"
+        android:visibility="visible"
         android:orientation="vertical"
         android:padding="4dp"
         android:paddingBottom="3dp">
@@ -858,7 +858,7 @@
                     android:paddingEnd="12dp"
                     android:paddingBottom="7dp"
                     android:text="Select pincode"
-                    android:textColor="#FF0700"
+                    android:textColor="@color/white"
                     android:textSize="10sp"
                     app:fonttype="text_semi_bold" />
 
@@ -894,6 +894,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#462423"
+        android:visibility="visible"
         android:padding="10dp">
 
         <LinearLayout
@@ -907,7 +908,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:padding="5dp"
-                android:text="Cash on Delivery availabe for this pincode"
+                android:text="Estimate time to Arrival 7-12 Days"
                 android:textColor="@color/white"
                 android:textSize="10sp"
                 app:fonttype="regular" />
@@ -918,6 +919,7 @@
                 android:layout_gravity="end"
                 android:layout_marginStart="5dp"
                 android:gravity="right"
+                android:visibility="gone"
                 android:src="@drawable/right_arrow" />
 
         </LinearLayout>
@@ -933,7 +935,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:padding="5dp"
-                android:text="Cash on Delivery availabe for this pincode"
+                android:text="Free Shipping On Prepaid Orders"
                 android:textColor="@color/white"
                 android:textSize="10sp"
                 app:fonttype="regular" />
@@ -944,6 +946,33 @@
                 android:layout_gravity="end"
                 android:layout_marginStart="5dp"
                 android:gravity="right"
+                android:visibility="gone"
+                android:src="@drawable/right_arrow" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="5dp"
+                android:text="Cash On Delivery Available On Your Pincode.."
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:fonttype="regular" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="5dp"
+                android:gravity="right"
+                android:visibility="gone"
                 android:src="@drawable/right_arrow" />
 
         </LinearLayout>
@@ -1076,7 +1105,6 @@
             android:layout_marginTop="10dp"
             android:background="#462423"
             android:orientation="horizontal"
-            android:visibility="gone"
             android:weightSum="2">
 
             <LinearLayout
@@ -1467,7 +1495,7 @@
                 android:layout_width="match_parent"
                 android:background="#462423"
                 android:layout_height="wrap_content"
-               >
+                >
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/product_description"
@@ -1504,7 +1532,8 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/profile_image"
                 android:layout_width="60dp"
-                android:layout_height="60dp" />
+                android:layout_height="60dp"
+                android:src="@drawable/demo_image" />
 
             <LinearLayout
 
@@ -1616,6 +1645,18 @@
         android:layout_height="wrap_content" />
 
 </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

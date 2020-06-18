@@ -464,12 +464,7 @@ public class MainActivity extends AppCompatActivity
 
                             productListList.clear();
                             if (MainActivity.this != null) {
-                                MainActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        new CountdownTime(time_countDown);
-                                    }
-                                });
+                                MainActivity.this.runOnUiThread(() -> new CountdownTime(time_countDown));
                             }
 
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
@@ -543,7 +538,7 @@ public class MainActivity extends AppCompatActivity
             public void run() {
                 handler.post(runnable);
             }
-        }, 0, 60000);
+        }, 250, 15000);
 
 
     }

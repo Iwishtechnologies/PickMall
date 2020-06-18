@@ -215,17 +215,20 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
                 if (select_size == null) {
                     Toast.makeText(getActivity(), "Select Size", Toast.LENGTH_SHORT).show();
                 } else {
-                    Intent intent = new Intent(getContext(), SaveAddressActivity.class);
-                    intent.putExtra("product_name", product_name);
-                    intent.putExtra("actual_price", actual_price);
-                    intent.putExtra("product_id", product_id);
-                    intent.putExtra("discount_price", discount_price);
-                    intent.putExtra("product_qty", product_qty);
-                    intent.putExtra("imagename", imagename);
-                    intent.putExtra("select_size", select_size);
-                    intent.putExtra("prepaid", prepaid);
-                    intent.putExtra("type", "buy_now");
-                    startActivity(intent);
+                    getActivity().runOnUiThread(() -> {
+                        Intent intent = new Intent(getContext(), SaveAddressActivity.class);
+                        intent.putExtra("product_name", product_name);
+                        intent.putExtra("actual_price", actual_price);
+                        intent.putExtra("product_id", product_id);
+                        intent.putExtra("discount_price", discount_price);
+                        intent.putExtra("product_qty", product_qty);
+                        intent.putExtra("imagename", imagename);
+                        intent.putExtra("select_size", select_size);
+                        intent.putExtra("prepaid", prepaid);
+                        intent.putExtra("type", "buy_now");
+                        getActivity().startActivity(intent);
+                    });
+
                 }
                 break;
 

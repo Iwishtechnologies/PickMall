@@ -19,9 +19,10 @@
         <item name="android:windowFullscreen">false</item>
     </style>
 
-    <style name="CardTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="CardTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimaryDark">#381B1A</item>
         <item name="colorPrimary">#DC9B40 </item>
+        <item name="android:name">Cart </item>
     </style>
 
     <style name="CustomProgressBarHorizontal" parent="android:Widget.ProgressBar.Horizontal">

@@ -16,18 +16,17 @@
         android:roundIcon="@drawable/applogo"
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
-        android:hardwareAccelerated="false"
-        android:largeHeap="true"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.ReturnOrderActivity"></activity>
-        <activity android:name=".activity.Product"></activity>
+        <activity android:name=".activity.OfferBannerActivity"></activity>
+        <activity android:name=".activity.ReturnOrderActivity" />
+        <activity android:name=".activity.Product" />
         <activity android:name=".activity.SelectGenderActivity" />
         <activity
             android:name=".activity.OneRsShareActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Settingtheme" />
         <activity android:name=".activity.OTPActivity" />
-        <activity android:name=".activity.MobileNOActivity"></activity>
+        <activity android:name=".activity.MobileNOActivity" />
         <activity android:name=".activity.NoInternetConnectionActivity" />
         <activity
             android:name=".activity.DeliveredItemActivity"
@@ -144,7 +143,7 @@
             android:name=".activity.Profile"
             android:screenOrientation="portrait"
             android:theme="@style/profileTheme" />
-        <activity android:name=".activity.UserDetail"></activity>
+        <activity android:name=".activity.UserDetail" />
         <activity
             android:name=".activity.SaveAddressActivity"
             android:theme="@style/flashsaleproduct" />
@@ -202,6 +201,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="rzp_test_cqTSMSd3guM3Ej" />

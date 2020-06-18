@@ -416,8 +416,8 @@ public class MobileNOActivity extends AppCompatActivity  implements InternetConn
                             MobileNOActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Log.e("image",jsonHelper.GetResult("data"));
-                                    Log.e("image",jsonHelper.GetResult("data"));
+//                                    Log.e("image",jsonHelper.GetResult("data"));
+//                                    Log.e("image",jsonHelper.GetResult("data"));
 //                                    share_session.SetProfileImage(jsonHelper.GetResult("data"));
                                     share_session.CreateSession(mobile);
                                     share_session.user_number_check();
@@ -431,8 +431,8 @@ public class MobileNOActivity extends AppCompatActivity  implements InternetConn
                             MobileNOActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Log.e("image",jsonHelper.GetResult("data"));
-                                    Log.e("image",jsonHelper.GetResult("data"));
+//                                    Log.e("image",jsonHelper.GetResult("data"));
+//                                    Log.e("image",jsonHelper.GetResult("data"));
 //                                    share_session.SetProfileImage(jsonHelper.GetResult("data"));
                                     share_session.CreateSession(mobile);
                                     share_session.user_number_check();

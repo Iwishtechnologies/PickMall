@@ -397,25 +397,3 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
