@@ -32,6 +32,7 @@
     <string name="profile">Account &amp; Security </string>
     <string name="edit_profile">Edit Profile </string>
     <string name="vendor"> Vendor Request </string>
+    <string name="off">% off</string>
 
     <string name="facebook_app_id">693074284812009</string>
     <string name="fb_login_protocol_scheme">693074284812009</string>

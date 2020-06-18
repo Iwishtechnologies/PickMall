@@ -108,6 +108,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
             holder.product_qty.setText(cardData.get(position).get("PRODUCT_QTY"));
             holder.remove_button_layout.setVisibility(View.GONE);
             holder.qty_layout.setVisibility(View.GONE);
+//            holder.percent_price.setText(cardData.get(position).get("PRODUCT_DICOUNT_PERCEN"));
+            float actual= Float.valueOf(cardData.get(position).get("PRODUCT_AMOUNT"));
+            float dis= Float.valueOf(cardData.get(position).get("PRODUCT_AMOUNT_DICOUNT"));
+            float disco=dis-actual;
+            float fin =disco/dis*100;
+            int aa = (int) fin ;
+//            int discount=Integer.parseInt(cardData.get(position).get("PRODUCT_AMOUNT"))/Integer.valueOf(cardData.get(position).get("PRODUCT_AMOUNT_DICOUNT"));
+            holder.percent_price.setText(String.valueOf(aa));
 
 
         }

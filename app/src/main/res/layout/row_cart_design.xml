@@ -169,7 +169,17 @@
                             android:textColor="@color/redColor"
                             android:textSize="15sp"
                             app:fonttype="text_semi_bold"
-                            tools:visibility="gone" />
+                            tools:visibility="visible" />
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="-3dp"
+                            android:text="%OFF"
+                            android:textColor="@color/redColor"
+                            android:textSize="15sp"
+                            app:fonttype="text_semi_bold"
+                            tools:visibility="visible" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
