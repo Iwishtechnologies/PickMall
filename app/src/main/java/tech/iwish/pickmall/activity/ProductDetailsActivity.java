@@ -445,7 +445,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 productSideColorBottomFragment.setArguments(bundle);
                 productSideColorBottomFragment.show(getSupportFragmentManager(), productSideColorBottomFragment.getTag());
 
-
                 break;
             case R.id.one_rs_button_place_order:
                 bundle = new Bundle();
@@ -457,6 +456,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 bundle.putString("imagename", product_Image);
                 bundle.putString("product_type", PRODUCT_TYPE);
                 bundle.putString("gst", gst);
+                bundle.putString("prepaid", prepaid);
                 bundle.putString("product_qty", quty_value.getText().toString());
                 bundle.putString("type", "friendDeal_one_rs");
                 productSideColorBottomFragment.setArguments(bundle);

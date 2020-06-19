@@ -112,13 +112,14 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
         switch (type) {
             case "CardActivity":
                 product_amt = intent.getStringExtra("amounts");
-                productgst = intent.getStringExtra("gst");
 
-                gstint = Integer.parseInt(productgst);
-                grandTotal = Integer.parseInt(product_amt) + gstint;
-                gst_price.setText(productgst);
+//                productgst = intent.getStringExtra("gst");
+//                gstint = Integer.parseInt(productgst);
+//                grandTotal = Integer.parseInt(product_amt) + gstint;
+//                gst_price.setText(productgst);
+//                finalamountsInt = grandTotal;
 
-                finalamountsInt = grandTotal;
+                grandTotal = Integer.parseInt(product_amt);
 
                 pricr.setText(getResources().getString(R.string.rs_symbol) + product_amt);
                 total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
@@ -136,11 +137,11 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 product_type = intent.getStringExtra("product_type");
                 productgst = intent.getStringExtra("gst");
                 prepaid = intent.getStringExtra("prepaid");
-
-                if(prepaid.equals("prepaid")){
-                    cases.setVisibility(View.GONE);
+                if(prepaid != null){
+                    if(prepaid.equals("prepaid")){
+                        cases.setVisibility(View.GONE);
+                    }
                 }
-
                 int qtyprod = Integer.parseInt(product_qty);
                 int amtprod = Integer.parseInt(product_amt);
                 product_amt = String.valueOf(qtyprod * amtprod);
@@ -163,9 +164,8 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 productgst = intent.getStringExtra("gst");
                 item_type = intent.getStringExtra("item_type");
 
-                gst_price.setText("0");
-
-                grandTotal = Integer.parseInt(product_amt) + removeDout;
+//                gst_price.setText("0");
+                grandTotal = Integer.parseInt(product_amt);
                 finalamountsInt = grandTotal;
                 pricr.setText(getResources().getString(R.string.rs_symbol) + product_amt);
                 total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
@@ -322,14 +322,13 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 caseRadios.setChecked(false);
                 paymentAvailable.setVisibility(View.VISIBLE);
                 shippingCharge.setText("Free");
-                total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + finalamountsInt);
+                total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
                 if (data.get(WALLET_AMOUNT) != null) {
                     WalletAmount = data.get(WALLET_AMOUNT).toString();
                     walletAmtTextview.setText(WalletAmount);
                 }
                 break;
             case R.id.online_payment:
-                finalamountsInt = grandTotal;
                 this.Checker = "online_payment";
                 onlinePayments.setChecked(true);
                 rayruWallet.setChecked(false);
@@ -337,7 +336,6 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 paymentAvailable.setVisibility(View.GONE);
                 shippingCharge.setText("Free");
                 total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
-                finalamountsInt = grandTotal;
                 break;
             case R.id.cases:
                 this.Checker = "cod";
@@ -353,7 +351,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
     private void shippingcharge() {
 
-        cases.setClickable(false);
+//        cases.setClickable(false);
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -395,7 +393,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                                         public void run() {
                                             shippingCharge.setText(shippingAmt);
                                             shippingchargebuy_now = shippinsAmt;
-                                            int totalamt = shippinsAmt + productsAmt + gstint;
+                                            int totalamt = shippinsAmt + productsAmt ;
                                             finalamountsInt = totalamt;
                                             shippingCharege = String.valueOf(totalamt);
                                             total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + shippingCharege);
@@ -432,7 +430,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
         Intent intent;
         intent = new Intent(PaymentOptionActivity.this, Paymentgateway.class);
-        String f = String.valueOf(finalamountsInt);
+        String f = String.valueOf(grandTotal);
 
         switch (type) {
             case "CardActivity":
@@ -453,6 +451,16 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
                 intent.putExtra("type", "buy_now");
 //                startActivity(intent);
+                break;
+            case "friendDeal_one_rs":
+                intent.putExtra("type", "friendDeal_one_rs");
+                intent.putExtra("finalamountsInt", f);
+                intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
+                intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
+                intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
+                intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
+                intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
                 break;
         }
         startActivity(intent);
@@ -645,12 +653,12 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             jsonObject.put("client_address", "");
             jsonObject.put("product_id", product_id);
             jsonObject.put("product_type", product_type);
-            jsonObject.put("product_color", select_color);
+            jsonObject.put("product_color", "");
             jsonObject.put("product_size", select_size);
             jsonObject.put("product_qty", product_qty);
             jsonObject.put("product_amount", finalamountsInt);
             jsonObject.put("shippingCharge", shippingchargebuy_now);
-            jsonObject.put("gst", removeDout);
+            jsonObject.put("gst", "");
             jsonObject.put("item_type", item_type);
             jsonObject.put("payment_option", paymentmethod);
 

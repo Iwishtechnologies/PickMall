@@ -1,15 +1,20 @@
 package tech.iwish.pickmall.fragment;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,8 +26,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +67,7 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
     private Button confirm_add_to_card, go_to_card, buy_now;
     private String select_color, select_size, product_id, gst, vendor_id,
             product_dicount_percent, product_name, actual_price, imagename,
-            product_qty, discount_price, product_type, type,prepaid;
+            product_qty, discount_price, product_type, type, prepaid;
     private Share_session shareSession;
     private Map data;
     private ProductCountInterface productCountInterface;
@@ -225,6 +233,7 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
                         intent.putExtra("imagename", imagename);
                         intent.putExtra("select_size", select_size);
                         intent.putExtra("prepaid", prepaid);
+                        intent.putExtra("product_type", getActivity().getIntent().getStringExtra("product_type"));
                         intent.putExtra("type", "buy_now");
                         getActivity().startActivity(intent);
                     });
@@ -331,6 +340,81 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
         color_product_recycleview.setAdapter(productColorAdapter);
 
     }
+
+
+/*
+    @Override
+    public void setupDialog(@NonNull Dialog dialog, int style) {
+        BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialog;
+        bottomSheetDialog.setContentView(R.layout.fragment_product_side_color_bottom);
+
+        try {
+            Field behaviorField = bottomSheetDialog.getClass().getDeclaredField("behavior");
+            behaviorField.setAccessible(true);
+            final BottomSheetBehavior behavior = (BottomSheetBehavior) behaviorField.get(bottomSheetDialog);
+            behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+
+                @Override
+                public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                    if (newState == BottomSheetBehavior.STATE_DRAGGING){
+                        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    }
+                }
+
+                @Override
+                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                }
+            });
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+*/
+
+
+
+//     hight set bottom
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialogInterface;
+                setupFullHeight(bottomSheetDialog);
+            }
+        });
+        return dialog;
+    }
+
+
+    private void setupFullHeight(BottomSheetDialog bottomSheetDialog) {
+        FrameLayout bottomSheet = (FrameLayout) bottomSheetDialog.findViewById(R.id.design_bottom_sheet);
+        BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
+        behavior.setPeekHeight(1000);
+
+
+        ViewGroup.LayoutParams layoutParams = bottomSheet.getLayoutParams();
+//        int windowHeight = getWindowHeight();
+        int windowHeight = getWindowHeight() - 300;
+        if (layoutParams != null) {
+            layoutParams.height = windowHeight;
+        }
+        bottomSheet.setLayoutParams(layoutParams);
+        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+
+    }
+
+    private int getWindowHeight() {
+        // Calculate window height for fullscreen use
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        return displayMetrics.heightPixels;
+    }
+
 
 }
 

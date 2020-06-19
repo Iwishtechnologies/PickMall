@@ -166,13 +166,12 @@ public class BottomPincodeFragment extends BottomSheetDialogFragment {
 
 
         ViewGroup.LayoutParams layoutParams = bottomSheet.getLayoutParams();
-        int windowHeight = getWindowHeight();
+        int windowHeight = getWindowHeight()-300;
         if (layoutParams != null) {
             layoutParams.height = windowHeight;
         }
         bottomSheet.setLayoutParams(layoutParams);
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-//
 
 
     }
