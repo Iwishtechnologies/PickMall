@@ -104,6 +104,7 @@ public class Constants {
     public static String FLASH_SALE_IMAGE_OPTION = URL+"flash_sale_image_option";
     public static String OFFERBANNER = URL+"OfferBanner";
     public static String ITEM_IMAGE = URL+"item_image_product";
+    public static String GETSTOCK = URL+"flash_product_stock";
 
 
 //    public static String IMAGES = "http://pickmall.iwishtech.xyz/img/";

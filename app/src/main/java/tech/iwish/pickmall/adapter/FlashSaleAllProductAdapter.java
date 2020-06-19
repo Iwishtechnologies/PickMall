@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,18 +19,33 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.List;
 
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.FlashSaleProductactivity;
 import tech.iwish.pickmall.activity.ProductDetailsActivity;
+import tech.iwish.pickmall.activity.WishListActivity;
 import tech.iwish.pickmall.config.Constants;
+import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.other.ProductList;
+import tech.iwish.pickmall.other.WishlistList;
 
 
 public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAllProductAdapter.Viewholder> {
 
-    private Context context;
+    private FlashSaleProductactivity context;
     private List<ProductList> productListList ;
     private boolean shimmer = true;
     private int shimmernumber = 5;
@@ -74,23 +91,21 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
             String a = Constants.IMAGES + productListList.get(position).getPimg();
             Glide.with(context).load(a).into(holder.image_flash_sale);
             holder.product_name_flash.setText(productListList.get(position).getProductName());
+            getStock(productListList.get(position).getProduct_id(),holder);
             holder.percent_price.setText(productListList.get(position).getDiscount_price_per() +"%");
-            holder.flash_main_layout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(new Intent(context, ProductDetailsActivity.class));
-                    intent.putExtra("product_name", productListList.get(position).getProductName());
-                    intent.putExtra("actual_price", productListList.get(position).getActual_price());
-                    intent.putExtra("discount_price", productListList.get(position).getDiscount_price());
-                    intent.putExtra("product_id", productListList.get(position).getProduct_id());
-                    intent.putExtra("product_Image", productListList.get(position).getPimg());
-                    intent.putExtra("vendor_id", productListList.get(position).getVendor_id());
-                    intent.putExtra("discount_price_per", productListList.get(position).getDiscount_price_per());
-                    intent.putExtra("gst", productListList.get(position).getGst());
-                    intent.putExtra("sku", productListList.get(position).getSKU());
-                    intent.putExtra("product_type", "flashSale");
-                    context.startActivity(intent);
-                }
+            holder.flash_main_layout.setOnClickListener(view -> {
+                Intent intent = new Intent(new Intent(context, ProductDetailsActivity.class));
+                intent.putExtra("product_name", productListList.get(position).getProductName());
+                intent.putExtra("actual_price", productListList.get(position).getActual_price());
+                intent.putExtra("discount_price", productListList.get(position).getDiscount_price());
+                intent.putExtra("product_id", productListList.get(position).getProduct_id());
+                intent.putExtra("product_Image", productListList.get(position).getPimg());
+                intent.putExtra("vendor_id", productListList.get(position).getVendor_id());
+                intent.putExtra("discount_price_per", productListList.get(position).getDiscount_price_per());
+                intent.putExtra("gst", productListList.get(position).getGst());
+                intent.putExtra("sku", productListList.get(position).getSKU());
+                intent.putExtra("product_type", "flashSale");
+                context.startActivity(intent);
             });
 
 
@@ -112,6 +127,7 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
         private TextView product_name_flash, amount_flash, dicount_price_flash, percent_price;
         private ImageView image_flash_sale;
         private LinearLayout flash_main_layout;
+        ProgressBar progressBar;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -123,8 +139,59 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
             percent_price = (TextView) itemView.findViewById(R.id.percent_price);
             image_flash_sale = (ImageView) itemView.findViewById(R.id.image_flash_sale);
             flash_main_layout = (LinearLayout) itemView.findViewById(R.id.flash_main_layout);
+            progressBar =  itemView.findViewById(R.id.progress_2);
 
         }
+    }
+
+
+    private void getStock(String pid,Viewholder viewholder){
+        OkHttpClient client = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("product_id",pid);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request = new Request.Builder().post(body)
+                .url(Constants.GETSTOCK)
+                .build();
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                context.runOnUiThread(() -> {
+                            float stock=Float.valueOf(jsonHelper.GetResult("stock"));
+                                   viewholder.progressBar.setProgress((int)stock);
+                                });
+                            }
+
+
+
+                        }
+                    }
+
+                }
+            }
+        });
+
     }
 }
 
