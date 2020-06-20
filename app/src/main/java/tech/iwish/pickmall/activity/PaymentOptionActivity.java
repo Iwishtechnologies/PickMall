@@ -513,7 +513,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("client_number", data.get(USERMOBILE).toString());
-            jsonObject.put("client_address", "");
+            jsonObject.put("client_address", shareSession.GetAddrssId());
             jsonObject.put("product", jsonObjects.toString());
             jsonObject.put("payment_option", paymentmethod);
             jsonObject.put("shippingCharge", shippingchargebuy_now);
@@ -581,7 +581,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("client_number", data.get(USERMOBILE).toString());
-            jsonObject.put("client_address", "");
+            jsonObject.put("client_address", shareSession.GetAddrssId());
             jsonObject.put("product_id", product_id);
             jsonObject.put("product_type", product_type);
             jsonObject.put("product_color", select_color);
@@ -650,7 +650,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("client_number", data.get(USERMOBILE).toString());
-            jsonObject.put("client_address", "");
+            jsonObject.put("client_address", shareSession.GetAddrssId());
             jsonObject.put("product_id", product_id);
             jsonObject.put("product_type", product_type);
             jsonObject.put("product_color", "");

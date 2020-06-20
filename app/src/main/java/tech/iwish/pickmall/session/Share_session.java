@@ -170,6 +170,9 @@ public class Share_session {
         editor.putString(ADDRESSID,id).commit();
     }
 
+    public String GetAddrssId(){
+        return  Preferences.getString(ADDRESSID,null);
+    }
  }
 
 
