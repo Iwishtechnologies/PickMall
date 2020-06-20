@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:weightSum="4"
+        android:layout_height="wrap_content">
+
+        <tech.iwish.pickmall.extended.TextViewFont
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:text="sno"
+            android:id="@+id/id"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"/>
+        <tech.iwish.pickmall.extended.TextViewFont
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:text="product"
+            android:id="@+id/product"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"/>
+        <tech.iwish.pickmall.extended.TextViewFont
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:text="name"
+            android:id="@+id/name"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"/>
+        <tech.iwish.pickmall.extended.TextViewFont
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:text="shares"
+            android:id="@+id/shares"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
