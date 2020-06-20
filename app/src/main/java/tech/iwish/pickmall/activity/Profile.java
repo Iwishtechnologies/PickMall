@@ -66,20 +66,20 @@ public class Profile extends AppCompatActivity implements InternetConnectivityLi
         back.setOnClickListener(view -> {
             Intent intent= new Intent(Profile.this,Account.class);
             startActivity(intent);
-            Animatoo.animateInAndOut(Profile.this);
+//            Animatoo.animateInAndOut(Profile.this);
         });
 
         edit_name.setOnClickListener(view -> {
             Intent intent= new Intent(Profile.this,EditProfileActivity.class);
             intent.putExtra("action","name");
             startActivity(intent);
-            Animatoo.animateInAndOut(Profile.this);
+//            Animatoo.animateInAndOut(Profile.this);
         });
         edit_gender.setOnClickListener(view -> {
             Intent intent= new Intent(Profile.this,EditProfileActivity.class);
             intent.putExtra("action","gender");
             startActivity(intent);
-            Animatoo.animateInAndOut(Profile.this);
+//            Animatoo.animateInAndOut(Profile.this);
         });
 
 

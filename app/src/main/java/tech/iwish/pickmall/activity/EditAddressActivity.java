@@ -197,7 +197,7 @@ public class EditAddressActivity extends AppCompatActivity implements View.OnCli
                 } else {
 
                     Share_session shareSession = new Share_session(this);
-                    shareSession.address(addressDataLists.get(position).getName(), addressDataLists.get(position).getDelivery_number(), addressDataLists.get(position).getPincode(), addressDataLists.get(position).getHouse_no(), addressDataLists.get(position).getColony(), addressDataLists.get(position).getLandmark(), addressDataLists.get(position).getState(), addressDataLists.get(position).getCity());
+                    shareSession.address(addressDataLists.get(position).getName(), addressDataLists.get(position).getDelivery_number(), addressDataLists.get(position).getPincode(), addressDataLists.get(position).getHouse_no(), addressDataLists.get(position).getColony(), addressDataLists.get(position).getLandmark(), addressDataLists.get(position).getState(), addressDataLists.get(position).getCity(),addressDataLists.get(position).getSno());
 
                     if (getIntent().getStringExtra("context") != null) {
                         startActivity(new Intent(EditAddressActivity.this, CardActivity.class));

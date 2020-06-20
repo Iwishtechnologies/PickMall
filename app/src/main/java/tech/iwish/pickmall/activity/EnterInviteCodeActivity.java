@@ -124,7 +124,7 @@ public class EnterInviteCodeActivity extends AppCompatActivity implements Intern
             return false;
         }
         else {
-            if(code.length()==8){
+            if(code.length()>=8){
                 return true;
             }
             else {

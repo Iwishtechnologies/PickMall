@@ -68,6 +68,28 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/address_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="@color/address_text_color"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/email_add"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/address_tint_color"
+                        android:hint="Email *"
+                        android:inputType="textEmailAddress"
+                        android:maxLength="25"
+                        android:maxLines="1"
+                        android:textColor="@color/address_text_color"
+                        android:textSize="15sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/address_pincode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

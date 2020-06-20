@@ -182,9 +182,6 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
                                    viewholder.progressBar.setProgress((int)stock);
                                 });
                             }
-
-
-
                         }
                     }
 

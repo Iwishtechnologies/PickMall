@@ -75,7 +75,7 @@ public class EditProfileActivity extends AppCompatActivity implements AdapterVie
                        SaveProfileData(share_session.getUserDetail().get("UserMobile"),intent.getStringExtra("action"),data.getText().toString());
                        share_session.UpdateUserDetail(data.getText().toString(),intent.getStringExtra("action"));
                        startActivity(new Intent(EditProfileActivity.this,Profile.class) );
-                       Animatoo.animateDiagonal(EditProfileActivity.this);
+//                       Animatoo.animateDiagonal(EditProfileActivity.this);
                    }
                }
                if(intent.getStringExtra("action").equals("gender"))

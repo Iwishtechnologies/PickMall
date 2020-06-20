@@ -37,6 +37,7 @@ import tech.iwish.pickmall.adapter.FriendSaleAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.other.FriendSaleList;
+import tech.iwish.pickmall.other.WishlistList;
 import tech.iwish.pickmall.session.Share_session;
 
 import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
@@ -45,8 +46,8 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
 
 
     private Button address_confirm;
-    private TextInputLayout address_name, address_number, address_pincode, address_house_no, address_colony, address_landmark, address_text_city, address_text_state;
-    private EditText name_add, number_add, pincode_add, house_add, colony_add, landmark_add;
+    private TextInputLayout address_name, address_number, address_pincode, address_house_no, address_colony, address_landmark, address_text_city, address_text_state,address_email;
+    private EditText name_add, number_add, pincode_add, house_add, colony_add, landmark_add,email_add;
     private TextView address_city, address_state;
     private Share_session shareSession;
     private Map data;
@@ -77,6 +78,8 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
         house_add = (EditText) findViewById(R.id.house_add);
         colony_add = (EditText) findViewById(R.id.colony_add);
         landmark_add = (EditText) findViewById(R.id.landmark_add);
+        email_add = (EditText) findViewById(R.id.email_add);
+        address_email =  findViewById(R.id.address_email);
 
         address_city = (TextView) findViewById(R.id.address_city);
         address_state = (TextView) findViewById(R.id.address_state);
@@ -129,7 +132,7 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("user_name", address_name.getEditText().getText().toString().trim());
-            jsonObject.put("user_number", address_number.getEditText().getText().toString().trim());
+            jsonObject.put("address_number", address_number.getEditText().getText().toString().trim());
             jsonObject.put("user_pincode", address_pincode.getEditText().getText().toString().trim());
             jsonObject.put("user_house_no", address_house_no.getEditText().getText().toString().trim());
             jsonObject.put("user_colony", address_colony.getEditText().getText().toString().trim());
@@ -137,6 +140,7 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
             jsonObject.put("city", address_city.getText().toString());
             jsonObject.put("state", address_state.getText().toString());
             jsonObject.put("user_number", data.get(USERMOBILE).toString());
+            jsonObject.put("email",address_email.getEditText().getText().toString().trim());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -157,6 +161,11 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                               shareSession.SetAddressId(jsonHelper.GetResult("insertId"));
+                               }
 
                             if (AddressActivity.this != null) {
 
@@ -170,7 +179,7 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
 
                                         shareSession = new Share_session(AddressActivity.this);
                                         data = shareSession.Fetchdata();
-                                        shareSession.address(address_name.getEditText().getText().toString().trim(), address_number.getEditText().getText().toString().trim(), address_pincode.getEditText().getText().toString().trim(), address_house_no.getEditText().getText().toString().trim(), address_colony.getEditText().getText().toString().trim(), address_landmark.getEditText().getText().toString().trim(), "", "");
+                                        shareSession.address(address_name.getEditText().getText().toString().trim(), address_number.getEditText().getText().toString().trim(), address_pincode.getEditText().getText().toString().trim(), address_house_no.getEditText().getText().toString().trim(), address_colony.getEditText().getText().toString().trim(), address_landmark.getEditText().getText().toString().trim(), "", "","");
 
                                         String type = getIntent().getStringExtra("type");
                                         Intent intent;
@@ -230,7 +239,10 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private boolean validation() {
-
+        if (address_email.getEditText().getText().toString().isEmpty()) {
+            address_email.setError("fill ");
+            return false;
+        }
         if (address_name.getEditText().getText().toString().isEmpty()) {
             address_name.setError("fill ");
             return false;

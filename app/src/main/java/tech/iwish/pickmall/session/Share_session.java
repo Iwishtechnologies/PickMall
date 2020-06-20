@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import tech.iwish.pickmall.activity.AddressActivity;
 import tech.iwish.pickmall.activity.MobileNOActivity;
 import tech.iwish.pickmall.activity.UserDetail;
 
@@ -39,6 +40,7 @@ public class Share_session {
     public static final String WALLET_AMOUNT = "wallet amount";
     public static final String FILTER_LIST = "filter";
     public static final String FILTER_LIST_COLOR = "filter_color";
+    public static final String ADDRESSID = "addressid";
 
 
 
@@ -67,7 +69,7 @@ public class Share_session {
         editor.putBoolean(USER_NUMBER_CHECK, true).commit();
     }
 
-    public void address(String name , String number , String pincode , String house_no , String location , String landmark , String state , String city){
+    public void address(String name , String number , String pincode , String house_no , String location , String landmark , String state , String city ,String sno){
         editor.putString(NAME_ADDRESS,name ).commit();
         editor.putString(NUMBER_ADDRESS, number).commit();
         editor.putString(PINCODE_ADDRESS, pincode).commit();
@@ -76,6 +78,7 @@ public class Share_session {
         editor.putString(LANDMARK_ADDRESS, landmark).commit();
         editor.putString(STATE_ADDRESS, state).commit();
         editor.putString(CITY_ADDRESS, city).commit();
+        editor.putString(ADDRESSID, sno).commit();
 
     }
 
@@ -163,6 +166,9 @@ public class Share_session {
         editor.putString(PROFILEIMAGE,image).commit();
     }
 
+    public void SetAddressId(String id){
+        editor.putString(ADDRESSID,id).commit();
+    }
 
  }
 
