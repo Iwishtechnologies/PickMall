@@ -137,14 +137,14 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
             jsonObject.put("shippingCharge", "");
             jsonObject.put("gst", "");
             Log.e( "a:","" );
-            jsonObject.put("item_type", "");
+            jsonObject.put("item_type", getIntent().getStringExtra("item_type"));
             jsonObject.put("payment_option", paymentmethod);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url(Constants.ORDER_PLACE_BUY_NOW).post(body).build();
+        Request request1 = new Request.Builder().url(Constants.FRIEND_DEAL_ORDER).post(body).build();
         okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {

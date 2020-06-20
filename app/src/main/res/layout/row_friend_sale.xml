@@ -34,7 +34,6 @@
             android:layout_width="120dp"
             android:layout_height="130dp"
             android:id="@+id/image_flash_sale"
-            android:src="@drawable/splash_image"
             android:scaleType="fitXY"
             app:riv_border_color="@color/silderColor"
             app:riv_corner_radius="10dip"

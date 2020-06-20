@@ -77,21 +77,23 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
         this.dubledata = productSizeColorLists.get(position).getSize();
 */
 
+        int product_qty = Integer.parseInt(productSizeColorLists.get(position).getQty());
+
+        if (product_qty <= 0) {
+            holder.main_layout_size.setClickable(false);
+            holder.size_name.setBackgroundColor(context.getResources().getColor(R.color.white));
+            holder.outofStock.setVisibility(View.VISIBLE);
+        }
 
         holder.size_name.setText(productSizeColorLists.get(position).getSize());
 
 
-        int qtyproduct = Integer.parseInt(productSizeColorLists.get(position).getQty());
-        if (qtyproduct > 0) {
-            if (currentSelectedPosition == position) {
-                holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
+        if (currentSelectedPosition == position) {
+            holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
 //                holder.size_name.setVisibility(View.GONE);
-            } else {
+        } else {
 //                holder.size_name.setVisibility(View.VISIBLE);
-                holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_design));
-            }
-        }else {
-            Toast.makeText(context, "out of stock", Toast.LENGTH_SHORT).show();
+            holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_design));
         }
 
 
@@ -105,7 +107,7 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
 
     public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView size_name;
+        private TextView size_name, outofStock;
         private LinearLayout main_layout_size;
         private Button size_nameButton;
 
@@ -113,6 +115,7 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
             super(itemView);
 
             size_name = (TextView) itemView.findViewById(R.id.size_name);
+            outofStock = (TextView) itemView.findViewById(R.id.outofStock);
             main_layout_size = (LinearLayout) itemView.findViewById(R.id.main_layout_size);
 //            size_nameButton = (Button) itemView.findViewById(R.id.size_nameButton);
             main_layout_size.setOnClickListener(this);
@@ -127,7 +130,7 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
 
             switch (id) {
                 case R.id.main_layout_size:
-                    productSizeInterFace.productSizeResponse(productSizeColorLists.get(getAdapterPosition()).getSize(),getAdapterPosition());
+                    productSizeInterFace.productSizeResponse(productSizeColorLists.get(getAdapterPosition()).getSize(), getAdapterPosition());
                     currentSelectedPosition = getAdapterPosition();
                     notifyDataSetChanged();
                     break;

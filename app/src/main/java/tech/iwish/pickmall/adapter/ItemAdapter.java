@@ -25,6 +25,7 @@ import tech.iwish.pickmall.Interface.ItemCategoryInterface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.FriendsDealsAllActivity;
 import tech.iwish.pickmall.activity.MainActivity;
+import tech.iwish.pickmall.activity.One_winActivity;
 import tech.iwish.pickmall.activity.ProductActivity;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.other.ItemList;
@@ -84,16 +85,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
                         switch (itemLists.get(position).getItem_type()) {
                             case "friend_deal":
                             case "90_Rs":
-                                intent = new Intent(new Intent(context, FriendsDealsAllActivity.class));
+                                intent = new Intent(context, FriendsDealsAllActivity.class);
                                 intent.putExtra("item_id",itemLists.get(position).getItem_id());
                                 intent.putExtra("item_type",itemLists.get(position).getItem_type());
                                 context.startActivity(intent);
                                 break;
-                            case "one_rs":
-                                Toast.makeText(context, "One rs", Toast.LENGTH_SHORT).show();
-                                break;
-                            case "share_and_earn":
-                                Toast.makeText(context, "share_and_earn", Toast.LENGTH_SHORT).show();
+                            case "one_win":
+                                Intent intent1 = new Intent(context, One_winActivity.class);
+                                intent1.putExtra("item_id",itemLists.get(position).getItem_id());
+                                intent1.putExtra("item_type",itemLists.get(position).getItem_type());
+                                context.startActivity(intent1);
                                 break;
                             case "product":
                             default:

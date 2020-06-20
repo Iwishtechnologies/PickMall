@@ -461,6 +461,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
                 intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
                 intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
+                intent.putExtra("item_type", item_type);
                 break;
         }
         startActivity(intent);
@@ -589,7 +590,6 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             jsonObject.put("product_amount", finalamountsInt);
             jsonObject.put("shippingCharge", shippingchargebuy_now);
             jsonObject.put("gst", removeDout);
-            Log.e( "a:",item_type );
             jsonObject.put("item_type", item_type);
             jsonObject.put("payment_option", paymentmethod);
 
@@ -597,7 +597,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url(Constants.ORDER_PLACE_BUY_NOW).post(body).build();
+        Request request1 = new Request.Builder().url(Constants.FRIEND_DEAL_ORDER).post(body).build();
         okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {

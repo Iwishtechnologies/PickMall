@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +26,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import tech.iwish.pickmall.Interface.CardQtyAmountRef;
 import tech.iwish.pickmall.Interface.FlashsaleTimeIdInterface;
 import tech.iwish.pickmall.Interface.RefreshCartAmountInterface;
@@ -36,7 +50,9 @@ import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.CardActivity;
 import tech.iwish.pickmall.activity.ProductDetailsActivity;
 import tech.iwish.pickmall.config.Constants;
+import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.other.CardCount;
+import tech.iwish.pickmall.other.ProductSizeColorList;
 import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.sqlconnection.MyhelperSql;
 
@@ -49,6 +65,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
     private RefreshCartAmountInterface refreshCartAmountInterface;
     private CardQtyAmountRef cardQtyAmountRef;
     private String qtychechker = null;
+    private List<ProductSizeColorList> productSizeColorLists = new ArrayList<>();
 
 
     public CartAdapter(Context cardActivity, ArrayList<HashMap<String, String>> product_data, RefreshCartAmountInterface refreshCartAmountInterface, CardQtyAmountRef cardQtyAmountRef) {
@@ -77,7 +94,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
 
         if (context instanceof CardActivity) {
 
-
+            holder.stock_check();
             SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol) + cardData.get(position).get("PRODUCT_AMOUNT_DICOUNT"));
             content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
             holder.dicount_price.setText(content);
@@ -109,11 +126,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
             holder.remove_button_layout.setVisibility(View.GONE);
             holder.qty_layout.setVisibility(View.GONE);
 //            holder.percent_price.setText(cardData.get(position).get("PRODUCT_DICOUNT_PERCEN"));
-            float actual= Float.valueOf(cardData.get(position).get("PRODUCT_AMOUNT"));
-            float dis= Float.valueOf(cardData.get(position).get("PRODUCT_AMOUNT_DICOUNT"));
-            float disco=dis-actual;
-            float fin =disco/dis*100;
-            int aa = (int) fin ;
+            float actual = Float.valueOf(cardData.get(position).get("PRODUCT_AMOUNT"));
+            float dis = Float.valueOf(cardData.get(position).get("PRODUCT_AMOUNT_DICOUNT"));
+            float disco = dis - actual;
+            float fin = disco / dis * 100;
+            int aa = (int) fin;
 //            int discount=Integer.parseInt(cardData.get(position).get("PRODUCT_AMOUNT"))/Integer.valueOf(cardData.get(position).get("PRODUCT_AMOUNT_DICOUNT"));
             holder.percent_price.setText(String.valueOf(aa));
 
@@ -319,7 +336,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
 
             String type = null;
 
-            switch (cardData.get(getAdapterPosition()).get("PRODUCT_TYPE")){
+            switch (cardData.get(getAdapterPosition()).get("PRODUCT_TYPE")) {
                 case "allProduct":
                     type = "allProduct";
                     break;
@@ -347,7 +364,51 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
 
         }
 
+        protected void stock_check() {
+
+            OkHttpClient client = new OkHttpClient();
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("product_id", cardData.get(getAdapterPosition()).get("PRODUCT_ID"));
+                jsonObject.put("product_size", cardData.get(getAdapterPosition()).get("PRODUCT_SIZE"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+            Request request = new Request.Builder().post(body)
+                    .url(Constants.PRODUCT_STOCK_CHECHK)
+                    .build();
+            client.newCall(request).enqueue(new okhttp3.Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        String result = response.body().string();
+                        Log.e("result", result);
+                        JsonHelper jsonHelper = new JsonHelper(result);
+                        if (jsonHelper.isValidJson()) {
+                            String responses = jsonHelper.GetResult("response");
+                            if (responses.equals("TRUE")) {
+                                JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    jsonHelper.setChildjsonObj(jsonArray, i);
+                                    productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("imgname"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty"), jsonHelper.GetResult("count_size")));
+                                }
+                            }
+                        }
+                    }
+
+                }
+            });
+        }
+
     }
+
 
 }
 

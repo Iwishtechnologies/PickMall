@@ -184,7 +184,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 All_Image(Constants.PRODDUCT_IMAGE);
                 coloAndImageData(Constants.PRODDUCT_SIZE_COLOR);
                 sizedatafetch(Constants.PRODDUCT_SIZE);
-                PRODUCT_TYPE = "product";
+                PRODUCT_TYPE = "allProduct";
                 product_layout.setVisibility(View.VISIBLE);
                 one_rs_main_layout.setVisibility(View.GONE);
                 one_rs_bottom_layout.setVisibility(View.GONE);
@@ -225,7 +225,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 item_type = getIntent().getStringExtra("item_type");
                 total_user_req.setText("Request " + total_request_user + " Users Total");
                 new_user_text.setText("(" + new_user_request + " new user at least)");
-                PRODUCT_TYPE = "frienddeal";
+                PRODUCT_TYPE = "friendsaleoneRs";
                 All_Image(Constants.FRIEND_SALE_IMAGE);
                 coloAndImageData(Constants.FRIEND_SALE_SIZE_COLOR);
                 sizedatafetch(Constants.FRIEND_SALE_SIZE);
@@ -699,20 +699,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                 productSizeColorLists.add(new ProductSizeColorList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("imgname"), jsonHelper.GetResult("size"), jsonHelper.GetResult("color"), jsonHelper.GetResult("qty"), jsonHelper.GetResult("count_size")));
 
                             }
-
-//                            if (ProductDetailsActivity.this != null) {
-//
-//                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//
-//                                        ProductSizeAdapter productSizeAdapter = new ProductSizeAdapter(ProductDetailsActivity.this, productSizeColorLists, productSizeInterFace);
-//                                        size_product_recycleview.setAdapter(productSizeAdapter);
-//
-//                                    }
-//                                });
-//
-//                            }
 
                         }
                     }

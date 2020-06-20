@@ -24,6 +24,22 @@
         android:textColor="@color/black"
         android:textSize="14sp"
         app:fonttype="light" />
+    <tech.iwish.pickmall.extended.TextViewFont
+        android:id="@+id/outofStock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="out of Stock"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_margin="4dp"
+        android:paddingTop="3dp"
+        android:visibility="gone"
+        android:paddingBottom="3dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:fonttype="light" />
 <!--    <LinearLayout-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:gravity="center"-->
