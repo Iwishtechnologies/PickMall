@@ -310,6 +310,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                         intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
                         intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
                         intent.putExtra("prepaid", prepaid);
+                        intent.putExtra("item_type", item_type);
                         intent.putExtra("type", "buy_now");
                         startActivity(intent);
                         break;
@@ -364,6 +365,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
                 intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
                 intent.putExtra("prepaid",prepaid);
+                intent.putExtra("item_type", item_type);
                 intent.putExtra("type", "buy_now");
                 startActivity(intent);
                 break;
