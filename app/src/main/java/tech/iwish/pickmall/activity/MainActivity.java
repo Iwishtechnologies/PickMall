@@ -115,6 +115,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        check number
+/*
 
         share_session = new Share_session(MainActivity.this);
         data = share_session.Fetchdata();
@@ -124,6 +126,8 @@ public class MainActivity extends AppCompatActivity
             Intent mainIntent = new Intent(MainActivity.this, MobileNOActivity.class);
             startActivity(mainIntent);
         }
+*/
+
 
         InterNetConnection interNetConnection = new InterNetConnection();
         IntentFilter intentFilter = new IntentFilter();
@@ -546,36 +550,42 @@ public class MainActivity extends AppCompatActivity
 
                 break;
             case R.id.FeedBottom:
-                startActivity(new Intent(MainActivity.this, AllcategoryActivity.class));
+                intent = new Intent(MainActivity.this, AllcategoryActivity.class);
+                startActivity(intent);
                 break;
             case R.id.CardBottom:
                 this.bottomClickCheck = "card";
                 intent = new Intent(MainActivity.this, CardActivity.class);
                 intent.putExtra("context", "MainActivity");
-
 //                Animatoo.animateDiagonal(MainActivity.this);
+                startActivity(intent);
                 break;
             case R.id.accountBottom:
                 intent = new Intent(MainActivity.this, Account.class);
+                startActivity(intent);
                 break;
             case R.id.search_bar_layout:
                 intent = new Intent(MainActivity.this, Searchactivity.class);
+                startActivity(intent);
                 break;
             case R.id.viewAll_FreshSale:
                 intent = new Intent(MainActivity.this, FlashSaleProductactivity.class);
+                startActivity(intent);
                 break;
             case R.id.viewall_friend_deal:
                 intent = new Intent(MainActivity.this, FriendsDealsAllActivity.class);
                 intent.putExtra("item_id","26");
                 intent.putExtra("item_type","friend_deal");
+                startActivity(intent);
                 break;
             case R.id.prepaid_layout:
                 intent = new Intent(MainActivity.this, ProductActivity.class);
                 intent.putExtra("type", "prepaid");
                 intent.putExtra("itemName", "Prepaid");
+                startActivity(intent);
                 break;
         }
-        startActivity(intent);
+
 
     }
 

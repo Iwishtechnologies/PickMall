@@ -91,8 +91,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     public boolean wishlistchechi;
     private List<ProductColorList> productColorLists = new ArrayList<>();
     private ProductSizeInterFace productSizeInterFace;
-    private LinearLayout qty_layouts, dicount_price_per_mrp_layout, friendDealTimeLayout,onersview;
-    TextViewFont onediscription,fulldiscription;
+    private LinearLayout qty_layouts, dicount_price_per_mrp_layout, friendDealTimeLayout, onersview;
+    TextViewFont onediscription, fulldiscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +136,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         one_rs_bottom_layout = (LinearLayout) findViewById(R.id.one_rs_bottom_layout);
         one_rs_rule = (LinearLayout) findViewById(R.id.one_rs_rule);
         store = (LinearLayout) findViewById(R.id.store);
-        wishlist =  findViewById(R.id.wishlists);
+        wishlist = findViewById(R.id.wishlists);
         product_count_layout = (LinearLayout) findViewById(R.id.product_count_layout);
         qty_layouts = (LinearLayout) findViewById(R.id.qty_layouts);
         dicount_price_per_mrp_layout = (LinearLayout) findViewById(R.id.dicount_price_per_mrp_layout);
@@ -147,9 +147,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         card = (RelativeLayout) findViewById(R.id.card);
 
         save_hearth = (ImageView) findViewById(R.id.save_hearth);
-        onersview =  findViewById(R.id.onersview);
-        onediscription =  findViewById(R.id.onediscription);
-        fulldiscription =  findViewById(R.id.fulldiscription);
+        onersview = findViewById(R.id.onersview);
+        onediscription = findViewById(R.id.onediscription);
+        fulldiscription = findViewById(R.id.fulldiscription);
 
         scrollview.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
@@ -239,20 +239,20 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 sizedatafetch(Constants.FRIEND_SALE_SIZE);
 
                 Log.e("ppp", item_type);
-                if (item_type.equals("friend_deal")) {
-                    onediscription.setText("invite ("+new_user_request +") New Users & You Will Win This Product In Just 1Rs Friends Deal..");
-                    fulldiscription.setText("Complete This Task In Just 24 Houres..Hurry.....");
-                    new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), ProductDetailsActivity.this, timeset, item_type).Time_12_H();
-                    RankingMethod();
-                } else if (item_type.equals("one_win")) {
-                    onediscription.setText("Start a Big Deal Invite ("+new_user_request + ")");
-                    fulldiscription.setText("Complete This Task  Houres..Hurry.....");
-                    RankingMethod();
+                if (data.get(USERMOBILE) != null) {
+                    if (item_type.equals("friend_deal")) {
+                        new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), ProductDetailsActivity.this, timeset, item_type).Time_12_H();
+                        RankingMethod();
+                    } else if (item_type.equals("one_win")) {
+                        RankingMethod();
+                    } else {
+                        new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), ProductDetailsActivity.this, timeset, item_type).Time_24_H();
+                        RankingMethod();
+                    }
                 } else {
-                    onediscription.setText("Start a Big Deal Invite ("+new_user_request + ")");
-                    fulldiscription.setText("New Users & Get A Big & Costly Product In Just Rs 90.. Hurry Limited Offer");
-                    new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), ProductDetailsActivity.this, timeset, item_type).Time_24_H();
-                    RankingMethod();
+                    if (product_type.equals("friendsaleoneRs")) {
+                        Toast.makeText(this, "activity open", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
         }
@@ -302,8 +302,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
         cardcount();
 
-        wishlistchechk(product_id, data.get(USERMOBILE).toString(), PRODUCT_TYPE, null);
 
+        if (data.get(USERMOBILE) != null) {
+            wishlistchechk(product_id, data.get(USERMOBILE).toString(), PRODUCT_TYPE, null);
+        }
     }
 
 
@@ -529,10 +531,15 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 startActivity(intent);
                 break;
             case R.id.wishlists:
-                wishlist.setClickable(false);
-//                wishlist.setFixDialog(dialog);
-                wishlistchechk(product_id, data.get(USERMOBILE).toString(), PRODUCT_TYPE, "dsdas");
-                wishlist.setClickable(true);
+
+                if (data.get(USERMOBILE) != null) {
+                    wishlist.setClickable(false);
+                    wishlistchechk(product_id, data.get(USERMOBILE).toString(), PRODUCT_TYPE, "dsdas");
+                    wishlist.setClickable(true);
+                } else {
+                    Toast.makeText(this, "activity open", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
             case R.id.add_button:
                 String value = quty_value.getText().toString();
@@ -690,7 +697,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                     break;
             }
         } else {
-            startActivity(new Intent(this, Signup.class));
+            startActivity(new Intent(this, LoginActivity.class));
         }
 
 

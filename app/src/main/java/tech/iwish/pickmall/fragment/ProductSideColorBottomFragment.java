@@ -30,7 +30,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -38,10 +37,9 @@ import tech.iwish.pickmall.Interface.ProductColorInterFace;
 import tech.iwish.pickmall.Interface.ProductCountInterface;
 import tech.iwish.pickmall.Interface.ProductSizeInterFace;
 import tech.iwish.pickmall.R;
-import tech.iwish.pickmall.activity.AddressActivity;
 import tech.iwish.pickmall.activity.CardActivity;
 import tech.iwish.pickmall.activity.SaveAddressActivity;
-import tech.iwish.pickmall.activity.Signup;
+import tech.iwish.pickmall.activity.LoginActivity;
 import tech.iwish.pickmall.adapter.ProductColorAdapter;
 import tech.iwish.pickmall.adapter.ProductSizeAdapter;
 import tech.iwish.pickmall.config.Constants;
@@ -50,10 +48,7 @@ import tech.iwish.pickmall.other.ProductSizeColorList;
 import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.sqlconnection.MyhelperSql;
 
-import static tech.iwish.pickmall.session.Share_session.HOUSE_NO_ADDRESS;
 import static tech.iwish.pickmall.session.Share_session.LOGIN_CHECk;
-import static tech.iwish.pickmall.session.Share_session.NUMBER_ADDRESS;
-import static tech.iwish.pickmall.session.Share_session.PINCODE_ADDRESS;
 
 
 public class ProductSideColorBottomFragment extends BottomSheetDialogFragment implements View.OnClickListener,
@@ -326,7 +321,7 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
 //                    break;
             }
         } else {
-            getActivity().startActivity(new Intent(getActivity(), Signup.class));
+            getActivity().startActivity(new Intent(getActivity(), LoginActivity.class));
         }
 
 

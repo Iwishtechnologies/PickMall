@@ -47,6 +47,7 @@
                 android:textColor="@color/whiteColor"
                 android:background="@drawable/register1_0_design" />
             <Button
+                android:id="@+id/sign_in"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"

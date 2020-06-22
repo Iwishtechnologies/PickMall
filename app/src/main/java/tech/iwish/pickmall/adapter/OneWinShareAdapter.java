@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +34,22 @@ public class OneWinShareAdapter extends RecyclerView.Adapter<OneWinShareAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
+
+        switch (position){
+            case 0:
+                holder.imageRacking.setImageDrawable(context.getResources().getDrawable(R.drawable.racnking_1_icon));
+                break;
+            case 1:
+                holder.imageRacking.setImageDrawable(context.getResources().getDrawable(R.drawable.racnking_2_icon));
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
+
 //      holder.id.setText(oneWinShareLists.get(position).getId());
 //      holder.product.setText(oneWinShareLists.get(position).getProduct());
         holder.name.setText(oneWinShareLists.get(position).getClient_name());
@@ -45,11 +62,11 @@ public class OneWinShareAdapter extends RecyclerView.Adapter<OneWinShareAdapter.
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
-        TextViewFont id, product, name, shares;
-
+        TextViewFont product, name, shares;
+        ImageView imageRacking;
         public Viewholder(@NonNull View itemView) {
             super(itemView);
-            id = itemView.findViewById(R.id.id);
+            imageRacking = itemView.findViewById(R.id.id);
             product = itemView.findViewById(R.id.product);
             name = itemView.findViewById(R.id.name);
             shares = itemView.findViewById(R.id.shares);

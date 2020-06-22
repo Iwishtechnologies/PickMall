@@ -111,6 +111,8 @@ public class Constants {
     public static String PRODUCT_SHARE_COUNT = URL+"product_share_count";
     public static String COUPON_CHECK = URL+"coupon_check";
     public static String RANKING = URL+"ranking";
+    public static String REGISTER = URL+"register";
+    public static String SIGN_IN = URL+"sign_in";
 
 
 

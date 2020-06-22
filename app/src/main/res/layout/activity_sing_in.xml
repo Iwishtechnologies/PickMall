@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="4"
-    tools:context=".activity.LoginActivity">
+    tools:context=".activity.Sign_InActivity">
 
 
     <LinearLayout
@@ -30,11 +32,12 @@
             android:layout_weight="2"
             android:gravity="center">
 
-            <ImageView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/register" />
+                android:layout_gravity="center"
+                android:text="SigIn"
+                android:textSize="16sp"/>
 
         </LinearLayout>
     </LinearLayout>
@@ -46,14 +49,6 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/tint"
-            android:hint="Name"
-            android:inputType="text"
-            android:textColor="#000" />
 
         <EditText
             android:id="@+id/number"
@@ -67,16 +62,6 @@
             android:inputType="number"
             android:textColor="#000" />
 
-        <EditText
-            android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/tint"
-            android:ems="10"
-            android:hint="Email"
-            android:inputType="text"
-            android:textColor="#000" />
 
         <EditText
             android:id="@+id/password"
@@ -90,12 +75,12 @@
             android:textColor="#000" />
 
 
-        <Button
-            android:id="@+id/createAccountButton"
+        <ImageButton
+            android:id="@+id/signInButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:background="@drawable/group" />
+            android:background="@drawable/signin_image" />
 
 
     </LinearLayout>
@@ -145,40 +130,7 @@
                 android:src="@drawable/fb_icon"
                 android:visibility="gone" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/twitter_icon" />
 
-            <ImageView
-                android:id="@+id/google"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:src="@drawable/google_plus_icon" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/account"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:text="@string/signin"
-                android:textColor="@color/signin_color" />
 
         </LinearLayout>
 

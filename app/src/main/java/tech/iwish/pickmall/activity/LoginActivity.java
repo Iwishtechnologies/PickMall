@@ -7,9 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -21,7 +20,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
@@ -32,22 +30,38 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.auth.api.signin.SignInAccount;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.tasks.Task;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import tech.iwish.pickmall.R;
+import java.io.IOException;
 
-public class Signup extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.adapter.FlashSaleAdapter;
+import tech.iwish.pickmall.config.Constants;
+import tech.iwish.pickmall.connection.JsonHelper;
+import tech.iwish.pickmall.countdowntime.CountdownTime;
+import tech.iwish.pickmall.other.ProductList;
+
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private Button createAccountButton;
     private GoogleApiClient googleApiClient;
     private static final int RC_SIGN_IN = 1;
-    ImageView GOOGLE,facebook;
+    ImageView GOOGLE, facebook;
     LoginButton loginButton;
     private GoogleSignInClient mGoogleSignInClient;
     private CallbackManager callbackManager;
@@ -57,41 +71,65 @@ public class Signup extends AppCompatActivity implements GoogleApiClient.OnConne
     private static final String NAME = "name";
     private AccessTokenTracker accessTokenTracker;
     ProfileTracker profileTracker;
+    private EditText name, number, email, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        GOOGLE= findViewById(R.id.google);
-        loginButton= findViewById(R.id.facebook);
+        GOOGLE = findViewById(R.id.google);
+        loginButton = findViewById(R.id.facebook);
+
+        name = findViewById(R.id.name);
+        number = findViewById(R.id.number);
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
 
 
-        createAccountButton = (Button)findViewById(R.id.createAccountButton);
+        createAccountButton = (Button) findViewById(R.id.createAccountButton);
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Signup.this,MainActivity.class);
-                startActivity(intent);
-                Animatoo.animateFade(Signup.this);
+//                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+//                startActivity(intent);
+//                Animatoo.animateFade(LoginActivity.this);
+
+
+                if (name.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Fill name", Toast.LENGTH_SHORT).show();
+                } else if (number.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Fill number", Toast.LENGTH_SHORT).show();
+                } else if (email.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Fill email", Toast.LENGTH_SHORT).show();
+                } else if (password.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "fill password", Toast.LENGTH_SHORT).show();
+                } else if (number.length() <= 6) {
+                    Toast.makeText(LoginActivity.this, "fill password", Toast.LENGTH_SHORT).show();
+                } else if (password.length() <= 6) {
+                    Toast.makeText(LoginActivity.this, "fill password", Toast.LENGTH_SHORT).show();
+                } else {
+                    sigup();
+                }
+
             }
         });
 
 //        google api
-        GoogleSignInOptions gso =  new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
 
-        googleApiClient=new GoogleApiClient.Builder(this)
-                .enableAutoManage(this,this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
         GOOGLE.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-                startActivityForResult(intent,RC_SIGN_IN);
+                startActivityForResult(intent, RC_SIGN_IN);
             }
         });
 
@@ -122,7 +160,8 @@ public class Signup extends AppCompatActivity implements GoogleApiClient.OnConne
                 AccessToken accessToken = loginResult.getAccessToken();
                 Profile profile = Profile.getCurrentProfile();
                 nextActivity(profile);
-                Toast.makeText(getApplicationContext(), "Logging in...", Toast.LENGTH_SHORT).show();    }
+                Toast.makeText(getApplicationContext(), "Logging in...", Toast.LENGTH_SHORT).show();
+            }
 
             @Override
             public void onCancel() {
@@ -135,6 +174,52 @@ public class Signup extends AppCompatActivity implements GoogleApiClient.OnConne
 
         loginButton.setReadPermissions(EMAIL);
         loginButton.registerCallback(callbackManager, callback);
+
+    }
+
+    private void sigup() {
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("name", name.getText().toString().trim());
+            jsonObject.put("number", number.getText().toString().trim());
+            jsonObject.put("email", email.getText().toString().trim());
+            jsonObject.put("password", password.getText().toString().trim());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.REGISTER).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("result", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            startActivity(new Intent(LoginActivity.this , Sign_InActivity.class));
+                        }else {
+                            LoginActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(LoginActivity.this, "Number allow ready register", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        });
 
     }
 
@@ -181,11 +266,10 @@ public class Signup extends AppCompatActivity implements GoogleApiClient.OnConne
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==RC_SIGN_IN){
+        if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(result);
@@ -206,41 +290,35 @@ public class Signup extends AppCompatActivity implements GoogleApiClient.OnConne
         }
     }
 
-    private void handleSignInResult(GoogleSignInResult result){
+    private void handleSignInResult(GoogleSignInResult result) {
         Log.e("result", String.valueOf(result.isSuccess()));
-        if(result.isSuccess()){
-            GoogleSignInAccount account=result.getSignInAccount();
+        if (result.isSuccess()) {
+            GoogleSignInAccount account = result.getSignInAccount();
             Log.e("data", String.valueOf(account));
 //            userName.setText(account.getDisplayName());
 //            userEmail.setText(account.getEmail());
 //            userId.setText(account.getId());
-            try{
+            try {
 //                Glide.with(this).load(account.getPhotoUrl()).into(profileImage);
-            }catch (NullPointerException e){
-                Toast.makeText(getApplicationContext(),"image not found",Toast.LENGTH_LONG).show();
+            } catch (NullPointerException e) {
+                Toast.makeText(getApplicationContext(), "image not found", Toast.LENGTH_LONG).show();
             }
 
-        }else{
+        } else {
 
         }
     }
 
 
-
-
-    private void nextActivity(Profile profile){
-        if(profile != null){
-            Intent main = new Intent(Signup.this, MainActivity.class);
+    private void nextActivity(Profile profile) {
+        if (profile != null) {
+            Intent main = new Intent(LoginActivity.this, MainActivity.class);
             main.putExtra("name", profile.getFirstName());
             main.putExtra("surname", profile.getLastName());
-            main.putExtra("imageUrl", profile.getProfilePictureUri(200,200).toString());
+            main.putExtra("imageUrl", profile.getProfilePictureUri(200, 200).toString());
 //            startActivity(main);
         }
     }
-
-
-
-
 
 
 }

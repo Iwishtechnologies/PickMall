@@ -10,15 +10,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.bumptech.glide.Glide;
+
+import java.util.Map;
 
 import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
 import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.session.Share_session;
+
+import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 
 public class Account extends AppCompatActivity implements InternetConnectivityListener {
     ImageView viewall, profile,image,unpaid,wallet,wishlist,shippingaddress
@@ -28,15 +33,23 @@ public class Account extends AppCompatActivity implements InternetConnectivityLi
     TextView name;
     ScrollView scrollView;
     private Dialog dialog;
+    Map data;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
+
         InitializeActivity();
-        setActivityData();
-        ActivityActions();
+        share_session = new Share_session(this);
+        data = share_session.Fetchdata();
+        if(data.get(USERMOBILE) != null){
+            setActivityData();
+            ActivityActions();
+        }else {
+            Toast.makeText(this, "activity open", Toast.LENGTH_SHORT).show();
+        }
 
 
 

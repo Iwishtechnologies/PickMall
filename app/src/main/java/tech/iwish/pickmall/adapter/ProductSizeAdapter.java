@@ -77,23 +77,34 @@ public class ProductSizeAdapter extends RecyclerView.Adapter<ProductSizeAdapter.
         this.dubledata = productSizeColorLists.get(position).getSize();
 */
 
+//      start out stock check
         int product_qty = Integer.parseInt(productSizeColorLists.get(position).getQty());
-
         if (product_qty <= 0) {
             holder.main_layout_size.setClickable(false);
             holder.size_name.setBackgroundColor(context.getResources().getColor(R.color.white));
             holder.outofStock.setVisibility(View.VISIBLE);
+        } else {
+            holder.main_layout_size.setClickable(true);
+            holder.outofStock.setVisibility(View.GONE);
         }
+//      end out stock check
 
         holder.size_name.setText(productSizeColorLists.get(position).getSize());
 
 
-        if (currentSelectedPosition == position) {
-            holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
+        if (productSizeColorLists.size() > 1) {
+
+            if (currentSelectedPosition == position) {
+                holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
 //                holder.size_name.setVisibility(View.GONE);
-        } else {
+            } else {
 //                holder.size_name.setVisibility(View.VISIBLE);
-            holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_design));
+                holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_design));
+            }
+
+        } else {
+            holder.size_name.setBackground(context.getResources().getDrawable(R.drawable.size_click_design));
+            productSizeInterFace.productSizeResponse(productSizeColorLists.get(position).getSize(),position);
         }
 
 

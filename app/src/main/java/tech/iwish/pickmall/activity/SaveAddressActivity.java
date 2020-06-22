@@ -122,16 +122,24 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         shareSession = new Share_session(this);
         data = shareSession.Fetchdata();
 
-        number_client = data.get(USERMOBILE).toString();
-
-        name_a.setText(data.get(NAME_ADDRESS).toString());
-        full_address.setText(data.get(HOUSE_NO_ADDRESS).toString() + " " +
-                        data.get(LANDMARK_ADDRESS).toString() + " " +
-                        data.get(LOCATION_ADDRESS).toString()
+        if(data.get(USERMOBILE) != null){
+            number_client = data.get(USERMOBILE).toString();
+            name_a.setText(data.get(NAME_ADDRESS).toString());
+            full_address.setText(data.get(HOUSE_NO_ADDRESS).toString() + " " +
+                            data.get(LANDMARK_ADDRESS).toString() + " " +
+                            data.get(LOCATION_ADDRESS).toString()
 //                + " " + data.get(STATE_ADDRESS).toString()
-        );
-        city_pincode_address.setText(data.get(CITY_ADDRESS).toString() + " " + data.get(PINCODE_ADDRESS).toString());
-        number_address.setText(data.get(NUMBER_ADDRESS).toString());
+            );
+            city_pincode_address.setText(data.get(CITY_ADDRESS).toString() + " " + data.get(PINCODE_ADDRESS).toString());
+            number_address.setText(data.get(NUMBER_ADDRESS).toString());
+        }else {
+//            Toast.makeText(this, "activity open", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(SaveAddressActivity.this , Register1Activity.class);
+            startActivity(intent);
+        }
+
+
+
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);

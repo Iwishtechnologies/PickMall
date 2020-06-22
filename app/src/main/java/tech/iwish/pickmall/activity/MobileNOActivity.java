@@ -86,6 +86,7 @@ public class MobileNOActivity extends AppCompatActivity  implements InternetConn
     ProfileTracker profileTracker;
     Share_session share_session;
     private FacebookCallback<LoginResult> callback;
+    private LinearLayout skip_login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +100,7 @@ public class MobileNOActivity extends AppCompatActivity  implements InternetConn
         google = findViewById(R.id.google);
         facebook = findViewById(R.id.facebook);
         error = findViewById(R.id.error);
+        skip_login = findViewById(R.id.skip_login);
         Connectivity();
         GoogleSignIn();
         FacebookApi();
@@ -116,6 +118,13 @@ public class MobileNOActivity extends AppCompatActivity  implements InternetConn
             }
 
 
+        });
+
+        skip_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MobileNOActivity.this , MainActivity.class));
+            }
         });
 
 //facebook
