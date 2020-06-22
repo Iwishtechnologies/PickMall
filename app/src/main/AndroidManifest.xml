@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.One_winActivity"></activity>
+        <activity android:name=".activity.One_winActivity"
+            android:theme="@style/Settingtheme"></activity>
         <activity android:name=".activity.OfferBannerActivity" />
         <activity android:name=".activity.ReturnOrderActivity" />
         <activity android:name=".activity.Product" />

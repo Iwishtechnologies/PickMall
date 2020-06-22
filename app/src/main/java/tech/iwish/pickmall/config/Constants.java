@@ -108,6 +108,10 @@ public class Constants {
     public static String PRODUCT_STOCK_CHECHK = URL+"product_stock_chechk";
     public static String ONE_WIN_PRODUCT = URL+"one_win_product";
     public static String FRIEND_DEAL_ORDER = URL+"friend_deal_order";
+    public static String PRODUCT_SHARE_COUNT = URL+"product_share_count";
+    public static String COUPON_CHECK = URL+"coupon_check";
+    public static String RANKING = URL+"ranking";
+
 
 
 //    public static String IMAGES = "http://pickmall.iwishtech.xyz/img/";

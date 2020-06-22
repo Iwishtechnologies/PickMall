@@ -94,7 +94,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
 
     private void image(String item_id) {
-
+        Log.e("item",item_id);
+        Log.e("item",item_id);
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();

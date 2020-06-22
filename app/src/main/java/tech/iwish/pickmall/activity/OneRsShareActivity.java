@@ -72,48 +72,48 @@ public class OneRsShareActivity extends AppCompatActivity {
         if(refer_count != null){
             intReferCount = Integer.parseInt(refer_count);
         }
-        int new_user_requestInt = Integer.parseInt(new_user_request);
-        LinearLayoutShare.setWeightSum(5);
-        for (int i = 0; i < new_user_requestInt; i++) {
-            if(refer_count != null){
-
-                if (i <= intReferCount - 1) {
-
-                    LinearLayout linearLayout = new LinearLayout(this);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    linearLayout.setLayoutParams(params);
-                    params.setMargins(10, 0, 10, 0);
-                    ImageView imageView = new ImageView(this);
-                    imageView.setImageResource(R.drawable.circle_plus_icon);
-                    linearLayout.addView(imageView);
-                    LinearLayoutShare.addView(linearLayout);
-
-                } else {
-                    LinearLayout linearLayout = new LinearLayout(this);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    linearLayout.setLayoutParams(params);
-                    params.setMargins(10, 0, 10, 0);
-                    ImageView imageView = new ImageView(this);
-                    imageView.setImageResource(R.drawable.circle_plus_new_icon);
-                    linearLayout.addView(imageView);
-                    LinearLayoutShare.addView(linearLayout);
-
-                }
-            }else {
-                LinearLayout linearLayout = new LinearLayout(this);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                linearLayout.setLayoutParams(params);
-                params.setMargins(10, 0, 10, 0);
-                ImageView imageView = new ImageView(this);
-                imageView.setImageResource(R.drawable.circle_plus_new_icon);
-                linearLayout.addView(imageView);
-                LinearLayoutShare.addView(linearLayout);
-
-
-            }
-
-
-        }
+//        int new_user_requestInt = Integer.parseInt(new_user_request);
+//        LinearLayoutShare.setWeightSum(5);
+//        for (int i = 0; i < new_user_requestInt; i++) {
+//            if(refer_count != null){
+//
+//                if (i <= intReferCount - 1) {
+//
+//                    LinearLayout linearLayout = new LinearLayout(this);
+//                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//                    linearLayout.setLayoutParams(params);
+//                    params.setMargins(10, 0, 10, 0);
+//                    ImageView imageView = new ImageView(this);
+//                    imageView.setImageResource(R.drawable.circle_plus_icon);
+//                    linearLayout.addView(imageView);
+//                    LinearLayoutShare.addView(linearLayout);
+//
+//                } else {
+//                    LinearLayout linearLayout = new LinearLayout(this);
+//                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//                    linearLayout.setLayoutParams(params);
+//                    params.setMargins(10, 0, 10, 0);
+//                    ImageView imageView = new ImageView(this);
+//                    imageView.setImageResource(R.drawable.circle_plus_new_icon);
+//                    linearLayout.addView(imageView);
+//                    LinearLayoutShare.addView(linearLayout);
+//
+//                }
+//            }else {
+//                LinearLayout linearLayout = new LinearLayout(this);
+//                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//                linearLayout.setLayoutParams(params);
+//                params.setMargins(10, 0, 10, 0);
+//                ImageView imageView = new ImageView(this);
+//                imageView.setImageResource(R.drawable.circle_plus_new_icon);
+//                linearLayout.addView(imageView);
+//                LinearLayoutShare.addView(linearLayout);
+//
+//
+//            }
+//
+//
+//        }
 
         invite_friend_deal.setOnClickListener(new View.OnClickListener() {
             @Override

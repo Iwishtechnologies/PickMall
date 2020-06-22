@@ -127,7 +127,7 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("client_number", data.get(USERMOBILE).toString());
-            jsonObject.put("client_address", "");
+            jsonObject.put("client_address", shareSession.GetAddrssId());
             jsonObject.put("product_id", getIntent().getStringExtra("product_id"));
             jsonObject.put("product_type", getIntent().getStringExtra("product_type"));
             jsonObject.put("product_color", "");
@@ -206,7 +206,7 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("client_number", data.get(USERMOBILE).toString());
-            jsonObject.put("client_address", "");
+            jsonObject.put("client_address", shareSession.GetAddrssId());
             jsonObject.put("product", jsonObjects.toString());
             jsonObject.put("payment_option", "CARD");
             jsonObject.put("shippingCharge", "no charge");
@@ -256,7 +256,7 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("client_number", data.get(USERMOBILE).toString());
-            jsonObject.put("client_address", "");
+            jsonObject.put("client_address", shareSession.GetAddrssId());
             jsonObject.put("product_id", getIntent().getStringExtra("product_id"));
             jsonObject.put("product_type", getIntent().getStringExtra("product_type"));
             jsonObject.put("product_color", "");

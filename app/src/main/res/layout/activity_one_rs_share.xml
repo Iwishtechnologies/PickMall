@@ -78,6 +78,7 @@
                 android:background="#CC0101"
                 android:orientation="horizontal"
                 android:padding="10dp"
+                android:visibility="gone"
                 android:weightSum="2">
 
                 <LinearLayout
@@ -112,7 +113,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/rupee_produxct_backgrount"
                 android:orientation="horizontal"
                 android:weightSum="2">

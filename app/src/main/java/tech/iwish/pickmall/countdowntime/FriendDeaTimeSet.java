@@ -40,7 +40,7 @@ import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 
 public class FriendDeaTimeSet {
 
-    private String product_id, client_number, ProductTime;
+    private String product_id, client_number, ProductTime , refer_code;
 
     public long mTimeLeftInMillis;
     private CountDownTimer mCountDownTimer;
@@ -91,6 +91,7 @@ public class FriendDeaTimeSet {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
                                 ProductTime = jsonHelper.GetResult("date_time");
+                                refer_code = jsonHelper.GetResult("code");
                             }
 
                             Calendar ProductClientTime = Calendar.getInstance();
@@ -213,6 +214,7 @@ public class FriendDeaTimeSet {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
                                 ProductTime = jsonHelper.GetResult("date_time");
+                                refer_code = jsonHelper.GetResult("code");
                             }
 
                             Calendar ProductClientTime = Calendar.getInstance();
@@ -311,6 +313,7 @@ public class FriendDeaTimeSet {
         try {
             jsonObject.put("client_number", data.get(USERMOBILE).toString());
             jsonObject.put("product_id", product_id);
+            jsonObject.put("refer_code", refer_code);
         } catch (JSONException e) {
             e.printStackTrace();
         }

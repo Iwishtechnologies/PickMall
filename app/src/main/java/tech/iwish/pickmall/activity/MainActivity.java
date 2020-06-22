@@ -90,10 +90,10 @@ public class MainActivity extends AppCompatActivity
 
     private RecyclerView flash_sale_main_recycle, itemCateroryrecycle, friend_deal_recycleview;
     public static TextView time_countDown, product_count_card;
-//    private static final long START_TIME_IN_MILLIS = 86400000;
+    //    private static final long START_TIME_IN_MILLIS = 86400000;
 //        private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     private long mTimeLeftInMillis;
-    private LinearLayout viewAll_FreshSale, product_count_card_layout, flash_line, viewall_friend_deal,prepaid_layout;
+    private LinearLayout viewAll_FreshSale, product_count_card_layout, flash_line, viewall_friend_deal, prepaid_layout;
     private ImageView homeBottom, feedBottom, cardBottom, accountBottom;
     private String bottomClickCheck;
     private SwipeRefreshLayout swipe_refresh_layout;
@@ -215,7 +215,6 @@ public class MainActivity extends AppCompatActivity
 //        Log.e("timess",sdf.format(calendar1.getTime()));
 
 
-
 //        mTimeLeftInMillis = when;
 //        startTimer();
     }
@@ -253,9 +252,6 @@ public class MainActivity extends AppCompatActivity
 
 
     }
-
-
-
 
 
     private void cardProductCount() {
@@ -430,8 +426,6 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-
-
     }
 
     private void FlashSaleMain() {
@@ -545,6 +539,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onClick(View view) {
+        Intent intent = new Intent();
         int id = view.getId();
         switch (id) {
             case R.id.HomeBottom:
@@ -555,31 +550,32 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.CardBottom:
                 this.bottomClickCheck = "card";
-                Intent intent = new Intent(MainActivity.this, CardActivity.class);
+                intent = new Intent(MainActivity.this, CardActivity.class);
                 intent.putExtra("context", "MainActivity");
-                startActivity(intent);
+
 //                Animatoo.animateDiagonal(MainActivity.this);
                 break;
             case R.id.accountBottom:
-                startActivity(new Intent(MainActivity.this, Account.class));
+                intent = new Intent(MainActivity.this, Account.class);
                 break;
             case R.id.search_bar_layout:
-                startActivity(new Intent(MainActivity.this, Searchactivity.class));
+                intent = new Intent(MainActivity.this, Searchactivity.class);
                 break;
             case R.id.viewAll_FreshSale:
-                startActivity(new Intent(MainActivity.this, FlashSaleProductactivity.class));
+                intent = new Intent(MainActivity.this, FlashSaleProductactivity.class);
                 break;
             case R.id.viewall_friend_deal:
-                startActivity(new Intent(MainActivity.this, FriendsDealsAllActivity.class));
+                intent = new Intent(MainActivity.this, FriendsDealsAllActivity.class);
+                intent.putExtra("item_id","26");
+                intent.putExtra("item_type","friend_deal");
                 break;
             case R.id.prepaid_layout:
-                Intent intent1 = new Intent(MainActivity.this,ProductActivity.class);
-                intent1.putExtra("type","prepaid");
-                intent1.putExtra("itemName","Prepaid");
-                startActivity(intent1);
+                intent = new Intent(MainActivity.this, ProductActivity.class);
+                intent.putExtra("type", "prepaid");
+                intent.putExtra("itemName", "Prepaid");
                 break;
         }
-
+        startActivity(intent);
 
     }
 

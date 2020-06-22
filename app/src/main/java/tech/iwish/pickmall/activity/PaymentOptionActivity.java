@@ -170,6 +170,10 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 pricr.setText(getResources().getString(R.string.rs_symbol) + product_amt);
                 total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
 
+                if(item_type.equals("one_win")){
+                    friendDeal_one_rs_order_place("","FREE");
+                }
+
                 break;
 
         }
@@ -623,8 +627,20 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                                     @Override
                                     public void run() {
 
-                                        WalletAmountUpdate("friendDeal_one_rs_ord");
-                                        progressbar.setVisibility(View.GONE);
+//                                        WalletAmountUpdate("friendDeal_one_rs_ord");
+//                                        progressbar.setVisibility(View.GONE);
+
+                                        if(!paymentmethod.equals("FREE")){
+                                            WalletAmountUpdate("friendDeal_one_rs_ord");
+                                        }else {
+                                            Intent intent = new Intent(PaymentOptionActivity.this, OneRsShareActivity.class);
+                                            intent.putExtra("product_name", product_name);
+                                            intent.putExtra("product_image", imagename);
+                                            intent.putExtra("discount_price", discount_price);
+                                            intent.putExtra("refer_code", referCode);
+                                            intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
+                                            startActivity(intent);
+                                        }
 
                                     }
                                 });

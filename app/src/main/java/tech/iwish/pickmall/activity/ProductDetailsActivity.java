@@ -233,8 +233,12 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 Log.e("ppp", item_type);
                 if (item_type.equals("friend_deal")) {
                     new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), ProductDetailsActivity.this, timeset, item_type).Time_12_H();
+                    RankingMethod();
+                } else if (item_type.equals("one_win")) {
+                    RankingMethod();
                 } else {
                     new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), ProductDetailsActivity.this, timeset, item_type).Time_24_H();
+                    RankingMethod();
                 }
                 break;
         }
@@ -282,10 +286,50 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         getSupportFragmentManager().beginTransaction().replace(R.id.product_overview_frame, productOverViewFragment).commit();
 
 
-
         cardcount();
 
         wishlistchechk(product_id, data.get(USERMOBILE).toString(), PRODUCT_TYPE, null);
+
+    }
+
+
+    private void RankingMethod() {
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("client_number", data.get(USERMOBILE).toString());
+            jsonObject.put("product_id", product_id);
+            jsonObject.put("item_type", item_type);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.PRODUCT_SHARE_COUNT).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("result", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+
+                        }
+                    }
+                }
+            }
+        });
 
     }
 

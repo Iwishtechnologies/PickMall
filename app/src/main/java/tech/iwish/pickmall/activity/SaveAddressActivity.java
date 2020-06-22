@@ -79,7 +79,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
     private ProgressBar progress_bar;
 
     private String B_N_product_name, referCode, product_type, product_id, select_color, gst,
-            B_N_product_qty, B_N_product_size, B_N_product_acture_price, B_N_product_image, type, number_client, referCount,item_type,prepaid;
+            B_N_product_qty, B_N_product_size, B_N_product_acture_price, B_N_product_image, type, number_client, referCount, item_type, prepaid;
 
     private Button place_order_btn;
     private RelativeLayout layouthide;
@@ -195,7 +195,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         cart_product_size.setText("Size : " + B_N_product_size);
         cart_product_act_amount.setText(getResources().getString(R.string.rs_symbol) + B_N_product_acture_price);
         product_qty.setText(B_N_product_qty);
-        if(!type.equals("friendDeal_one_rs")){
+        if (!type.equals("friendDeal_one_rs")) {
             SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + getIntent().getStringExtra("discount_price"));
             content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
             dicount_price.setText(content);
@@ -328,6 +328,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
 
     }
 
+
     private void orderplace() {
 
         progress_bar.setVisibility(View.VISIBLE);
@@ -364,7 +365,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
                 intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
                 intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
-                intent.putExtra("prepaid",prepaid);
+                intent.putExtra("prepaid", prepaid);
                 intent.putExtra("item_type", item_type);
                 intent.putExtra("type", "buy_now");
                 startActivity(intent);
@@ -484,6 +485,85 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
 
 
     }
+
+/*
+    private void friendDeal_one_rs_order_place_one_win_order(String wallet, String paymentmethod) {
+
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("client_number", data.get(USERMOBILE).toString());
+            jsonObject.put("client_address", shareSession.GetAddrssId());
+            jsonObject.put("product_id", product_id);
+            jsonObject.put("product_type", product_type);
+            jsonObject.put("product_color", select_color);
+            jsonObject.put("product_size", getIntent().getStringExtra("select_size"));
+            jsonObject.put("product_qty", product_qty);
+            jsonObject.put("product_amount", finalamountsInt);
+            jsonObject.put("shippingCharge", "");
+            jsonObject.put("gst", "");
+            jsonObject.put("item_type", item_type);
+            jsonObject.put("payment_option", "FREE");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.FRIEND_DEAL_ORDER).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+
+                            if (SaveAddressActivity.this != null) {
+
+                                referCode = jsonHelper.GetResult("data");
+
+                                SaveAddressActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+//                                        WalletAmountUpdate("friendDeal_one_rs_ord");
+//                                        progressbar.setVisibility(View.GONE);
+
+                                        Intent intent = new Intent(SaveAddressActivity.this, OneRsShareActivity.class);
+                                        intent.putExtra("product_name", product_name);
+                                        intent.putExtra("product_image", imagename);
+                                        intent.putExtra("discount_price", discount_price);
+                                        intent.putExtra("refer_code", referCode);
+                                        intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
+                                        startActivity(intent);
+                                    }
+
+                                });
+
+
+                            }
+
+                        }
+                    }
+
+                }
+            }
+        });
+
+
+    }
+*/
 
 
 }
