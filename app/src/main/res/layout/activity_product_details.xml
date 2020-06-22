@@ -644,17 +644,33 @@
 
                         </LinearLayout>
 
-                        <ImageView
-                            android:id="@+id/wishlists"
+                        <com.sackcentury.shinebuttonlib.ShineButton
                             android:layout_width="60dp"
                             android:layout_height="60dp"
+                            android:src="@drawable/product_like"
+                            android:id="@+id/wishlists"
                             android:layout_marginLeft="20dp"
-                            android:src="@drawable/product_like" />
+                            app:allow_random_color="false"
+                            app:enable_flashing="false"
+                            app:big_shine_color="@color/redColor"
+                            app:click_animation_duration="200"
+                            app:shine_animation_duration="1500"
+                            app:shine_turn_angle="10"
+                            app:small_shine_offset_angle="20"
+                            app:small_shine_color="@color/redColor"
+                            android:background="@drawable/product_like"/>
+<!--                        <ImageView-->
+<!--                            android:id="@+id/wishlists"-->
+<!--                            android:layout_width="60dp"-->
+<!--                            android:layout_height="60dp"-->
+<!--                            android:layout_marginLeft="20dp"-->
+<!--                            android:src="@drawable/product_like" />-->
 
                     </LinearLayout>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
+                        android:visibility="visible"
                         android:layout_height="wrap_content">
 
                         <!--    other product            -->
@@ -753,15 +769,7 @@
                                             android:textSize="20dp"
                                             app:fonttype="text_semi_bold" />
 
-                                        <tech.iwish.pickmall.extended.TextViewFont
-                                            android:id="@+id/a"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="invite (    ) New Users You Will Win This Product In Just 1Rs Friends Deal..Complete This Task In Just 24 Houres..Hurry....."
-                                            android:textColor="@color/white"
-                                            android:textSize="16dp"
-                                            android:visibility="gone"
-                                            app:fonttype="text_semi_bold" />
+
 
                                     </LinearLayout>
                                 </LinearLayout>
@@ -922,6 +930,45 @@
                         </LinearLayout>
 
                     </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/onersview"
+                        android:visibility="gone"
+                        android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                       android:paddingRight="20dp"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="10dp"
+                        android:layout_height="wrap_content">
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:id="@+id/onediscription"
+                            app:fonttype="text_semi_bold"
+                            android:text="Start A Big Deal Invite"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:layout_height="wrap_content">
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:id="@+id/fulldiscription"
+                            app:fonttype="text_semi_bold"
+                            android:text="New Users &amp; Get A Big &amp; Costly Product In Just Rs 90.. Hurry Limited Offer"/>
+
+                    </LinearLayout>
+                    </LinearLayout>
+
                 </LinearLayout>
 
 
@@ -937,21 +984,6 @@
                 android:paddingLeft="1dp"
                 android:paddingRight="1dp">
 
-                <!--                <tech.iwish.pickmall.extended.TextViewFont-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:textColor="@color/white"-->
-                <!--                    android:textSize="15dp"-->
-                <!--                    app:fonttype="text_semi_bold"-->
-                <!--                    android:text="Discrition-"/>-->
-                <!--                <tech.iwish.pickmall.extended.TextViewFont-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:textColor="@color/white"-->
-                <!--                    android:textSize="15dp"-->
-                <!--                    android:layout_marginTop="10dp"-->
-                <!--                    app:fonttype="regular"-->
-                <!--                    android:text="dfdjs sdfnsda sdfbads  sdfsadjdkf sdfbadsjk asdfnsdjka sdfbas  asbf afbj  asbfjksd effnd  seedfjns  sefjb sg jw   efn eqs"/>-->
                 <FrameLayout
                     android:name="tech.iwish.pickmall.activity.ProductDetailsActivity"
                     android:id="@+id/product_overview_frame"

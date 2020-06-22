@@ -103,6 +103,7 @@
                         android:id="@+id/progress_2"
                         style="@style/flashsaleprogress"
                         android:layout_width="match_parent"
+                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="4dp"

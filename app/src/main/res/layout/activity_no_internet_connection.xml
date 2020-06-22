@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/layout"
     android:background="@drawable/no_internet_connection"
-    tools:context=".activity.NoInternetConnectionActivity">
+    tools:context=".activity.NoInternetConnectionActivity"
+    android:orientation="horizontal">
 
 </LinearLayout>

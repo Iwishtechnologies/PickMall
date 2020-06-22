@@ -1022,6 +1022,7 @@
                     android:layout_gravity="end|center"
                     android:layout_marginStart="5dp"
                     android:gravity="right"
+                    android:visibility="gone"
                     android:src="@drawable/right_arrow" />
             </LinearLayout>
 
@@ -1488,6 +1489,7 @@
                         android:layout_weight="1"
                         android:drawableRight="@drawable/right_arrow"
                         android:gravity="end"
+                        android:visibility="gone"
                         android:textColor="@color/white"
                         android:text="View all"
                         android:textSize="14sp"

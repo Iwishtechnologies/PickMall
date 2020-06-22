@@ -26,6 +26,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.sackcentury.shinebuttonlib.ShineButton;
+
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +53,7 @@ import tech.iwish.pickmall.adapter.ProductSizeAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.countdowntime.FriendDeaTimeSet;
+import tech.iwish.pickmall.extended.TextViewFont;
 import tech.iwish.pickmall.fragment.ProductOverViewFragment;
 import tech.iwish.pickmall.fragment.ProductSideColorBottomFragment;
 import tech.iwish.pickmall.other.CardCount;
@@ -83,11 +86,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     private RelativeLayout card;
     private Map data;
     Share_session shareSession;
-    private ImageView save_hearth, sub_button, add_button, wishlist;
+    private ImageView save_hearth, sub_button, add_button;
+    ShineButton wishlist;
     public boolean wishlistchechi;
     private List<ProductColorList> productColorLists = new ArrayList<>();
     private ProductSizeInterFace productSizeInterFace;
-    private LinearLayout qty_layouts, dicount_price_per_mrp_layout, friendDealTimeLayout;
+    private LinearLayout qty_layouts, dicount_price_per_mrp_layout, friendDealTimeLayout,onersview;
+    TextViewFont onediscription,fulldiscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +101,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_product_details);
 
         getSupportActionBar().hide();
-
         ac_priceEdit = (TextView) findViewById(R.id.priceEdit);
         rating = (TextView) findViewById(R.id.ratingbox);
         dicount_price_Edit = (TextView) findViewById(R.id.dicount_price);
@@ -132,7 +136,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         one_rs_bottom_layout = (LinearLayout) findViewById(R.id.one_rs_bottom_layout);
         one_rs_rule = (LinearLayout) findViewById(R.id.one_rs_rule);
         store = (LinearLayout) findViewById(R.id.store);
-        wishlist = (ImageView) findViewById(R.id.wishlists);
+        wishlist =  findViewById(R.id.wishlists);
         product_count_layout = (LinearLayout) findViewById(R.id.product_count_layout);
         qty_layouts = (LinearLayout) findViewById(R.id.qty_layouts);
         dicount_price_per_mrp_layout = (LinearLayout) findViewById(R.id.dicount_price_per_mrp_layout);
@@ -143,6 +147,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         card = (RelativeLayout) findViewById(R.id.card);
 
         save_hearth = (ImageView) findViewById(R.id.save_hearth);
+        onersview =  findViewById(R.id.onersview);
+        onediscription =  findViewById(R.id.onediscription);
+        fulldiscription =  findViewById(R.id.fulldiscription);
 
         scrollview.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
@@ -210,6 +217,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 one_rs_amount.setText(getResources().getString(R.string.rs_symbol) + actual_price);
                 product_layout.setVisibility(View.GONE);
                 button_layout.setVisibility(View.GONE);
+                onersview.setVisibility(View.VISIBLE);
                 one_rs_main_layout.setVisibility(View.VISIBLE);
                 one_rs_bottom_layout.setVisibility(View.VISIBLE);
                 one_rs_rule.setVisibility(View.VISIBLE);
@@ -232,11 +240,17 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
                 Log.e("ppp", item_type);
                 if (item_type.equals("friend_deal")) {
+                    onediscription.setText("invite ("+new_user_request +") New Users & You Will Win This Product In Just 1Rs Friends Deal..");
+                    fulldiscription.setText("Complete This Task In Just 24 Houres..Hurry.....");
                     new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), ProductDetailsActivity.this, timeset, item_type).Time_12_H();
                     RankingMethod();
                 } else if (item_type.equals("one_win")) {
+                    onediscription.setText("Start a Big Deal Invite ("+new_user_request + ")");
+                    fulldiscription.setText("Complete This Task  Houres..Hurry.....");
                     RankingMethod();
                 } else {
+                    onediscription.setText("Start a Big Deal Invite ("+new_user_request + ")");
+                    fulldiscription.setText("New Users & Get A Big & Costly Product In Just Rs 90.. Hurry Limited Offer");
                     new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), ProductDetailsActivity.this, timeset, item_type).Time_24_H();
                     RankingMethod();
                 }
@@ -516,6 +530,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.wishlists:
                 wishlist.setClickable(false);
+//                wishlist.setFixDialog(dialog);
                 wishlistchechk(product_id, data.get(USERMOBILE).toString(), PRODUCT_TYPE, "dsdas");
                 wishlist.setClickable(true);
                 break;
