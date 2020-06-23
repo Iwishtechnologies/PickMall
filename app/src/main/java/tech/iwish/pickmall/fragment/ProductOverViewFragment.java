@@ -1,11 +1,13 @@
 package tech.iwish.pickmall.fragment;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,7 +21,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -49,6 +53,7 @@ import tech.iwish.pickmall.adapter.ProductDescriptionAdapter;
 import tech.iwish.pickmall.adapter.ProductOverviewAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
+import tech.iwish.pickmall.extended.TextViewFont;
 import tech.iwish.pickmall.other.ProductDescriptionlist;
 import tech.iwish.pickmall.other.ProductOverViewList;
 import tech.iwish.pickmall.session.Share_session;
@@ -64,6 +69,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
     private String product_id, vendor_id;
     private TextView select_pincode, checker_pincode;
     private TableLayout tableLayout;
+    ImageView fulldetails;
     private LinearLayout return_policy , venodr_layout;
 
 
@@ -80,9 +86,11 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         venodr_layout = (LinearLayout) view.findViewById(R.id.venodr_layout);
 
         tableLayout = (TableLayout) view.findViewById(R.id.tableLayout);
+        fulldetails =  view.findViewById(R.id.fulldetails);
 
         select_pincode.setOnClickListener(this);
         return_policy.setOnClickListener(this);
+        fulldetails.setOnClickListener(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -337,7 +345,11 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
             case R.id.return_policy:
                 getActivity().startActivity(new Intent(new Intent(getContext(), ReturnPolicyActivity.class)));
                 break;
+
+            case R.id.fulldetails:
+                Detail_Dialog();
         }
+
     }
 
 
@@ -349,6 +361,98 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
             checker_pincode.setText(data.get(PINCODR_SERVICE_CHECK).toString());
             checker_pincode.setTextColor(getResources().getColor(R.color.black));
         }
+    }
+
+    protected void Detail_Dialog(){
+        final Dialog dialog;
+        LinearLayout viewlayout;
+        dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.design_dialog);
+        Window window = dialog.getWindow();
+        window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.gravity = Gravity.BOTTOM;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(wlp);
+        viewlayout=dialog.findViewById(R.id.viewlayout);
+
+
+
+//        LinearLayout linearLayout =new LinearLayout(getActivity());
+////        linearLayout.setId(finalI+500);
+//        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        linearLayout.setWeightSum(2f);
+//        lp.setMargins(0,0,0,10);
+//        linearLayout.setOrientation(LinearLayout.VERTICAL);
+//        linearLayout.setLayoutParams(lp);
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("pid",product_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.PRODUCT).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                int finalI = i;
+//
+                                    TextViewFont textViewFont= new TextViewFont(getActivity());
+                                    LinearLayout.LayoutParams textparam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
+                                    textViewFont.setLayoutParams(textparam);
+                                    textViewFont.setId(finalI+50);
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        textViewFont.setTextAppearance(android.R.style.TextAppearance_Holo_Large);
+                                    }
+                                Log.e(String.valueOf(finalI),jsonHelper.GetResult("title"));
+                                    textViewFont.setText(jsonHelper.GetResult("title"));
+                                    textViewFont.setTextColor(getResources().getColor(R.color.black));
+                                    textViewFont.setTextSize(18);
+
+                                    TextViewFont textViewFont1= new TextViewFont(getActivity());
+                                    LinearLayout.LayoutParams textparam1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
+                                   textparam1.setMargins(0,0,0,10);
+                                    textViewFont1.setLayoutParams(textparam1);
+                                    textViewFont1.setId(finalI);
+                                    Log.e(String.valueOf(finalI),jsonHelper.GetResult("overview"));
+                                    textViewFont1.setTextColor(getResources().getColor(R.color.theme_dark));
+                                    textViewFont1.setText(jsonHelper.GetResult("overview"));
+                                    textViewFont1.setTextSize(12);
+
+                                    viewlayout.addView(textViewFont);
+                                    viewlayout.addView(textViewFont1);
+
+                                      }
+                                    getActivity().runOnUiThread(() ->{  dialog.show();});
+
+
+                        }
+                    }
+                }
+            }
+        });
+
     }
 }
 

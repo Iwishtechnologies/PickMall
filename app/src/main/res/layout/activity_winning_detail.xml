@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activity.WinningDetailActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:weightSum="2"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="#FFDC4E"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_height="90dp">
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                app:fonttype="text_semi_bold"
+                android:textColor="@color/black"
+                android:text="Todays Highest Wins!"/>
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                app:fonttype="regular"
+                android:textColor="@color/black"
+                android:text="Hurry Up!"/>
+
+        </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_weight="2"
+        android:id="@+id/recycle"
+        android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</RelativeLayout>

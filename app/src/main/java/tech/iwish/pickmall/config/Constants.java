@@ -113,6 +113,8 @@ public class Constants {
     public static String RANKING = URL+"ranking";
     public static String REGISTER = URL+"register";
     public static String SIGN_IN = URL+"sign_in";
+    public static String PRODUCT = URL+"Product_overview";
+    public static String WINLIST = URL+"win_ranking";
 
 
 

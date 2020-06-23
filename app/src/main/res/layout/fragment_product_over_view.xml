@@ -902,90 +902,102 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:background="#462423"
                 android:visibility="visible"
+                android:gravity="center|center_vertical"
+                android:weightSum="2"
                 android:padding="10dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
+                    android:layout_weight="1.8"
+                    android:orientation="vertical">
 
-                    <tech.iwish.pickmall.extended.TextViewFont
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:padding="5dp"
-                        android:text="Estimate time to Arrival 7-12 Days"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        app:fonttype="regular" />
+                        android:orientation="horizontal"
+                        android:weightSum="2">
 
-                    <ImageView
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:padding="5dp"
+                            android:text="Estimate time to Arrival 7-12 Days"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            app:fonttype="regular" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginStart="5dp"
-                        android:gravity="right"
-                        android:visibility="gone"
-                        android:src="@drawable/right_arrow" />
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:padding="5dp"
+                            android:text="Free Shipping On Prepaid Orders"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            app:fonttype="regular" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginStart="5dp"
+                            android:gravity="right"
+                            android:src="@drawable/right_arrow"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:padding="5dp"
+                            android:text="Cash On Delivery Available On Your Pincode.."
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            app:fonttype="regular" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginStart="5dp"
+                            android:gravity="right"
+                            android:src="@drawable/right_arrow"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
+                    android:layout_marginStart="5dp"
+                    android:gravity="center_vertical"
+                    android:visibility="visible"
+                    android:layout_weight="0.2"
+                    android:id="@+id/fulldetails"
+                    android:src="@drawable/right_arrow" />
 
-                    <tech.iwish.pickmall.extended.TextViewFont
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:padding="5dp"
-                        android:text="Free Shipping On Prepaid Orders"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        app:fonttype="regular" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginStart="5dp"
-                        android:gravity="right"
-                        android:visibility="gone"
-                        android:src="@drawable/right_arrow" />
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <tech.iwish.pickmall.extended.TextViewFont
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:padding="5dp"
-                        android:text="Cash On Delivery Available On Your Pincode.."
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        app:fonttype="regular" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginStart="5dp"
-                        android:gravity="right"
-                        android:visibility="gone"
-                        android:src="@drawable/right_arrow" />
-
-                </LinearLayout>
             </LinearLayout>
 
             <View
