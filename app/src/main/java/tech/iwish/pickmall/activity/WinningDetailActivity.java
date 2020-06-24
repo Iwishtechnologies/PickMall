@@ -38,6 +38,7 @@ public class WinningDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_winning_detail);
         recyclerView= findViewById(R.id.recycle);
+        SetRecycleView();
 
     }
     private void SetRecycleView(){

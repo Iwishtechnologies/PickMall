@@ -115,6 +115,8 @@ public class Constants {
     public static String SIGN_IN = URL+"sign_in";
     public static String PRODUCT = URL+"Product_overview";
     public static String WINLIST = URL+"win_ranking";
+    public static String COD_MOBILE_VERIFY = URL+"cod_mobile_verify";
+    public static String COD_OTP_VERIFY = URL+"cod_otp_verify";
 
 
 
