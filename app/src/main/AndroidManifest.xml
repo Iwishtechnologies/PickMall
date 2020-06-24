@@ -17,7 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.WinningDetailActivity"></activity>
+        <activity android:name=".activity.WinningDetailActivity"
+            android:theme="@style/Settingtheme"
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity android:name=".activity.Sign_InActivity" />
         <activity
             android:name=".activity.One_winActivity"

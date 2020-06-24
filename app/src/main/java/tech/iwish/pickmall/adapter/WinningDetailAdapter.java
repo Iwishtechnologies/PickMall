@@ -44,24 +44,60 @@ public class WinningDetailAdapter extends RecyclerView.Adapter<WinningDetailAdap
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         if(position==0){
             holder.name.setText(winLists.get(position).getClient_name());
-            holder.item.setText(winLists.get(position).getProduct_image());
+            holder.item.setText(winLists.get(position).getProduct_name());
             Glide.with(context).load(Constants.IMAGES+winLists.get(position).getProduct_image()).into(holder.image);
             holder.layout.setBackground(context.getDrawable(R.drawable.yellow_win_background));
+            if ((winLists.get(position).getProduct_type().equals("friend_deal"))){
+                holder.type.setText("Win in Friends Deal ");
+            }
+            if ((winLists.get(position).getProduct_type().equals("One_win"))){
+                holder.type.setText("Win in One Win ");
+            }
+            if ((winLists.get(position).getProduct_type().equals("90Rs"))){
+                holder.type.setText("Win in 90Rs ");
+            }
          }else if(position==1){
             holder.name.setText(winLists.get(position).getClient_name());
-            holder.item.setText(winLists.get(position).getProduct_image());
+            holder.item.setText(winLists.get(position).getProduct_name());
             Glide.with(context).load(Constants.IMAGES+winLists.get(position).getProduct_image()).into(holder.image);
             holder.layout.setBackground(context.getDrawable(R.drawable.blue_win_background));
+            if ((winLists.get(position).getProduct_type().equals("friend_deal"))){
+                holder.type.setText("Win in Friends Deal ");
+            }
+            if ((winLists.get(position).getProduct_type().equals("One_win"))){
+                holder.type.setText("Win in One Win ");
+            }
+            if ((winLists.get(position).getProduct_type().equals("90Rs"))){
+                holder.type.setText("Win in 90Rs ");
+            }
         }else if(position==2){
             holder.name.setText(winLists.get(position).getClient_name());
-            holder.item.setText(winLists.get(position).getProduct_image());
+            holder.item.setText(winLists.get(position).getProduct_name());
             Glide.with(context).load(Constants.IMAGES+winLists.get(position).getProduct_image()).into(holder.image);
             holder.layout.setBackground(context.getDrawable(R.drawable.blue_win_background));
+            if ((winLists.get(position).getProduct_type().equals("friend_deal"))){
+                holder.type.setText("Win in Friends Deal ");
+            }
+            if ((winLists.get(position).getProduct_type().equals("One_win"))){
+                holder.type.setText("Win in One Win ");
+            }
+            if ((winLists.get(position).getProduct_type().equals("90Rs"))){
+                holder.type.setText("Win in 90Rs ");
+            }
         }else {
             holder.name.setText(winLists.get(position).getClient_name());
-            holder.item.setText(winLists.get(position).getProduct_image());
+            holder.item.setText(winLists.get(position).getProduct_name());
             Glide.with(context).load(Constants.IMAGES+winLists.get(position).getProduct_image()).into(holder.image);
             holder.layout.setBackground(context.getDrawable(R.drawable.white_win_background));
+            if ((winLists.get(position).getProduct_type().equals("friend_deal"))){
+                holder.type.setText("Win in Friends Deal ");
+            }
+            if ((winLists.get(position).getProduct_type().equals("One_win"))){
+                holder.type.setText("Win in One Win ");
+            }
+            if ((winLists.get(position).getProduct_type().equals("90Rs"))){
+                holder.type.setText("Win in 90Rs ");
+            }
         }
 
     }

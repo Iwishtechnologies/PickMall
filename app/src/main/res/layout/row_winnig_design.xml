@@ -2,57 +2,70 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:weightSum="4"
-    android:id="@+id/layout"
-    android:gravity="center_vertical"
-    android:background="@drawable/yellow_win_background"
     android:layout_height="wrap_content">
 
-    <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:id="@+id/image"
-        app:shape_mode="round_rect"
-        android:src="@drawable/male_icon"
-        android:layout_weight="1"/>
-
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:orientation="vertical"
-        android:weightSum="3"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:layout_height="match_parent">
-
-    <tech.iwish.pickmall.extended.TextViewFont
         android:layout_width="match_parent"
-        android:text="Shivam Sahu"
-        android:layout_weight="1"
-        android:id="@+id/name"
-        android:textSize="18dp"
-        android:textColor="@color/black"
-        android:layout_height="wrap_content"/>
+        android:orientation="horizontal"
+        android:weightSum="4"
+        android:id="@+id/layout"
+        android:layout_marginBottom="-15dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/yellow_win_background"
+        android:layout_height="wrap_content">
 
-    <tech.iwish.pickmall.extended.TextViewFont
-        android:layout_width="match_parent"
-        android:text="Mixer Griender"
-        android:id="@+id/item"
-        android:maxLines="1"
-        android:textSize="18dp"
-        android:layout_weight="1"
-        android:textColor="@color/black"
-        android:layout_height="wrap_content"/>
+        <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/image"
+            android:padding="10dp"
+            android:layout_marginBottom="5dp"
+            app:shape_mode="circle"
+            android:src="@drawable/male_icon"
+            android:layout_weight="1"/>
 
-    <tech.iwish.pickmall.extended.TextViewFont
-        android:layout_width="match_parent"
-        android:text="Win In FlashSale"
-        android:id="@+id/type"
-        android:textSize="18dp"
-        android:layout_weight="1"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="3"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_height="match_parent">
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="match_parent"
+                android:text="Shivam Sahu"
+                android:layout_weight="1"
+                android:id="@+id/name"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"/>
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="match_parent"
+                android:text="Mixer Griender"
+                android:id="@+id/item"
+                android:maxLines="1"
+                android:textSize="14dp"
+                android:maxLength="20"
+                app:fonttype="regular"
+                android:layout_weight="1"
+                android:textColor="@color/light_black"
+                android:layout_height="wrap_content"/>
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="match_parent"
+                android:text="Win In FlashSale"
+                android:id="@+id/type"
+                android:textSize="14dp"
+                app:fonttype="regular"
+                android:layout_weight="1"
+                android:textColor="@color/light_black"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
     </LinearLayout>
+
+
 
 </LinearLayout>

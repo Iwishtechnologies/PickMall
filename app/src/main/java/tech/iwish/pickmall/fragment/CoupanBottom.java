@@ -40,7 +40,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import tech.iwish.pickmall.Interface.UpdateFinalAmountData;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.activity.SaveAddressActivity;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.session.Share_session;
@@ -54,8 +56,14 @@ public class CoupanBottom extends BottomSheetDialogFragment {
     private EditText coupon_check;
     private ProgressBar progress_bar;
     Share_session shareSession;
+    String Order_amount;
     Map data;
+    UpdateFinalAmountData updateFinalAmountData;
 
+    public CoupanBottom(int order_amount,UpdateFinalAmountData updateFinalAmountData){
+        this.Order_amount= String.valueOf(order_amount);
+        this.updateFinalAmountData=updateFinalAmountData;
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,23 +76,20 @@ public class CoupanBottom extends BottomSheetDialogFragment {
         shareSession = new Share_session(getActivity());
 
 
-        coupon_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        coupon_btn.setOnClickListener(view1 -> {
 
-                coupon_btn.setClickable(false);
+            coupon_btn.setClickable(false);
 
-                coupon();
+            coupon();
 
-                if (coupon_check.getText().toString().trim().isEmpty()) {
-                    Toast toast ;
-                    Toast.makeText(getActivity(), "Coupon Code Invalid", Toast.LENGTH_SHORT).show();
+            if (coupon_check.getText().toString().trim().isEmpty()) {
+                Toast toast ;
+                Toast.makeText(getActivity(), "Coupon Code Invalid", Toast.LENGTH_SHORT).show();
 
-                } else {
-                    coupon_btn.setClickable(true);
-                }
-
+            } else {
+                coupon_btn.setClickable(true);
             }
+
         });
 
         return view;
@@ -96,8 +101,9 @@ public class CoupanBottom extends BottomSheetDialogFragment {
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("client_number", data.get(USERMOBILE).toString());
+            jsonObject.put("client_number", shareSession.getUserDetail().get("UserMobile"));
             jsonObject.put("coupon", coupon_check.getText().toString().trim());
+                jsonObject.put("order_amount",Order_amount.trim());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -119,13 +125,16 @@ public class CoupanBottom extends BottomSheetDialogFragment {
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
+                            getActivity().runOnUiThread(() -> {
+                                Toast.makeText(getActivity(), "successfully applied Coupens", Toast.LENGTH_SHORT).show();
+                                 int coupenamt=Integer.parseInt(jsonHelper.GetResult("data"))-Integer.parseInt(Order_amount.trim());
+                                updateFinalAmountData.UpdateAmount(jsonHelper.GetResult("data"),coupon_check.getText().toString().trim(), String.valueOf(Math.abs(coupenamt)));
+                            });
 
-                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                jsonHelper.setChildjsonObj(jsonArray, i);
-
-                            }
-
+                        }else {
+                            getActivity().runOnUiThread(() -> {
+                                Toast.makeText(getActivity(), jsonHelper.GetResult("data"), Toast.LENGTH_SHORT).show();
+                            });
                         }
                     }
                 }

@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +53,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
     String Checker;
     private Map data;
     LinearLayout paymentAvailable;
-    private TextView edit_amount, pricr, total_amount_tax, gst_price, walletAmtTextview;
+    private TextView edit_amount, pricr, total_amount_tax, gst_price, walletAmtTextview,coupenAmount;
     private String type;
     private MyhelperSql myhelperSql;
     private SQLiteDatabase sqLiteDatabase;
@@ -64,7 +65,8 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             imagename, product_qty, product_id, select_color, productgst,referCode,item_type;
     private Share_session shareSession;
     private ProgressBar progressbar;
-    private int finalamountsInt, shippingchargebuy_now;
+    TableRow coupenview;
+    private int finalamountsInt, shippingchargebuy_now,orderamount;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +78,8 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
         online_payment = (RelativeLayout) findViewById(R.id.online_payment);
         cases = (RelativeLayout) findViewById(R.id.cases);
         amountAddWallet = (RelativeLayout) findViewById(R.id.amountAddWallet);
+        coupenview = findViewById(R.id.coupenview);
+        coupenAmount = findViewById(R.id.coupenAmount);
 
         rayruWallet = (RadioButton) findViewById(R.id.rayruWallet);
         onlinePayments = (RadioButton) findViewById(R.id.onlinePayments);
@@ -120,9 +124,19 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 //                finalamountsInt = grandTotal;
 
                 grandTotal = Integer.parseInt(product_amt);
-
-                pricr.setText(getResources().getString(R.string.rs_symbol) + product_amt);
                 total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
+                pricr.setText(getResources().getString(R.string.rs_symbol) + product_amt);
+                if(intent.getStringExtra("coupenamount").equals("null")){
+//                    coupenview.setVisibility(View.VISIBLE);
+//                    coupenAmount.setText(getResources().getString(R.string.rs_symbol) +intent.getStringExtra("coupenamount"));
+                                 }else {
+                    orderamount=Integer.parseInt(product_amt)+Integer.parseInt(intent.getStringExtra("coupenamount"));
+                    pricr.setText(getResources().getString(R.string.rs_symbol) + (Integer.parseInt(product_amt)+Integer.parseInt(intent.getStringExtra("coupenamount"))));
+                    coupenview.setVisibility(View.VISIBLE);
+                    coupenAmount.setText(getResources().getString(R.string.rs_symbol) +intent.getStringExtra("coupenamount"));
+                }
+
+
                 break;
             case "buy_now":
 
@@ -136,6 +150,16 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 select_color = intent.getStringExtra("select_color");
                 product_type = intent.getStringExtra("product_type");
                 productgst = intent.getStringExtra("gst");
+                pricr.setText(getResources().getString(R.string.rs_symbol) + product_amt);
+                if(intent.getStringExtra("coupenamount").equals("null")){
+//                    coupenview.setVisibility(View.VISIBLE);
+//                    coupenAmount.setText(getResources().getString(R.string.rs_symbol) +intent.getStringExtra("coupenamount"));
+                }else {
+                    orderamount=Integer.parseInt(product_amt)+Integer.parseInt(intent.getStringExtra("coupenamount"));
+                    pricr.setText(getResources().getString(R.string.rs_symbol) + (Integer.parseInt(product_amt)+Integer.parseInt(intent.getStringExtra("coupenamount"))));
+                    coupenview.setVisibility(View.VISIBLE);
+                    coupenAmount.setText(getResources().getString(R.string.rs_symbol) +intent.getStringExtra("coupenamount"));
+                }
                 prepaid = intent.getStringExtra("prepaid");
                 if(prepaid != null){
                     if(prepaid.equals("prepaid")){

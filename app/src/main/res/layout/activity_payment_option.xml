@@ -284,6 +284,30 @@
                     <TableRow
                         android:paddingTop="5dp"
                         android:paddingBottom="3dp"
+                        android:visibility="gone"
+                        android:id="@+id/coupenview"
+                        android:weightSum="2">
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Coupen Applied"
+                            app:fonttype="regular" />
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:id="@+id/coupenAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="Free"
+                            app:fonttype="regular" />
+                    </TableRow>
+
+                    <TableRow
+                        android:paddingTop="5dp"
+                        android:paddingBottom="3dp"
                         android:weightSum="2">
 
                         <tech.iwish.pickmall.extended.TextViewFont

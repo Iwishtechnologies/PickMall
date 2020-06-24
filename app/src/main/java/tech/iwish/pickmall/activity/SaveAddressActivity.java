@@ -46,6 +46,7 @@ import okhttp3.Response;
 import tech.iwish.pickmall.Interface.CardQtyAmountRef;
 import tech.iwish.pickmall.Interface.PaymentOptionInterface;
 import tech.iwish.pickmall.Interface.RefreshCartAmountInterface;
+import tech.iwish.pickmall.Interface.UpdateFinalAmountData;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.CartAdapter;
 import tech.iwish.pickmall.config.Constants;
@@ -65,7 +66,7 @@ import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 
 public class SaveAddressActivity extends AppCompatActivity implements RefreshCartAmountInterface,
         View.OnClickListener,
-        CardQtyAmountRef {
+        CardQtyAmountRef, UpdateFinalAmountData {
 
     private TextView name_a, full_address, city_pincode_address, number_address, change_address, amount_set;
     private RecyclerView card_product_recycleview;
@@ -83,9 +84,10 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
 
     private Button place_order_btn;
     private RelativeLayout layouthide;
-    private int finalAmount;
+    public int finalAmount;
     private double finaGst;
     private Map data;
+    String coupen="null",coupenamount="null";
     private List<JSONObject> jsonObjects = new ArrayList<>();
 
 
@@ -325,7 +327,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 }
                 break;
             case R.id.coupon:
-                CoupanBottom coupanBottom = new CoupanBottom();
+                CoupanBottom coupanBottom = new CoupanBottom(finalAmount,this);
                 coupanBottom.show(getSupportFragmentManager(), coupanBottom.getTag());
                 break;
             case R.id.place_order_btn:
@@ -354,8 +356,10 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 intent = new Intent(SaveAddressActivity.this, PaymentOptionActivity.class);
                 intent.putExtra("type", "CardActivity");
                 intent.putExtra("product_details", jsonObjects.toString());
-                intent.putExtra("amounts", a);
+                intent.putExtra("amounts", String.valueOf(finalAmount));
                 intent.putExtra("gst", gst);
+                intent.putExtra("coupen",coupen);
+                intent.putExtra("coupenamount", coupenamount);
                 startActivity(intent);
 //                card_order_place();
                 break;
@@ -366,7 +370,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 intent = new Intent(SaveAddressActivity.this, PaymentOptionActivity.class);
                 intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
                 intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
-                intent.putExtra("actual_price", getIntent().getStringExtra("actual_price"));
+                intent.putExtra("actual_price", String.valueOf(finalAmount));
                 intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
                 intent.putExtra("imagename", getIntent().getStringExtra("imagename"));
                 intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
@@ -376,6 +380,8 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 intent.putExtra("prepaid", prepaid);
                 intent.putExtra("item_type", item_type);
                 intent.putExtra("type", "buy_now");
+                intent.putExtra("coupen",coupen);
+                intent.putExtra("coupenamount", coupenamount);
                 startActivity(intent);
                 break;
         }
@@ -493,6 +499,19 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
 
 
     }
+
+
+    @Override
+    public void UpdateAmount(String amount, String coupen, String coupenampount) {
+//        Toast.makeText(this, "coupen applied Successfully", Toast.LENGTH_SHORT).show();
+        this.finalAmount= Integer.parseInt(amount);
+        amount_set.setText(amount);
+        this.coupenamount=coupenampount;
+        this.coupen=coupen;
+        orderplace();
+    }
+
+
 
 /*
     private void friendDeal_one_rs_order_place_one_win_order(String wallet, String paymentmethod) {
