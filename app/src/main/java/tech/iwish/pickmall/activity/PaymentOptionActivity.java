@@ -691,6 +691,8 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                                             intent.putExtra("product_image", imagename);
                                             intent.putExtra("discount_price", discount_price);
                                             intent.putExtra("refer_code", referCode);
+                                            intent.putExtra("item_type", item_type);
+                                            intent.putExtra("product_id", product_id);
                                             intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
                                             startActivity(intent);
                                         }
@@ -826,6 +828,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                                 intent.putExtra("product_image", imagename);
                                 intent.putExtra("discount_price", discount_price);
                                 intent.putExtra("refer_code", referCode);
+                                intent.putExtra("product_id", product_id);
                                 intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
                                 startActivity(intent);
 

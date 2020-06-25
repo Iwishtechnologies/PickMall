@@ -176,6 +176,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:text="₹15,000,00"
+                            android:visibility="gone"
                             android:textColor="#787878"
                             android:textSize="12dp"
                             app:fonttype="text_semi_bold" />
@@ -219,6 +220,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
                 android:gravity="center"
+                android:visibility="gone"
                 android:weightSum="3">
 
                 <LinearLayout
@@ -324,6 +326,7 @@
                     android:weightSum="3">
 
                     <tech.iwish.pickmall.extended.TextViewFont
+                        android:id="@+id/time_set"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
@@ -332,22 +335,22 @@
                         android:text="23"
                         android:textColor="#FFF" />
 
-                    <tech.iwish.pickmall.extended.TextViewFont
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:background="#353434"
-                        android:padding="5dp"
-                        android:text="59"
-                        android:textColor="#FFF" />
+<!--                    <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginRight="5dp"-->
+<!--                        android:background="#353434"-->
+<!--                        android:padding="5dp"-->
+<!--                        android:text="59"-->
+<!--                        android:textColor="#FFF" />-->
 
-                    <tech.iwish.pickmall.extended.TextViewFont
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="#353434"
-                        android:padding="5dp"
-                        android:text="53"
-                        android:textColor="#FFF" />
+<!--                    <tech.iwish.pickmall.extended.TextViewFont-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:background="#353434"-->
+<!--                        android:padding="5dp"-->
+<!--                        android:text="53"-->
+<!--                        android:textColor="#FFF" />-->
 
                 </LinearLayout>
 

@@ -87,7 +87,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
     public int finalAmount;
     private double finaGst;
     private Map data;
-    String coupen="null",coupenamount="null";
+    String coupen = "null", coupenamount = "null";
     private List<JSONObject> jsonObjects = new ArrayList<>();
 
 
@@ -124,7 +124,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         shareSession = new Share_session(this);
         data = shareSession.Fetchdata();
 
-        if(data.get(USERMOBILE) != null){
+        if (data.get(USERMOBILE) != null) {
             number_client = data.get(USERMOBILE).toString();
             name_a.setText(data.get(NAME_ADDRESS).toString());
             full_address.setText(data.get(HOUSE_NO_ADDRESS).toString() + " " +
@@ -134,18 +134,17 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
             );
             city_pincode_address.setText(data.get(CITY_ADDRESS).toString() + " " + data.get(PINCODE_ADDRESS).toString());
             number_address.setText(data.get(NUMBER_ADDRESS).toString());
-        }else {
+        } else {
 //            Toast.makeText(this, "activity open", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(SaveAddressActivity.this , Register1Activity.class);
+            Intent intent = new Intent(SaveAddressActivity.this, Register1Activity.class);
             startActivity(intent);
         }
-
-
 
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         card_product_recycleview.setLayoutManager(linearLayoutManager);
+
 
 //        *********************************************************************************
         type = getIntent().getStringExtra("type");
@@ -156,6 +155,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 card_product_recycleview.setVisibility(View.VISIBLE);
                 productshow();
                 amount_set.setText(getResources().getString(R.string.rs_symbol) + finalAmount);
+                item_type = "";
                 break;
             case "friendDeal_one_rs":
                 friendDeal_one_rs();
@@ -207,6 +207,15 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         product_qty.setText(B_N_product_qty);
 
         finalAmount = Integer.parseInt(B_N_product_acture_price);
+
+        if (item_type == null) {
+            item_type = "";
+        } else {
+            Log.e("item_type", item_type);
+            Log.e("item_type", item_type);
+            Log.e("item_type", item_type);
+        }
+
 
         if (!type.equals("friendDeal_one_rs")) {
             SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + getIntent().getStringExtra("discount_price"));
@@ -330,11 +339,16 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 }
                 break;
             case R.id.coupon:
-                CoupanBottom coupanBottom = new CoupanBottom(finalAmount,this);
+                CoupanBottom coupanBottom = new CoupanBottom(finalAmount, this);
                 coupanBottom.show(getSupportFragmentManager(), coupanBottom.getTag());
                 break;
             case R.id.place_order_btn:
-                orderplace();
+
+                if (item_type.equals("one_win")) {
+                    friendDeal_one_rs_order_place_one_win_order("", "");
+                } else {
+                    orderplace();
+                }
                 break;
         }
 
@@ -361,7 +375,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 intent.putExtra("product_details", jsonObjects.toString());
                 intent.putExtra("amounts", String.valueOf(finalAmount));
                 intent.putExtra("gst", gst);
-                intent.putExtra("coupen",coupen);
+                intent.putExtra("coupen", coupen);
                 intent.putExtra("coupenamount", coupenamount);
                 startActivity(intent);
 //                card_order_place();
@@ -383,7 +397,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 intent.putExtra("prepaid", prepaid);
                 intent.putExtra("item_type", item_type);
                 intent.putExtra("type", "buy_now");
-                intent.putExtra("coupen",coupen);
+                intent.putExtra("coupen", coupen);
                 intent.putExtra("coupenamount", coupenamount);
                 startActivity(intent);
                 break;
@@ -445,7 +459,8 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                                             intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
                                             intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
                                             intent.putExtra("refer_code", referCode);
-                                            intent.putExtra("refer_count", referCount);
+                                            intent.putExtra("item_type", item_type);
+                                            intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
 
                                             startActivity(intent);
                                         } else {
@@ -509,16 +524,14 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
 
 //        this.finalAmount= Integer.parseInt(amount);
         amount_set.setText(amount);
-        this.coupenamount=coupenampount;
-        this.coupen=coupen;
+        this.coupenamount = coupenampount;
+        this.coupen = coupen;
         orderplace();
 
 
     }
 
 
-
-/*
     private void friendDeal_one_rs_order_place_one_win_order(String wallet, String paymentmethod) {
 
 
@@ -532,11 +545,12 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
             jsonObject.put("product_type", product_type);
             jsonObject.put("product_color", select_color);
             jsonObject.put("product_size", getIntent().getStringExtra("select_size"));
-            jsonObject.put("product_qty", product_qty);
-            jsonObject.put("product_amount", finalamountsInt);
+            jsonObject.put("product_qty", getIntent().getStringExtra("product_qty"));
+            jsonObject.put("product_amount", getIntent().getStringExtra("actual_price"));
             jsonObject.put("shippingCharge", "");
             jsonObject.put("gst", "");
             jsonObject.put("item_type", item_type);
+            jsonObject.put("offer_id", "");
             jsonObject.put("payment_option", "FREE");
 
         } catch (JSONException e) {
@@ -569,14 +583,13 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                                     @Override
                                     public void run() {
 
-//                                        WalletAmountUpdate("friendDeal_one_rs_ord");
-//                                        progressbar.setVisibility(View.GONE);
-
                                         Intent intent = new Intent(SaveAddressActivity.this, OneRsShareActivity.class);
-                                        intent.putExtra("product_name", product_name);
-                                        intent.putExtra("product_image", imagename);
-                                        intent.putExtra("discount_price", discount_price);
+                                        intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                                        intent.putExtra("product_image", getIntent().getStringExtra("imagename"));
+                                        intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
                                         intent.putExtra("refer_code", referCode);
+                                        intent.putExtra("item_type", item_type);
+                                        intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
                                         intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
                                         startActivity(intent);
                                     }
@@ -586,6 +599,16 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
 
                             }
 
+                        } else if (responses.equals("TRUES")) {
+                            Intent intent = new Intent(SaveAddressActivity.this, OneRsShareActivity.class);
+                            intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                            intent.putExtra("product_image", getIntent().getStringExtra("imagename"));
+                            intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                            intent.putExtra("refer_code", referCode);
+                            intent.putExtra("item_type", item_type);
+                            intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
+                            intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
+                            startActivity(intent);
                         }
                     }
 
@@ -595,7 +618,6 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
 
 
     }
-*/
 
 
 }

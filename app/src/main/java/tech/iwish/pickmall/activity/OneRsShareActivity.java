@@ -26,17 +26,19 @@ import com.google.firebase.dynamiclinks.ShortDynamicLink;
 
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.config.Constants;
+import tech.iwish.pickmall.countdowntime.FriendDeaTimeSet;
+import tech.iwish.pickmall.session.Share_session;
 
 public class OneRsShareActivity extends AppCompatActivity {
 
     private ImageView image;
-    private TextView productName, productAmount, productmrp;
+    private TextView productName, productAmount, productmrp,time_set;
     private Button invite_friend_deal;
-    private String refer_code, refer_count, new_user_request;
+    private String refer_code, refer_count, new_user_request,item_type ,product_id ;
     private LinearLayout LinearLayoutShare;
     private int intReferCount;
     private ProgressBar progressBar;
-
+    private Share_session shareSession ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class OneRsShareActivity extends AppCompatActivity {
         image = (ImageView) findViewById(R.id.image);
         productName = (TextView) findViewById(R.id.productName);
         productAmount = (TextView) findViewById(R.id.productAmount);
+        time_set = (TextView) findViewById(R.id.time_set);
         productmrp = (TextView) findViewById(R.id.productmrp);
         invite_friend_deal = (Button) findViewById(R.id.invite_friend_deal);
         LinearLayoutShare = (LinearLayout) findViewById(R.id.LinearLayoutShare);
@@ -54,17 +57,21 @@ public class OneRsShareActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.GONE);
 
+        shareSession = new Share_session(this);
+
         refer_code = getIntent().getStringExtra("refer_code");
         refer_count = getIntent().getStringExtra("refer_count");
         new_user_request = getIntent().getStringExtra("new_user_request");
+        item_type = getIntent().getStringExtra("item_type");
+        product_id = getIntent().getStringExtra("product_id");
 
         productName.setText(getIntent().getStringExtra("product_name"));
 
 //        Toast.makeText(this, "" + new_user_request, Toast.LENGTH_SHORT).show();
 
-        SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + getIntent().getStringExtra("discount_price"));
-        content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
-        productmrp.setText(content);
+//        SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + getIntent().getStringExtra("discount_price"));
+//        content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
+//        productmrp.setText(content);
 
         String a = Constants.IMAGES + getIntent().getStringExtra("product_image");
         Glide.with(this).load(a).into(image);
@@ -72,6 +79,17 @@ public class OneRsShareActivity extends AppCompatActivity {
         if(refer_count != null){
             intReferCount = Integer.parseInt(refer_count);
         }
+
+
+
+        if (item_type.equals("friend_deal")) {
+            new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), OneRsShareActivity.this, time_set, item_type).Time_12_H();
+        } else if (item_type.equals("one_win")) {
+        } else {
+            new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), OneRsShareActivity.this, time_set, item_type).Time_24_H();
+        }
+
+
 //        int new_user_requestInt = Integer.parseInt(new_user_request);
 //        LinearLayoutShare.setWeightSum(5);
 //        for (int i = 0; i < new_user_requestInt; i++) {

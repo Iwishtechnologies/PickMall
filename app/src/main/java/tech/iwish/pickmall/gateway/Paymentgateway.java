@@ -28,6 +28,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import tech.iwish.pickmall.activity.OneRsShareActivity;
 import tech.iwish.pickmall.activity.PaymentOptionActivity;
 import tech.iwish.pickmall.activity.SuccessfullyActivity;
 import tech.iwish.pickmall.config.Constants;
@@ -162,7 +163,12 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
 
-                            Intent intent = new Intent(Paymentgateway.this,SuccessfullyActivity.class);
+                            Intent intent = new Intent(Paymentgateway.this, OneRsShareActivity.class);
+                            intent.putExtra("item_type",getIntent().getStringExtra("item_type"));
+                            intent.putExtra("product_id",getIntent().getStringExtra("product_id"));
+                            intent.putExtra("product_id",getIntent().getStringExtra("product_id"));
+                            intent.putExtra("product_name",getIntent().getStringExtra("product_name"));
+                            intent.putExtra("product_type",getIntent().getStringExtra("product_type"));
                             startActivity(intent);
 
                         }
