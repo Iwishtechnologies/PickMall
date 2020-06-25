@@ -16,7 +16,12 @@
         android:roundIcon="@drawable/applogo"
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true">
+
+        <activity android:name=".activity.OTP_verifyActivity"></activity>
+        <activity android:name=".activity.Cod_mobile_verify_activity" />
         <activity android:name=".activity.WinningDetailActivity"
             android:theme="@style/Settingtheme"
             android:screenOrientation="portrait">

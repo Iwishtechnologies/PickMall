@@ -242,19 +242,19 @@ public class FriendDeaTimeSet {
 //                            ProductClientTime.set(Calendar.MONTH, Integer.parseInt(mo)-1);
 //                            ProductClientTime.set(Calendar.YEAR, Integer.parseInt(y));
 
-                            ProductSetTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(h));
+                            ProductSetTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(h) + 24);
                             ProductSetTime.set(Calendar.MINUTE, Integer.parseInt(m));
-                            ProductSetTime.set(Calendar.SECOND, Integer.parseInt(s));
-                            ProductSetTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(d) - 1);
+                            ProductSetTime.set(Calendar.SECOND, Integer.parseInt(s) - 1);
+                            ProductSetTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(d));
                             ProductSetTime.set(Calendar.MONTH, Integer.parseInt(mo) + 0);
                             ProductSetTime.set(Calendar.YEAR, Integer.parseInt(y));
                             Calendar a = ProductSetTime;
 //                            a.setTime(ProductSetTime.getTime());
 //                            a = ProductClientTime;
-                            a.add(ProductSetTime.HOUR_OF_DAY, Integer.parseInt(h));
+                            a.add(ProductSetTime.HOUR_OF_DAY, Integer.parseInt(h) + 24);
                             a.add(ProductSetTime.MINUTE, Integer.parseInt(m));
                             a.add(ProductSetTime.SECOND, -1);
-                            a.set(ProductSetTime.DAY_OF_MONTH, Integer.parseInt(d) - 1);
+                            a.set(ProductSetTime.DAY_OF_MONTH, Integer.parseInt(d));
                             a.set(ProductSetTime.MONTH, Integer.parseInt(mo) + 0);
                             a.set(ProductSetTime.YEAR, Integer.parseInt(y));
 
@@ -314,6 +314,7 @@ public class FriendDeaTimeSet {
             jsonObject.put("client_number", data.get(USERMOBILE).toString());
             jsonObject.put("product_id", product_id);
             jsonObject.put("refer_code", refer_code);
+            jsonObject.put("item_type", item_type);
         } catch (JSONException e) {
             e.printStackTrace();
         }

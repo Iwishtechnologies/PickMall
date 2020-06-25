@@ -249,10 +249,6 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                         new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), ProductDetailsActivity.this, timeset, item_type).Time_24_H();
                         RankingMethod();
                     }
-                } else {
-                    if (product_type.equals("friendsaleoneRs")) {
-                        Toast.makeText(this, "activity open", Toast.LENGTH_SHORT).show();
-                    }
                 }
                 break;
         }
@@ -298,6 +294,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         bundle.putString("vendor_id", vendor_id);
         productOverViewFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.product_overview_frame, productOverViewFragment).commit();
+
 
 
         cardcount();
@@ -537,7 +534,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                     wishlistchechk(product_id, data.get(USERMOBILE).toString(), PRODUCT_TYPE, "dsdas");
                     wishlist.setClickable(true);
                 } else {
-                    Toast.makeText(this, "activity open", Toast.LENGTH_SHORT).show();
+                    Intent intent1 = new Intent(ProductDetailsActivity.this ,Register1Activity.class);
+                    startActivity(intent1);
+
                 }
 
                 break;
@@ -697,7 +696,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                     break;
             }
         } else {
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(new Intent(this, Register1Activity.class));
         }
 
 

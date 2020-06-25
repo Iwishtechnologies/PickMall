@@ -164,7 +164,7 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                               shareSession.SetAddressId(jsonHelper.GetResult("insertId"));
+                                shareSession.SetAddressId(jsonHelper.GetResult("insertId"));
                                }
 
                             if (AddressActivity.this != null) {
@@ -179,7 +179,7 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
 
                                         shareSession = new Share_session(AddressActivity.this);
                                         data = shareSession.Fetchdata();
-                                        shareSession.address(address_name.getEditText().getText().toString().trim(), address_number.getEditText().getText().toString().trim(), address_pincode.getEditText().getText().toString().trim(), address_house_no.getEditText().getText().toString().trim(), address_colony.getEditText().getText().toString().trim(), address_landmark.getEditText().getText().toString().trim(), "", "","");
+                                        shareSession.address(address_name.getEditText().getText().toString().trim(), address_number.getEditText().getText().toString().trim(), address_pincode.getEditText().getText().toString().trim(), address_house_no.getEditText().getText().toString().trim(), address_colony.getEditText().getText().toString().trim(), address_landmark.getEditText().getText().toString().trim(), "", "",jsonHelper.GetResult("insertId"));
 
                                         String type = getIntent().getStringExtra("type");
                                         Intent intent;

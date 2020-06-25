@@ -8,13 +8,14 @@
     android:orientation="horizontal"
     android:paddingTop="3dp"
     android:paddingBottom="3dp"
-    android:weightSum="4">
+    android:weightSum="3">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:layout_gravity="center"
         android:onClick="friend_bottom_click"
         android:orientation="vertical"
         android:tag="one_rs_win">
@@ -36,7 +37,8 @@
         android:gravity="center"
         android:onClick="friend_bottom_click"
         android:orientation="vertical"
-        android:tag="group_buy">
+        android:tag="group_buy"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"

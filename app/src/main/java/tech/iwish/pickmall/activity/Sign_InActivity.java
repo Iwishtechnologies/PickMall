@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +32,7 @@ public class Sign_InActivity extends AppCompatActivity {
 
     EditText number, password;
     ImageButton signInButton;
+    LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +42,13 @@ public class Sign_InActivity extends AppCompatActivity {
         number = findViewById(R.id.number);
         password = findViewById(R.id.password);
         signInButton = findViewById(R.id.signInButton);
+        linearLayout = findViewById(R.id.linearLayout);
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                linearLayout.setAlpha((float) 0.5);
 
                 OkHttpClient okHttpClient = new OkHttpClient();
                 MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -75,10 +79,12 @@ public class Sign_InActivity extends AppCompatActivity {
                                     Intent intent = new Intent(Sign_InActivity.this, SelectGenderActivity.class);
                                     intent.putExtra("number", number.getText().toString().trim());
                                     startActivity(intent);
+                                    linearLayout.setAlpha(1);
                                 } else {
                                     Sign_InActivity.this.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
+                                            linearLayout.setAlpha(1);
                                             Toast.makeText(Sign_InActivity.this, "Login Fail", Toast.LENGTH_SHORT).show();
                                         }
                                     });

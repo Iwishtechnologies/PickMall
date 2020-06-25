@@ -211,6 +211,7 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
             jsonObject.put("payment_option", "CARD");
             jsonObject.put("shippingCharge", "no charge");
             jsonObject.put("gst", "");
+            jsonObject.put("offer_id", getIntent().getStringExtra("coupon_amt"));
             jsonObject.put("product_amount", getIntent().getStringExtra("finalamountsInt"));
 
         } catch (JSONException e) {
@@ -266,6 +267,7 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
             jsonObject.put("shippingCharge", "");
             jsonObject.put("gst", "");
             jsonObject.put("item_type", "");
+            jsonObject.put("offer_id", getIntent().getStringExtra("coupon_amt"));
             jsonObject.put("payment_option", "CARD");
 
         } catch (JSONException e) {

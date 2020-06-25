@@ -205,6 +205,9 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         cart_product_size.setText("Size : " + B_N_product_size);
         cart_product_act_amount.setText(getResources().getString(R.string.rs_symbol) + B_N_product_acture_price);
         product_qty.setText(B_N_product_qty);
+
+        finalAmount = Integer.parseInt(B_N_product_acture_price);
+
         if (!type.equals("friendDeal_one_rs")) {
             SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + getIntent().getStringExtra("discount_price"));
             content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
@@ -503,12 +506,14 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
 
     @Override
     public void UpdateAmount(String amount, String coupen, String coupenampount) {
-//        Toast.makeText(this, "coupen applied Successfully", Toast.LENGTH_SHORT).show();
-        this.finalAmount= Integer.parseInt(amount);
+
+//        this.finalAmount= Integer.parseInt(amount);
         amount_set.setText(amount);
         this.coupenamount=coupenampount;
         this.coupen=coupen;
         orderplace();
+
+
     }
 
 

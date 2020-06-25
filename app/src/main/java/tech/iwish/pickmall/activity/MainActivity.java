@@ -23,6 +23,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -39,8 +41,10 @@ import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
 import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.iwish.pickmall.Interface.CardProductRefreshInterface;
 import tech.iwish.pickmall.Interface.FlashsaleTimeIdInterface;
@@ -67,6 +71,7 @@ import tech.iwish.pickmall.session.Share_session;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.friend_deal_list_fake;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.item_fakelist;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.silder_list_fack;
+import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 import static tech.iwish.pickmall.session.Share_session.USER_NUMBER_CHECK;
 
 
@@ -173,6 +178,16 @@ public class MainActivity extends AppCompatActivity
 
         viewAll_FreshSale.setOnClickListener(this);
 
+//        amont return
+
+        share_session = new Share_session(this);
+        data = share_session.Fetchdata();
+
+        if (data.get(USERMOBILE).toString() != null) {
+            one_rs_amount_return();
+            friend_deal_90_rs_amount_return();
+        }
+
 
 //    item
         silder();
@@ -223,37 +238,77 @@ public class MainActivity extends AppCompatActivity
 //        startTimer();
     }
 
+    private void friend_deal_90_rs_amount_return() {
 
-    private void startTimer() {
-        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("number", data.get(USERMOBILE).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.FRIEND_DEAL_90_RS_AMT_RETURN).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
             @Override
-            public void onTick(long millisUntilFinished) {
-                mTimeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
             }
 
             @Override
-            public void onFinish() {
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("result", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+
+                        }
+                    }
+                }
             }
-        }.start();
+        });
+
     }
 
-    private void updateCountDownText() {
+    private void one_rs_amount_return() {
 
-        int hours = (int) (mTimeLeftInMillis / 1000) / 3600;
-        int minutes = (int) ((mTimeLeftInMillis / 1000) % 3600) / 60;
-        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
 
-        String timeLeftFormatted;
-        if (hours > 0) {
-            timeLeftFormatted = String.format(Locale.getDefault(),
-                    "%d:%02d:%02d", hours, minutes, seconds);
-        } else {
-            timeLeftFormatted = String.format(Locale.getDefault(),
-                    "%02d:%02d", minutes, seconds);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("number", data.get(USERMOBILE).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        Log.e("updateCountDownText:", timeLeftFormatted);
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.ONE_RS_AMT_RETURN).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
 
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("result", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+
+                        }
+                    }
+                }
+            }
+        });
 
     }
 
@@ -574,8 +629,8 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.viewall_friend_deal:
                 intent = new Intent(MainActivity.this, FriendsDealsAllActivity.class);
-                intent.putExtra("item_id","26");
-                intent.putExtra("item_type","friend_deal");
+                intent.putExtra("item_id", "26");
+                intent.putExtra("item_type", "friend_deal");
                 startActivity(intent);
                 break;
             case R.id.prepaid_layout:

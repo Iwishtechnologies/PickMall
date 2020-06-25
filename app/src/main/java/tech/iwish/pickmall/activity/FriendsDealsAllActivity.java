@@ -53,6 +53,7 @@ public class FriendsDealsAllActivity extends AppCompatActivity {
 
     public boolean friend_bottom_click(View view) {
         Fragment fragment = null;
+
         String id = view.getTag().toString();
         switch (id) {
             case "one_rs_win":
@@ -69,7 +70,11 @@ public class FriendsDealsAllActivity extends AppCompatActivity {
     }
 
     private boolean loadFragment(Fragment fragment) {
+        Bundle bundle = new Bundle();
         if (fragment != null) {
+            bundle.putString("item_id",getIntent().getStringExtra("item_id"));
+            bundle.putString("item_type",getIntent().getStringExtra("item_type"));
+            fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutFriendDeal, fragment).commit();
             return true;
         }

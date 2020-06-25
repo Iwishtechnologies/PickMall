@@ -37,7 +37,9 @@ import tech.iwish.pickmall.Interface.ProductColorInterFace;
 import tech.iwish.pickmall.Interface.ProductCountInterface;
 import tech.iwish.pickmall.Interface.ProductSizeInterFace;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.activity.AddressActivity;
 import tech.iwish.pickmall.activity.CardActivity;
+import tech.iwish.pickmall.activity.Register1Activity;
 import tech.iwish.pickmall.activity.SaveAddressActivity;
 import tech.iwish.pickmall.activity.LoginActivity;
 import tech.iwish.pickmall.adapter.ProductColorAdapter;
@@ -48,7 +50,10 @@ import tech.iwish.pickmall.other.ProductSizeColorList;
 import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.sqlconnection.MyhelperSql;
 
+import static tech.iwish.pickmall.session.Share_session.HOUSE_NO_ADDRESS;
 import static tech.iwish.pickmall.session.Share_session.LOGIN_CHECk;
+import static tech.iwish.pickmall.session.Share_session.NAME_ADDRESS;
+import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 
 
 public class ProductSideColorBottomFragment extends BottomSheetDialogFragment implements View.OnClickListener,
@@ -218,20 +223,47 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
                 if (select_size == null) {
                     Toast.makeText(getActivity(), "Select Size", Toast.LENGTH_SHORT).show();
                 } else {
-                    getActivity().runOnUiThread(() -> {
-                        Intent intent = new Intent(getContext(), SaveAddressActivity.class);
-                        intent.putExtra("product_name", product_name);
-                        intent.putExtra("actual_price", actual_price);
-                        intent.putExtra("product_id", product_id);
-                        intent.putExtra("discount_price", discount_price);
-                        intent.putExtra("product_qty", product_qty);
-                        intent.putExtra("imagename", imagename);
-                        intent.putExtra("select_size", select_size);
-                        intent.putExtra("prepaid", prepaid);
-                        intent.putExtra("product_type", getActivity().getIntent().getStringExtra("product_type"));
-                        intent.putExtra("type", "buy_now");
-                        getActivity().startActivity(intent);
-                    });
+                    shareSession = new Share_session(getContext());
+                    data = shareSession.Fetchdata();
+
+                    if (data.get(USERMOBILE) != null) {
+
+
+
+                        if (data.get(NAME_ADDRESS) != null && data.get(HOUSE_NO_ADDRESS) != null) {
+
+                            Intent intent = new Intent(getContext(), SaveAddressActivity.class);
+                            intent.putExtra("product_name", product_name);
+                            intent.putExtra("actual_price", actual_price);
+                            intent.putExtra("product_id", product_id);
+                            intent.putExtra("discount_price", discount_price);
+                            intent.putExtra("product_qty", product_qty);
+                            intent.putExtra("imagename", imagename);
+                            intent.putExtra("select_size", select_size);
+                            intent.putExtra("prepaid", prepaid);
+                            intent.putExtra("product_type", getActivity().getIntent().getStringExtra("product_type"));
+                            intent.putExtra("type", "buy_now");
+                            getActivity().startActivity(intent);
+
+                        } else {
+                            Intent intent1 = new Intent(getActivity(), AddressActivity.class);
+                            intent1.putExtra("product_name", product_name);
+                            intent1.putExtra("actual_price", actual_price);
+                            intent1.putExtra("product_id", product_id);
+                            intent1.putExtra("discount_price", discount_price);
+                            intent1.putExtra("product_qty", product_qty);
+                            intent1.putExtra("imagename", imagename);
+                            intent1.putExtra("select_size", select_size);
+                            intent1.putExtra("prepaid", prepaid);
+                            intent1.putExtra("product_type", getActivity().getIntent().getStringExtra("product_type"));
+                            intent1.putExtra("type", "buy_now");
+                            startActivity(intent1);
+                        }
+
+                    } else {
+                        Intent intent = new Intent(getActivity(), Register1Activity.class);
+                        startActivity(intent);
+                    }
 
                 }
                 break;
@@ -369,8 +401,7 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
 */
 
 
-
-//     hight set bottom
+    //     hight set bottom
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);

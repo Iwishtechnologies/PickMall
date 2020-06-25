@@ -19,6 +19,8 @@
         android:progressTint="@color/colorAccent"
         android:visibility="gone" />
 
+
+
     <LinearLayout
         android:id="@+id/mainview"
         android:layout_width="match_parent"
@@ -112,11 +114,11 @@
                 android:textColor="@color/white" />
 
             <LinearLayout
-                android:id="@+id/skip_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:orientation="vertical">
 
                 <tech.iwish.pickmall.extended.TextViewFont
                     android:layout_width="wrap_content"
@@ -185,6 +187,19 @@
         </LinearLayout>
 
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/skip_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:padding="15dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cross_icon"
+            android:elevation="2dp"/>
     </LinearLayout>
 
 </RelativeLayout>

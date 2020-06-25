@@ -101,4 +101,8 @@ public class GroupByFriendDealFragment extends Fragment {
 
         return view;
     }
+
+
+
+
 }

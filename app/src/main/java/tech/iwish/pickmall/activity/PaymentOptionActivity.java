@@ -53,7 +53,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
     String Checker;
     private Map data;
     LinearLayout paymentAvailable;
-    private TextView edit_amount, pricr, total_amount_tax, gst_price, walletAmtTextview,coupenAmount;
+    private TextView edit_amount, pricr, total_amount_tax, gst_price, walletAmtTextview, coupenAmount;
     private String type;
     private MyhelperSql myhelperSql;
     private SQLiteDatabase sqLiteDatabase;
@@ -61,12 +61,12 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
     private ArrayList<HashMap<String, String>> list = new ArrayList<>();
     private String product_amt, shippingCharege, WalletAmount;
     private int shippinsAmt = -1, productsAmt, grandTotal, gstint, removeDout;
-    private String product_name, select_size, product_type, discount_price,prepaid,
-            imagename, product_qty, product_id, select_color, productgst,referCode,item_type;
+    private String product_name, select_size, product_type, discount_price, prepaid,
+            imagename, product_qty, product_id, select_color, productgst, referCode, item_type, coupen, coupenamount;
     private Share_session shareSession;
     private ProgressBar progressbar;
     TableRow coupenview;
-    private int finalamountsInt, shippingchargebuy_now,orderamount;
+    private int finalamountsInt, shippingchargebuy_now, couponamtInt;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -123,18 +123,21 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 //                gst_price.setText(productgst);
 //                finalamountsInt = grandTotal;
 
-                grandTotal = Integer.parseInt(product_amt);
+                coupen = getIntent().getStringExtra("coupen");
+                coupenamount = getIntent().getStringExtra("coupenamount");
+//                coupon
+                if(!coupen.equals("null")  && !coupenamount.equals("null")){
+                    coupenview.setVisibility(View.VISIBLE);
+                    coupenAmount.setText(coupenamount);
+                    couponamtInt = Integer.parseInt(coupenamount);
+                    grandTotal = Integer.parseInt(product_amt) - couponamtInt;
+                }else {
+                    coupenview.setVisibility(View.GONE);
+                    grandTotal = Integer.parseInt(product_amt);
+                }
+
                 total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
                 pricr.setText(getResources().getString(R.string.rs_symbol) + product_amt);
-                if(intent.getStringExtra("coupenamount").equals("null")){
-//                    coupenview.setVisibility(View.VISIBLE);
-//                    coupenAmount.setText(getResources().getString(R.string.rs_symbol) +intent.getStringExtra("coupenamount"));
-                                 }else {
-                    orderamount=Integer.parseInt(product_amt)+Integer.parseInt(intent.getStringExtra("coupenamount"));
-                    pricr.setText(getResources().getString(R.string.rs_symbol) + (Integer.parseInt(product_amt)+Integer.parseInt(intent.getStringExtra("coupenamount"))));
-                    coupenview.setVisibility(View.VISIBLE);
-                    coupenAmount.setText(getResources().getString(R.string.rs_symbol) +intent.getStringExtra("coupenamount"));
-                }
 
 
                 break;
@@ -150,27 +153,35 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 select_color = intent.getStringExtra("select_color");
                 product_type = intent.getStringExtra("product_type");
                 productgst = intent.getStringExtra("gst");
+                coupen = getIntent().getStringExtra("coupen");
+                coupenamount = getIntent().getStringExtra("coupenamount");
                 pricr.setText(getResources().getString(R.string.rs_symbol) + product_amt);
-                if(intent.getStringExtra("coupenamount").equals("null")){
-//                    coupenview.setVisibility(View.VISIBLE);
-//                    coupenAmount.setText(getResources().getString(R.string.rs_symbol) +intent.getStringExtra("coupenamount"));
-                }else {
-                    orderamount=Integer.parseInt(product_amt)+Integer.parseInt(intent.getStringExtra("coupenamount"));
-                    pricr.setText(getResources().getString(R.string.rs_symbol) + (Integer.parseInt(product_amt)+Integer.parseInt(intent.getStringExtra("coupenamount"))));
-                    coupenview.setVisibility(View.VISIBLE);
-                    coupenAmount.setText(getResources().getString(R.string.rs_symbol) +intent.getStringExtra("coupenamount"));
-                }
+
+
                 prepaid = intent.getStringExtra("prepaid");
-                if(prepaid != null){
-                    if(prepaid.equals("prepaid")){
+                if (prepaid != null) {
+                    if (prepaid.equals("prepaid")) {
                         cases.setVisibility(View.GONE);
                     }
                 }
                 int qtyprod = Integer.parseInt(product_qty);
                 int amtprod = Integer.parseInt(product_amt);
                 product_amt = String.valueOf(qtyprod * amtprod);
-                grandTotal = Integer.parseInt(product_amt) + removeDout;
                 finalamountsInt = grandTotal;
+
+//                coupon
+
+                if(!coupen.equals("null")  && !coupenamount.equals("null")){
+                    coupenview.setVisibility(View.VISIBLE);
+                    coupenAmount.setText(coupenamount);
+                    couponamtInt = Integer.parseInt(coupenamount);
+                    grandTotal = Integer.parseInt(product_amt) - couponamtInt;
+                }else {
+                    coupenview.setVisibility(View.GONE);
+                    grandTotal = Integer.parseInt(product_amt);
+                }
+
+
                 pricr.setText(getResources().getString(R.string.rs_symbol) + product_amt);
                 total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
                 break;
@@ -194,8 +205,8 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 pricr.setText(getResources().getString(R.string.rs_symbol) + product_amt);
                 total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
 
-                if(item_type.equals("one_win")){
-                    friendDeal_one_rs_order_place("","FREE");
+                if (item_type.equals("one_win")) {
+                    friendDeal_one_rs_order_place("", "FREE");
                 }
 
                 break;
@@ -421,7 +432,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                                         public void run() {
                                             shippingCharge.setText(shippingAmt);
                                             shippingchargebuy_now = shippinsAmt;
-                                            int totalamt = shippinsAmt + productsAmt ;
+                                            int totalamt = shippinsAmt + productsAmt;
                                             finalamountsInt = totalamt;
                                             shippingCharege = String.valueOf(totalamt);
                                             total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + shippingCharege);
@@ -465,6 +476,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 //                intent = new Intent(PaymentOptionActivity.this, Paymentgateway.class);
                 intent.putExtra("type", "CardActivity");
                 intent.putExtra("finalamountsInt", f);
+                intent.putExtra("coupon_amt",coupen);
 //                startActivity(intent);
                 break;
             case "buy_now":
@@ -477,6 +489,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
                 intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
                 intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
+                intent.putExtra("coupon_amt",coupen);
                 intent.putExtra("type", "buy_now");
 //                startActivity(intent);
                 break;
@@ -499,10 +512,26 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
         switch (type) {
             case "CardActivity":
-                card_order_place("COD", "COD");
+//                card_order_place("COD", "COD");
+                Intent intent = new Intent(PaymentOptionActivity.this, Cod_mobile_verify_activity.class);
+                intent.putExtra("shippingchargebuy_now", String.valueOf(shippingchargebuy_now));
+                intent.putExtra("finalamountsInt", String.valueOf(finalamountsInt));
+                intent.putExtra("coupen", coupen);
+                startActivity(intent);
                 break;
             case "buy_now":
-                buy_now_order_place("COD", "COD");
+//                buy_now_order_place("COD", "COD");
+                Intent intent1 = new Intent(PaymentOptionActivity.this, Cod_mobile_verify_activity.class);
+                intent1.putExtra("shippingchargebuy_now", String.valueOf(shippingchargebuy_now));
+                intent1.putExtra("finalamountsInt", String.valueOf(finalamountsInt));
+                intent1.putExtra("product_id", product_id);
+                intent1.putExtra("product_type", product_type);
+                intent1.putExtra("select_size", select_size);
+                intent1.putExtra("product_qty", product_qty);
+                intent1.putExtra("item_type", item_type);
+                intent1.putExtra("type", type);
+                intent1.putExtra("coupen", coupen);
+                startActivity(intent1);
                 break;
         }
 
@@ -547,6 +576,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             jsonObject.put("shippingCharge", shippingchargebuy_now);
             jsonObject.put("gst", productgst);
             jsonObject.put("product_amount", finalamountsInt);
+            jsonObject.put("offer_id", coupenamount);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -599,7 +629,6 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
 
     }
-
 
     private void friendDeal_one_rs_order_place(String wallet, String paymentmethod) {
 
@@ -654,9 +683,9 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 //                                        WalletAmountUpdate("friendDeal_one_rs_ord");
 //                                        progressbar.setVisibility(View.GONE);
 
-                                        if(!paymentmethod.equals("FREE")){
+                                        if (!paymentmethod.equals("FREE")) {
                                             WalletAmountUpdate("friendDeal_one_rs_ord");
-                                        }else {
+                                        } else {
                                             Intent intent = new Intent(PaymentOptionActivity.this, OneRsShareActivity.class);
                                             intent.putExtra("product_name", product_name);
                                             intent.putExtra("product_image", imagename);
@@ -700,6 +729,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             jsonObject.put("shippingCharge", shippingchargebuy_now);
             jsonObject.put("gst", "");
             jsonObject.put("item_type", item_type);
+            jsonObject.put("offer_id", coupenamount);
             jsonObject.put("payment_option", paymentmethod);
 
         } catch (JSONException e) {
@@ -788,7 +818,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
-                            Log.d("ss",check_friend_deal);
+                            Log.d("ss", check_friend_deal);
                             if (check_friend_deal.equals("friendDeal_one_rs_ord")) {
 
                                 Intent intent = new Intent(PaymentOptionActivity.this, OneRsShareActivity.class);
