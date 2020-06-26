@@ -179,7 +179,6 @@ public class MainActivity extends AppCompatActivity
         itemCateroryrecycle.setLayoutManager(layoutManager);
 
         viewAll_FreshSale.setOnClickListener(this);
-
 //        amont return
 
         share_session = new Share_session(this);
@@ -618,8 +617,13 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
             case R.id.accountBottom:
-                intent = new Intent(MainActivity.this, Account.class);
-                startActivity(intent);
+                if (data.get(USERMOBILE) != null) {
+                    intent = new Intent(MainActivity.this, Account.class);
+                    startActivity(intent);
+                } else {
+                    intent = new Intent(MainActivity.this, Register1Activity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.search_bar_layout:
                 intent = new Intent(MainActivity.this, Searchactivity.class);
