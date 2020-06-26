@@ -2,12 +2,15 @@ package tech.iwish.pickmall.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -73,6 +76,19 @@ public class OneRsShareActivity extends AppCompatActivity {
 //        content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
 //        productmrp.setText(content);
 
+
+//        popup
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.row_popup_layout,null);
+        ImageView imageSet = view.findViewById(R.id.imageSet);
+        TextView Name = view.findViewById(R.id.Name);
+        TextView amt = view.findViewById(R.id.amt);
+        Name.setText(getIntent().getStringExtra("product_name"));
+        dialog.setView(view);
+        dialog.show();
+
+
         String a = Constants.IMAGES + getIntent().getStringExtra("product_image");
         Glide.with(this).load(a).into(image);
 
@@ -136,10 +152,7 @@ public class OneRsShareActivity extends AppCompatActivity {
         invite_friend_deal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 refer_codeMethod();
-
             }
         });
 

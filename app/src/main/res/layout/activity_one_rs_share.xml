@@ -18,8 +18,7 @@
         android:outlineAmbientShadowColor="@color/colorAccent"
         android:outlineSpotShadowColor="@color/colorAccent"
         android:progressTint="@color/colorAccent"
-        android:elevation="1dp"
-         />
+        android:elevation="1dp" />
 
     <LinearLayout
         android:id="@+id/main"
