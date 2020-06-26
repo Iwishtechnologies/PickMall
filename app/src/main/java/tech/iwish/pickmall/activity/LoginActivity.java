@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
@@ -54,6 +55,7 @@ import tech.iwish.pickmall.adapter.FlashSaleAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.countdowntime.CountdownTime;
+import tech.iwish.pickmall.extended.TextViewFont;
 import tech.iwish.pickmall.other.ProductList;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -71,6 +73,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final String NAME = "name";
     private AccessTokenTracker accessTokenTracker;
     ProfileTracker profileTracker;
+    TextView signin;
     private EditText name, number, email, password;
 
     @Override
@@ -85,8 +88,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         number = findViewById(R.id.number);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
+        signin = findViewById(R.id.signin);
 
 
+        signin.setOnClickListener(view -> {
+          startActivity(new Intent(LoginActivity.this,Sign_InActivity.class));
+        });
         createAccountButton = (Button) findViewById(R.id.createAccountButton);
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -50,6 +50,7 @@
                 android:maxLines="1"
                 android:ellipsize="end"/>
             <tech.iwish.pickmall.extended.TextViewFont
+                android:id="@+id/counts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="999+ "
@@ -59,7 +60,7 @@
             <tech.iwish.pickmall.extended.TextViewFont
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Won"
+                android:text=" New user"
                 android:textSize="13sp"
                 android:maxLines="1"
                 android:ellipsize="end"/>

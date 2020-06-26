@@ -15,11 +15,13 @@ import java.util.TimerTask;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.extended.TextViewFont;
+import tech.iwish.pickmall.session.Share_session;
 
 public class OfferBannerActivity extends AppCompatActivity {
     TextViewFont time;
     ImageView layout;
     Timer myTimer;
+    Share_session share_session;
     int i=3;
 
     @Override
@@ -27,6 +29,7 @@ public class OfferBannerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer_banner);
         layout= findViewById(R.id.offerbanner);
+        share_session= new Share_session(OfferBannerActivity.this);
         Glide.with(this).load(Constants.IMAGES+getIntent().getExtras().getString("banner")).into(layout);
         time= findViewById(R.id.time);
         myTimer = new Timer();
@@ -37,7 +40,14 @@ public class OfferBannerActivity extends AppCompatActivity {
                 i--;
                 if(i==0){
                     myTimer.cancel();
-                    startActivity(new Intent(OfferBannerActivity.this,MainActivity.class));
+                    if(share_session.GetFirsttime())
+                    {
+                        startActivity(new Intent(OfferBannerActivity.this , MainActivity.class));
+                    }
+                    else {
+                        startActivity(new Intent(OfferBannerActivity.this , Register1Activity.class));
+                    }
+//                    startActivity(new Intent(OfferBannerActivity.this,Register1Activity.class));
                 }
             }
         }, 1000, 1000);

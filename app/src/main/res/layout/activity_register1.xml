@@ -11,15 +11,33 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <tech.iwish.pickmall.extended.TextViewFont
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_weight="0.0"
+            android:text="Skip"
+            android:textAlignment="textEnd"
+            app:fonttype="text_semi_bold"
+            android:id="@+id/skip"
+            android:textSize="18dp"
+            android:visibility="visible"
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1.6"
         android:orientation="vertical"
         android:layout_gravity="center"
         android:gravity="center">
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/pick_mall_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/logo"
             android:layout_gravity="center" />
     </LinearLayout>
 
@@ -100,11 +118,30 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_marginTop="15dp">
-            <ImageView
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/fb_icon"
-                android:layout_marginEnd="19dp"/>
+                android:orientation="horizontal">
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/facebook"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/fb_icon"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="-64dp"
+                    android:src="@drawable/fb_icon" />
+
+
+            </LinearLayout>
 
             <ImageView
                 android:layout_width="wrap_content"

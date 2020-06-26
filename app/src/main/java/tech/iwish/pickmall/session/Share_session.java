@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import tech.iwish.pickmall.activity.AddressActivity;
+import tech.iwish.pickmall.activity.MainActivity;
 import tech.iwish.pickmall.activity.MobileNOActivity;
 import tech.iwish.pickmall.activity.UserDetail;
 
@@ -41,6 +42,7 @@ public class Share_session {
     public static final String FILTER_LIST = "filter";
     public static final String FILTER_LIST_COLOR = "filter_color";
     public static final String ADDRESSID = "addressid";
+    public static final String FIRSTTIME = "firsttime";
 
 
 
@@ -135,7 +137,7 @@ public class Share_session {
 
     public void Logout(){
         editor.clear().commit();
-        context.startActivity(new Intent(context, MobileNOActivity.class));
+        context.startActivity(new Intent(context, MainActivity.class));
         Animatoo.animateInAndOut(context);
     }
 
@@ -172,6 +174,13 @@ public class Share_session {
 
     public String GetAddrssId(){
         return  Preferences.getString(ADDRESSID,null);
+    }
+
+    public void  Firsttime(){
+        editor.putString(FIRSTTIME,"true" ).commit();
+    }
+    public Boolean  GetFirsttime(){
+        return Boolean.valueOf(Preferences.getString(FIRSTTIME,null));
     }
  }
 

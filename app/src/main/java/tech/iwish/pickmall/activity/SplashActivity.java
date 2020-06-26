@@ -58,8 +58,22 @@ public class SplashActivity extends AppCompatActivity {
                    }
             else
             {
-                Intent mainIntent = new Intent(SplashActivity.this,MobileNOActivity.class);
-                startActivity(mainIntent);
+                if(share_session.GetFirsttime())
+                {
+                    if (banner.equals("null")) {
+                        startActivity(new Intent(SplashActivity.this , MainActivity.class));
+                    }
+                    else {
+                        startActivity(new Intent(SplashActivity.this , OfferBannerActivity.class).putExtra("banner",banner));
+
+                    }
+
+                }
+                else {
+                    startActivity(new Intent(SplashActivity.this , Register1Activity.class));
+                }
+//                Intent mainIntent = new Intent(SplashActivity.this,Register1Activity.class);
+//                startActivity(mainIntent);
             }
 
         }, SPLASH_DISPLAY_LENGTH);

@@ -950,7 +950,7 @@
                             android:textColor="@color/white"
                             android:id="@+id/onediscription"
                             app:fonttype="text_semi_bold"
-                            android:text="Start A Big Deal Invite"/>
+                            android:text="Start A Rs 1 Friends Deal Invite"/>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -964,7 +964,7 @@
                             android:textColor="@color/white"
                             android:id="@+id/fulldiscription"
                             app:fonttype="text_semi_bold"
-                            android:text="New Users &amp; Get A Big &amp; Costly Product In Just Rs 90.. Hurry Limited Offer"/>
+                            android:text="New Users &amp; Get A Big &amp; Costly Product In Just Rs 1 Hurry Limited Offer"/>
 
                     </LinearLayout>
                     </LinearLayout>

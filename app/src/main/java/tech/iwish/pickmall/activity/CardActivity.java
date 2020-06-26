@@ -58,6 +58,7 @@ import static tech.iwish.pickmall.session.Share_session.NAME_ADDRESS;
 import static tech.iwish.pickmall.session.Share_session.NUMBER_ADDRESS;
 import static tech.iwish.pickmall.session.Share_session.PINCODE_ADDRESS;
 import static tech.iwish.pickmall.session.Share_session.STATE_ADDRESS;
+import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 
 public class CardActivity extends AppCompatActivity implements View.OnClickListener, RefreshCartAmountInterface, CardQtyAmountRef {
 
@@ -238,7 +239,13 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.CardBottom:
                 break;
             case R.id.accountBottom:
-                startActivity(new Intent(CardActivity.this, Account.class));
+                if(sharedata.get(USERMOBILE) != null){
+                    intent = new Intent(CardActivity.this, Account.class);
+                    startActivity(intent);
+                }else {
+                    intent = new Intent(CardActivity.this, Register1Activity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.place_order_btn:
                 PlaceOrder();

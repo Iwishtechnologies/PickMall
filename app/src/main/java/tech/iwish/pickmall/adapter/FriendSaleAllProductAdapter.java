@@ -49,6 +49,8 @@ public class FriendSaleAllProductAdapter extends RecyclerView.Adapter<FriendSale
     public void onBindViewHolder(@NonNull Viewholder holder, final int position) {
         holder.one_rs_product_name.setText(friendSaleLists.get(position).getProductName());
         holder.product_amount.setText(context.getResources().getString(R.string.rs_symbol) + friendSaleLists.get(position).getActual_price());
+        holder.counts.setText(friendSaleLists.get(position).getNew_users_atleast());
+
         String a = Constants.IMAGES + friendSaleLists.get(position).getPimg();
         Glide.with(context).load(a).into(holder.one_rs_image);
 
@@ -81,7 +83,7 @@ public class FriendSaleAllProductAdapter extends RecyclerView.Adapter<FriendSale
     public class Viewholder extends RecyclerView.ViewHolder {
 
         private ImageView one_rs_image;
-        private TextView one_rs_product_name, product_amount;
+        private TextView one_rs_product_name, product_amount,counts;
         private LinearLayout one_rs_layout, start_deal_layout;
 
         public Viewholder(@NonNull View itemView) {
@@ -89,6 +91,7 @@ public class FriendSaleAllProductAdapter extends RecyclerView.Adapter<FriendSale
             one_rs_image = (ImageView) itemView.findViewById(R.id.one_rs_image);
             one_rs_product_name = (TextView) itemView.findViewById(R.id.one_rs_product_name);
             product_amount = (TextView) itemView.findViewById(R.id.product_amount);
+            counts = (TextView) itemView.findViewById(R.id.counts);
             one_rs_layout = (LinearLayout) itemView.findViewById(R.id.one_rs_layout);
             start_deal_layout = (LinearLayout) itemView.findViewById(R.id.start_deal_layout);
 

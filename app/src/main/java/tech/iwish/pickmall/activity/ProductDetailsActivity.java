@@ -137,6 +137,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         one_rs_rule = (LinearLayout) findViewById(R.id.one_rs_rule);
         store = (LinearLayout) findViewById(R.id.store);
         wishlist = findViewById(R.id.wishlists);
+        onediscription = findViewById(R.id.onediscription);
         product_count_layout = (LinearLayout) findViewById(R.id.product_count_layout);
         qty_layouts = (LinearLayout) findViewById(R.id.qty_layouts);
         dicount_price_per_mrp_layout = (LinearLayout) findViewById(R.id.dicount_price_per_mrp_layout);
@@ -233,6 +234,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 item_type = getIntent().getStringExtra("item_type");
                 total_user_req.setText("Request " + total_request_user + " Users Total");
                 new_user_text.setText("(" + new_user_request + " new user at least)");
+
                 PRODUCT_TYPE = "friendsaleoneRs";
                 All_Image(Constants.FRIEND_SALE_IMAGE);
                 coloAndImageData(Constants.FRIEND_SALE_SIZE_COLOR);
@@ -241,11 +243,17 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 Log.e("ppp", item_type);
                 if (data.get(USERMOBILE) != null) {
                     if (item_type.equals("friend_deal")) {
+                        onediscription.setText("Start A Rs 1 Friends Deal Invite");
+                        fulldiscription.setText(new_user_request+ " New Users & Get Product In Just Rs 1 Hurry Limited Offer");
                         new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), ProductDetailsActivity.this, timeset, item_type).Time_12_H();
                         RankingMethod();
                     } else if (item_type.equals("one_win")) {
+                        onediscription.setText("Start A  Deal Invite");
+                        fulldiscription.setText("Maximum New Users & Get Product  Hurry Limited Offer");
                         RankingMethod();
                     } else {
+                        onediscription.setText("Start A Rs 90 Friends Deal Invite");
+                        fulldiscription.setText(new_user_request+ " New Users & Get  A Big & Costly Product In Just Rs 90 Hurry Limited Offer");
                         new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), ProductDetailsActivity.this, timeset, item_type).Time_24_H();
                         RankingMethod();
                     }

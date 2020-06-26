@@ -48,6 +48,7 @@ public class Account extends AppCompatActivity implements InternetConnectivityLi
             setActivityData();
             ActivityActions();
         }else {
+
             Toast.makeText(this, "activity open", Toast.LENGTH_SHORT).show();
         }
 
