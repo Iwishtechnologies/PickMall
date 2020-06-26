@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -46,7 +47,7 @@ public class Sign_InActivity extends AppCompatActivity  implements InternetConne
         setContentView(R.layout.activity_sing_in);
          share_session= new Share_session(Sign_InActivity.this);
         number = findViewById(R.id.number);
-        password = findViewById(R.id.password);
+        password = findViewById(R.id.passwords);
         signInButton = findViewById(R.id.signInButton);
         linearLayout = findViewById(R.id.linearLayout);
         skip = findViewById(R.id.skip);
@@ -57,7 +58,13 @@ public class Sign_InActivity extends AppCompatActivity  implements InternetConne
         skip.setOnClickListener(view -> {
            startActivity(new Intent(Sign_InActivity.this,MainActivity.class));
         });
+
+        password.setTransformationMethod(new PasswordTransformationMethod());
+
         signInButton.setOnClickListener(view -> {
+
+            Log.e("passoer",password.getText().toString().trim());
+            Log.e("passoer",password.getText().toString().trim());
 
             linearLayout.setAlpha((float) 0.5);
 

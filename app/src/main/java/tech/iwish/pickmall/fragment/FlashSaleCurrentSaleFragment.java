@@ -168,6 +168,7 @@ public class FlashSaleCurrentSaleFragment extends Fragment implements FlashsaleT
                                     @Override
                                     public void run() {
 
+                                        flashImage.setVisibility(View.VISIBLE);
                                         String image = jsonHelper.GetResult("banner_img");
                                         String a = Constants.IMAGES +image;
                                         Glide.with(getActivity()).load(a).into(flashImage);
@@ -176,6 +177,16 @@ public class FlashSaleCurrentSaleFragment extends Fragment implements FlashsaleT
                                 });
 
                             }
+                        }else {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    flashImage.setVisibility(View.GONE);
+
+                                }
+                            });
+
                         }
                     }
 

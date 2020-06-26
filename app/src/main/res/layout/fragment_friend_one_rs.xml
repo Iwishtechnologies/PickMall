@@ -53,6 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:scaleType="fitXY"
+                    android:visibility="gone"
                     android:src="@drawable/image_check"/>
 
                 <LinearLayout
@@ -60,6 +61,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="10dp"
+                    android:visibility="gone"
                     android:weightSum="2">
 
                     <LinearLayout

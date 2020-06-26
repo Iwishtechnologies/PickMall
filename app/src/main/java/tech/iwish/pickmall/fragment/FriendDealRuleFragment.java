@@ -34,6 +34,7 @@ import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.MainActivity;
 import tech.iwish.pickmall.adapter.FlashSaleAdapter;
 import tech.iwish.pickmall.adapter.FriendRuleAdapter;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.other.FlashsalemainList;
 import tech.iwish.pickmall.other.RuleList;
@@ -57,7 +58,7 @@ public class FriendDealRuleFragment extends Fragment {
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("http://173.212.226.143:8086/api/friendDealRule")
+                .url(Constants.FRIEND_DEAL_RULE)
                 .build();
         client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override

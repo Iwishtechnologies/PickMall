@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,7 +64,7 @@ public class FriendOneRsFragment extends Fragment implements View.OnClickListene
         friend_deal_all_recycleview.setLayoutManager(layoutManager);
 
 
-
+        image(item_id);
 //        ================================
 
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -116,6 +118,64 @@ public class FriendOneRsFragment extends Fragment implements View.OnClickListene
 
 
         return view;
+    }
+
+
+    private void image(String item_id) {
+        Log.e("item",item_id);
+        Log.e("item",item_id);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("item_id", item_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.ITEM_IMAGE).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("result",result);
+                    final JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        rule_image.setVisibility(View.VISIBLE);
+                                        String image = jsonHelper.GetResult("banner_img");
+                                        String a = Constants.IMAGES + image;
+                                        Glide.with(getActivity()).load(a).into(rule_image);
+                                    }
+                                });
+                            }
+                        } else {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    rule_image.setVisibility(View.GONE);
+                                }
+                            });
+                        }
+                    }
+
+                }
+            }
+        });
+
     }
 
 

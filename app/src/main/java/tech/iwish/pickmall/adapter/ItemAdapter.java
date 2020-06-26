@@ -27,6 +27,7 @@ import tech.iwish.pickmall.activity.FriendsDealsAllActivity;
 import tech.iwish.pickmall.activity.MainActivity;
 import tech.iwish.pickmall.activity.One_winActivity;
 import tech.iwish.pickmall.activity.ProductActivity;
+import tech.iwish.pickmall.activity.WinningDetailActivity;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.other.ItemList;
 import tech.iwish.pickmall.session.Share_session;
@@ -95,6 +96,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
                                 intent1.putExtra("item_id",itemLists.get(position).getItem_id());
                                 intent1.putExtra("item_type",itemLists.get(position).getItem_type());
                                 context.startActivity(intent1);
+                                break;
+                            case "winner":
+                                Intent intent2 = new Intent(context, WinningDetailActivity.class);
+                                intent2.putExtra("item_id",itemLists.get(position).getItem_id());
+                                intent2.putExtra("item_type",itemLists.get(position).getItem_type());
+                                context.startActivity(intent2);
                                 break;
                             case "product":
                             default:

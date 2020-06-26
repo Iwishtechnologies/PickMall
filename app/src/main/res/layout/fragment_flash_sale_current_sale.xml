@@ -53,6 +53,7 @@
                 android:id="@+id/flashImage"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
+                android:visibility="gone"
                 android:scaleType="fitXY"
                 android:src="@drawable/flash_image" />
 

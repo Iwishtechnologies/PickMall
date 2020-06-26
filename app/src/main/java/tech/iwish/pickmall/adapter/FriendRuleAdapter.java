@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.other.RuleList;
 
 public class FriendRuleAdapter extends RecyclerView.Adapter<FriendRuleAdapter.Viewholder> {
@@ -44,7 +45,7 @@ public class FriendRuleAdapter extends RecyclerView.Adapter<FriendRuleAdapter.Vi
         holder.rule_title.setText(ruleListList.get(position).getTitle());
         holder.subtitle_rule.setText(ruleListList.get(position).getSubtitle());
 
-        String a = "http://173.212.226.143:8086/img/"+ruleListList.get(position).getIcon();
+        String a = Constants.IMAGES +ruleListList.get(position).getIcon();
         Glide.with(context).load(a).into(holder.icon_rule);
     }
 

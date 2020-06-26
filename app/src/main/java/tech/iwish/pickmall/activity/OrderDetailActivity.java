@@ -104,8 +104,10 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         Log.e("dateadd", String.valueOf(addDay(getIntent().getExtras().getString("delivery_date"),7)));
         if(addDay(getIntent().getExtras().getString("delivery_date"),7)){
             returnview.setVisibility(View.VISIBLE);
+            RatingBar.setVisibility(View.GONE);
         }else {
             returnview.setVisibility(View.GONE);
+            RatingBar.setVisibility(View.VISIBLE);
         }
         GetAddress(getIntent().getExtras().getString("address"));
         GetVendorDetail(getIntent().getExtras().getString("vendor_id"));

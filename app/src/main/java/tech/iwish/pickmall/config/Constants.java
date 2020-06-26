@@ -119,6 +119,7 @@ public class Constants {
     public static String COD_OTP_VERIFY = URL+"cod_otp_verify";
     public static String ONE_RS_AMT_RETURN = URL+"one_rs_friend_deal_amt_return";
     public static String FRIEND_DEAL_90_RS_AMT_RETURN = URL+"friend_deal_90_rs_amt_return";
+    public static String FRIEND_DEAL_RULE = URL+"friendDealRule";
 
 
 

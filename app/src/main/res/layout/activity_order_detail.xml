@@ -276,6 +276,7 @@
                         android:numStars="5"
                         android:outlineSpotShadowColor="@color/colorAccent"
                         android:progressTint="@color/colorAccent"
+                        android:visibility="gone"
                         android:stepSize="0.5" />
                 </com.facebook.shimmer.ShimmerFrameLayout>
 

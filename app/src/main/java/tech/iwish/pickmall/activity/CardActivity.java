@@ -68,7 +68,7 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView card_recycle_view;
     private ArrayList<HashMap<String, String>> data;
     private TextView edit_amount, pincode, name_address, full_address, product_count_card, pricr, total_amount_tax;
-    private LinearLayout price_layout, product_count_card_layout, price_details_layout, address_layout, change_address,prepaid_layout;
+    private LinearLayout price_layout, product_count_card_layout, price_details_layout, address_layout, change_address,prepaid_layout,empty_layout;
     private int TotalAMT;
     private int final_total_amount, check;
     private String valuecheck;
@@ -85,6 +85,8 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_card);
 
         myhelperSql = new MyhelperSql(this);
+
+        getSupportActionBar().setTitle("Card");
 
         homeBottom = (ImageView) findViewById(R.id.HomeBottom);
         feedBottom = (ImageView) findViewById(R.id.FeedBottom);
@@ -110,6 +112,7 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
         address_layout = (LinearLayout) findViewById(R.id.address_layout);
         change_address = (LinearLayout) findViewById(R.id.change_address);
         prepaid_layout = (LinearLayout) findViewById(R.id.prepaid_layout);
+        empty_layout = (LinearLayout) findViewById(R.id.empty_layout);
 
         place_order_btn = (Button) findViewById(R.id.place_order_btn);
 
@@ -142,6 +145,7 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
         place_order_btn.setOnClickListener(this);
         change_address.setOnClickListener(this);
         prepaid_layout.setOnClickListener(this);
+        empty_layout.setOnClickListener(this);
 
 
         if (!CardCount.card_count(this).equals("0")) {
@@ -151,11 +155,13 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
 //            price_details_layout.setVisibility(View.VISIBLE);
             address_layout.setVisibility(View.VISIBLE);
             cardImage.setVisibility(View.GONE);
+            empty_layout.setVisibility(View.GONE);
         } else {
             product_count_card_layout.setVisibility(View.GONE);
             price_details_layout.setVisibility(View.GONE);
             address_layout.setVisibility(View.GONE);
             cardImage.setVisibility(View.VISIBLE);
+            empty_layout.setVisibility(View.VISIBLE);
         }
 
     }
@@ -239,13 +245,14 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.CardBottom:
                 break;
             case R.id.accountBottom:
+                shareSession = new Share_session(this);
+                sharedata = shareSession.Fetchdata();
                 if(sharedata.get(USERMOBILE) != null){
                     intent = new Intent(CardActivity.this, Account.class);
-                    startActivity(intent);
                 }else {
                     intent = new Intent(CardActivity.this, Register1Activity.class);
-                    startActivity(intent);
                 }
+                startActivity(intent);
                 break;
             case R.id.place_order_btn:
                 PlaceOrder();
@@ -261,6 +268,9 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
                 intent2.putExtra("type","prepaid");
                 intent2.putExtra("itemName","Prepaid");
                 startActivity(intent2);
+                break;
+            case R.id.empty_layout:
+                startActivity(new Intent(CardActivity.this,MainActivity.class));
                 break;
         }
     }

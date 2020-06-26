@@ -31,17 +31,25 @@ import tech.iwish.pickmall.other.WinList;
 import tech.iwish.pickmall.other.WishlistList;
 
 public class WinningDetailActivity extends AppCompatActivity {
-        RecyclerView recyclerView;
-        List<WinList>list= new ArrayList<>();
+
+    RecyclerView recyclerView;
+    List<WinList> list = new ArrayList<>();
+    String item_id ,item_type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_winning_detail);
-        recyclerView= findViewById(R.id.recycle);
+        recyclerView = findViewById(R.id.recycle);
+
+        item_id = getIntent().getStringExtra("item_id");
+        item_type = getIntent().getStringExtra("item_type");
+
         SetRecycleView();
 
     }
-    private void SetRecycleView(){
+
+    private void SetRecycleView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(WinningDetailActivity.this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -50,7 +58,7 @@ public class WinningDetailActivity extends AppCompatActivity {
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("mobile","dfd");
+            jsonObject.put("mobile", "dfd");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -77,15 +85,14 @@ public class WinningDetailActivity extends AppCompatActivity {
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                list.add(new WinList(jsonHelper.GetResult("client_name"),jsonHelper.GetResult("product_name"),jsonHelper.GetResult("product_image"),jsonHelper.GetResult("product_type")));
-                                        }
+                                list.add(new WinList(jsonHelper.GetResult("client_name"), jsonHelper.GetResult("product_name"), jsonHelper.GetResult("product_image"), jsonHelper.GetResult("product_type")));
+                            }
                             WinningDetailActivity.this.runOnUiThread(() -> {
-                                if(list.size()==0){
+                                if (list.size() == 0) {
 //                                        no_product.setVisibility(View.VISIBLE);
 //                                        shimmer_view.setVisibility(View.GONE);
                                     recyclerView.setVisibility(View.GONE);
-                                }
-                                else {
+                                } else {
                                     WinningDetailAdapter wishListAdapter = new WinningDetailAdapter(WinningDetailActivity.this, list);
 //                                        shimmer_view.setVisibility(View.GONE);
                                     recyclerView.setVisibility(View.VISIBLE);
