@@ -157,11 +157,13 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
             delivery_status.setText("Pending");
             order_approved.setText("Pending");
             cencelled_statement.setVisibility(View.GONE);
+            returnview.setVisibility(View.GONE);
             ratingview.setVisibility(View.GONE);
         }else if(getIntent().getExtras().getString("orderStatus").equals("DELIVERED")){
            progress.setImageResource(R.drawable.full_fill_progressbar);
            delivery_status.setText("Delivered");
            order_approved.setText("Ordered And Approvep");
+           returnview.setVisibility(View.VISIBLE);
            cencelled_statement.setVisibility(View.GONE);
            ratingview.setVisibility(View.VISIBLE);
        }else if(getIntent().getExtras().getString("orderStatus").equals("CENCELLED")){

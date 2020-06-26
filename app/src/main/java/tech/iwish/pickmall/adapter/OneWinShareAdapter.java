@@ -43,17 +43,14 @@ public class OneWinShareAdapter extends RecyclerView.Adapter<OneWinShareAdapter.
                 holder.imageRacking.setImageDrawable(context.getResources().getDrawable(R.drawable.racnking_2_icon));
                 break;
             case 2:
-                break;
-            case 3:
-                break;
-            case 4:
+                holder.imageRacking.setImageDrawable(context.getResources().getDrawable(R.drawable.racnking_2_icon));
                 break;
         }
 
 //      holder.id.setText(oneWinShareLists.get(position).getId());
 //      holder.product.setText(oneWinShareLists.get(position).getProduct());
         holder.name.setText(oneWinShareLists.get(position).getClient_name());
-        holder.shares.setText(oneWinShareLists.get(position).getTop_client());
+        holder.shares.setText(oneWinShareLists.get(position).getTop_client()+" Shares");
     }
 
     @Override

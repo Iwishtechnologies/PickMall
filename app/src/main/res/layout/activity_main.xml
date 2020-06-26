@@ -83,18 +83,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/viewPages"
-                        android:layout_marginTop="10dp"
                         android:background="@color/whiteColor"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="10dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:paddingBottom="10dp">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:src="@drawable/free_shipping"
+                            android:layout_marginTop="-5dp"
+                            android:layout_height="wrap_content"/>
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/itemCateroryrecycle"
+                            android:layout_marginTop="5dp"
+                           android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 

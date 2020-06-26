@@ -131,6 +131,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                     coupenAmount.setText(coupenamount);
                     couponamtInt = Integer.parseInt(coupenamount);
                     grandTotal = Integer.parseInt(product_amt) - couponamtInt;
+                    finalamountsInt=grandTotal;
                 }else {
                     coupenview.setVisibility(View.GONE);
                     grandTotal = Integer.parseInt(product_amt);
@@ -167,7 +168,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 int qtyprod = Integer.parseInt(product_qty);
                 int amtprod = Integer.parseInt(product_amt);
                 product_amt = String.valueOf(qtyprod * amtprod);
-                finalamountsInt = grandTotal;
+
 
 //                coupon
 
@@ -176,9 +177,11 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                     coupenAmount.setText(coupenamount);
                     couponamtInt = Integer.parseInt(coupenamount);
                     grandTotal = Integer.parseInt(product_amt) - couponamtInt;
+                    finalamountsInt = grandTotal;
                 }else {
                     coupenview.setVisibility(View.GONE);
                     grandTotal = Integer.parseInt(product_amt);
+                    finalamountsInt = grandTotal;
                 }
 
 
@@ -517,6 +520,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 intent.putExtra("shippingchargebuy_now", String.valueOf(shippingchargebuy_now));
                 intent.putExtra("finalamountsInt", String.valueOf(finalamountsInt));
                 intent.putExtra("coupen", coupen);
+                intent.putExtra("type", type);
                 startActivity(intent);
                 break;
             case "buy_now":
@@ -576,7 +580,8 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             jsonObject.put("shippingCharge", shippingchargebuy_now);
             jsonObject.put("gst", productgst);
             jsonObject.put("product_amount", finalamountsInt);
-            jsonObject.put("offer_id", coupenamount);
+            jsonObject.put("offer_id", coupen);
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -829,6 +834,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                                 intent.putExtra("discount_price", discount_price);
                                 intent.putExtra("refer_code", referCode);
                                 intent.putExtra("product_id", product_id);
+                                intent.putExtra("item_type", item_type);
                                 intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
                                 startActivity(intent);
 

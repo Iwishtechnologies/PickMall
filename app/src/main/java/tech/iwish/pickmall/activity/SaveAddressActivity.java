@@ -74,7 +74,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
     private SQLiteDatabase sqLiteDatabase;
     private ArrayList<HashMap<String, String>> list = new ArrayList<>();
     private Share_session shareSession;
-    private LinearLayout coupon, paymentoption, buy_now_product;
+    private LinearLayout coupon, paymentoption, buy_now_product,coupon_layout;
     private TextView cart_product_name, cart_product_act_amount, cart_product_size, product_qty, dicount_price;
     private ImageView card_product_image;
     private ProgressBar progress_bar;
@@ -119,6 +119,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         layouthide = (RelativeLayout) findViewById(R.id.layouthide);
 
         progress_bar = (ProgressBar) findViewById(R.id.progress_bar);
+        coupon_layout =  findViewById(R.id.coupon_layout);
         progress_bar.setVisibility(View.GONE);
 
         shareSession = new Share_session(this);
@@ -210,10 +211,15 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
 
         if (item_type == null) {
             item_type = "";
-        } else {
-            Log.e("item_type", item_type);
-            Log.e("item_type", item_type);
-            Log.e("item_type", item_type);
+        }
+
+
+        if(!getIntent().getStringExtra("type").equals("friendDeal_one_rs")){
+            coupon_layout.setVisibility(View.VISIBLE);
+            CoupanBottom coupanBottom = new CoupanBottom(finalAmount,this);
+            coupanBottom.show(getSupportFragmentManager(), coupanBottom.getTag());
+        }else {
+            coupon_layout.setVisibility(View.GONE);
         }
 
 
@@ -361,7 +367,6 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         progress_bar.setVisibility(View.VISIBLE);
         place_order_btn.setClickable(false);
 
-
         Intent intent;
 
         switch (type) {
@@ -381,6 +386,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
 //                card_order_place();
                 break;
             case "friendDeal_one_rs":
+
                 productChehckFriendeal();
                 break;
             case "buy_now":

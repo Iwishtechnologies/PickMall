@@ -274,7 +274,6 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
     private void InsertDataCard() {
         shareSession = new Share_session(getActivity());
         data = shareSession.Fetchdata();
-        shareSession.Login_check();
         if (data.get(LOGIN_CHECk) != null) {
             switch (type) {
                 case "add_to_card":
@@ -353,7 +352,7 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
 //                    break;
             }
         } else {
-            getActivity().startActivity(new Intent(getActivity(), LoginActivity.class));
+            getActivity().startActivity(new Intent(getActivity(), Register1Activity.class));
         }
 
 

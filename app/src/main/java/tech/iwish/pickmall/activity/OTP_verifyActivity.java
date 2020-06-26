@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.razorpay.OTP;
@@ -48,6 +49,7 @@ public class OTP_verifyActivity extends AppCompatActivity {
     private SQLiteDatabase sqLiteDatabase;
     private Share_session shareSession;
     private Map data;
+    ProgressBar progress;
     String shippingchargebuy_now, finalamountsInt, product_id, product_type, select_size, product_qty, item_type, type , coupon;
 
     @Override
@@ -57,6 +59,7 @@ public class OTP_verifyActivity extends AppCompatActivity {
 
         otp = findViewById(R.id.otp);
         next = findViewById(R.id.next);
+        progress = findViewById(R.id.progress);
 
         shareSession = new Share_session(this);
         data = shareSession.Fetchdata();
@@ -77,6 +80,7 @@ public class OTP_verifyActivity extends AppCompatActivity {
                 if (otp.getText().toString().trim().isEmpty()) {
                     Toast.makeText(OTP_verifyActivity.this, "", Toast.LENGTH_SHORT).show();
                 } else {
+                    progress.setVisibility(View.VISIBLE);
                     otpCheck();
                 }
             }
@@ -100,6 +104,12 @@ public class OTP_verifyActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
+                OTP_verifyActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progress.setVisibility(View.GONE);
+                    }
+                });
             }
 
             @Override
@@ -111,6 +121,14 @@ public class OTP_verifyActivity extends AppCompatActivity {
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
+
+                            OTP_verifyActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progress.setVisibility(View.GONE);
+                                }
+                            });
+
                             switch (type) {
                                 case "CardActivity":
                                     card_order_place("COD", "COD");
@@ -120,7 +138,12 @@ public class OTP_verifyActivity extends AppCompatActivity {
                                     break;
                             }
                         } else {
-
+                            OTP_verifyActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(OTP_verifyActivity.this, "Otp not match", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     }
                 }
@@ -179,7 +202,7 @@ public class OTP_verifyActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
 
-                                        startActivity(new Intent(OTP_verifyActivity.this, SuccessfullyActivity.class));
+                                        startActivity(new Intent(OTP_verifyActivity.this, SuccessfullyActivity.class).putExtra("status","TRUE"));
 
                                     }
                                 });
@@ -266,7 +289,7 @@ public class OTP_verifyActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
 
-                                        startActivity(new Intent(OTP_verifyActivity.this, SuccessfullyActivity.class));
+                                        startActivity(new Intent(OTP_verifyActivity.this, SuccessfullyActivity.class).putExtra("status","TRUE"));
 
                                     }
                                 });

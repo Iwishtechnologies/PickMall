@@ -79,7 +79,6 @@ public class Sign_InActivity extends AppCompatActivity {
                                     Intent intent = new Intent(Sign_InActivity.this, SelectGenderActivity.class);
                                     intent.putExtra("number", number.getText().toString().trim());
                                     startActivity(intent);
-                                    linearLayout.setAlpha(1);
                                 } else {
                                     Sign_InActivity.this.runOnUiThread(new Runnable() {
                                         @Override

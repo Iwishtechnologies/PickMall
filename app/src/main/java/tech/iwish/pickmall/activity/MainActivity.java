@@ -67,7 +67,6 @@ import tech.iwish.pickmall.other.ProductList;
 import tech.iwish.pickmall.other.SilderLists;
 import tech.iwish.pickmall.reciver.InterNetConnection;
 import tech.iwish.pickmall.session.Share_session;
-
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.friend_deal_list_fake;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.item_fakelist;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.silder_list_fack;
@@ -183,7 +182,7 @@ public class MainActivity extends AppCompatActivity
         share_session = new Share_session(this);
         data = share_session.Fetchdata();
 
-        if (data.get(USERMOBILE).toString() != null) {
+        if (data.get(USERMOBILE) != null) {
             one_rs_amount_return();
             friend_deal_90_rs_amount_return();
         }

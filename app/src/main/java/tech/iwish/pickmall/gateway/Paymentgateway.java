@@ -31,6 +31,7 @@ import okhttp3.Response;
 import tech.iwish.pickmall.activity.OneRsShareActivity;
 import tech.iwish.pickmall.activity.PaymentOptionActivity;
 import tech.iwish.pickmall.activity.SuccessfullyActivity;
+import tech.iwish.pickmall.activity.TransactionFailed;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.session.Share_session;
@@ -118,6 +119,7 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
     @Override
     public void onPaymentError(int i, String s) {
         Toast.makeText(Paymentgateway.this, "fail" + s, Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(Paymentgateway.this, TransactionFailed.class).putExtra("status","FALSE"));
     }
 
 

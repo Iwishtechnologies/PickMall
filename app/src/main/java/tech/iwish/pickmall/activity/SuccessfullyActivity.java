@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import org.jetbrains.annotations.NotNull;
@@ -34,28 +35,30 @@ public class SuccessfullyActivity extends AppCompatActivity {
     private ImageView successButton;
     private SQLiteDatabase sqLiteDatabase;
     private MyhelperSql myhelperSql;
+    private Button failed;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_successfully);
+           setContentView(R.layout.activity_successfully);
+           successButton = (ImageView)findViewById(R.id.successButton);
 
-        successButton = (ImageView)findViewById(R.id.successButton);
+           myhelperSql = new MyhelperSql(this);
+           sqLiteDatabase = myhelperSql.getWritableDatabase();
 
-        myhelperSql = new MyhelperSql(this);
-        sqLiteDatabase = myhelperSql.getWritableDatabase();
+           sqLiteDatabase.execSQL("delete from "+ "PRODUCT_CARD");
 
-        sqLiteDatabase.execSQL("delete from "+ "PRODUCT_CARD");
+           successButton.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   startActivity(new Intent(SuccessfullyActivity.this , MainActivity.class));
+               }
+           });
 
-        successButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SuccessfullyActivity.this , MainActivity.class));
-            }
-        });
+       }
 
-    }
+
 
 
 
