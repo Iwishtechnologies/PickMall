@@ -3,26 +3,38 @@ package tech.iwish.pickmall.activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -70,6 +82,7 @@ import tech.iwish.pickmall.other.ProductList;
 import tech.iwish.pickmall.other.SilderLists;
 import tech.iwish.pickmall.reciver.InterNetConnection;
 import tech.iwish.pickmall.session.Share_session;
+
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.friend_deal_list_fake;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.item_fakelist;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.silder_list_fack;
@@ -116,7 +129,10 @@ public class MainActivity extends AppCompatActivity
     private Map data;
     private CountDownTimer mCountDownTimer;
 
+    private String productName , actual_prices , pimg , order_id;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,6 +151,8 @@ public class MainActivity extends AppCompatActivity
         }
 */
 
+
+        FirebaseMessaging.getInstance().subscribeToTopic("OFFER");
 
         InterNetConnection interNetConnection = new InterNetConnection();
         IntentFilter intentFilter = new IntentFilter();
@@ -187,6 +205,7 @@ public class MainActivity extends AppCompatActivity
         if (data.get(USERMOBILE) != null) {
             one_rs_amount_return();
             friend_deal_90_rs_amount_return();
+            popup();
         }
 
 
@@ -215,28 +234,10 @@ public class MainActivity extends AppCompatActivity
             }
         };
 
-//        ***************  Time Set friend deal   **********************
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notification();
+        }
 
-
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd:MM:yyyy:hh:mm:ss");
-//
-//        Calendar calendar2 = null;
-//
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.set(Calendar.HOUR, 16);
-//        calendar.set(Calendar.MINUTE, 0);
-//        calendar.set(Calendar.SECOND, 0);
-//        calendar = calendar2 ;
-//        Calendar calendar1 = calendar;
-//        calendar1.add(calendar.HOUR, 23);
-//        calendar1.add(calendar.MINUTE, 59);
-//        calendar1.add(calendar.SECOND, 59);
-//        Log.e("timess",sdf.format(calendar2.getTime()));
-//        Log.e("timess",sdf.format(calendar1.getTime()));
-
-
-//        mTimeLeftInMillis = when;
-//        startTimer();
     }
 
     private void friend_deal_90_rs_amount_return() {
@@ -304,6 +305,7 @@ public class MainActivity extends AppCompatActivity
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
+
 
                         }
                     }
@@ -697,10 +699,181 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void notification() {
+
+        NotificationChannel channel =
+                new NotificationChannel("pickmall", "pickmall", NotificationManager.IMPORTANCE_DEFAULT);
+
+        NotificationManager manager = getSystemService(NotificationManager.class);
+        manager.createNotificationChannel(channel);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("weather")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "successfuly";
+                        if (!task.isSuccessful()) {
+                            msg = "Fail";
+                        }
+                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
     @Override
     public void onInternetConnectivityChanged(boolean b) {
 
     }
+
+
+    private void popup() {
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("number", data.get(USERMOBILE).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.POPUP_RATING).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("result", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+
+                                productName = jsonHelper.GetResult("productName");
+                                actual_prices = jsonHelper.GetResult("actual_price");
+                                pimg = jsonHelper.GetResult("pimg");
+                                order_id = jsonHelper.GetResult("orderid");
+
+                            }
+
+                            if (MainActivity.this != null) {
+                                MainActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                                        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.row_popup_layout, null);
+                                        ImageView imageSet = view.findViewById(R.id.imageSet);
+                                        TextView Name = view.findViewById(R.id.Name);
+                                        TextView amt = view.findViewById(R.id.amt);
+                                        RatingBar rating = view.findViewById(R.id.rating);
+
+                                        Name.setText(productName);
+
+                                        String a = Constants.IMAGES + pimg;
+                                        Glide.with(MainActivity.this).load(a).into(imageSet);
+
+                                        amt.setText(actual_prices);
+
+                                        dialog.setCancelable(false);
+                                        dialog.setView(view);
+
+                                        AlertDialog alertDialog = dialog.create();
+                                        alertDialog.show();
+
+
+                                        rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                                            @Override
+                                            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+
+                                                String ratings = String.valueOf(v);
+
+                                                switch (ratings){
+//                                                    case "1.0":
+//                                                    case "1.5":
+//                                                    case "2.0":
+//                                                    case "2.5":
+//                                                    case "3.0":
+//                                                        rating.setRating(3);
+//                                                        break;
+                                                    case "3.5":
+                                                    case "4.0":
+                                                    case "4.5":
+                                                    case "5.0":
+                                                        updateRatingFriendDeal(ratings);
+                                                        alertDialog.dismiss();
+                                                        break;
+                                                }
+
+                                            }
+                                        });
+
+
+                                    }
+                                });
+
+                            }
+
+                        }
+                    }
+                }
+            }
+        });
+
+
+    }
+
+    private void updateRatingFriendDeal(String ratings) {
+
+        Toast.makeText(this, ""+order_id, Toast.LENGTH_SHORT).show();
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("rating", ratings);
+            jsonObject.put("order_id", order_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.RATING_SET_FRIEND_DEAL).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("result", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+
+                        }
+                    }
+                }
+            }
+        });
+
+
+    }
+
+
 }
 
 

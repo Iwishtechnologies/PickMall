@@ -58,7 +58,7 @@ public class OTPActivity extends AppCompatActivity implements  InternetConnectiv
             public void onClick(View view) {
 
                 if (otp.getText().toString().trim().isEmpty()) {
-
+                    Toast.makeText(OTPActivity.this, "Fill not Empty", Toast.LENGTH_SHORT).show();
                 } else {
                     mainview.setAlpha((float) 0.5);
                     progressBar.setVisibility(View.VISIBLE);

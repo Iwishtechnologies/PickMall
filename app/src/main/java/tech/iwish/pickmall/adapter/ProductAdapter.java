@@ -139,6 +139,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
 
             String a = Constants.IMAGES + productLists.get(position).getPimg();
             Glide.with(context).load(a).into(holder.product_img);
+
             holder.product_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -1,8 +1,14 @@
 package tech.iwish.pickmall.activity;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -10,6 +16,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -46,6 +55,10 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         share_session= new Share_session(SplashActivity.this);
 
+
+
+
+
         new Handler().postDelayed(() -> {
             data = share_session.Fetchdata();
             if(data.get(USER_NUMBER_CHECK) != null){
@@ -79,6 +92,8 @@ public class SplashActivity extends AppCompatActivity {
         }, SPLASH_DISPLAY_LENGTH);
 
     }
+
+
 
     public void GetOfferBanner()
     {

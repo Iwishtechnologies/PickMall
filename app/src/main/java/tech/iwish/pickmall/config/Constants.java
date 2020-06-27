@@ -120,6 +120,8 @@ public class Constants {
     public static String ONE_RS_AMT_RETURN = URL+"one_rs_friend_deal_amt_return";
     public static String FRIEND_DEAL_90_RS_AMT_RETURN = URL+"friend_deal_90_rs_amt_return";
     public static String FRIEND_DEAL_RULE = URL+"friendDealRule";
+    public static String POPUP_RATING = URL+"popup_rating";
+    public static String RATING_SET_FRIEND_DEAL = URL+"rating_set_friend_deal";
 
 
 

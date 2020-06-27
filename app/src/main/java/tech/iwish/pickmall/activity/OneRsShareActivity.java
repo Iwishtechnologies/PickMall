@@ -79,14 +79,7 @@ public class OneRsShareActivity extends AppCompatActivity {
 
 //        popup
 
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.row_popup_layout,null);
-        ImageView imageSet = view.findViewById(R.id.imageSet);
-        TextView Name = view.findViewById(R.id.Name);
-        TextView amt = view.findViewById(R.id.amt);
-        Name.setText(getIntent().getStringExtra("product_name"));
-        dialog.setView(view);
-        dialog.show();
+
 
 
         String a = Constants.IMAGES + getIntent().getStringExtra("product_image");

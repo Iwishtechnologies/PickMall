@@ -214,7 +214,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
-                            startActivity(new Intent(LoginActivity.this , Sign_InActivity.class));
+                            startActivity(new Intent(LoginActivity.this , OTPActivity.class).putExtra("number",number.getText().toString().trim()));
                         }else {
                             LoginActivity.this.runOnUiThread(new Runnable() {
                                 @Override

@@ -29,7 +29,7 @@
                 android:id="@+id/Name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="2"
+                android:maxLines="2"
                 android:textSize="16sp"
                 android:ellipsize="end"/>
             <TextView
@@ -37,21 +37,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="1"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:text="500"
                 android:layout_marginTop="4dp"
                 android:ellipsize="end"/>
+
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/cross_icon"/>
 
     </LinearLayout>
 
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLength="1"
+        android:textSize="14sp"
+        android:text=""
+        android:layout_gravity="center"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"/>
+
+
     <RatingBar
+        android:id="@+id/rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
