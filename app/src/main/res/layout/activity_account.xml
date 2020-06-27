@@ -116,12 +116,31 @@
                 android:orientation="horizontal"
                 android:background="@drawable/small_rectangle_red">
 
-                <ImageView
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:id="@+id/wishlist"
-                    android:src="@drawable/wish_list_icon"/>
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:id="@+id/wishcount"
+                        app:fonttype="text_semi_bold"
+                        android:text="10"
+                        android:layout_marginBottom="5dp"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="22dp"
+                        android:textColor="@color/white"
+                        android:layout_height="wrap_content"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/wishlist"
+                        android:layout_marginTop="-20dp"
+                        android:src="@drawable/wish_list_icon"/>
+                </LinearLayout>
+
 
 
                 <ImageView
@@ -264,7 +283,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:id="@+id/vendoe"
-                    android:src="@drawable/vendor_icon"/>
+                    android:src="@drawable/sale_on_pickmall"/>
 
                 <ImageView
                     android:layout_width="match_parent"

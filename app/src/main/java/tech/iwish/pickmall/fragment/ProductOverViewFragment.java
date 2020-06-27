@@ -70,7 +70,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
     private TextView select_pincode, checker_pincode;
     private TableLayout tableLayout;
     ImageView fulldetails;
-    private LinearLayout return_policy , venodr_layout;
+    private LinearLayout return_policy , venodr_layout,viewlayout;
 
 
     @Nullable
@@ -84,6 +84,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         checker_pincode = (TextView) view.findViewById(R.id.checker_pincode);
         return_policy = (LinearLayout) view.findViewById(R.id.return_policy);
         venodr_layout = (LinearLayout) view.findViewById(R.id.venodr_layout);
+        viewlayout=view.findViewById(R.id.viewlayout);
 
         tableLayout = (TableLayout) view.findViewById(R.id.tableLayout);
         fulldetails =  view.findViewById(R.id.fulldetails);
@@ -128,7 +129,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         bundle1.putString("type","similar_product");
         productFragment.setArguments(bundle1);
         getChildFragmentManager().beginTransaction().add(R.id.similer_product_framelayout, productFragment).commit();
-
+        Overview();
         return view;
 
     }
@@ -347,7 +348,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                 break;
 
             case R.id.fulldetails:
-                Detail_Dialog();
+
         }
 
     }
@@ -363,21 +364,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         }
     }
 
-    protected void Detail_Dialog(){
-        final Dialog dialog;
-        LinearLayout viewlayout;
-        dialog = new Dialog(getActivity());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.design_dialog);
-        Window window = dialog.getWindow();
-        window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        WindowManager.LayoutParams wlp = window.getAttributes();
-        wlp.gravity = Gravity.BOTTOM;
-        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        window.setAttributes(wlp);
-        viewlayout=dialog.findViewById(R.id.viewlayout);
-
-
+    protected void Overview(){
 
 //        LinearLayout linearLayout =new LinearLayout(getActivity());
 ////        linearLayout.setId(finalI+500);
@@ -419,7 +406,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                                 int finalI = i;
 //
                                     TextViewFont textViewFont= new TextViewFont(getActivity());
-                                    LinearLayout.LayoutParams textparam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
+                                    LinearLayout.LayoutParams textparam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
                                     textViewFont.setLayoutParams(textparam);
                                     textViewFont.setId(finalI+50);
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -427,24 +414,23 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                                     }
                                 Log.e(String.valueOf(finalI),jsonHelper.GetResult("title"));
                                     textViewFont.setText(jsonHelper.GetResult("title"));
-                                    textViewFont.setTextColor(getResources().getColor(R.color.black));
-                                    textViewFont.setTextSize(18);
-
+                                    textViewFont.setTextColor(getResources().getColor(R.color.white));
+                                    textViewFont.setTextSize(14);
                                     TextViewFont textViewFont1= new TextViewFont(getActivity());
-                                    LinearLayout.LayoutParams textparam1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
+                                    LinearLayout.LayoutParams textparam1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
                                    textparam1.setMargins(0,0,0,10);
                                     textViewFont1.setLayoutParams(textparam1);
                                     textViewFont1.setId(finalI);
                                     Log.e(String.valueOf(finalI),jsonHelper.GetResult("overview"));
-                                    textViewFont1.setTextColor(getResources().getColor(R.color.theme_dark));
+                                    textViewFont1.setTextColor(getResources().getColor(R.color.white));
                                     textViewFont1.setText(jsonHelper.GetResult("overview"));
-                                    textViewFont1.setTextSize(12);
+                                    textViewFont1.setTextSize(10);
 
-                                    viewlayout.addView(textViewFont);
-                                    viewlayout.addView(textViewFont1);
+                                getActivity().runOnUiThread(() ->{    viewlayout.addView(textViewFont);
+                                    viewlayout.addView(textViewFont1);});
 
                                       }
-                                    getActivity().runOnUiThread(() ->{  dialog.show();});
+
 
 
                         }

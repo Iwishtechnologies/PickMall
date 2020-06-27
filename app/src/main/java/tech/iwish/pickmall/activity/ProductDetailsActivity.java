@@ -1,5 +1,6 @@
 package tech.iwish.pickmall.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,6 +20,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -283,6 +285,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
         ac_priceEdit.setText(getResources().getString(R.string.rs_symbol) + actual_price);
         title_name_edit.setText(product_name);
+        title_name_edit.setOnClickListener(view -> {
+            open(view,product_name);
+        });
 
 
         dicount_price_text.setText(" " + aaa + "% OFF");
@@ -849,6 +854,18 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         return wishlistchechi;
     }
 
+    public void open(View view ,String  name){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(name);
+                alertDialogBuilder.setPositiveButton("close",
+                        (arg0, arg1) -> Toast.makeText(ProductDetailsActivity.this,"You clicked close button",Toast.LENGTH_LONG).show()
+        );
+
+//        alertDialogBuilder.setNegativeButton("No", (dialog, which) -> finish());
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
 
 }
 
