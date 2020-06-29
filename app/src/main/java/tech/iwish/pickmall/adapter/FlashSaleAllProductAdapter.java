@@ -100,7 +100,16 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
             Glide.with(context).load(a).into(holder.image_flash_sale);
             holder.product_name_flash.setText(productListList.get(position).getProductName());
             getStock(productListList.get(position).getProduct_id(),holder);
-            holder.percent_price.setText(productListList.get(position).getDiscount_price_per() +"%");
+            //=========================================================
+            float actual = Float.valueOf(productListList.get(position).getActual_price());
+            float dis = Float.valueOf( productListList.get(position).getDiscount_price());
+            float disco = dis - actual;
+            float fin = disco / dis * 100;
+            int aa = (int) fin;
+            //=========================================================
+            holder.percent_price.setText(productListList.get(position).getDiscount_price_per() +" "+aa+"% OFF");
+
+
             holder.flash_main_layout.setOnClickListener(view -> {
                 Intent intent = new Intent(new Intent(context, ProductDetailsActivity.class));
                 intent.putExtra("product_name", productListList.get(position).getProductName());

@@ -153,7 +153,7 @@ public class Profile extends AppCompatActivity implements InternetConnectivityLi
 
     public void setActivityData()
     {
-        if (Arrays.asList(share_session.getUserDetail().get("UserMobile")).contains("@")) {
+        if (share_session.getUserDetail().get("UserMobile").contains("@")) {
             type.setText("Email");
             mobile.setText(share_session.getUserDetail().get("UserMobile"));
         }
@@ -240,4 +240,5 @@ public class Profile extends AppCompatActivity implements InternetConnectivityLi
             startActivity(new Intent(Profile.this,NoInternetConnectionActivity.class));
         }
     }
+
 }

@@ -245,7 +245,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Pricr (1 item)"
+                            android:text="Price"
                             app:fonttype="regular" />
 
                         <tech.iwish.pickmall.extended.TextViewFont

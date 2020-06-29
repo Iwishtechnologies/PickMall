@@ -1105,7 +1105,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:padding="5dp"
-                    android:text="7 Days Eassy Return Policy"
+                    android:text="7 Days Easy Return Policy"
                     android:textColor="@color/white"
                     app:fonttype="black" />
 

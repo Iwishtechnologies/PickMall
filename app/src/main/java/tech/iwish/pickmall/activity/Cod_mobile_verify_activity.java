@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -48,7 +49,12 @@ public class Cod_mobile_verify_activity extends AppCompatActivity {
         data = shareSession.Fetchdata();
         next = findViewById(R.id.next);
 
-        mobile.setText(data.get(NUMBER_ADDRESS).toString());
+//        mobile.setText(data.get(NUMBER_ADDRESS).toString());
+        if(data.get(NUMBER_ADDRESS).toString().contains("@")){
+            mobile.setMaxLines(1);
+        }else {
+            mobile.setText(data.get(NUMBER_ADDRESS).toString());
+        }
 
         shippingchargebuy_now = getIntent().getStringExtra("shippingchargebuy_now");
         finalamountsInt = getIntent().getStringExtra("finalamountsInt");

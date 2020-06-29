@@ -39,7 +39,7 @@ public class Sign_InActivity extends AppCompatActivity  implements InternetConne
     ImageButton signInButton;
     LinearLayout linearLayout;
     Share_session share_session;
-    TextViewFont skip;
+    TextViewFont skip,forgot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +51,14 @@ public class Sign_InActivity extends AppCompatActivity  implements InternetConne
         signInButton = findViewById(R.id.signInButton);
         linearLayout = findViewById(R.id.linearLayout);
         skip = findViewById(R.id.skip);
+        forgot = findViewById(R.id.forgot);
         InternetAvailabilityChecker mInternetAvailabilityChecker;
         mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
         mInternetAvailabilityChecker.addInternetConnectivityListener(Sign_InActivity.this);
 
+        forgot.setOnClickListener(view -> {
+            startActivity(new Intent(Sign_InActivity.this,ForgotpasswordActivity.class));
+        });
         skip.setOnClickListener(view -> {
            startActivity(new Intent(Sign_InActivity.this,MainActivity.class));
         });
