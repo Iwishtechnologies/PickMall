@@ -28,6 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
 import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
@@ -47,7 +48,7 @@ import tech.iwish.pickmall.session.Share_session;
 
 public class Profile extends AppCompatActivity implements InternetConnectivityListener {
     ImageView back,pickimage,profileImage,edit_name,edit_gender;
-    TextViewFont name, mobile,r_no,gender;
+    TextViewFont name, mobile,r_no,gender,type;
     public static final int PICK_IMAGE = 1;
     Share_session share_session;
     private String [] permissions = {"android.permission.WRITE_EXTERNAL_STORAGE","android.permission.CAMERA", "android.permission.WRITE_EXTERNAL_STORAGE"};
@@ -152,6 +153,13 @@ public class Profile extends AppCompatActivity implements InternetConnectivityLi
 
     public void setActivityData()
     {
+        if (Arrays.asList(share_session.getUserDetail().get("UserMobile")).contains("@")) {
+            type.setText("Email");
+            mobile.setText(share_session.getUserDetail().get("UserMobile"));
+        }
+        else {
+            mobile.setText(share_session.getUserDetail().get("UserMobile"));
+        }
         name.setText(share_session.getUserDetail().get("username"));
         mobile.setText(share_session.getUserDetail().get("UserMobile"));
         gender.setText(share_session.getUserDetail().get("gender"));
@@ -179,6 +187,7 @@ public class Profile extends AppCompatActivity implements InternetConnectivityLi
         profileImage = findViewById(R.id.image);
         edit_gender = findViewById(R.id.edit_gender);
         edit_name = findViewById(R.id.edit_name);
+        type = findViewById(R.id.type);
         share_session= new Share_session(Profile.this);
         Connectivity();
     }

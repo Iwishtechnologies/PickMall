@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.bumptech.glide.load.model.Model;
+
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +21,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -103,6 +107,12 @@ public class ProductFragment extends Fragment {
                 break;
             case "prepaid":
                 datafetchProduct(Constants.PREPAID_PRODUCT, "prepaid");
+                break;
+            case "Price":
+                datafetchProduct(Constants.SORTBYPRICE, arguments.getString("item"));
+                break;
+            case "short":
+                datafetchProduct(Constants.SORTBYREVIEW, arguments.getString("item"));
                 break;
         }
 

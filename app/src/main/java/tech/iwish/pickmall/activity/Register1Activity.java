@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.ProfileTracker;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -91,16 +93,20 @@ public class Register1Activity extends AppCompatActivity  implements InternetCon
                         accessToken,
                         (object, response) -> {
                             try {
-                                if(object.getString("email").isEmpty()){
-//                                    error.setText("access Denied use different signin method");
-                                    Toast.makeText(Register1Activity.this, "Access Denied use different Signin Method", Toast.LENGTH_SHORT).show();
-                                }else {
-//                                    String first_name = object.getString("first_name");
-//                                    String last_name = object.getString("last_name");
-//                                    String email = object.getString("email");
-//                                    String id = object.getString("id");
-                                    share_session.CreateSession(object.getString("email"));
-                                    GoogleApi(object.getString("email"),object.getString("first_name")+" "+object.getString("last_name"));
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                                    if(object.getString("email").isEmpty()){
+    //                                    error.setText("access Denied use different signin method");
+                                        Toast.makeText(Register1Activity.this, "Access Denied use different Signin Method", Toast.LENGTH_SHORT).show();
+                                    }else {
+    //                                    String first_name = object.getString("first_name");
+    //                                    String last_name = object.getString("last_name");
+    //                                    String email = object.getString("email");
+    //                                    String id = object.getString("id");
+                                        share_session.CreateSession(object.getString("email"));
+                                        LoginManager.getInstance().logOut();
+                                        GoogleApi(object.getString("email"),object.getString("first_name")+" "+object.getString("last_name"));
+    //                                    LoginManager.getInstance().logOut();
+                                    }
                                 }
 
                             } catch (JSONException e) {

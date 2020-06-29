@@ -131,6 +131,7 @@
                         android:layout_weight="0.7"
                         android:gravity="bottom">
                         <TextView
+                            android:id="@+id/buy_now"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/whiteColor"

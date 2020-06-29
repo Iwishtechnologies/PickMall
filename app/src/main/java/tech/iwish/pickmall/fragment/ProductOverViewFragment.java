@@ -405,7 +405,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                                 jsonHelper.setChildjsonObj(jsonArray, i);
                                 int finalI = i;
 //
-                                    TextViewFont textViewFont= new TextViewFont(getActivity());
+                                    TextView textViewFont= new TextView(getActivity());
                                     LinearLayout.LayoutParams textparam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
                                     textViewFont.setLayoutParams(textparam);
                                     textViewFont.setId(finalI+50);
@@ -416,7 +416,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                                     textViewFont.setText(jsonHelper.GetResult("title"));
                                     textViewFont.setTextColor(getResources().getColor(R.color.white));
                                     textViewFont.setTextSize(14);
-                                    TextViewFont textViewFont1= new TextViewFont(getActivity());
+                                    TextView textViewFont1= new TextView(getActivity());
                                     LinearLayout.LayoutParams textparam1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
                                    textparam1.setMargins(0,0,0,10);
                                     textViewFont1.setLayoutParams(textparam1);

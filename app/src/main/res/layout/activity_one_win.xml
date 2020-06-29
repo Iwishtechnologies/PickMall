@@ -49,7 +49,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginTop="5dp"
+                android:visibility="gone"
                 android:background="@color/white"/>
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -60,7 +66,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/one_win_product_recycleview"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="match_parent"
                     android:background="@color/white"/>
 
             </LinearLayout>

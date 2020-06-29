@@ -119,7 +119,7 @@ public class FlashSaleCurrentSaleFragment extends Fragment implements FlashsaleT
                                 @Override
                                 public void run() {
 
-                                    FlashSaleAllProductAdapter flashSaleAllProductAdapter = new FlashSaleAllProductAdapter((FlashSaleProductactivity) getActivity(), productListList);
+                                    FlashSaleAllProductAdapter flashSaleAllProductAdapter = new FlashSaleAllProductAdapter((FlashSaleProductactivity) getActivity(), productListList,"");
                                     flash_sale_recycleview.setHasFixedSize(true);
                                     flash_sale_recycleview.setAdapter(flashSaleAllProductAdapter);
 

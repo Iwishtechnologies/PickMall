@@ -93,7 +93,7 @@ public class FlashSaleNextSaleFragment extends Fragment {
                                 @Override
                                 public void run() {
 
-                                    FlashSaleAllProductAdapter flashSaleAllProductAdapter = new FlashSaleAllProductAdapter((FlashSaleProductactivity) getActivity(), productListList);
+                                    FlashSaleAllProductAdapter flashSaleAllProductAdapter = new FlashSaleAllProductAdapter((FlashSaleProductactivity) getActivity(), productListList,"nextSale");
                                     flash_sale_recycleview_next_sale.setAdapter(flashSaleAllProductAdapter);
 
                                 }

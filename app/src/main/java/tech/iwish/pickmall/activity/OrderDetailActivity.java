@@ -3,10 +3,12 @@ package tech.iwish.pickmall.activity;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,7 +46,7 @@ import tech.iwish.pickmall.extended.TextViewFont;
 import tech.iwish.pickmall.session.Share_session;
 
 public class OrderDetailActivity extends AppCompatActivity implements InternetConnectivityListener {
-    TextViewFont name,orderid,color,seller,price,cname,street,city,state,phone,approvedate,delivery_status,cencelled_statement,order_approved,colony,actual_price,selling_price,discount_amount,shipping_fee,total_amount;
+    TextViewFont name,orderid,color,seller,price,cname,street,city,state,phone,approvedate,delivery_status,cencelled_statement,order_approved,colony,actual_price,selling_price,discount_amount,shipping_fee,total_amount,qty;
     ShapedImageView image;
     ImageView progress;
     Intent intent;
@@ -101,6 +103,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         returnorder= findViewById(R.id.returnorder);
         returnview= findViewById(R.id.returnview);
         ratingview= findViewById(R.id.ratingview);
+        qty= findViewById(R.id.qty);
         Log.e("dateadd", String.valueOf(addDay(getIntent().getExtras().getString("delivery_date"),7)));
         if(addDay(getIntent().getExtras().getString("delivery_date"),7)){
             returnview.setVisibility(View.VISIBLE);
@@ -117,7 +120,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
 
     private void ActivityAction(){
         help.setOnClickListener(view -> startActivity(new Intent(OrderDetailActivity.this,SupportActivity.class)));
-        RatingBar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> uploadRating(getIntent().getExtras().getString("product_id"),share_session.getUserDetail().get("id"), String.valueOf(rating)));
+        RatingBar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) ->{ uploadRating(getIntent().getExtras().getString("product_id"),share_session.getUserDetail().get("id"), String.valueOf(rating));ProductFeedback();});
         returnorder.setOnClickListener(view -> startActivity(new Intent(OrderDetailActivity.this,ReturnOrderActivity.class).putExtra("image",getIntent().getExtras().getString("image")).putExtra("name",getIntent().getExtras().getString("ProductName")).putExtra("orderId",getIntent().getExtras().getString("orderid")).putExtra("orerAmt",getIntent().getExtras().getString("oederAmount")).putExtra("product_id",getIntent().getExtras().getString("product_id"))));
         seller.setOnClickListener(view -> {
             Intent intent= new Intent(OrderDetailActivity.this,VendorStoreActivity.class);
@@ -138,6 +141,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         orderid.setText("Order ID - "+getIntent().getExtras().getString("orderid"));
         price.setText("₹ "+getIntent().getExtras().getString("orderamt"));
         cname.setText(share_session.getUserDetail().get("username"));
+        qty.setText(getIntent().getExtras().getString("qty"));
         street.setText(getIntent().getExtras().getString("address"));
         phone.setText(share_session.getUserDetail().get("UserMobile"));
         approvedate.setText(getIntent().getExtras().getString("orderdate"));
@@ -450,4 +454,15 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
 
     }
 
+    private void ProductFeedback(){
+//        final Dialog dialog = new Dialog(OrderDetailActivity.this,R.style.full_screen_dialog); // Context, this, etc.
+//        dialog.setContentView(R.layout.design_product_feedback);
+//        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+//                WindowManager.LayoutParams.MATCH_PARENT);
+//        dialog.setTitle("Feedback");
+//        dialog.show();
+    }
+
 }
+
+

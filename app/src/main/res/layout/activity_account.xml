@@ -70,6 +70,7 @@
                         android:text="Rohit Rathore "
                         android:layout_weight="1"
                         android:id="@+id/name"
+                        android:maxLength="17"
                         android:textAlignment="textStart"
                         android:textSize="20dp"
                         android:textColor="@color/black"/>

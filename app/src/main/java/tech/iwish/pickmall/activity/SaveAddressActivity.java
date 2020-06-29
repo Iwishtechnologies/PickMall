@@ -157,11 +157,14 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 productshow();
                 amount_set.setText(getResources().getString(R.string.rs_symbol) + finalAmount);
                 item_type = "";
+                coupon_layout.setVisibility(View.VISIBLE);
                 break;
             case "friendDeal_one_rs":
                 friendDeal_one_rs();
+                coupon_layout.setVisibility(View.GONE);
                 break;
             case "buy_now":
+                coupon_layout.setVisibility(View.VISIBLE);
                 buy_now();
                 break;
         }
@@ -214,20 +217,22 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         }
 
 
-        if(!getIntent().getStringExtra("type").equals("friendDeal_one_rs")){
-            coupon_layout.setVisibility(View.VISIBLE);
-            CoupanBottom coupanBottom = new CoupanBottom(finalAmount,this);
-            coupanBottom.show(getSupportFragmentManager(), coupanBottom.getTag());
-        }else {
-            coupon_layout.setVisibility(View.GONE);
-        }
+//        if(!getIntent().getStringExtra("type").equals("friendDeal_one_rs")){
+//            coupon_layout.setVisibility(View.VISIBLE);
+//            CoupanBottom coupanBottom = new CoupanBottom(finalAmount,this);
+//            coupanBottom.show(getSupportFragmentManager(), coupanBottom.getTag());
+//        }else {
+//            coupon_layout.setVisibility(View.GONE);
+//        }
 
 
         if (!type.equals("friendDeal_one_rs")) {
             SpannableString content = new SpannableString(getResources().getString(R.string.rs_symbol) + getIntent().getStringExtra("discount_price"));
             content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
             dicount_price.setText(content);
+            coupon_layout.setVisibility(View.GONE);
         }
+        coupon_layout.setVisibility(View.VISIBLE);
         String a = Constants.IMAGES + getIntent().getStringExtra("imagename");
         Glide.with(this).load(a).into(card_product_image);
         card_product_recycleview.setVisibility(View.GONE);
@@ -270,13 +275,13 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 String gst = cursor.getString(cursor.getColumnIndex("GST"));
                 int amt = qty * amount;
 
-                if (!gst.isEmpty()) {
-
-                    int IntGst = Integer.parseInt(gst);
-                    double gstPrice = (amt / 100.0f) * IntGst;
-                    finaGst += gstPrice;
-
-                }
+//                if (!gst.isEmpty()) {
+//
+//                    int IntGst = Integer.parseInt(gst);
+//                    double gstPrice = (amt / 100.0f) * IntGst;
+//                    finaGst += gstPrice;
+//
+//                }
 
                 finalAmount += amt;
                 list.add(map);

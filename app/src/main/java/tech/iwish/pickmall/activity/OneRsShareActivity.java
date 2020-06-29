@@ -35,7 +35,7 @@ import tech.iwish.pickmall.session.Share_session;
 public class OneRsShareActivity extends AppCompatActivity {
 
     private ImageView image;
-    private TextView productName, productAmount, productmrp,time_set;
+    private TextView productName, productAmount, productmrp,time_set,shares;
     private Button invite_friend_deal;
     private String refer_code, refer_count, new_user_request,item_type ,product_id ;
     private LinearLayout LinearLayoutShare;
@@ -53,6 +53,7 @@ public class OneRsShareActivity extends AppCompatActivity {
         productAmount = (TextView) findViewById(R.id.productAmount);
         time_set = (TextView) findViewById(R.id.time_set);
         productmrp = (TextView) findViewById(R.id.productmrp);
+        shares = (TextView) findViewById(R.id.shares);
         invite_friend_deal = (Button) findViewById(R.id.invite_friend_deal);
         LinearLayoutShare = (LinearLayout) findViewById(R.id.LinearLayoutShare);
 
@@ -69,6 +70,11 @@ public class OneRsShareActivity extends AppCompatActivity {
         product_id = getIntent().getStringExtra("product_id");
 
         productName.setText(getIntent().getStringExtra("product_name"));
+
+        if(refer_count==null){
+            refer_count="0";
+        }
+        shares.setText("Your Shares "+refer_count+" Out of "+new_user_request);
 
 //        Toast.makeText(this, "" + new_user_request, Toast.LENGTH_SHORT).show();
 

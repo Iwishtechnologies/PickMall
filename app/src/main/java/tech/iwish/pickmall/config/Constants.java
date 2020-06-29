@@ -15,8 +15,8 @@ public class Constants {
 
 //    public static String SUBFOLDER = "/api/";
 
-//    public static String URL = "http://pickmall.iwishtech.xyz/api/";
-    public static String URL = "http://173.212.226.143:8086/api/";
+    public static String URL = "http://pickmall.iwishtech.xyz/api/";
+//    public static String URL = "http://173.212.226.143:8086/api/";
 
     public static String SILDER_IMAGE = URL + "main/silder/images";
     public static String USER_ADDRESS = URL + "user_address";
@@ -122,11 +122,15 @@ public class Constants {
     public static String FRIEND_DEAL_RULE = URL+"friendDealRule";
     public static String POPUP_RATING = URL+"popup_rating";
     public static String RATING_SET_FRIEND_DEAL = URL+"rating_set_friend_deal";
+    public static String SORTBYPRICE = URL+"SortBySize";
+    public static String SORTBYREVIEW = URL+"sortbyreview";
 
 
 
-//    public static String IMAGES = "http://pickmall.iwishtech.xyz/img/";
-        public static String IMAGES = "http://173.212.226.143:8086/img/";
+
+
+        public static String IMAGES = "http://pickmall.iwishtech.xyz/img/";
+//        public static String IMAGES = "http://173.212.226.143:8086/img/";
     public static String SHAREDPREFERENCE = "money_pref";
     public static final String SHAREDPREFERENCE_STR = "money_pref_str";
 //    public static final String COUPENiMAGE = "http://173.212.226.143:8086/template";

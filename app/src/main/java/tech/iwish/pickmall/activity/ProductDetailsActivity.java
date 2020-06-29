@@ -250,8 +250,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                         new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), ProductDetailsActivity.this, timeset, item_type).Time_12_H();
                         RankingMethod();
                     } else if (item_type.equals("one_win")) {
-                        onediscription.setText("Start A  Deal Invite");
-                        fulldiscription.setText("Maximum New Users & Get Product  Hurry Limited Offer");
+                        onediscription.setText("Start a Deal, Invite Maximum Friends, When System Get Complete Downloads.");
+                        fulldiscription.setText(" The Person Who Share With More Peoples That Person Will Be Win This Deal");
                         RankingMethod();
                     } else {
                         onediscription.setText("Start A Rs 90 Friends Deal Invite");

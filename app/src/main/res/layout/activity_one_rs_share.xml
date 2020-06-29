@@ -365,8 +365,8 @@
                 <tech.iwish.pickmall.extended.TextViewFont
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Waiting for 5 users(S) to join, Including 2 new users. You may win the product when the deal is completed."
                     android:textAlignment="center"
+                    android:id="@+id/shares"
                     android:textColor="#3E3B3B"
                     android:textSize="15dp" />
 

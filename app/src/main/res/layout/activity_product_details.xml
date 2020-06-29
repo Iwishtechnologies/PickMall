@@ -956,6 +956,7 @@
                         android:layout_width="match_parent"
                         android:orientation="horizontal"
                         android:paddingLeft="20dp"
+                        android:layout_marginTop="4dp"
                         android:paddingRight="20dp"
                         android:layout_height="wrap_content">
                         <tech.iwish.pickmall.extended.TextViewFont

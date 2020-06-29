@@ -94,8 +94,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
 
     private void image(String item_id) {
-        Log.e("item",item_id);
-        Log.e("item",item_id);
+
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
@@ -181,9 +180,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 onBackPressed();
                 break;
             case R.id.shorts:
+                productloadfradment(getIntent().getStringExtra("item_id"), getIntent().getStringExtra("item_name"), "short");
+                break;
             case R.id.best_sellers:
             case R.id.pricefilter:
-                Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
+                productloadfradment(getIntent().getStringExtra("item_id"), getIntent().getStringExtra("item_name"), "Price");
                 break;
             case R.id.filter:
                 Intent intent = new Intent(ProductActivity.this, FilterActivity.class);

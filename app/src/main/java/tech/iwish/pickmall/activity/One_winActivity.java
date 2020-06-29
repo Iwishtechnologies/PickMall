@@ -6,6 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -40,6 +44,7 @@ public class One_winActivity extends AppCompatActivity {
     private List<OneWinShareList> oneWinShareLists = new ArrayList<>();
     private Share_session shareSession;
     private Map data;
+    private ImageView images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,9 @@ public class One_winActivity extends AppCompatActivity {
     private void InitializeActivity() {
         ranking_recycleView = (RecyclerView) findViewById(R.id.ranking_recycleView);
         one_win_product_recycleview = (RecyclerView) findViewById(R.id.one_win_product_recycleview);
+        images = (ImageView) findViewById(R.id.image);
+
+
 
         data = new Share_session(this).Fetchdata();
 
@@ -68,6 +76,7 @@ public class One_winActivity extends AppCompatActivity {
     }
 
     private void SetActivityData() {
+        image(item_id);
     }
 
     private void SetRecycleView() {
@@ -188,6 +197,65 @@ public class One_winActivity extends AppCompatActivity {
 
 
     }
+
+
+    private void image(String item_id) {
+        Log.e("item",item_id);
+        Log.e("item",item_id);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("item_id", item_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.ITEM_IMAGE).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("result",result);
+                    final JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                One_winActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        images.setVisibility(View.VISIBLE);
+                                        String image = jsonHelper.GetResult("banner_img");
+                                        String a = Constants.IMAGES + image;
+                                        Glide.with(One_winActivity.this).load(a).into(images);
+                                    }
+                                });
+                            }
+                        } else {
+                            One_winActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    images.setVisibility(View.GONE);
+                                }
+                            });
+                        }
+                    }
+
+                }
+            }
+        });
+
+    }
+
 
 
 }

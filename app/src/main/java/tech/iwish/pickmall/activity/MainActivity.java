@@ -716,7 +716,7 @@ public class MainActivity extends AppCompatActivity
                         if (!task.isSuccessful()) {
                             msg = "Fail";
                         }
-                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -835,7 +835,6 @@ public class MainActivity extends AppCompatActivity
 
     private void updateRatingFriendDeal(String ratings) {
 
-        Toast.makeText(this, ""+order_id, Toast.LENGTH_SHORT).show();
 
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");

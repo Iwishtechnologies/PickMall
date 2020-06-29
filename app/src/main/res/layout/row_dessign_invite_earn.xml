@@ -14,7 +14,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:gravity="center"
             android:layout_height="wrap_content">
             <tech.iwish.pickmall.extended.TextViewFont
@@ -27,12 +27,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:gravity="center"
             android:layout_height="wrap_content">
             <tech.iwish.pickmall.extended.TextViewFont
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLength="15"
                 android:textColor="@color/black"
                 android:id="@+id/name"
                 android:text="Rohit"/>
@@ -40,7 +41,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:gravity="center"
             android:layout_height="wrap_content">
             <tech.iwish.pickmall.extended.TextViewFont

@@ -41,22 +41,29 @@
                 android:text="500"
                 android:layout_marginTop="4dp"
                 android:ellipsize="end"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="Congratulation To Winner"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"/>
 
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="To Complete Your Order Proccess Please Give As 5 Start Rateing"
+                android:layout_marginTop="4dp"
+                android:layout_gravity="center"
+                android:ellipsize="end"/>
         </LinearLayout>
 
 
     </LinearLayout>
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLength="1"
-        android:textSize="14sp"
-        android:text=""
-        android:layout_gravity="center"
-        android:layout_marginTop="4dp"
-        android:ellipsize="end"/>
 
 
     <RatingBar

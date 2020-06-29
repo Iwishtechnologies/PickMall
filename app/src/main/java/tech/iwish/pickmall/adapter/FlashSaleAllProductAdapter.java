@@ -49,11 +49,13 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
     private List<ProductList> productListList ;
     private boolean shimmer = true;
     private int shimmernumber = 5;
+    String nextSale;
 
 
-    public FlashSaleAllProductAdapter(FlashSaleProductactivity flashSaleProductactivity, List<ProductList> productListList) {
+    public FlashSaleAllProductAdapter(FlashSaleProductactivity flashSaleProductactivity, List<ProductList> productListList , String nextSale) {
         this.context = flashSaleProductactivity;
         this.productListList = productListList;
+        this.nextSale = nextSale;
     }
 
     @NonNull
@@ -80,6 +82,12 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
             holder.product_name_flash.setBackground(null);
             holder.amount_flash.setBackground(null);
 
+
+            if(!nextSale.isEmpty()){
+                holder.buy_now.setVisibility(View.GONE);
+            }else {
+                holder.buy_now.setVisibility(View.VISIBLE);
+            }
 
             holder.amount_flash.setText(context.getResources().getString(R.string.rs_symbol) + productListList.get(position).getActual_price());
 
@@ -125,7 +133,7 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
     public class Viewholder extends RecyclerView.ViewHolder {
 
         private ShimmerFrameLayout shimmerLayout;
-        private TextView product_name_flash, amount_flash, dicount_price_flash, percent_price;
+        private TextView product_name_flash, amount_flash, dicount_price_flash, percent_price,buy_now;
         private ImageView image_flash_sale;
         private LinearLayout flash_main_layout;
         ProgressBar progressBar;
@@ -141,6 +149,7 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
             image_flash_sale = (ImageView) itemView.findViewById(R.id.image_flash_sale);
             flash_main_layout = (LinearLayout) itemView.findViewById(R.id.flash_main_layout);
             progressBar =  itemView.findViewById(R.id.progress_2);
+            buy_now =  itemView.findViewById(R.id.buy_now);
 
         }
     }

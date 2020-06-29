@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,10 +18,13 @@ import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.extended.TextViewFont;
 import tech.iwish.pickmall.session.Share_session;
 
+import static tech.iwish.pickmall.session.Share_session.USER_NUMBER_CHECK;
+
 public class OfferBannerActivity extends AppCompatActivity {
     TextViewFont time;
     ImageView layout;
     Timer myTimer;
+    private Map data ;
     Share_session share_session;
     int i=3;
 
@@ -45,7 +49,13 @@ public class OfferBannerActivity extends AppCompatActivity {
                         startActivity(new Intent(OfferBannerActivity.this , MainActivity.class));
                     }
                     else {
-                        startActivity(new Intent(OfferBannerActivity.this , Register1Activity.class));
+                        data = share_session.Fetchdata();
+                        if(data.get(USER_NUMBER_CHECK) != null){
+                            startActivity(new Intent(OfferBannerActivity.this , MainActivity.class));
+                        }else {
+                            startActivity(new Intent(OfferBannerActivity.this , Register1Activity.class));
+                        }
+//                        startActivity(new Intent(OfferBannerActivity.this , Register1Activity.class));
                     }
 //                    startActivity(new Intent(OfferBannerActivity.this,Register1Activity.class));
                 }

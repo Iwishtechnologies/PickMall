@@ -103,8 +103,8 @@ public class FilterActivity extends AppCompatActivity implements FiltersInterfac
             case R.id.close:
                 Intent intent2 = new Intent(FilterActivity.this, ProductActivity.class);
                 intent2.putExtra("type", "MainActivity_product");
-                intent2.putExtra("itemId", getIntent().getStringExtra("item_id"));
-                intent2.putExtra("itemName", getIntent().getStringExtra("item_name"));
+                intent2.putExtra("item_id", getIntent().getStringExtra("item_id"));
+                intent2.putExtra("item_name", getIntent().getStringExtra("item_name"));
                 startActivity(intent2);
                 break;
         }

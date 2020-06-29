@@ -152,23 +152,29 @@ public class FriendOneRsFragment extends Fragment implements View.OnClickListene
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
+
+                                if(getActivity() != null){
+
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            rule_image.setVisibility(View.VISIBLE);
+                                            String image = jsonHelper.GetResult("banner_img");
+                                            String a = Constants.IMAGES + image;
+                                            Glide.with(getActivity()).load(a).into(rule_image);
+                                        }
+                                    });
+                                }
+                            }
+                        } else {
+                            if(getActivity() != null){
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        rule_image.setVisibility(View.VISIBLE);
-                                        String image = jsonHelper.GetResult("banner_img");
-                                        String a = Constants.IMAGES + image;
-                                        Glide.with(getActivity()).load(a).into(rule_image);
+                                        rule_image.setVisibility(View.GONE);
                                     }
                                 });
                             }
-                        } else {
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    rule_image.setVisibility(View.GONE);
-                                }
-                            });
                         }
                     }
 
