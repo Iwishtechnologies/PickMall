@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -53,8 +54,13 @@ public class FlashSaleAdapter extends RecyclerView.Adapter<FlashSaleAdapter.View
         SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol)+productListList.get(position).getDiscount_price());
         content.setSpan(new StrikethroughSpan(), 0, content.length(), 0 );
         holder.dicount_price_flash.setText(content);
+        float actual = Float.valueOf(productListList.get(position).getActual_price());
+        float dis = Float.valueOf( productListList.get(position).getDiscount_price());
+        float disco = dis - actual;
+        float fin = disco / dis * 100;
+        int aa = (int) fin;
 
-
+        holder.off.setText(aa+"% off");
         holder.flash_product_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,15 +79,16 @@ public class FlashSaleAdapter extends RecyclerView.Adapter<FlashSaleAdapter.View
 
     public class Viewholder extends RecyclerView.ViewHolder {
         private ImageView image_flash_sale ;
-        private TextView actual_price_flash , dicount_price_flash;
-        private LinearLayout flash_product_linear ;
+        private TextView actual_price_flash , dicount_price_flash,off;
+        private RelativeLayout flash_product_linear ;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             image_flash_sale = (ImageView)itemView.findViewById(R.id.image_flash_sale);
             actual_price_flash = (TextView)itemView.findViewById(R.id.actual_price_flash);
             dicount_price_flash = (TextView)itemView.findViewById(R.id.dicount_price_flash);
-            flash_product_linear = (LinearLayout)itemView.findViewById(R.id.flash_product_linear);
+            off = (TextView)itemView.findViewById(R.id.off);
+            flash_product_linear = (RelativeLayout) itemView.findViewById(R.id.flash_product_linear);
         }
     }
 }

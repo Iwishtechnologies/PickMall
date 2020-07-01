@@ -106,8 +106,10 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
             float disco = dis - actual;
             float fin = disco / dis * 100;
             int aa = (int) fin;
+            holder.off.setText(aa+"% off");
             //=========================================================
             holder.percent_price.setText(productListList.get(position).getDiscount_price_per() +" "+aa+"% OFF");
+            holder.percent_price.setVisibility(View.GONE);
 
 
             holder.flash_main_layout.setOnClickListener(view -> {
@@ -142,7 +144,7 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
     public class Viewholder extends RecyclerView.ViewHolder {
 
         private ShimmerFrameLayout shimmerLayout;
-        private TextView product_name_flash, amount_flash, dicount_price_flash, percent_price,buy_now;
+        private TextView product_name_flash, amount_flash, dicount_price_flash, percent_price,buy_now,off;
         private ImageView image_flash_sale;
         private LinearLayout flash_main_layout;
         ProgressBar progressBar;
@@ -159,6 +161,7 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
             flash_main_layout = (LinearLayout) itemView.findViewById(R.id.flash_main_layout);
             progressBar =  itemView.findViewById(R.id.progress_2);
             buy_now =  itemView.findViewById(R.id.buy_now);
+            off =  itemView.findViewById(R.id.off);
 
         }
     }

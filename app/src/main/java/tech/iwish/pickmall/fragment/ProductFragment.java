@@ -114,6 +114,9 @@ public class ProductFragment extends Fragment {
             case "short":
                 datafetchProduct(Constants.SORTBYREVIEW, arguments.getString("item"));
                 break;
+            case "silder_load":
+                datafetchProduct(Constants.SILDER_OPEN, arguments.getString("item"));
+                break;
         }
 
         return view;
@@ -215,6 +218,8 @@ public class ProductFragment extends Fragment {
 
     private void datafetchProduct(String Api, String item_id) {
 
+        Log.e("item_id",item_id);
+        Log.e("item_id",item_id);
 
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -277,7 +282,7 @@ public class ProductFragment extends Fragment {
                                         ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id);
                                         product_recycleview.setAdapter(productAdapter);
 //                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
-                                        productAdapter.notifyDataSetChanged();
+//                                        productAdapter.notifyDataSetChanged();
 
                                     }
                                 });

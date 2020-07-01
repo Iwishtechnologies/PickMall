@@ -3,11 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     tools:context=".fragment.Categoryfragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categoryrecycleview"
         android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:textAlignment="center"
         android:layout_height="match_parent"/>
 
 </LinearLayout>

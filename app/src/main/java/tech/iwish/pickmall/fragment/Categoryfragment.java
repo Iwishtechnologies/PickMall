@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -41,6 +42,8 @@ import tech.iwish.pickmall.other.CategoryList;
 import tech.iwish.pickmall.other.GridSpacingItemDecoration;
 import tech.iwish.pickmall.other.ItemList;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 
 public class Categoryfragment extends Fragment {
 
@@ -54,8 +57,10 @@ public class Categoryfragment extends Fragment {
 
         categoryrecycleview = (RecyclerView) view.findViewById(R.id.categoryrecycleview);
 
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-        categoryrecycleview.setLayoutManager(staggeredGridLayoutManager);
+//        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+//        categoryrecycleview.setLayoutManager(staggeredGridLayoutManager);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),3);
+        categoryrecycleview.setLayoutManager(gridLayoutManager);
 
         String value = getArguments().getString("value");
 
@@ -106,7 +111,7 @@ public class Categoryfragment extends Fragment {
                                     public void run() {
                                         CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(), categoryLists);
                                         categoryrecycleview.setAdapter(categoryAdapter);
-                                        categoryrecycleview.addItemDecoration(new GridSpacingItemDecoration(50));
+//                                        categoryrecycleview.addItemDecoration(new GridSpacingItemDecoration(50));
 //                                    categoryrecycleview.addItemDecoration();
                                     }
                                 });

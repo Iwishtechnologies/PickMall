@@ -37,12 +37,26 @@
 <!--                        android:src="@drawable/red_circule"-->
 <!--                        android:translationY="-330dp" />-->
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:id="@+id/flag"
+                        android:gravity="center"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="5dp"
+                            android:src="@drawable/indian_flag_icon"/>
+
+
                     <RelativeLayout
                         android:id="@+id/search_bar_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="1dp"
                         android:gravity="center"
+                        android:layout_marginLeft="-15dp"
                         android:orientation="vertical"
                         android:padding="10dp"
                         android:weightSum="2">
@@ -69,11 +83,13 @@
                             android:src="@drawable/serach_icon" />
                     </RelativeLayout>
 
+                    </LinearLayout>
+
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/viewPages"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
-                        android:layout_below="@id/search_bar_layout"
+                        android:layout_below="@id/flag"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
                         android:background="@drawable/silder_desing" />
@@ -87,24 +103,21 @@
                         android:gravity="center"
                         android:orientation="vertical"
                         android:paddingBottom="10dp">
-<!--                        <ImageView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:src="@drawable/free_shipping"-->
-<!--                            android:layout_marginTop="-5dp"-->
-<!--                            android:layout_height="wrap_content"/>-->
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:gravity="center"
-                            android:background="@color/light_brown_color"
-                            android:layout_height="40dp">
-                            <tech.iwish.pickmall.extended.TextViewFont
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:fonttype="text_semi_bold"
-                                android:textColor="@color/white"
-                                android:text="Free Shipping For Everything"/>
-                        </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:background="@color/light_brown_color"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:layout_height="wrap_content">
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:textColor="@color/white"
+                            android:text="Free Shipping For Everything"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/itemCateroryrecycle"
                             android:layout_marginTop="5dp"
@@ -218,6 +231,8 @@
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/flash_sale_main_recycle"
                                 android:layout_width="match_parent"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="5dp" />
 

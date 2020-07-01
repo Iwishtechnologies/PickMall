@@ -63,7 +63,7 @@
                 android:textSize="18dp"
                 android:textColor="@color/white"
                 app:fonttype="text_semi_bold"
-                android:text="we send OTP code to varify"/>
+                android:text="Enter OTP to Place Your Order"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

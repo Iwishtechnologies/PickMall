@@ -16,13 +16,39 @@
         android:background="@drawable/product_round_design"
         android:orientation="vertical"
         android:weightSum="2">
-
-        <ImageView
-            android:id="@+id/product_img"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:scaleType="fitXY"
-            android:layout_margin="10dp" />
+            android:layout_margin="10dp"
+            android:layout_height="150dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:elevation="1dp"
+                android:id="@+id/offer"
+                android:visibility="gone"
+                android:background="@drawable/add_to_card_button_design">
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:id="@+id/off"
+                    android:text="50% off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/whiteColor"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/product_img"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:scaleType="fitXY"
+                android:layout_margin="10dp" />
+        </RelativeLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"

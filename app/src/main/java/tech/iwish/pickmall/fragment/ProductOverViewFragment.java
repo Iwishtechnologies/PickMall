@@ -119,7 +119,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         Map data = share_session.Fetchdata();
         if (data.get(PINCODR_SERVICE_CHECK) != null) {
             checker_pincode.setText(data.get(PINCODR_SERVICE_CHECK).toString());
-            checker_pincode.setTextColor(getResources().getColor(R.color.black));
+            checker_pincode.setTextColor(getResources().getColor(R.color.white));
         }
 
 
@@ -360,7 +360,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         Map data = share_session.Fetchdata();
         if (data.get(PINCODR_SERVICE_CHECK) != null) {
             checker_pincode.setText(data.get(PINCODR_SERVICE_CHECK).toString());
-            checker_pincode.setTextColor(getResources().getColor(R.color.black));
+            checker_pincode.setTextColor(getResources().getColor(R.color.white));
         }
     }
 

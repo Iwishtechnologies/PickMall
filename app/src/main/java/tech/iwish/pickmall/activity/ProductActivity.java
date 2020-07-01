@@ -77,6 +77,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 image("30");
                 productloadfradment("30", getIntent().getStringExtra("itemName"), "prepaid");
                 break;
+            case "silder_load":
+                productloadfradment(getIntent().getStringExtra("item_id"), getIntent().getStringExtra("itemName"), "silder_load");
+                break;
 
         }
 

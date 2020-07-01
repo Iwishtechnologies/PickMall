@@ -6,16 +6,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Timer;
 
 import okhttp3.Call;
 import okhttp3.MediaType;
@@ -36,6 +39,9 @@ public class SuccessfullyActivity extends AppCompatActivity {
     private SQLiteDatabase sqLiteDatabase;
     private MyhelperSql myhelperSql;
     private Button failed;
+    Timer myTimer;
+    TextView time;
+    public int counter=10;
 
 
     @Override
@@ -43,10 +49,11 @@ public class SuccessfullyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
            setContentView(R.layout.activity_successfully);
            successButton = (ImageView)findViewById(R.id.successButton);
+           time = findViewById(R.id.time);
 
            myhelperSql = new MyhelperSql(this);
            sqLiteDatabase = myhelperSql.getWritableDatabase();
-
+            Timer();
            sqLiteDatabase.execSQL("delete from "+ "PRODUCT_CARD");
 
            successButton.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +78,18 @@ public class SuccessfullyActivity extends AppCompatActivity {
         startActivity(new Intent(SuccessfullyActivity.this,MainActivity.class));
     }
 
-
+    private void Timer(){
+        new CountDownTimer(10000, 1000){
+            public void onTick(long millisUntilFinished){
+                time.setText("Automatically finish  00:"+String.valueOf(counter));
+                counter--;
+            }
+            public  void onFinish(){
+                time.setVisibility(View.GONE);
+                startActivity(new Intent(SuccessfullyActivity.this , MainActivity.class));
+            }
+        }.start();
+    }
 
 
 

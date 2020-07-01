@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,23 +17,41 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.List;
 
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.ProductDetailsActivity;
+import tech.iwish.pickmall.activity.WishListActivity;
 import tech.iwish.pickmall.config.Constants;
+import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.other.CardCount;
 import tech.iwish.pickmall.other.ProductList;
+import tech.iwish.pickmall.other.WishlistList;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewholder> {
 
     private List<ProductList> productLists;
     private Context context;
-    int aaa;
+    int aaa,extradiscount=0;
     private String prepaid;
 
     public ProductAdapter(Context productActivity, List<ProductList> productListList, String prepaid) {
@@ -120,13 +139,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
             SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getDiscount_price());
             content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
             holder.discount_price.setText(content);
-
             float dicountsAmt = Float.parseFloat(productLists.get(position).getActual_price());
             float mrp = Float.parseFloat(productLists.get(position).getDiscount_price());
 
             float sub = mrp - dicountsAmt;
             float div = sub / mrp;
             aaa = (int) (div * 100);
+            Log.e("prepaid",prepaid);
+            if(prepaid.equals("prepaid")){
+                holder.offer.setVisibility(View.VISIBLE);
+                holder.off.setText(aaa+"% off");
+                holder.per_dicount.setVisibility(View.GONE);
+            }
 
             holder.per_dicount.setText(" " + String.valueOf(aaa) + "% OFF");
             holder.product_rationg.setRating(Float.parseFloat(productLists.get(position).getFakeRating()));
@@ -139,6 +163,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
 
             String a = Constants.IMAGES + productLists.get(position).getPimg();
             Glide.with(context).load(a).into(holder.product_img);
+
+//            Checkoffer(productLists.get(position).getProduct_id(),holder);
 
             holder.product_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -174,6 +200,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
         private LinearLayout product_layout, mainproduct;
         private TextView amount, discount_price, product_name, per_dicount;
         private RatingBar product_rationg;
+        LinearLayout offer;
+        TextView off;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -185,11 +213,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
             discount_price = (TextView) itemView.findViewById(R.id.discount_price);
             product_name = (TextView) itemView.findViewById(R.id.product_name);
             per_dicount = (TextView) itemView.findViewById(R.id.per_dicount);
+            off = (TextView) itemView.findViewById(R.id.off);
+            offer = itemView.findViewById(R.id.offer);
             product_rationg = (RatingBar) itemView.findViewById(R.id.product_rationg);
         }
     }
-
-
 }
 
 
