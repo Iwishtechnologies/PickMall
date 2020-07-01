@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,6 +46,7 @@ public class Searchactivity extends AppCompatActivity implements TextWatcher {
     private RecyclerView searchRecyclreview;
     private EditText searchEditText;
     private List<SearchList> searchListList = new ArrayList<>();
+    private LinearLayout back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class Searchactivity extends AppCompatActivity implements TextWatcher {
         searchToolbar = findViewById(R.id.searchToolbar);
         searchRecyclreview = (RecyclerView) findViewById(R.id.searchRecyclreview);
         searchEditText = (EditText)findViewById(R.id.searchEditText);
+        back = findViewById(R.id.back);
 
         setSupportActionBar(searchToolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -64,6 +67,13 @@ public class Searchactivity extends AppCompatActivity implements TextWatcher {
         searchRecyclreview.setLayoutManager(linearLayoutManager);
 
         searchEditText.addTextChangedListener(this);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

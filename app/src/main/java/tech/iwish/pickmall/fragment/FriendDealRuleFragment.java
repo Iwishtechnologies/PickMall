@@ -78,17 +78,18 @@ public class FriendDealRuleFragment extends Fragment {
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                ruleListList.add(new RuleList(jsonHelper.GetResult("sno"),jsonHelper.GetResult("title"),jsonHelper.GetResult("subtitle"),jsonHelper.GetResult("icon")));
+                                ruleListList.add(new RuleList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("title"), jsonHelper.GetResult("subtitle"), jsonHelper.GetResult("icon")));
                             }
 
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    FriendRuleAdapter friendRuleAdapter = new FriendRuleAdapter(getActivity() , ruleListList);
-                                    friend_deal_rule_play_recycleview.setAdapter(friendRuleAdapter);
-                                }
-                            });
-
+                            if (getActivity() != null) {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        FriendRuleAdapter friendRuleAdapter = new FriendRuleAdapter(getActivity(), ruleListList);
+                                        friend_deal_rule_play_recycleview.setAdapter(friendRuleAdapter);
+                                    }
+                                });
+                            }
                         }
                     }
                 }

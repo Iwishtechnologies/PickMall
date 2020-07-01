@@ -107,6 +107,8 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         number_address = (TextView) findViewById(R.id.number_address);
         change_address = (TextView) findViewById(R.id.change_address);
         amount_set = (TextView) findViewById(R.id.amount_set);
+        cart_product_name = (TextView) findViewById(R.id.cart_product_name);
+        cart_product_size = (TextView) findViewById(R.id.cart_product_size);
 
         card_product_recycleview = (RecyclerView) findViewById(R.id.card_product_recycleview);
 
@@ -158,13 +160,19 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 amount_set.setText(getResources().getString(R.string.rs_symbol) + finalAmount);
                 item_type = "";
                 coupon_layout.setVisibility(View.VISIBLE);
+                cart_product_size.setVisibility(View.VISIBLE);
+                cart_product_name.setMaxLines(1);
                 break;
             case "friendDeal_one_rs":
                 friendDeal_one_rs();
                 coupon_layout.setVisibility(View.GONE);
+                cart_product_size.setVisibility(View.GONE);
+                cart_product_name.setMaxLines(2);
                 break;
             case "buy_now":
                 coupon_layout.setVisibility(View.VISIBLE);
+                cart_product_size.setVisibility(View.VISIBLE);
+                cart_product_name.setMaxLines(1);
                 buy_now();
                 break;
         }
@@ -186,8 +194,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
 
         buy_now_product.setVisibility(View.VISIBLE);
 
-        cart_product_name = (TextView) findViewById(R.id.cart_product_name);
-        cart_product_size = (TextView) findViewById(R.id.cart_product_size);
+
         cart_product_act_amount = (TextView) findViewById(R.id.cart_product_act_amount);
         dicount_price = (TextView) findViewById(R.id.dicount_price);
         card_product_image = (ImageView) findViewById(R.id.card_product_image);
@@ -216,14 +223,6 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
             item_type = "";
         }
 
-
-//        if(!getIntent().getStringExtra("type").equals("friendDeal_one_rs")){
-//            coupon_layout.setVisibility(View.VISIBLE);
-//            CoupanBottom coupanBottom = new CoupanBottom(finalAmount,this);
-//            coupanBottom.show(getSupportFragmentManager(), coupanBottom.getTag());
-//        }else {
-//            coupon_layout.setVisibility(View.GONE);
-//        }
 
 
         if (!type.equals("friendDeal_one_rs")) {

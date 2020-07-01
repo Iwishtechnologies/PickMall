@@ -67,6 +67,7 @@ import tech.iwish.pickmall.sqlconnection.MyhelperSql;
 
 import static tech.iwish.pickmall.session.Share_session.HOUSE_NO_ADDRESS;
 import static tech.iwish.pickmall.session.Share_session.LOGIN_CHECk;
+import static tech.iwish.pickmall.session.Share_session.NAME_ADDRESS;
 import static tech.iwish.pickmall.session.Share_session.NUMBER_ADDRESS;
 import static tech.iwish.pickmall.session.Share_session.PINCODE_ADDRESS;
 import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
@@ -570,7 +571,32 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 }
                 break;
             case R.id.friend_deal_image:
-                frienddeaalmethod();
+
+                if (data.get(USERMOBILE) != null) {
+                    if (data.get(NAME_ADDRESS) != null && data.get(HOUSE_NO_ADDRESS) != null) {
+                        frienddeaalmethod();
+                    }else {
+                        Intent intent1 = new Intent(ProductDetailsActivity.this, AddressActivity.class);
+                        intent1.putExtra("product_id", product_id);
+                        intent1.putExtra("product_name", product_name);
+                        intent1.putExtra("select_size", select_size);
+                        intent1.putExtra("actual_price", actual_price);
+                        intent1.putExtra("discount_price", discount_price);
+                        intent1.putExtra("imagename", product_Image);
+                        intent1.putExtra("product_qty", quty_value.getText().toString().toString());
+                        intent1.putExtra("select_color", product_colorbtn.getText().toString());
+                        intent1.putExtra("product_type", product_type);
+                        intent1.putExtra("item_type", item_type);
+                        intent1.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
+                        intent1.putExtra("type", "friendDeal_one_rs");
+                        intent1.putExtra("gst", gst);
+                        startActivity(intent1);
+                    }
+                }else {
+                    Intent intent2 = new Intent(ProductDetailsActivity.this, Register1Activity.class);
+                    startActivity(intent2);
+                }
+
                 break;
         }
     }
@@ -602,7 +628,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             intent.putExtra("actual_price", actual_price);
             intent.putExtra("discount_price", discount_price);
             intent.putExtra("imagename", product_Image);
-            intent.putExtra("product_qty", quty_value.getText().toString());
+            intent.putExtra("product_qty", quty_value.getText().toString().toString());
             intent.putExtra("select_color", product_colorbtn.getText().toString());
             intent.putExtra("product_type", product_type);
             intent.putExtra("item_type", item_type);

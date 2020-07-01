@@ -227,9 +227,6 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
                     data = shareSession.Fetchdata();
 
                     if (data.get(USERMOBILE) != null) {
-
-
-
                         if (data.get(NAME_ADDRESS) != null && data.get(HOUSE_NO_ADDRESS) != null) {
 
                             Intent intent = new Intent(getContext(), SaveAddressActivity.class);

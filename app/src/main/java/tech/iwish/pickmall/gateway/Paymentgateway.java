@@ -139,7 +139,6 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
             jsonObject.put("product_amount", getIntent().getStringExtra("finalamountsInt"));
             jsonObject.put("shippingCharge", "");
             jsonObject.put("gst", "");
-            Log.e( "a:","" );
             jsonObject.put("item_type", getIntent().getStringExtra("item_type"));
             jsonObject.put("payment_option", paymentmethod);
 
@@ -165,12 +164,17 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
 
+                            String refer_code = jsonHelper.GetResult("data");
+
+
                             Intent intent = new Intent(Paymentgateway.this, OneRsShareActivity.class);
                             intent.putExtra("item_type",getIntent().getStringExtra("item_type"));
                             intent.putExtra("product_id",getIntent().getStringExtra("product_id"));
-                            intent.putExtra("product_id",getIntent().getStringExtra("product_id"));
                             intent.putExtra("product_name",getIntent().getStringExtra("product_name"));
                             intent.putExtra("product_type",getIntent().getStringExtra("product_type"));
+                            intent.putExtra("product_image",getIntent().getStringExtra("imagename"));
+                            intent.putExtra("new_user_request","0");
+                            intent.putExtra("refer_code",refer_code);
                             startActivity(intent);
 
                         }

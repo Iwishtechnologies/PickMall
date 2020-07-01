@@ -470,6 +470,10 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
     private void Online_payment() {
 
+
+
+
+
         Intent intent;
         intent = new Intent(PaymentOptionActivity.this, Paymentgateway.class);
         String f = String.valueOf(grandTotal);
@@ -505,10 +509,25 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
                 intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
                 intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
+                intent.putExtra("imagename", imagename);
                 intent.putExtra("item_type", item_type);
                 break;
         }
         startActivity(intent);
+
+
+
+        //        product_name = intent.getStringExtra("product_name");
+//        select_size = intent.getStringExtra("select_size");
+//        product_amt = intent.getStringExtra("actual_price");
+//        discount_price = intent.getStringExtra("discount_price");
+//        imagename = intent.getStringExtra("imagename");
+//        product_qty = intent.getStringExtra("product_qty");
+//        product_id = intent.getStringExtra("product_id");
+//        select_color = intent.getStringExtra("select_color");
+//        product_type = intent.getStringExtra("product_type");
+//        productgst = intent.getStringExtra("gst");
+//        item_type = intent.getStringExtra("item_type");
     }
 
     private void coddelivery() {

@@ -51,7 +51,7 @@ public class ProductDetailsImageAdapter extends PagerAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, ""+productDetailsListImageList.get(position).getImage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, ""+productDetailsListImageList.get(position).getImage(), Toast.LENGTH_SHORT).show();
             }
         });
 
