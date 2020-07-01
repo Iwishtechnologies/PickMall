@@ -40,6 +40,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView back, image_item;
     private LinearLayout search_product, item_image_layout;
     private TextView itme_name, filter, shorts, best_sellers, pricefilter;
+    String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         pricefilter = (TextView) findViewById(R.id.pricefilter);
 
         Intent intent = getIntent();
-        String type = intent.getStringExtra("type");
+         type = intent.getStringExtra("type");
 
         switch (type) {
             case "MainActivity_product":
@@ -183,11 +184,25 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 onBackPressed();
                 break;
             case R.id.shorts:
-                productloadfradment(getIntent().getStringExtra("item_id"), getIntent().getStringExtra("item_name"), "short");
+              if(type.equals("prepaid")){
+                  Log.e("prepaid", getIntent().getStringExtra("itemName"));
+                  productloadfradment("30", getIntent().getStringExtra("itemName"), "short");
+              }
+              else {
+                  productloadfradment(getIntent().getStringExtra("item_id"), getIntent().getStringExtra("item_name"), "short");
+              }
+
                 break;
             case R.id.best_sellers:
             case R.id.pricefilter:
-                productloadfradment(getIntent().getStringExtra("item_id"), getIntent().getStringExtra("item_name"), "Price");
+                if(type.equals("prepaid")){
+//                    Log.e("prepaid", getIntent().getStringExtra("itemName"));
+                    productloadfradment("30", getIntent().getStringExtra("itemName"), "Price");
+                }
+                else {
+                    productloadfradment(getIntent().getStringExtra("item_id"), getIntent().getStringExtra("item_name"), "Price");
+                }
+
                 break;
             case R.id.filter:
                 Intent intent = new Intent(ProductActivity.this, FilterActivity.class);

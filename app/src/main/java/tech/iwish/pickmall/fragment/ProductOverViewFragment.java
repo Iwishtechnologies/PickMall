@@ -406,21 +406,25 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                                 int finalI = i;
 //
                                     TextView textViewFont= new TextView(getActivity());
-                                    LinearLayout.LayoutParams textparam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
+                                    LinearLayout.LayoutParams textparam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
                                     textViewFont.setLayoutParams(textparam);
+                                    textViewFont.setBackground(getResources().getDrawable(R.drawable.textview_border));
+                                    textViewFont.setPadding(5,5,5,5);
                                     textViewFont.setId(finalI+50);
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                         textViewFont.setTextAppearance(android.R.style.TextAppearance_Holo_Large);
                                     }
-                                Log.e(String.valueOf(finalI),jsonHelper.GetResult("title"));
+                                    Log.e(String.valueOf(finalI),jsonHelper.GetResult("title"));
                                     textViewFont.setText(jsonHelper.GetResult("title"));
                                     textViewFont.setTextColor(getResources().getColor(R.color.white));
                                     textViewFont.setTextSize(14);
                                     TextView textViewFont1= new TextView(getActivity());
-                                    LinearLayout.LayoutParams textparam1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
+                                    LinearLayout.LayoutParams textparam1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
                                    textparam1.setMargins(0,0,0,10);
                                     textViewFont1.setLayoutParams(textparam1);
                                     textViewFont1.setId(finalI);
+                                    textViewFont1.setBackground(getResources().getDrawable(R.drawable.textview_border));
+                                    textViewFont.setPadding(5,5,5,5);
                                     Log.e(String.valueOf(finalI),jsonHelper.GetResult("overview"));
                                     textViewFont1.setTextColor(getResources().getColor(R.color.white));
                                     textViewFont1.setText(jsonHelper.GetResult("overview"));

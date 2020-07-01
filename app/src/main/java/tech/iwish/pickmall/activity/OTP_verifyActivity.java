@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -50,6 +51,7 @@ public class OTP_verifyActivity extends AppCompatActivity {
     private Share_session shareSession;
     private Map data;
     ProgressBar progress;
+    LinearLayout mainview;
     String shippingchargebuy_now, finalamountsInt, product_id, product_type, select_size, product_qty, item_type, type , coupon;
 
     @Override
@@ -60,6 +62,7 @@ public class OTP_verifyActivity extends AppCompatActivity {
         otp = findViewById(R.id.otp);
         next = findViewById(R.id.next);
         progress = findViewById(R.id.progress);
+        mainview = findViewById(R.id.mainview);
 
         shareSession = new Share_session(this);
         data = shareSession.Fetchdata();
@@ -81,6 +84,8 @@ public class OTP_verifyActivity extends AppCompatActivity {
                     Toast.makeText(OTP_verifyActivity.this, "", Toast.LENGTH_SHORT).show();
                 } else {
                     progress.setVisibility(View.VISIBLE);
+                    next.setVisibility(View.GONE);
+                    mainview.setAlpha((float) 0.2);
                     otpCheck();
                 }
             }
@@ -141,6 +146,9 @@ public class OTP_verifyActivity extends AppCompatActivity {
                             OTP_verifyActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    next.setVisibility(View.VISIBLE);
+                                    mainview.setAlpha(1);
+                                    progress.setVisibility(View.GONE);
                                     Toast.makeText(OTP_verifyActivity.this, "Otp not match", Toast.LENGTH_SHORT).show();
                                 }
                             });

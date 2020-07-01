@@ -109,10 +109,22 @@ public class ProductFragment extends Fragment {
                 datafetchProduct(Constants.PREPAID_PRODUCT, "prepaid");
                 break;
             case "Price":
-                datafetchProduct(Constants.SORTBYPRICE, arguments.getString("item"));
+                if(arguments.getString("item").equals("30")){
+                    datafetchProduct(Constants.PREPAIDPRICESHORT, "prepaid");
+                }
+                else {
+                    datafetchProduct(Constants.SORTBYPRICE, arguments.getString("item"));
+                }
+
                 break;
             case "short":
-                datafetchProduct(Constants.SORTBYREVIEW, arguments.getString("item"));
+                if(arguments.getString("item").equals("30")){
+                    datafetchProduct(Constants.PREPAIDSHORT,"prepaid");
+                }
+                else {
+                    datafetchProduct(Constants.SORTBYREVIEW, arguments.getString("item"));
+                }
+
                 break;
             case "silder_load":
                 datafetchProduct(Constants.SILDER_OPEN, arguments.getString("item"));
@@ -218,8 +230,8 @@ public class ProductFragment extends Fragment {
 
     private void datafetchProduct(String Api, String item_id) {
 
-        Log.e("item_id",item_id);
-        Log.e("item_id",item_id);
+//        Log.e("item_id",item_id);
+//        Log.e("item_id",item_id);
 
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
