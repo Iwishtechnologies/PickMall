@@ -309,11 +309,13 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
 //            price_details_layout.setVisibility(View.VISIBLE);
             address_layout.setVisibility(View.VISIBLE);
             cardImage.setVisibility(View.GONE);
+            empty_layout.setVisibility(View.GONE);
         } else {
             product_count_card_layout.setVisibility(View.GONE);
             price_details_layout.setVisibility(View.GONE);
             address_layout.setVisibility(View.GONE);
             cardImage.setVisibility(View.VISIBLE);
+            empty_layout.setVisibility(View.VISIBLE);
         }
 //        edit_amount.setText(getResources().getString(R.string.rs_symbol) + check);
 //        Toast.makeText(this, "remove item refresh", Toast.LENGTH_SHORT).show();

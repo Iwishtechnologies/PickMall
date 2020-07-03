@@ -33,10 +33,12 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.adapter.AllOfferProductAdapter;
 import tech.iwish.pickmall.adapter.ProductAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.other.ProductList;
+import tech.iwish.pickmall.other.ProductOfferlist;
 import tech.iwish.pickmall.session.Share_session;
 
 import static tech.iwish.pickmall.session.Share_session.FILTER_LIST;
@@ -47,6 +49,7 @@ public class ProductFragment extends Fragment {
 
     private RecyclerView product_recycleview;
     private List<ProductList> productListList = new ArrayList<>();
+    private List<ProductOfferlist> productOfferlists = new ArrayList<>();
     private String item, type;
     public static String PRODUCT_PERAMETER;
     private Share_session shareSession;
@@ -268,48 +271,84 @@ public class ProductFragment extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
 
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                productListList.add(new ProductList(jsonHelper.GetResult("product_id"),
-                                        jsonHelper.GetResult("ProductName"),
-                                        jsonHelper.GetResult("SKU"),
-                                        jsonHelper.GetResult("item_id"),
-                                        jsonHelper.GetResult("catagory_id"),
-                                        jsonHelper.GetResult("actual_price"),
-                                        jsonHelper.GetResult("discount_price"),
-                                        jsonHelper.GetResult("discount_price_per"),
-                                        jsonHelper.GetResult("status"),
-                                        jsonHelper.GetResult("pimg"),
-                                        jsonHelper.GetResult("vendor_id"),
-                                        jsonHelper.GetResult("FakeRating"),
-                                        jsonHelper.GetResult("gst"),
-                                        jsonHelper.GetResult("hot_product"),
-                                        jsonHelper.GetResult("hsn_no"),
-                                        jsonHelper.GetResult("weight"),
-                                        jsonHelper.GetResult("type"),
-                                        jsonHelper.GetResult("flash_sale"),
-                                        jsonHelper.GetResult("extraoffer"),
-                                        jsonHelper.GetResult("startdate"),
-                                        jsonHelper.GetResult("enddate")
-                                ));
+                                if(Api.equals(Constants.ALL_PRODUCT) || Api.equals(Constants.SIMILAER_PRODUCT) ){
+                                    productOfferlists.add(new ProductOfferlist(jsonHelper.GetResult("product_id"),
+                                            jsonHelper.GetResult("ProductName"),
+                                            jsonHelper.GetResult("SKU"),
+                                            jsonHelper.GetResult("item_id"),
+                                            jsonHelper.GetResult("catagory_id"),
+                                            jsonHelper.GetResult("actual_price"),
+                                            jsonHelper.GetResult("discount_price"),
+                                            jsonHelper.GetResult("discount_price_per"),
+                                            jsonHelper.GetResult("status"),
+                                            jsonHelper.GetResult("pimg"),
+                                            jsonHelper.GetResult("vendor_id"),
+                                            jsonHelper.GetResult("FakeRating"),
+                                            jsonHelper.GetResult("gst"),
+                                            jsonHelper.GetResult("hot_product"),
+                                            jsonHelper.GetResult("hsn_no"),
+                                            jsonHelper.GetResult("weight"),
+                                            jsonHelper.GetResult("type"),
+                                            jsonHelper.GetResult("flash_sale"),
+                                            jsonHelper.GetResult("discount")
 
-                            }
+                                    ));
 
-                            if (getActivity() != null) {
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id);
-                                        product_recycleview.setAdapter(productAdapter);
+                                    if (getActivity() != null) {
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                AllOfferProductAdapter allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), productOfferlists, item_id);
+                                                product_recycleview.setAdapter(allOfferProductAdapter);
 //                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
 //                                        productAdapter.notifyDataSetChanged();
 
+                                            }
+                                        });
                                     }
-                                });
-                            }
+                                }
+                                else {
+                                    productListList.add(new ProductList(jsonHelper.GetResult("product_id"),
+                                            jsonHelper.GetResult("ProductName"),
+                                            jsonHelper.GetResult("SKU"),
+                                            jsonHelper.GetResult("item_id"),
+                                            jsonHelper.GetResult("catagory_id"),
+                                            jsonHelper.GetResult("actual_price"),
+                                            jsonHelper.GetResult("discount_price"),
+                                            jsonHelper.GetResult("discount_price_per"),
+                                            jsonHelper.GetResult("status"),
+                                            jsonHelper.GetResult("pimg"),
+                                            jsonHelper.GetResult("vendor_id"),
+                                            jsonHelper.GetResult("FakeRating"),
+                                            jsonHelper.GetResult("gst"),
+                                            jsonHelper.GetResult("hot_product"),
+                                            jsonHelper.GetResult("hsn_no"),
+                                            jsonHelper.GetResult("weight"),
+                                            jsonHelper.GetResult("type"),
+                                            jsonHelper.GetResult("flash_sale"),
+                                            jsonHelper.GetResult("extraoffer"),
+                                            jsonHelper.GetResult("startdate"),
+                                            jsonHelper.GetResult("enddate")
+                                    ));
 
+
+                                    if (getActivity() != null) {
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id);
+                                                product_recycleview.setAdapter(productAdapter);
+//                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
+//                                        productAdapter.notifyDataSetChanged();
+
+                                            }
+                                        });
+                                    }
+                                }
                         }
                     }
                 }
-            }
+            }}
         });
     }
 

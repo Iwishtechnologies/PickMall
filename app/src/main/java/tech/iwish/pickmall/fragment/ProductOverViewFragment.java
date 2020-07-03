@@ -68,7 +68,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
     private List<ProductDescriptionlist> productDescriptionlists = new ArrayList<>();
     private String product_id, vendor_id;
     private TextView select_pincode, checker_pincode;
-    private TableLayout tableLayout;
+    private TableLayout tableLayout,tableLayout1;
     ImageView fulldetails;
     private LinearLayout return_policy , venodr_layout,viewlayout;
 
@@ -87,6 +87,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         viewlayout=view.findViewById(R.id.viewlayout);
 
         tableLayout = (TableLayout) view.findViewById(R.id.tableLayout);
+        tableLayout1 = (TableLayout) view.findViewById(R.id.tableLayout1);
         fulldetails =  view.findViewById(R.id.fulldetails);
 
         select_pincode.setOnClickListener(this);
@@ -286,10 +287,11 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
 
                                         TableRow tr = new TableRow(getContext());
                                         tr.setWeightSum(2);
+                                        tr.setPadding(10,10,10,10);
                                         tr.getResources().getDrawable(R.color.silderColor);
 
                                         TextView c1 = new TextView(getContext());
-                                        TableRow.LayoutParams params1 = new TableRow.LayoutParams(400, TableRow.LayoutParams.WRAP_CONTENT, 0.4f);
+                                        TableRow.LayoutParams params1 = new TableRow.LayoutParams(150, TableRow.LayoutParams.WRAP_CONTENT, 1f);
                                         params1.setMargins(0,0,5,0);
                                         c1.setLayoutParams(params1);
                                         c1.setText(productDescriptionlists.get(finalI).getDescription_title()+" ");
@@ -299,7 +301,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                                         c1.setTextColor(getResources().getColor(R.color.white));
 
                                         TextView c2 = new TextView(getContext());
-                                        TableRow.LayoutParams params = new TableRow.LayoutParams( TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1.3f);
+                                        TableRow.LayoutParams params = new TableRow.LayoutParams(150, TableRow.LayoutParams.WRAP_CONTENT, 1f);
                                          c2.setLayoutParams(params);
                                          c2.setText(productDescriptionlists.get(finalI).getDescription_data());
                                         c2.setPadding(20, 20, 20, 20);
@@ -403,40 +405,62 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                int finalI = i;
-//
-                                    TextView textViewFont= new TextView(getActivity());
-                                    LinearLayout.LayoutParams textparam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
-                                    textViewFont.setLayoutParams(textparam);
-                                    textViewFont.setBackground(getResources().getDrawable(R.drawable.textview_border));
-                                    textViewFont.setPadding(5,5,5,5);
-                                    textViewFont.setId(finalI+50);
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                        textViewFont.setTextAppearance(android.R.style.TextAppearance_Holo_Large);
-                                    }
-                                    Log.e(String.valueOf(finalI),jsonHelper.GetResult("title"));
-                                    textViewFont.setText(jsonHelper.GetResult("title"));
-                                    textViewFont.setTextColor(getResources().getColor(R.color.white));
-                                    textViewFont.setTextSize(14);
-                                    TextView textViewFont1= new TextView(getActivity());
-                                    LinearLayout.LayoutParams textparam1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT,1f);
-                                   textparam1.setMargins(0,0,0,10);
-                                    textViewFont1.setLayoutParams(textparam1);
-                                    textViewFont1.setId(finalI);
-                                    textViewFont1.setBackground(getResources().getDrawable(R.drawable.textview_border));
-                                    textViewFont.setPadding(5,5,5,5);
-                                    Log.e(String.valueOf(finalI),jsonHelper.GetResult("overview"));
-                                    textViewFont1.setTextColor(getResources().getColor(R.color.white));
-                                    textViewFont1.setText(jsonHelper.GetResult("overview"));
-                                    textViewFont1.setTextSize(10);
-
-                                getActivity().runOnUiThread(() ->{    viewlayout.addView(textViewFont);
-                                    viewlayout.addView(textViewFont1);});
-
-                                      }
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                productOverViewLists.add(new ProductOverViewList("1","1", jsonHelper.GetResult("overview"), jsonHelper.GetResult("title")));
+                                tableLayout1.setStretchAllColumns(true);
+//        tableLayout.bringToFront();
 
 
+                                if(getActivity() != null){
 
+                                    final int finalI = i;
+                                    getActivity().runOnUiThread(() -> {
+
+
+//                                            LinearLayout linearLayout = new LinearLayout(getActivity());
+//                                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//                                            layoutParams.setMargins(50, 0, 15, 0);
+//                                            linearLayout.setLayoutParams(layoutParams);
+
+                                        TableRow tr1 = new TableRow(getContext());
+                                        tr1.setWeightSum(2);
+                                        tr1.setPadding(10,10,10,10);
+                                        tr1.getResources().getDrawable(R.color.silderColor);
+
+                                        TextView c3 = new TextView(getContext());
+                                        TableRow.LayoutParams params1 = new TableRow.LayoutParams(150, TableRow.LayoutParams.WRAP_CONTENT, 1f);
+                                        params1.setMargins(0,0,5,0);
+                                        c3.setLayoutParams(params1);
+                                        c3.setText(productOverViewLists.get(finalI).getTitle()+" ");
+                                        c3.setPadding(20, 20, 20, 20);
+                                        c3.setTextSize(14);
+                                        c3.setBackgroundResource(R.drawable.table_border);
+                                        c3.setTextColor(getResources().getColor(R.color.white));
+
+                                        TextView c4 = new TextView(getContext());
+                                        TableRow.LayoutParams params = new TableRow.LayoutParams( 150, TableRow.LayoutParams.WRAP_CONTENT, 1f);
+                                        params.setMargins(0,0,10,0);
+                                        c4.setLayoutParams(params);
+                                        c4.setText(productOverViewLists.get(finalI).getOverview());
+                                        c4.setPadding(20, 20, 20, 20);
+
+                                        c4.setTextSize(14);
+                                        c4.setBackgroundResource(R.drawable.table_border);
+                                        c4.setTextColor(getResources().getColor(R.color.white));
+
+                                        tr1.addView(c3);
+                                        tr1.addView(c4);
+                                        tableLayout1.addView(tr1);
+
+                                    });
+
+                                }
+
+
+//                          \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+                            }
                         }
                     }
                 }

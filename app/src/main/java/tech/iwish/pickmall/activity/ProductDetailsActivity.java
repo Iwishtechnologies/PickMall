@@ -249,10 +249,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 coloAndImageData(Constants.FRIEND_SALE_SIZE_COLOR);
                 sizedatafetch(Constants.FRIEND_SALE_SIZE);
 
-                productChehckFriendeal();
-
                 Log.e("ppp", item_type);
                 if (data.get(USERMOBILE) != null) {
+                    productChehckFriendeal();
                     if (item_type.equals("friend_deal")) {
                         onediscription.setText("Start A Rs 1 Friends Deal Invite");
                         fulldiscription.setText(new_user_request+ " New Users & Get Product In Just Rs 1 Hurry Limited Offer");
