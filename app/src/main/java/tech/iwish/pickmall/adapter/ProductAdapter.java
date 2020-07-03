@@ -28,6 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import okhttp3.Call;
@@ -165,6 +167,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
             Glide.with(context).load(a).into(holder.product_img);
 
 //            Checkoffer(productLists.get(position).getProduct_id(),holder);
+
+
+
 
             holder.product_layout.setOnClickListener(new View.OnClickListener() {
                 @Override

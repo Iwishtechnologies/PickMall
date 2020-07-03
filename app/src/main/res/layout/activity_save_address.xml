@@ -301,6 +301,18 @@
                                                 app:fonttype="text_semi_bold" />
 
                                             <tech.iwish.pickmall.extended.TextViewFont
+                                                android:id="@+id/free_one_win"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginTop="4dp"
+                                                android:layout_marginEnd="3dp"
+                                                android:padding="2dp"
+                                                android:text="Free"
+                                                android:textColor="@color/redColor"
+                                                android:textSize="16sp"
+                                                app:fonttype="text_semi_bold" />
+
+                                            <tech.iwish.pickmall.extended.TextViewFont
                                                 android:id="@+id/dicount_price"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"

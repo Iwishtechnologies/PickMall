@@ -75,14 +75,14 @@ import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 public class ProductDetailsActivity extends AppCompatActivity implements View.OnClickListener, ProductCountInterface {
 
     private TextView ac_priceEdit, dicount_price_Edit, title_name_edit, select_size_color, one_product_name, quty_value,
-            one_rs_amount, one_rs_dicount_price, dicount_price_text, product_count_value, new_user_text, total_user_req, rating, timeset;
+            one_rs_amount, one_rs_dicount_price, dicount_price_text, product_count_value, new_user_text, total_user_req, rating, timeset,free_one_win;
     private List<ProductDetailsImageList> productDetailsListImageList = new ArrayList<>();
     private List<ProductSizeColorList> productSizeColorLists = new ArrayList<>();
     private ViewPager productImageDetailsViewpager;
     private String product_color, product_name, product_Image, sku, actual_price, discount_price, product_id, vendor_id, aaa;
     private RecyclerView color_size_image_recycle_view, size_product_recycleview;
     private RatingBar ratingcheck;
-    private Button add_card_btn, buy_now_btn, one_rs_button_place_order, product_colorbtn, go_to_card, friend_deal_image;
+    private Button add_card_btn, buy_now_btn, one_rs_button_place_order, product_colorbtn, go_to_card, friend_deal_image,share_btn;
     private LinearLayout product_layout, one_rs_main_layout, button_layout, one_rs_bottom_layout, one_rs_rule, store, product_count_layout;
     private ScrollView scrollview;
     private String PRODUCT_TYPE, total_request_user, new_user_request, gst, select_size, product_qty, type, product_type, item_type, prepaid;
@@ -96,6 +96,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     private ProductSizeInterFace productSizeInterFace;
     private LinearLayout qty_layouts, dicount_price_per_mrp_layout, friendDealTimeLayout, onersview;
     TextViewFont onediscription, fulldiscription;
+    String referCode, referCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +121,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         add_button = (ImageView) findViewById(R.id.add_button);
         quty_value = (TextView) findViewById(R.id.quty_value);
         timeset = (TextView) findViewById(R.id.timeset);
+        free_one_win = (TextView) findViewById(R.id.free_one_win);
         size_product_recycleview = (RecyclerView) findViewById(R.id.size_product_recycleview);
 
         productImageDetailsViewpager = (ViewPager) findViewById(R.id.productImageDetailsViewpager);
@@ -132,6 +134,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         product_colorbtn = (Button) findViewById(R.id.product_colorbtn);
         go_to_card = (Button) findViewById(R.id.go_to_card);
         friend_deal_image = (Button) findViewById(R.id.friend_deal_image);
+        share_btn = (Button) findViewById(R.id.share_btn);
 
         product_layout = (LinearLayout) findViewById(R.id.product_layout);
         one_rs_main_layout = (LinearLayout) findViewById(R.id.one_rs_main_layout);
@@ -154,6 +157,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         onersview = findViewById(R.id.onersview);
         onediscription = findViewById(R.id.onediscription);
         fulldiscription = findViewById(R.id.fulldiscription);
+        free_one_win.setVisibility(View.GONE);
 
         scrollview.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
@@ -201,9 +205,11 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 one_rs_bottom_layout.setVisibility(View.GONE);
                 one_rs_rule.setVisibility(View.GONE);
                 friendDealTimeLayout.setVisibility(View.GONE);
+                share_btn.setVisibility(View.GONE);
                 button_layout.setVisibility(View.VISIBLE);
                 qty_layouts.setVisibility(View.VISIBLE);
                 dicount_price_per_mrp_layout.setVisibility(View.VISIBLE);
+
 
                 float mrp = Float.parseFloat(discount_price);
                 float actual_prices = Float.parseFloat(actual_price);
@@ -243,6 +249,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 coloAndImageData(Constants.FRIEND_SALE_SIZE_COLOR);
                 sizedatafetch(Constants.FRIEND_SALE_SIZE);
 
+                productChehckFriendeal();
+
                 Log.e("ppp", item_type);
                 if (data.get(USERMOBILE) != null) {
                     if (item_type.equals("friend_deal")) {
@@ -251,6 +259,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                         new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), ProductDetailsActivity.this, timeset, item_type).Time_12_H();
                         RankingMethod();
                     } else if (item_type.equals("one_win")) {
+//                        api create one win product status false
+                        free_one_win.setVisibility(View.VISIBLE);
                         onediscription.setText("Start a Deal, Invite Maximum Friends, When System Get Complete Downloads.");
                         fulldiscription.setText(" The Person Who Share With More Peoples That Person Will Be Win This Deal");
                         RankingMethod();
@@ -283,6 +293,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         sub_button.setOnClickListener(this);
         go_to_card.setOnClickListener(this);
         friend_deal_image.setOnClickListener(this);
+        share_btn.setOnClickListener(this);
 
         ac_priceEdit.setText(getResources().getString(R.string.rs_symbol) + actual_price);
         title_name_edit.setText(product_name);
@@ -596,7 +607,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                     Intent intent2 = new Intent(ProductDetailsActivity.this, Register1Activity.class);
                     startActivity(intent2);
                 }
-
+                break;
+            case R.id.share_btn:
+                productChehckFriendeals();
                 break;
         }
     }
@@ -892,6 +905,166 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
+
+
+
+
+
+
+    private void productChehckFriendeal() {
+
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("client_number", data.get(USERMOBILE).toString());
+            jsonObject.put("product_id", product_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.FRIENDDEAL_PRODUCT_CHECK).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    final JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+
+                            if (ProductDetailsActivity.this != null) {
+                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        if (jsonHelper.GetResult("message").equals("all_ready")) {
+//                                            WalletAmountUpdate("friendDeal_one_rs_ord");
+                                            share_btn.setVisibility(View.VISIBLE);
+                                            friend_deal_image.setVisibility(View.GONE);
+                                        } else {
+                                            share_btn.setVisibility(View.GONE);
+                                            friend_deal_image.setVisibility(View.VISIBLE);
+                                        }
+                                    }
+                                });
+
+
+                            }
+
+                        }
+                    }
+
+                }
+            }
+        });
+
+
+    }
+    private void productChehckFriendeals() {
+
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("client_number", data.get(USERMOBILE).toString());
+            jsonObject.put("product_id", product_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.FRIENDDEAL_PRODUCT_CHECK).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    final JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+
+                            if (ProductDetailsActivity.this != null) {
+                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        if (jsonHelper.GetResult("message").equals("all_ready")) {
+//                                            WalletAmountUpdate("friendDeal_one_rs_ord");
+                                            share_btn.setVisibility(View.VISIBLE);
+                                            friend_deal_image.setVisibility(View.GONE);
+
+                                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                                            for (int i = 0; i < jsonArray.length(); i++) {
+                                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                                referCode = jsonHelper.GetResult("code");
+                                                referCount = jsonHelper.GetResult("counts");
+                                            }
+                                            Intent intent = new Intent(ProductDetailsActivity.this, OneRsShareActivity.class);
+                                            intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                                            intent.putExtra("product_image", product_Image);
+                                            intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                                            intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
+                                            intent.putExtra("refer_code", referCode);
+                                            intent.putExtra("item_type", item_type);
+                                            intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
+
+                                            startActivity(intent);
+                                        } else {
+                                            share_btn.setVisibility(View.GONE);
+                                            friend_deal_image.setVisibility(View.VISIBLE);
+                                            Intent intent;
+                                            intent = new Intent(ProductDetailsActivity.this, PaymentOptionActivity.class);
+                                            intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                                            intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
+                                            intent.putExtra("actual_price", getIntent().getStringExtra("actual_price"));
+                                            intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                                            intent.putExtra("imagename", product_Image);
+                                            intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
+                                            intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
+                                            intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
+                                            intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
+                                            intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
+                                            intent.putExtra("gst", getIntent().getStringExtra("gst"));
+                                            intent.putExtra("item_type", item_type);
+                                            intent.putExtra("type", "friendDeal_one_rs");
+                                            startActivity(intent);
+                                        }
+
+
+                                    }
+                                });
+
+
+                            }
+
+                        }
+                    }
+
+                }
+            }
+        });
+
+
+    }
+
 
 }
 

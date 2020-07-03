@@ -33,9 +33,11 @@ dependencies {
 
     implementation 'com.android.support:design:29.0.0'
 
+
     implementation 'com.google.firebase:firebase-messaging:20.2.1'
     implementation 'com.google.firebase:firebase-core:17.4.3'
     implementation 'com.android.support:appcompat-v7:29.2.1'
+
 
 
     testImplementation 'junit:junit:4.12'

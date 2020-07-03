@@ -19,8 +19,11 @@ public class ProductList {
     private String weight;
     private String type;
     private String flash_sale;
+    private String extraoffer;
+    private String startdate;
+    private String enddate;
 
-    public ProductList(String product_id, String productName, String SKU, String item_id, String catagory_id, String actual_price, String discount_price, String discount_price_per, String status, String pimg, String vendor_id, String fakeRating, String gst, String hot_product, String hsn_no, String weight, String type, String flash_sale) {
+    public ProductList(String product_id, String productName, String SKU, String item_id, String catagory_id, String actual_price, String discount_price, String discount_price_per, String status, String pimg, String vendor_id, String fakeRating, String gst, String hot_product, String hsn_no, String weight, String type, String flash_sale, String extraoffer, String startdate, String enddate) {
         this.product_id = product_id;
         ProductName = productName;
         this.SKU = SKU;
@@ -39,8 +42,10 @@ public class ProductList {
         this.weight = weight;
         this.type = type;
         this.flash_sale = flash_sale;
+        this.extraoffer = extraoffer;
+        this.startdate = startdate;
+        this.enddate = enddate;
     }
-
 
     public String getProduct_id() {
         return product_id;
@@ -184,5 +189,29 @@ public class ProductList {
 
     public void setFlash_sale(String flash_sale) {
         this.flash_sale = flash_sale;
+    }
+
+    public String getExtraoffer() {
+        return extraoffer;
+    }
+
+    public void setExtraoffer(String extraoffer) {
+        this.extraoffer = extraoffer;
+    }
+
+    public String getStartdate() {
+        return startdate;
+    }
+
+    public void setStartdate(String startdate) {
+        this.startdate = startdate;
+    }
+
+    public String getEnddate() {
+        return enddate;
+    }
+
+    public void setEnddate(String enddate) {
+        this.enddate = enddate;
     }
 }

@@ -511,6 +511,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
                 intent.putExtra("imagename", imagename);
                 intent.putExtra("item_type", item_type);
+                intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
                 break;
         }
         startActivity(intent);

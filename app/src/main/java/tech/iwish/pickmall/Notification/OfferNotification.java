@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -29,6 +31,7 @@ public class OfferNotification extends FirebaseMessagingService {
 
     }
 
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void notification(String title , String body){
 
@@ -39,12 +42,22 @@ public class OfferNotification extends FirebaseMessagingService {
 
 
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"pickmall")
-                .setAutoCancel(true)
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"pickmall")
+//                .setAutoCancel(true)
+//                .setContentTitle(title)
+//                .setContentText(body)
+//                .setSmallIcon(R.drawable.placeholder_icon);
+
+
+        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.placeholder_icon)
                 .setContentTitle(title)
                 .setContentText(body)
-                .setSmallIcon(R.drawable.placeholder_icon);
-
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent)
+                .setChannelId("OFFER");
 
 
         NotificationManagerCompat managerCompat =  NotificationManagerCompat.from(this);
@@ -53,18 +66,23 @@ public class OfferNotification extends FirebaseMessagingService {
 
 
 
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(title)
-                .setContentText(body)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+
 
 
     }
 
+
+//    @Override
+//    public void onTokenRefresh() {
+//        // Get updated InstanceID token.
+//        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+////        Log.d(TAG, "Refreshed token: " + refreshedToken);
+//
+//        // If you want to send messages to this application instance or
+//        // manage this apps subscriptions on the server side, send the
+//        // Instance ID token to your app server.
+//        sendRegistrationToServer(refreshedToken);
+//    }
 
 
 }

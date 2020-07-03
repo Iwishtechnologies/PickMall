@@ -219,7 +219,8 @@
             android:name="com.razorpay.ApiKey"
             android:value="w7J0qpdi0GZP3AEcagGgeojR" />
 
-        <service android:name=".Notification.OfferNotification">
+        <service android:name=".Notification.OfferNotification"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

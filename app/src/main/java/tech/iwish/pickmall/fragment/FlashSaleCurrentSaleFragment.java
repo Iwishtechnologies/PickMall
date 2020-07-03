@@ -111,7 +111,10 @@ public class FlashSaleCurrentSaleFragment extends Fragment implements FlashsaleT
                                         jsonHelper.GetResult("hsn_no"),
                                         jsonHelper.GetResult("weight"),
                                         jsonHelper.GetResult("type"),
-                                        jsonHelper.GetResult("flash_sale")
+                                        jsonHelper.GetResult("flash_sale"),
+                                        jsonHelper.GetResult("extraoffer"),
+                                        jsonHelper.GetResult("startdate"),
+                                        jsonHelper.GetResult("enddate")
                                 ));
 
                             }

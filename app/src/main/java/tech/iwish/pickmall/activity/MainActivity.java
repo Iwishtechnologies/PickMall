@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity
     private FriendSaleAdapter friendSaleAdapter;
     private FlashSaleAdapter flashSaleAdapter;
     private ItemAdapter itemAdapter;
-
+    boolean doubleBackToExitPressedOnce = false;
     private ItemCategoryInterface itemCategoryInterface;
     public final static String TAG = "mainActivity";
     private RelativeLayout search_bar_layout;
@@ -314,6 +314,8 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
+
+
 
 
     private void cardProductCount() {
@@ -544,7 +546,10 @@ public class MainActivity extends AppCompatActivity
                                         jsonHelper.GetResult("hsn_no"),
                                         jsonHelper.GetResult("weight"),
                                         jsonHelper.GetResult("type"),
-                                        jsonHelper.GetResult("flash_sale")
+                                        jsonHelper.GetResult("flash_sale"),
+                                        jsonHelper.GetResult("extraoffer"),
+                                        jsonHelper.GetResult("startdate"),
+                                        jsonHelper.GetResult("enddate")
                                 ));
                             }
 
@@ -684,10 +689,28 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+
+
+
+        if (doubleBackToExitPressedOnce) {
+//            super.onBackPressed();
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+
 
     }
 

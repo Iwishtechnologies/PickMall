@@ -32,6 +32,8 @@ import tech.iwish.pickmall.adapter.OneWinProductAdapter;
 import tech.iwish.pickmall.adapter.OneWinShareAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
+import tech.iwish.pickmall.fragment.FriendDealRuleFragment;
+import tech.iwish.pickmall.fragment.FriendOneRsFragment;
 import tech.iwish.pickmall.other.FriendSale;
 import tech.iwish.pickmall.other.OneWinShareList;
 import tech.iwish.pickmall.session.Share_session;
@@ -73,10 +75,19 @@ public class One_winActivity extends AppCompatActivity {
     }
 
     private void ActivityAction() {
+
+        images.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
     }
 
     private void SetActivityData() {
         image(item_id);
+
     }
 
     private void SetRecycleView() {

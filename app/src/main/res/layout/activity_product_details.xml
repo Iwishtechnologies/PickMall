@@ -552,7 +552,7 @@
 
     <!--  Change design   -->
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
@@ -727,6 +727,17 @@
                                             android:textSize="20dp"
                                             app:fonttype="text_semi_bold" />
 
+
+                                        <tech.iwish.pickmall.extended.TextViewFont
+                                            android:id="@+id/free_one_win"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:text="Free"
+                                            android:textColor="@color/white"
+                                            android:textSize="14dp"
+                                            app:fonttype="text_semi_bold" />
+
                                         <tech.iwish.pickmall.extended.TextViewFont
                                             android:id="@+id/dicount_price"
                                             android:layout_width="wrap_content"
@@ -774,6 +785,9 @@
                                     </LinearLayout>
                                 </LinearLayout>
 
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
 
                                 <Button
                                     android:id="@+id/friend_deal_image"
@@ -785,6 +799,16 @@
                                     android:gravity="end"
                                     android:visibility="gone" />
 
+
+                                <Button
+                                    android:id="@+id/share_btn"
+                                    android:layout_width="120dp"
+                                    android:layout_height="30dp"
+                                    android:visibility="gone"
+                                    android:layout_marginStart="80dp"
+                                    android:gravity="end"
+                                    android:background="@drawable/share_btn" />
+                            </RelativeLayout>
                                 <LinearLayout
                                     android:id="@+id/qty_layouts"
                                     android:layout_width="wrap_content"
@@ -849,6 +873,7 @@
                                                 android:layout_height="30dp"
                                                 android:background="@drawable/go_to_card_image"
                                                 android:visibility="gone" />
+
 
                                         </RelativeLayout>
                                     </LinearLayout>
@@ -919,15 +944,6 @@
 
                         </LinearLayout>
 
-                        <!--    friend deal  product            -->
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-
-                        </LinearLayout>
 
                     </RelativeLayout>
 
@@ -997,7 +1013,7 @@
         </LinearLayout>
 
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 </RelativeLayout>

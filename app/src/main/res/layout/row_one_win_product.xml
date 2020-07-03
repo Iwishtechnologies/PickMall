@@ -81,10 +81,23 @@
                         android:id="@+id/product_dis_amt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_marginStart="4dp"
                         android:maxLines="1"
                         android:textSize="16sp"
                         app:fonttype="regular" />
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:maxLines="1"
+                        android:textColor="@color/redColor"
+                        android:textSize="14sp"
+                        android:text="Free"
+                        app:fonttype="regular" />
+
+
                 </LinearLayout>
 
                 <LinearLayout

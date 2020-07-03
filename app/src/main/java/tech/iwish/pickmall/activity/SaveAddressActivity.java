@@ -51,6 +51,7 @@ import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.CartAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
+import tech.iwish.pickmall.countdowntime.FriendDeaTimeSet;
 import tech.iwish.pickmall.fragment.CoupanBottom;
 import tech.iwish.pickmall.session.Share_session;
 import tech.iwish.pickmall.sqlconnection.MyhelperSql;
@@ -68,7 +69,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         View.OnClickListener,
         CardQtyAmountRef, UpdateFinalAmountData {
 
-    private TextView name_a, full_address, city_pincode_address, number_address, change_address, amount_set;
+    private TextView name_a, full_address, city_pincode_address, number_address, change_address, amount_set,free_one_win;
     private RecyclerView card_product_recycleview;
     private MyhelperSql myhelperSql;
     private SQLiteDatabase sqLiteDatabase;
@@ -109,6 +110,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         amount_set = (TextView) findViewById(R.id.amount_set);
         cart_product_name = (TextView) findViewById(R.id.cart_product_name);
         cart_product_size = (TextView) findViewById(R.id.cart_product_size);
+        free_one_win = (TextView) findViewById(R.id.free_one_win);
 
         card_product_recycleview = (RecyclerView) findViewById(R.id.card_product_recycleview);
 
@@ -126,6 +128,9 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
 
         shareSession = new Share_session(this);
         data = shareSession.Fetchdata();
+
+
+        free_one_win.setVisibility(View.GONE);
 
         if (data.get(USERMOBILE) != null) {
             number_client = data.get(USERMOBILE).toString();
@@ -221,6 +226,15 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
 
         if (item_type == null) {
             item_type = "";
+        }
+
+
+
+
+        if (item_type.equals("friend_deal")) {
+
+        } else if (item_type.equals("one_win")) {
+            free_one_win.setVisibility(View.VISIBLE);
         }
 
 
@@ -390,8 +404,22 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
 //                card_order_place();
                 break;
             case "friendDeal_one_rs":
-
-                productChehckFriendeal();
+//                productChehckFriendeal();
+                intent = new Intent(SaveAddressActivity.this, PaymentOptionActivity.class);
+                intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                intent.putExtra("select_size", getIntent().getStringExtra("select_size"));
+                intent.putExtra("actual_price", getIntent().getStringExtra("actual_price"));
+                intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                intent.putExtra("imagename", getIntent().getStringExtra("imagename"));
+                intent.putExtra("product_qty", getIntent().getStringExtra("product_qty"));
+                intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
+                intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
+                intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
+                intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
+                intent.putExtra("gst", getIntent().getStringExtra("gst"));
+                intent.putExtra("item_type", item_type);
+                intent.putExtra("type", "friendDeal_one_rs");
+                startActivity(intent);
                 break;
             case "buy_now":
                 intent = new Intent(SaveAddressActivity.this, PaymentOptionActivity.class);
@@ -419,7 +447,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
     }
 
 
-    private void productChehckFriendeal() {
+    /*private void productChehckFriendeal() {
 
 
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -507,7 +535,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
         });
 
 
-    }
+    }*/
 
 
     @Override

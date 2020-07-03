@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -35,13 +38,14 @@ import tech.iwish.pickmall.session.Share_session;
 public class OneRsShareActivity extends AppCompatActivity {
 
     private ImageView image;
-    private TextView productName, productAmount, productmrp,time_set,shares;
+    private TextView productName, productAmount, productmrp, time_set, shares;
     private Button invite_friend_deal;
-    private String refer_code, refer_count, new_user_request,item_type ,product_id ;
-    private LinearLayout LinearLayoutShare;
+    private String refer_code, refer_count, new_user_request, item_type, product_id;
+    private LinearLayout LinearLayoutShare, time_layout;
     private int intReferCount;
     private ProgressBar progressBar;
-    private Share_session shareSession ;
+    private Share_session shareSession;
+    private ImageView refund_image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,9 @@ public class OneRsShareActivity extends AppCompatActivity {
         shares = (TextView) findViewById(R.id.shares);
         invite_friend_deal = (Button) findViewById(R.id.invite_friend_deal);
         LinearLayoutShare = (LinearLayout) findViewById(R.id.LinearLayoutShare);
+        time_layout = (LinearLayout) findViewById(R.id.time_layout);
+
+        refund_image = (ImageView) findViewById(R.id.refund_image);
 
         progressBar = (ProgressBar) findViewById(R.id.progress);
 
@@ -71,10 +78,24 @@ public class OneRsShareActivity extends AppCompatActivity {
 
         productName.setText(getIntent().getStringExtra("product_name"));
 
-        if(refer_count==null){
-            refer_count="0";
+
+        refund_image.setVisibility(View.VISIBLE);
+        time_layout.setVisibility(View.VISIBLE);
+
+        if (item_type.equals("friend_deal")) {
+
+        } else if (item_type.equals("one_win")) {
+            refund_image.setVisibility(View.GONE);
+            time_layout.setVisibility(View.GONE);
+        } else {
+
         }
-        shares.setText("Your Shares "+refer_count+" Out of "+new_user_request);
+
+
+        if (refer_count == null) {
+            refer_count = "0";
+        }
+        shares.setText("Your Shares " + refer_count + " Out of " + new_user_request);
 
 //        Toast.makeText(this, "" + new_user_request, Toast.LENGTH_SHORT).show();
 
@@ -86,15 +107,12 @@ public class OneRsShareActivity extends AppCompatActivity {
 //        popup
 
 
-
-
         String a = Constants.IMAGES + getIntent().getStringExtra("product_image");
         Glide.with(this).load(a).into(image);
 
-        if(refer_count != null){
+        if (refer_count != null) {
             intReferCount = Integer.parseInt(refer_count);
         }
-
 
 
         if (item_type.equals("friend_deal")) {
@@ -151,13 +169,26 @@ public class OneRsShareActivity extends AppCompatActivity {
         invite_friend_deal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                refer_codeMethod();
+
+                String data = null;
+
+                if (item_type.equals("friend_deal")) {
+                    data = "PICKMALL Online Shopping App India.\n\nRs.1 Friend’s Deal where you have a fair chance to win a product, you will get an amazing product for just Rs.1.\n\nPay Rs.1 to start a deal in Friends Deal.\n\nIsn’t it a great deal? So, what are you waiting for? Log on to the PICKMALL App now and choose from the different products that PICKMALL offers under this deal!\n\nYou can also get unbelievable cashback and discounts on orders! Hurry!\n";
+                } else if (item_type.equals("one_win")) {
+                    data = "PICKMALL Online Shopping App India.\n\n(1 WIN)\nGet Free Deal's In 1Win where you have a fair chance to win a product, you will get an amazing product Free Of Cost..\n\nClick On Share Button To Start A 1Win Deal's..\nShare With Maximum People's For Win This Deal.\n\nIsn’t it a great deal? So, what are you waiting for? Log on to the PICKMALL App now and choose from the different products that PICKMALL offers under this deal!\n\nYou can also get unbelievable cashback and discounts on orders! Hurry!\n";
+                } else {
+                    data = "PICKMALL Online Shopping App India.\n\nRs.90 Big Deal's\nwhere you have a fair chance to win a product, you will get an amazing Big product for just Rs.90.\n\nPay Rs.90 to start a deal in Big Deal..\n\nIsn’t it a great deal? So, what are you waiting for? Log on to the PICKMALL App now and choose from the different products that PICKMALL offers under this deal!\n\nYou can also get unbelievable cashback and discounts on orders! Hurry!\n";
+                }
+                if (data != null) {
+                    refer_codeMethod(data);
+                }
+
             }
         });
 
     }
 
-    private void refer_codeMethod() {
+    private void refer_codeMethod(String msg) {
 
         invite_friend_deal.setEnabled(false);
         progressBar.setVisibility(View.VISIBLE);
@@ -183,8 +214,27 @@ public class OneRsShareActivity extends AppCompatActivity {
                         intent.setType("text/plain");
                         intent.setAction(Intent.ACTION_SEND);
                         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Trip from Voyajo");
-                        intent.putExtra(intent.EXTRA_TEXT, "Pay Rs.1 to start a deal in Friends Deal\n\nRs.1 Friend’s Deal wherein you have a fair chance to win a product, you will get an amazing product for just Rs.1.\n\nIsn’t it a great deal? So, what are you waiting for? Log on to the PICKMALL App now and choose from the different products that PICKMALL offers under this deal!\n\nYou can also get unbelievable cashback and discounts on orders! Hurry!\n\n " + shortLink);
+                        intent.putExtra(intent.EXTRA_TEXT, msg + shortLink);
                         startActivity(intent);
+
+//                        Drawable drawable = getResources().getDrawable(R.drawable.pick_mall_image);
+//                        Bitmap bmp = null;
+//                        bmp = ((BitmapDrawable) drawable).getBitmap();
+//                        Uri uri = Uri.parse("android.resource://tech.iwish.pickmall/"+R.drawable.applogo);
+                      /*  Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.applogo);
+                        Intent intent = new Intent();
+                        intent.setAction(Intent.ACTION_SEND);
+                        intent.setType("text/plain");
+                        intent.setPackage("com.whatsapp");
+                        intent.setType("image/*");
+                        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Trip from Voyajo");
+                        intent.putExtra(intent.EXTRA_TEXT, "Pay Rs.1 to start a deal in Friends Deal\n\nRs.1 Friend’s Deal wherein you have a fair chance to win a product, you will get an amazing product for just Rs.1.\n\nIsn’t it a great deal? So, what are you waiting for? Log on to the PICKMALL App now and choose from the different products that PICKMALL offers under this deal!\n\nYou can also get unbelievable cashback and discounts on orders! Hurry!\n\n " + shortLink);
+                        intent.putExtra(Intent.EXTRA_STREAM, uri);
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(intent);
+                      */
+
+
                     } else {
                         Log.e("error", task.getException().toString());
                     }
@@ -197,7 +247,7 @@ public class OneRsShareActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(OneRsShareActivity.this , MainActivity.class);
+        Intent intent = new Intent(OneRsShareActivity.this, MainActivity.class);
         startActivity(intent);
     }
 }

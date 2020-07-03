@@ -173,7 +173,7 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
                             intent.putExtra("product_name",getIntent().getStringExtra("product_name"));
                             intent.putExtra("product_type",getIntent().getStringExtra("product_type"));
                             intent.putExtra("product_image",getIntent().getStringExtra("imagename"));
-                            intent.putExtra("new_user_request","0");
+                            intent.putExtra("new_user_request",getIntent().getStringExtra("new_user_request"));
                             intent.putExtra("refer_code",refer_code);
                             startActivity(intent);
 
