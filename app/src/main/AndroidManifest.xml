@@ -217,7 +217,7 @@
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="w7J0qpdi0GZP3AEcagGgeojR" />
+            android:value="rzp_live_GifdQTDljFMdQN" />
 
         <service android:name=".Notification.OfferNotification"
             android:exported="false">

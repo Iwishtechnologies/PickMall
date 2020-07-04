@@ -66,6 +66,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 productloadfradment(getIntent().getStringExtra("item_id"), getIntent().getStringExtra("item_name"), "product");
                 break;
             case "Category_by_product":
+                categoryImage(getIntent().getStringExtra("category_id"));
                 productloadfradment(getIntent().getStringExtra("category_id"), getIntent().getStringExtra("category_name"), "Category_by_product");
                 break;
             case "searchActivity":
@@ -109,6 +110,63 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
         Request request1 = new Request.Builder().url(Constants.ITEM_IMAGE).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("result",result);
+                    final JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                ProductActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        item_image_layout.setVisibility(View.VISIBLE);
+                                        String image = jsonHelper.GetResult("banner_img");
+                                        String a = Constants.IMAGES + image;
+                                        Glide.with(ProductActivity.this).load(a).into(image_item);
+                                    }
+                                });
+                            }
+                        } else {
+                            ProductActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    item_image_layout.setVisibility(View.GONE);
+                                }
+                            });
+                        }
+                    }
+
+                }
+            }
+        });
+
+    }
+
+
+    private void categoryImage(String item_id) {
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("item_id", item_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.CATEGORY_IMAGE_SET).post(body).build();
         okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {

@@ -5,8 +5,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -15,6 +17,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -314,8 +317,6 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
-
-
 
 
     private void cardProductCount() {
@@ -800,6 +801,7 @@ public class MainActivity extends AppCompatActivity
                                         TextView Name = view.findViewById(R.id.Name);
                                         TextView amt = view.findViewById(R.id.amt);
                                         RatingBar rating = view.findViewById(R.id.rating);
+                                        ImageButton confirm_btn = view.findViewById(R.id.confirm_btn);
 
                                         Name.setText(productName);
 
@@ -814,6 +816,7 @@ public class MainActivity extends AppCompatActivity
                                         AlertDialog alertDialog = dialog.create();
                                         alertDialog.show();
 
+/*
 
                                         rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                                             @Override
@@ -833,10 +836,28 @@ public class MainActivity extends AppCompatActivity
                                                     case "4.0":
                                                     case "4.5":
                                                     case "5.0":
-                                                        updateRatingFriendDeal(ratings);
-                                                        alertDialog.dismiss();
                                                         break;
                                                 }
+
+                                            }
+                                        });
+*/
+
+                                        confirm_btn.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+
+                                                updateRatingFriendDeal(String.valueOf(rating.getRating()));
+
+                                                Uri uri = Uri.parse("market://details?id=" + getPackageName());
+                                                Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                                                try {
+                                                    startActivity(myAppLinkToMarket);
+                                                } catch (ActivityNotFoundException e) {
+                                                    Toast.makeText(MainActivity.this, " unable to find market app", Toast.LENGTH_LONG).show();
+                                                }
+
+                                                alertDialog.dismiss();
 
                                             }
                                         });

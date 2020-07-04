@@ -63,9 +63,6 @@
 
     </LinearLayout>
 
-
-
-
     <RatingBar
         android:id="@+id/rating"
         android:layout_width="wrap_content"
@@ -74,4 +71,37 @@
         android:numStars="5"
         android:progressTint="@color/orangeColor"/>
 
+
+    <ImageButton
+        android:id="@+id/confirm_btn"
+        android:layout_width="200dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/confirm_btn_image"
+        android:layout_height="wrap_content"/>
+
+
 </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
