@@ -132,6 +132,9 @@ public class ProductFragment extends Fragment {
             case "silder_load":
                 datafetchProduct(Constants.SILDER_OPEN, arguments.getString("item"));
                 break;
+            case "both_category_open":
+                silder_open_both(Constants.SILDER_OPEN_BOTH, arguments.getString("item"),arguments.getString("category_id"));
+                break;
         }
 
         return view;
@@ -233,7 +236,6 @@ public class ProductFragment extends Fragment {
         });
     }
 
-
     private void datafetchProduct(String Api, String item_id) {
 
 //        Log.e("item_id",item_id);
@@ -244,6 +246,125 @@ public class ProductFragment extends Fragment {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("item_id", item_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+//        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/"+PRODUCT_PERAMETER).post(body).build();
+        Request request1 = new Request.Builder().url(Api).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("output", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        productListList.clear();
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                if(Api.equals(Constants.ALL_PRODUCT) || Api.equals(Constants.SIMILAER_PRODUCT) ){
+                                    productOfferlists.add(new ProductOfferlist(jsonHelper.GetResult("product_id"),
+                                            jsonHelper.GetResult("ProductName"),
+                                            jsonHelper.GetResult("SKU"),
+                                            jsonHelper.GetResult("item_id"),
+                                            jsonHelper.GetResult("catagory_id"),
+                                            jsonHelper.GetResult("actual_price"),
+                                            jsonHelper.GetResult("discount_price"),
+                                            jsonHelper.GetResult("discount_price_per"),
+                                            jsonHelper.GetResult("status"),
+                                            jsonHelper.GetResult("pimg"),
+                                            jsonHelper.GetResult("vendor_id"),
+                                            jsonHelper.GetResult("FakeRating"),
+                                            jsonHelper.GetResult("gst"),
+                                            jsonHelper.GetResult("hot_product"),
+                                            jsonHelper.GetResult("hsn_no"),
+                                            jsonHelper.GetResult("weight"),
+                                            jsonHelper.GetResult("type"),
+                                            jsonHelper.GetResult("flash_sale"),
+                                            jsonHelper.GetResult("discount")
+
+                                    ));
+
+                                    if (getActivity() != null) {
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                AllOfferProductAdapter allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), productOfferlists, item_id);
+                                                product_recycleview.setAdapter(allOfferProductAdapter);
+//                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
+//                                        productAdapter.notifyDataSetChanged();
+
+                                            }
+                                        });
+                                    }
+                                }
+                                else {
+                                    productListList.add(new ProductList(jsonHelper.GetResult("product_id"),
+                                            jsonHelper.GetResult("ProductName"),
+                                            jsonHelper.GetResult("SKU"),
+                                            jsonHelper.GetResult("item_id"),
+                                            jsonHelper.GetResult("catagory_id"),
+                                            jsonHelper.GetResult("actual_price"),
+                                            jsonHelper.GetResult("discount_price"),
+                                            jsonHelper.GetResult("discount_price_per"),
+                                            jsonHelper.GetResult("status"),
+                                            jsonHelper.GetResult("pimg"),
+                                            jsonHelper.GetResult("vendor_id"),
+                                            jsonHelper.GetResult("FakeRating"),
+                                            jsonHelper.GetResult("gst"),
+                                            jsonHelper.GetResult("hot_product"),
+                                            jsonHelper.GetResult("hsn_no"),
+                                            jsonHelper.GetResult("weight"),
+                                            jsonHelper.GetResult("type"),
+                                            jsonHelper.GetResult("flash_sale"),
+                                            jsonHelper.GetResult("extraoffer"),
+                                            jsonHelper.GetResult("startdate"),
+                                            jsonHelper.GetResult("enddate")
+                                    ));
+
+
+                                    if (getActivity() != null) {
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id);
+                                                product_recycleview.setAdapter(productAdapter);
+//                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
+//                                        productAdapter.notifyDataSetChanged();
+
+                                            }
+                                        });
+                                    }
+                                }
+                        }
+                    }
+                }
+            }}
+        });
+    }
+
+    private void silder_open_both(String Api, String item_id , String category_id) {
+
+//        Log.e("item_id",item_id);
+//        Log.e("item_id",item_id);
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("item_id", item_id);
+            jsonObject.put("catagory_id", category_id);
         } catch (JSONException e) {
             e.printStackTrace();
         }

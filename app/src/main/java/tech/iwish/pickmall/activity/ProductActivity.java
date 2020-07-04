@@ -82,6 +82,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             case "silder_load":
                 productloadfradment(getIntent().getStringExtra("item_id"), getIntent().getStringExtra("itemName"), "silder_load");
                 break;
+            case "both_category_open":
+                productloadsfradment(getIntent().getStringExtra("item_id"),getIntent().getStringExtra("category_id"), getIntent().getStringExtra("itemName"), "both_category_open");
+                break;
 
         }
 
@@ -216,6 +219,19 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         Bundle bundle = new Bundle();
         ProductFragment productFragment = new ProductFragment();
         bundle.putString("item", id);
+        bundle.putString("type", type);
+        productFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.product_framelayout, productFragment).commit();
+        itme_name.setText(name);
+
+
+    }
+    private void productloadsfradment(String item_id,String category_id, String name, String type ) {
+
+        Bundle bundle = new Bundle();
+        ProductFragment productFragment = new ProductFragment();
+        bundle.putString("item", item_id);
+        bundle.putString("category_id", category_id);
         bundle.putString("type", type);
         productFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.product_framelayout, productFragment).commit();

@@ -132,6 +132,7 @@ public class Constants {
     public static String PREPAIDSHORT = URL + "PrepaidShort";
     public static String PREPAIDPRICESHORT = URL + "PrepaidPriceShort";
     public static String CATEGORY_IMAGE_SET = URL + "category_image_set";
+    public static String SILDER_OPEN_BOTH = URL + "silder_open_both";
 
 
     //        public static String IMAGES = "http://pickmall.iwishtech.xyz/img/";
