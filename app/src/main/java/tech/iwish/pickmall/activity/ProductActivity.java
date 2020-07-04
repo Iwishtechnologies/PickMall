@@ -70,9 +70,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 productloadfradment(getIntent().getStringExtra("category_id"), getIntent().getStringExtra("category_name"), "Category_by_product");
                 break;
             case "searchActivity":
+                item_image_layout.setVisibility(View.GONE);
                 productloadfradment(getIntent().getStringExtra("name"), getIntent().getStringExtra("name"), "searchActivity");
                 break;
             case "FilterActivity":
+                item_image_layout.setVisibility(View.GONE);
                 productloadfradment(getIntent().getStringExtra("itemId"), getIntent().getStringExtra("itemName"), "FilterActivity");
                 break;
             case "prepaid":
@@ -80,9 +82,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 productloadfradment("30", getIntent().getStringExtra("itemName"), "prepaid");
                 break;
             case "silder_load":
+                item_image_layout.setVisibility(View.GONE);
                 productloadfradment(getIntent().getStringExtra("item_id"), getIntent().getStringExtra("itemName"), "silder_load");
                 break;
             case "both_category_open":
+                item_image_layout.setVisibility(View.GONE);
                 productloadsfradment(getIntent().getStringExtra("item_id"),getIntent().getStringExtra("category_id"), getIntent().getStringExtra("itemName"), "both_category_open");
                 break;
 

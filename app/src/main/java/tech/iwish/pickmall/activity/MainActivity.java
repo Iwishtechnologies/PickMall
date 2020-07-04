@@ -600,7 +600,7 @@ public class MainActivity extends AppCompatActivity
             public void run() {
                 handler.post(runnable);
             }
-        }, 250, 15000);
+        }, 250, 3000);
 
 
     }

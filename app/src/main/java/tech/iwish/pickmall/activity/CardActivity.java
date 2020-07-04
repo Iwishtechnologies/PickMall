@@ -332,22 +332,43 @@ public class CardActivity extends AppCompatActivity implements View.OnClickListe
 
 
         if (getIntent().getStringExtra("context") == null) {
-            super.onBackPressed();
+            if (doubleBackToExitPressedOnce) {
+//                super.onBackPressed();
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                CardActivity.this.finish();
+                System.exit(0);
+                return;
+            }
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Click again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+
+
         } else {
 
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
-
-
-                finish();
                 Intent intent = new Intent(Intent.ACTION_MAIN);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                CardActivity.this.finish();
+                System.exit(0);
 
                 return;
             }
-
             this.doubleBackToExitPressedOnce = true;
             Toast.makeText(this, "Click again to exit", Toast.LENGTH_SHORT).show();
 

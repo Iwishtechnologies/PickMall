@@ -178,7 +178,6 @@ public class FriendDeaTimeSet {
 
 
     }
-
     public void Time_24_H() {
 
         OkHttpClient client = new OkHttpClient();
@@ -242,19 +241,19 @@ public class FriendDeaTimeSet {
 //                            ProductClientTime.set(Calendar.MONTH, Integer.parseInt(mo)-1);
 //                            ProductClientTime.set(Calendar.YEAR, Integer.parseInt(y));
 
-                            ProductSetTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(h) + 24);
+                            ProductSetTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(h));
                             ProductSetTime.set(Calendar.MINUTE, Integer.parseInt(m));
-                            ProductSetTime.set(Calendar.SECOND, Integer.parseInt(s) - 1);
-                            ProductSetTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(d));
+                            ProductSetTime.set(Calendar.SECOND, Integer.parseInt(s));
+                            ProductSetTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(d) + 1);
                             ProductSetTime.set(Calendar.MONTH, Integer.parseInt(mo) + 0);
                             ProductSetTime.set(Calendar.YEAR, Integer.parseInt(y));
                             Calendar a = ProductSetTime;
 //                            a.setTime(ProductSetTime.getTime());
 //                            a = ProductClientTime;
-                            a.add(ProductSetTime.HOUR_OF_DAY, Integer.parseInt(h) + 24);
-                            a.add(ProductSetTime.MINUTE, Integer.parseInt(m));
+                            a.add(ProductSetTime.HOUR_OF_DAY, 24);
+                            a.add(ProductSetTime.MINUTE, 0);
                             a.add(ProductSetTime.SECOND, -1);
-                            a.set(ProductSetTime.DAY_OF_MONTH, Integer.parseInt(d));
+                            a.set(ProductSetTime.DAY_OF_MONTH, Integer.parseInt(d) - 1);
                             a.set(ProductSetTime.MONTH, Integer.parseInt(mo) + 0);
                             a.set(ProductSetTime.YEAR, Integer.parseInt(y));
 
@@ -301,6 +300,159 @@ public class FriendDeaTimeSet {
 
 
     }
+
+/*
+    public void Time_24_H() {
+
+        OkHttpClient client = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("product_id", product_id);
+            jsonObject.put("client_id", client_number);
+            jsonObject.put("item_type", item_type);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request = new Request.Builder().post(body)
+                .url(Constants.FRIENDDEAL_TIME_SET)
+                .build();
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("result", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                ProductTime = jsonHelper.GetResult("date_time");
+                                refer_code = jsonHelper.GetResult("code");
+                            }
+
+                            Calendar ProductClientTime = Calendar.getInstance();
+                            Calendar ProductSetTime = Calendar.getInstance();
+                            SimpleDateFormat sdf = new SimpleDateFormat("dd:MM:yyyy:hh:mm:ss");
+
+
+
+                            */
+/*=========================     Times  set   =====================    *//*
+
+                            String[] DateTimeBreak = ProductTime.split("=");
+                            String[] DateBreak = DateTimeBreak[0].split("-");
+                            String[] TimeBreak = DateTimeBreak[1].split(":");
+                            String h = TimeBreak[0];
+                            String m = TimeBreak[1];
+                            String s = TimeBreak[2];
+                            String d = DateBreak[0];
+                            String mo = DateBreak[1];
+                            String y = DateBreak[2];
+
+
+//                            ProductClientTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(h));
+//                            ProductClientTime.set(Calendar.MONTH, Integer.parseInt(m));
+//                            ProductClientTime.set(Calendar.SECOND, Integer.parseInt(s));
+//                            ProductClientTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(d));
+//                            ProductClientTime.set(Calendar.MONTH, Integer.parseInt(mo)-1);
+//                            ProductClientTime.set(Calendar.YEAR, Integer.parseInt(y));
+//
+//                            Log.e("pppp", sdf.format(ProductClientTime.getTime()));
+//                            Log.e("pppp", sdf.format(ProductClientTime.getTime()));
+
+//                            ProductSetTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(h));
+//                            ProductSetTime.set(Calendar.MINUTE, Integer.parseInt(m));
+//                            ProductSetTime.set(Calendar.SECOND, Integer.parseInt(s) - 1);
+//                            ProductSetTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(d) -1);
+//                            ProductSetTime.set(Calendar.MONTH, Integer.parseInt(mo) + 0);
+//                            ProductSetTime.set(Calendar.YEAR, Integer.parseInt(y));
+//
+//                            Calendar a = ProductSetTime;
+//                            a.setTime(ProductSetTime.getTime());
+//                            a = ProductClientTime;
+//                            a.add(ProductSetTime.HOUR_OF_DAY, Integer.parseInt(h));
+//                            a.add(ProductSetTime.MINUTE, Integer.parseInt(m));
+//                            a.add(ProductSetTime.SECOND, -1);
+//                            a.set(ProductSetTime.DAY_OF_MONTH, Integer.parseInt(d) -1);
+//                            a.set(ProductSetTime.MONTH, Integer.parseInt(mo) + 0);
+//                            a.set(ProductSetTime.YEAR, Integer.parseInt(y));
+
+
+
+
+                            ProductSetTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(h));
+                            ProductSetTime.set(Calendar.MINUTE, Integer.parseInt(m));
+                            ProductSetTime.set(Calendar.SECOND, Integer.parseInt(s));
+                            ProductSetTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(d) + 1);
+                            ProductSetTime.set(Calendar.MONTH, Integer.parseInt(mo) - 1);
+                            ProductSetTime.set(Calendar.YEAR, Integer.parseInt(y));
+                            Calendar a = ProductSetTime;
+//                            a.setTime(ProductSetTime.getTime());
+//                            a = ProductClientTime;
+                            a.add(ProductSetTime.HOUR_OF_DAY, 24);
+                            a.add(ProductSetTime.MINUTE, 0);
+                            a.add(ProductSetTime.SECOND, -1);
+                            a.set(ProductSetTime.DAY_OF_MONTH, Integer.parseInt(d) + 1);
+                            a.set(ProductSetTime.MONTH, Integer.parseInt(mo) - 1);
+                            a.set(ProductSetTime.YEAR, Integer.parseInt(y));
+
+
+
+                            */
+/*=========================     Current Times    =====================    *//*
+
+
+                            DateFormat sdfss = new SimpleDateFormat("HH:mm:ss");
+                            String stringDate = sdfss.format(new Date());
+                            String[] breaktime = stringDate.split(":");
+                            Calendar currenttime = Calendar.getInstance();
+                            currenttime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(breaktime[0]));
+                            currenttime.set(Calendar.MINUTE, Integer.parseInt(breaktime[1]));
+                            currenttime.set(Calendar.SECOND, Integer.parseInt(breaktime[2]));
+
+                            Log.e("ppp", sdf.format(ProductSetTime.getTime()));
+                            Log.e("ppp", sdf.format(a.getTime()));
+                            Log.e("ppp", sdf.format(currenttime.getTime()));
+
+
+                            if (a.before(currenttime)) {
+//                                update status
+                                Log.e("ppp", "before");
+                                RemoveFriendProduct();
+                            } else if (a.after(currenttime)) {
+                                Log.e("ppp", "after");
+                                long finaltime = a.getTimeInMillis() - currenttime.getTimeInMillis();
+                                mTimeLeftInMillis = finaltime;
+                                ((activity)).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        startTimer();
+                                    }
+                                });
+                            } else if (a.equals(currenttime)) {
+
+                            }
+
+                        }
+                    }
+                }
+
+            }
+        });
+
+
+    }
+*/
 
     private void RemoveFriendProduct() {
 
