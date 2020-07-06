@@ -911,6 +911,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     private void productChehckFriendeal() {
 
 
+
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();

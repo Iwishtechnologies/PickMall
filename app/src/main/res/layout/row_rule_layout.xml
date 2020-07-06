@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:id="@+id/rule"
         android:weightSum="2">
 
         <ImageView
@@ -57,7 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="0.5"
-            tools:visibility="gone" />
+            android:background="@drawable/right_arrow"
+            tools:visibility="visible" />
     </LinearLayout>
 
     <View

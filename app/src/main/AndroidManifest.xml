@@ -22,6 +22,9 @@
         <activity android:name=".activity.ForgotpasswordActivity"></activity>
         <activity android:name=".activity.OTP_verifyActivity" />
         <activity android:name=".activity.Cod_mobile_verify_activity" />
+        <activity android:name=".fragment.RuleBottomFragment"
+            android:theme="@style/Settingtheme"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.WinningDetailActivity"
             android:screenOrientation="portrait"

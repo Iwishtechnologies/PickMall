@@ -19,7 +19,7 @@ public class Constants {
 //    public static String URL = "http://173.212.226.143:8086/api/";
     public static String URL = "http://admin.pickmall.in/api/";
 
-    public static String SILDER_IMAGE = URL + "main/silder/images";
+    public static String SILDER_IMAGE = URL + "silder";
     public static String USER_ADDRESS = URL + "user_address";
     public static String USER_PINCODE = URL + "address_pincode_city_search";
     //    public static String PRODUCT = URL+"product";
@@ -41,7 +41,7 @@ public class Constants {
     public static String VENDOR_STORE_DETAILS = URL + "vendor_store_details";
     public static String ADDRESS_FETCH = URL + "address_fetch";
     public static String CATEGORY = URL + "category";
-    public static String ALL_CATEGORY_ITEM = URL + "allcategory/item";
+    public static String ALL_CATEGORY_ITEM = URL + "allcategory_item";
     public static String FLASH_SALE_TIME_REMOVE = URL + "flashsaletimeremove";
     public static String FRIEND_SALE_ONE_RS = URL + "friendSaleOneRs";
     public static String SIMILAER_PRODUCT = URL + "similar_product";
@@ -54,7 +54,7 @@ public class Constants {
     public static String ORDER_PLACE_CARD = URL + "order_place_card";
     public static String SHIPPING_CHARGE = URL + "shipping_charge";
     public static String WALLET_AMOUNT_UPDATE = URL + "walletAmountUpdate";
-    public static String WISGLIST_PEODUCT = URL + "wishlist/product";
+    public static String WISGLIST_PEODUCT = URL + "wishlist_product";
     public static String GET_USER_WISHLIST = URL + "GetUserWishList";
     public static String PRODUCT_WISHLIST_CHEHCL = URL + "product_wishlist_check";
     public static String WISHLIST_REMOVE = URL + "wishlist_remove";
@@ -133,6 +133,9 @@ public class Constants {
     public static String PREPAIDPRICESHORT = URL + "PrepaidPriceShort";
     public static String CATEGORY_IMAGE_SET = URL + "category_image_set";
     public static String SILDER_OPEN_BOTH = URL + "silder_open_both";
+    public static String FRIENDDEALPLAYRULE = URL + "Frienddealplayrule";
+
+
 
 
     //        public static String IMAGES = "http://pickmall.iwishtech.xyz/img/";
