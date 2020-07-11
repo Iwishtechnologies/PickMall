@@ -124,7 +124,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
             startActivity(intent);
 
         });
-        track.setOnClickListener(v -> {startActivity(new Intent(OrderDetailActivity.this,TrackOrderActivity.class));        });
+        track.setOnClickListener(v -> {startActivity(new Intent(OrderDetailActivity.this,TrackOrderActivity.class).putExtra("orderid",getIntent().getExtras().getString("uniqueid")).putExtra("date",getIntent().getExtras().getString("orderdate"))); });
     }
 
     @Override

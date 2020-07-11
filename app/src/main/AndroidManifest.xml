@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.TrackOrderActivity"></activity>
+        <activity android:name=".activity.TrackOrderActivity" android:theme="@style/tracktheme" android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.GuestOderActivity"
             android:screenOrientation="portrait"
