@@ -55,8 +55,8 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@color/background_silver_color"
-                />
+                android:src="@drawable/news"
+                                />
 
             <tech.iwish.pickmall.extended.TextViewFont
                 android:layout_width="wrap_content"
@@ -88,7 +88,8 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@color/background_silver_color" />
+                android:src="@drawable/lookicon"
+                />
 
             <tech.iwish.pickmall.extended.TextViewFont
                 android:layout_width="wrap_content"
@@ -120,7 +121,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@color/background_silver_color"
+                android:src="@drawable/comment"
                 />
 
             <tech.iwish.pickmall.extended.TextViewFont

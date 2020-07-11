@@ -219,6 +219,13 @@
                     android:id="@+id/delivered"
                     android:src="@drawable/delivered_icon"/>
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:id="@+id/guestorder"
+                    android:src="@drawable/guest_order_icon"/>
+
 
             </LinearLayout>
 

@@ -19,9 +19,15 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.NewPostActivity"
+        <activity android:name=".activity.TrackOrderActivity"></activity>
+        <activity
+            android:name=".activity.GuestOderActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/post"></activity>
+            android:theme="@style/Settingtheme" />
+        <activity
+            android:name=".activity.NewPostActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/post" />
         <activity android:name=".activity.CFLooksActivity" />
         <activity
             android:name=".activity.NewsActivity"

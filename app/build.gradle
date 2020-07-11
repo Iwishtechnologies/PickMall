@@ -90,4 +90,8 @@ dependencies {
     implementation 'com.sackcentury:shinebutton:1.0.0'
 
     implementation 'com.sackcentury:shinebutton:1.0.0'
+
+    implementation 'com.allenliu:AndroidSystemShare:1.0.1'
+
+    implementation 'fr.tvbarthel.intentshare:library:0.0.4'
 }

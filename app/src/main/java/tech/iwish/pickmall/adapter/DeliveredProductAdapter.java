@@ -72,6 +72,9 @@ public class DeliveredProductAdapter  extends  RecyclerView.Adapter<DeliveredPro
                 intent.putExtra("total_amount",orderLists.get(position).getOrder_amount());
                 intent.putExtra("product_id",orderLists.get(position).getProduct_id());
                 intent.putExtra("vendor_id",orderLists.get(position).getVendor_id());
+                intent.putExtra("delivery_date",orderLists.get(position).getDelivery_date());
+                intent.putExtra("ordertype",orderLists.get(position).getOrdertype());
+                intent.putExtra("uniqueid",orderLists.get(position).getUnique_id());
                 context.startActivity(intent);
 
             }

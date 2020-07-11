@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EDEDEF"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activity.TrackOrderActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:padding="20dp"
+            android:background="@color/dark_brown_color"
+            android:layout_height="wrap_content">
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                app:fonttype="medium_text"
+                android:layout_height="wrap_content"
+                android:text="Track Shipment"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/truck_image"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+           android:layout_marginLeft="20dp"
+            android:layout_marginTop="-40dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical"
+            android:background="@drawable/track_rectangle"
+            android:layout_height="wrap_content">
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:padding="20dp"
+               android:orientation="vertical"
+               android:layout_height="wrap_content">
+               <tech.iwish.pickmall.extended.TextViewFont
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:textSize="18dp"
+                   android:text="OrderID : 0248688"
+                   android:textColor="@color/black"/>
+               <tech.iwish.pickmall.extended.TextViewFont
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:textSize="18dp"
+                   app:fonttype="light"
+                   android:text="Purchase Date - 26 May 2020"
+                   android:textColor="@color/light_black"/>
+
+           </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightgray"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

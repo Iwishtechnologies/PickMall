@@ -20,17 +20,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
+import java.util.Map;
 
 import tech.iwish.pickmall.Interface.ItemCategoryInterface;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.activity.Account;
 import tech.iwish.pickmall.activity.FriendsDealsAllActivity;
+import tech.iwish.pickmall.activity.InviteActivity;
 import tech.iwish.pickmall.activity.MainActivity;
 import tech.iwish.pickmall.activity.One_winActivity;
 import tech.iwish.pickmall.activity.ProductActivity;
+import tech.iwish.pickmall.activity.Register1Activity;
 import tech.iwish.pickmall.activity.WinningDetailActivity;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.other.ItemList;
 import tech.iwish.pickmall.session.Share_session;
+
+import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
     private List<ItemList> itemLists;
@@ -103,6 +109,18 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
                                 intent2.putExtra("item_type",itemLists.get(position).getItem_type());
                                 context.startActivity(intent2);
                                 break;
+                            case "share":
+                                 Map data = null;
+                                share_session = new Share_session(context);
+                                data = share_session.Fetchdata();
+                                if (data.get(USERMOBILE) != null) {
+                                    intent = new Intent(context, InviteActivity.class);
+                                    context.startActivity(intent);
+                                } else {
+                                    intent = new Intent(context, Register1Activity.class);
+                                    context.startActivity(intent);
+                                }
+                                break;
                             case "product":
                             default:
                                 Bundle bundle = new Bundle();
@@ -165,6 +183,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
         private LinearLayout layoutItem;
         private TextView nameCat;
         private RelativeLayout main_layout_category;
+
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);

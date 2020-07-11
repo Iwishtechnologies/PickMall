@@ -46,7 +46,7 @@ import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 
 public class Account extends AppCompatActivity implements InternetConnectivityListener {
     ImageView viewall, profile,image,unpaid,wallet,wishlist,shippingaddress
-            ,following,vendor,coupens,invite,myorder,entercode,setting,helpcenter,delivered,accountBottom;
+            ,following,vendor,coupens,invite,myorder,entercode,setting,helpcenter,delivered,accountBottom,guestorder;
     LinearLayout fullview;
     Share_session share_session;
     TextView name;
@@ -113,6 +113,7 @@ public class Account extends AppCompatActivity implements InternetConnectivityLi
         helpcenter= findViewById(R.id.helpcenter);
         delivered= findViewById(R.id.delivered);
         wishcount= findViewById(R.id.wishcount);
+        guestorder= findViewById(R.id.guestorder);
         accountBottom= (ImageView) findViewById(R.id.accountBottom);
 //        accountBottom.setImageDrawable(getResources().getDrawable(R.drawable.account_icon));
 //        accountBottom.setVisibility(View.GONE);
@@ -123,129 +124,88 @@ public class Account extends AppCompatActivity implements InternetConnectivityLi
 
 
     public void ActivityActions(){
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Account.this,Profile.class);
-                startActivity(intent);
-                Animatoo.animateSlideDown(Account.this);
-            }
+        profile.setOnClickListener(view -> {
+            Intent intent= new Intent(Account.this,Profile.class);
+            startActivity(intent);
+            Animatoo.animateSlideDown(Account.this);
         });
 
-        viewall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fullview.setVisibility(View.VISIBLE);
-            }
+        viewall.setOnClickListener(view -> fullview.setVisibility(View.VISIBLE));
+
+        unpaid.setOnClickListener(view -> {
+            Intent intent= new Intent(Account.this,UnpaidOrderActivity.class);
+            startActivity(intent);
+            Animatoo.animateSlideDown(Account.this);
+        });
+        wallet.setOnClickListener(view -> {
+            Intent intent= new Intent(Account.this,WalletActivity.class);
+            startActivity(intent);
+            Animatoo.animateSlideDown(Account.this);
+        });
+        wishlist.setOnClickListener(view -> {
+            Intent intent= new Intent(Account.this,WishListActivity.class);
+            startActivity(intent);
+            Animatoo.animateSlideDown(Account.this);
+        });
+        shippingaddress.setOnClickListener(view -> {
+            Intent intent= new Intent(Account.this,ShipingAddressActivity.class);
+            startActivity(intent);
+            Animatoo.animateSlideDown(Account.this);
+        });
+        vendor.setOnClickListener(view -> {
+            Intent intent= new Intent(Account.this,VendorRequestActivity.class);
+            startActivity(intent);
+            Animatoo.animateSlideDown(Account.this);
+        });
+        coupens.setOnClickListener(view -> {
+            Intent intent= new Intent(Account.this,CoupenActivity.class);
+            startActivity(intent);
+            Animatoo.animateSlideDown(Account.this);
+        });
+        invite.setOnClickListener(view -> {
+            Intent intent= new Intent(Account.this,InviteActivity.class);
+            startActivity(intent);
+            Animatoo.animateSlideDown(Account.this);
+        });
+        myorder.setOnClickListener(view -> {
+            Intent intent= new Intent(Account.this,MyOederActitvity.class);
+            startActivity(intent);
+            Animatoo.animateSlideDown(Account.this);
+        });
+        following.setOnClickListener(view -> {
+            Intent intent= new Intent(Account.this,FollowingActivity.class);
+            startActivity(intent);
+            Animatoo.animateSlideDown(Account.this);
         });
 
-        unpaid.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Account.this,UnpaidOrderActivity.class);
-                startActivity(intent);
-                Animatoo.animateSlideDown(Account.this);
-            }
-        });
-        wallet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Account.this,WalletActivity.class);
-                startActivity(intent);
-                Animatoo.animateSlideDown(Account.this);
-            }
-        });
-        wishlist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Account.this,WishListActivity.class);
-                startActivity(intent);
-                Animatoo.animateSlideDown(Account.this);
-            }
-        });
-        shippingaddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Account.this,ShipingAddressActivity.class);
-                startActivity(intent);
-                Animatoo.animateSlideDown(Account.this);
-            }
-        });
-        vendor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Account.this,VendorRequestActivity.class);
-                startActivity(intent);
-                Animatoo.animateSlideDown(Account.this);
-            }
-        });
-        coupens.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Account.this,CoupenActivity.class);
-                startActivity(intent);
-                Animatoo.animateSlideDown(Account.this);
-            }
-        });
-        invite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Account.this,InviteActivity.class);
-                startActivity(intent);
-                Animatoo.animateSlideDown(Account.this);
-            }
-        });
-        myorder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Account.this,MyOederActitvity.class);
-                startActivity(intent);
-                Animatoo.animateSlideDown(Account.this);
-            }
-        });
-        following.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Account.this,FollowingActivity.class);
-                startActivity(intent);
-                Animatoo.animateSlideDown(Account.this);
-            }
+        entercode.setOnClickListener(view -> {
+            Intent intent= new Intent(Account.this,EnterInviteCodeActivity.class);
+            startActivity(intent);
+            Animatoo.animateSlideDown(Account.this);
         });
 
-        entercode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Account.this,EnterInviteCodeActivity.class);
-                startActivity(intent);
-                Animatoo.animateSlideDown(Account.this);
-            }
+        setting.setOnClickListener(view -> {
+            Intent intent= new Intent(Account.this,Setting.class);
+            startActivity(intent);
+            Animatoo.animateSlideDown(Account.this);
         });
-
-        setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Account.this,Setting.class);
-                startActivity(intent);
-                Animatoo.animateSlideDown(Account.this);
-            }
-        });
-        helpcenter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Account.this,SupportActivity.class);
-                startActivity(intent);
-                Animatoo.animateSlideDown(Account.this);
-            }
+        helpcenter.setOnClickListener(view -> {
+            Intent intent= new Intent(Account.this,SupportActivity.class);
+            startActivity(intent);
+            Animatoo.animateSlideDown(Account.this);
         });
 
 
-        delivered.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(Account.this,DeliveredItemActivity.class);
-                startActivity(intent);
-                Animatoo.animateSlideDown(Account.this);
-            }
+        delivered.setOnClickListener(view -> {
+            Intent intent= new Intent(Account.this,DeliveredItemActivity.class);
+            startActivity(intent);
+            Animatoo.animateSlideDown(Account.this);
+        });
+
+        guestorder.setOnClickListener(view -> {
+            Intent intent= new Intent(Account.this,GuestOderActivity.class);
+            startActivity(intent);
+            Animatoo.animateSlideDown(Account.this);
         });
 
 

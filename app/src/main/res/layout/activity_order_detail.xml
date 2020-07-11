@@ -120,14 +120,28 @@
                     android:layout_marginLeft="20dp"
                     android:layout_height="wrap_content">
 
-                    <tech.iwish.pickmall.extended.TextViewFont
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="₹ 2,5999"
-                        android:textSize="18dp"
-                        android:id="@+id/price"
-                        android:textColor="@color/black"
-                        app:fonttype="regular"/>
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="₹"
+                            android:textSize="18dp"
+                            android:textColor="@color/black"
+                            app:fonttype="regular"/>
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="( 2,5999"
+                            android:textSize="18dp"
+                            android:id="@+id/price"
+                            android:textColor="@color/black"
+                            app:fonttype="regular"/>
+
+                    </LinearLayout>
+
                     <tech.iwish.pickmall.extended.TextViewFont
                         android:layout_width="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -234,6 +248,7 @@
                                 <ImageView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:id="@+id/track"
                                     android:src="@drawable/right_arrow"/>
 
                             </LinearLayout>
@@ -473,6 +488,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="2"
+                android:id="@+id/sell"
                 android:layout_marginTop="-10dp"
                 android:layout_marginRight="20dp"
                 android:orientation="horizontal">
@@ -484,6 +500,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
+
                     android:textAlignment="textStart"
                     android:textColor="@color/light_black"
                     android:text="Selling Price"
@@ -507,6 +524,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="2"
+                android:id="@+id/extra"
                 android:layout_marginTop="-10dp"
                 android:layout_marginRight="20dp"
                 android:orientation="horizontal">
@@ -518,6 +536,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
+
                     android:textAlignment="textStart"
                     android:textColor="@color/light_black"
                     android:text="Extra Discount"
@@ -541,7 +560,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="2"
-                    android:visibility="gone"
+                android:visibility="gone"
                 android:layout_marginTop="-10dp"
                 android:layout_marginRight="20dp"
                 android:orientation="horizontal">
@@ -575,6 +594,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="2"
+                android:id="@+id/ship"
                 android:layout_marginTop="-10dp"
                 android:layout_marginRight="20dp"
                 android:orientation="horizontal">
@@ -586,6 +606,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
+
                     android:textAlignment="textStart"
                     android:textColor="@color/light_black"
                     android:text="Shipping Fee"

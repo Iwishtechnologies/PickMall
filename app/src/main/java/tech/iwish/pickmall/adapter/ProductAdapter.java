@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -168,7 +169,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
 
 //            Checkoffer(productLists.get(position).getProduct_id(),holder);
 
+             Log.e("hotpto",productLists.get(position).getHot_product());
+             if(productLists.get(position).getHot_product().equals("True")){
+                 LinearLayout.LayoutParams layoutParams= new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                 layoutParams.setMargins(0,0,0,0);
+                 final RelativeLayout.LayoutParams pro = (RelativeLayout.LayoutParams)holder.product_img.getLayoutParams();
+                 pro.setMargins(0,0,0,0);
+                 holder.product_img.setLayoutParams(pro);
+                 holder.hotlayout.setLayoutParams(layoutParams);
+                 holder.product_name.setVisibility(View.GONE);
 
+
+             }
 
 
             holder.product_layout.setOnClickListener(new View.OnClickListener() {
@@ -205,8 +217,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
         private LinearLayout product_layout, mainproduct;
         private TextView amount, discount_price, product_name, per_dicount;
         private RatingBar product_rationg;
-        LinearLayout offer;
-        TextView off;
+        LinearLayout offer,mainoffer;
+        RelativeLayout hotlayout;
+        TextView off,mainoff;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -219,7 +232,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
             product_name = (TextView) itemView.findViewById(R.id.product_name);
             per_dicount = (TextView) itemView.findViewById(R.id.per_dicount);
             off = (TextView) itemView.findViewById(R.id.off);
+            mainoff = (TextView) itemView.findViewById(R.id.mainoff);
             offer = itemView.findViewById(R.id.offer);
+            mainoffer = itemView.findViewById(R.id.mainoffer);
+            hotlayout = itemView.findViewById(R.id.hotlayout);
             product_rationg = (RatingBar) itemView.findViewById(R.id.product_rationg);
         }
     }

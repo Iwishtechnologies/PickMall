@@ -48,11 +48,11 @@ import tech.iwish.pickmall.session.Share_session;
 public class OrderDetailActivity extends AppCompatActivity implements InternetConnectivityListener {
     TextViewFont name,orderid,color,seller,price,cname,street,city,state,phone,approvedate,delivery_status,cencelled_statement,order_approved,colony,actual_price,selling_price,discount_amount,shipping_fee,total_amount,qty;
     ShapedImageView image;
-    ImageView progress;
+    ImageView progress,track;
     Intent intent;
     Share_session share_session;
     String dis_amt;
-    LinearLayout returnview,ratingview;
+    LinearLayout returnview,ratingview,sell,extra,ship;
     Button help;
     RatingBar RatingBar;
     ShimmerFrameLayout shimmer;
@@ -103,15 +103,11 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         returnorder= findViewById(R.id.returnorder);
         returnview= findViewById(R.id.returnview);
         ratingview= findViewById(R.id.ratingview);
+        sell= findViewById(R.id.sell);
+        extra= findViewById(R.id.extra);
+        ship= findViewById(R.id.ship);
         qty= findViewById(R.id.qty);
-        Log.e("dateadd", String.valueOf(addDay(getIntent().getExtras().getString("delivery_date"),7)));
-        if(addDay(getIntent().getExtras().getString("delivery_date"),7)){
-            returnview.setVisibility(View.VISIBLE);
-            RatingBar.setVisibility(View.GONE);
-        }else {
-            returnview.setVisibility(View.GONE);
-            RatingBar.setVisibility(View.VISIBLE);
-        }
+        track= findViewById(R.id.track);
         GetAddress(getIntent().getExtras().getString("address"));
         GetVendorDetail(getIntent().getExtras().getString("vendor_id"));
         Connectivity();
@@ -128,6 +124,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
             startActivity(intent);
 
         });
+        track.setOnClickListener(v -> {startActivity(new Intent(OrderDetailActivity.this,TrackOrderActivity.class));        });
     }
 
     @Override
@@ -138,8 +135,8 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
 
     private void SetActivityData(){
         name.setText(getIntent().getExtras().getString("ProductName"));
-        orderid.setText("Order ID - "+getIntent().getExtras().getString("orderid"));
-        price.setText("₹ "+getIntent().getExtras().getString("orderamt"));
+        orderid.setText("Order ID - "+getIntent().getExtras().getString("uniqueid"));
+        price.setText(getResources().getString(R.string.rs_symbol)+getIntent().getExtras().getString("orderamt"));
         cname.setText(share_session.getUserDetail().get("username"));
         qty.setText(getIntent().getExtras().getString("qty"));
         street.setText(getIntent().getExtras().getString("address"));
@@ -148,12 +145,18 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         price.setText(getIntent().getExtras().getString("oederAmount"));
         color.setText(getIntent().getExtras().getString("color"));
         Glide.with(OrderDetailActivity.this).load(Constants.IMAGES+getIntent().getExtras().getString("image")).placeholder(R.drawable.male_icon).into(image);
-        actual_price.setText(getIntent().getExtras().getString("actual_price"));
-        shipping_fee.setText(getIntent().getExtras().getString("shipping_charge"));
-        selling_price.setText(getIntent().getExtras().getString("selling_price"));
-        dis_amt= String.valueOf(Integer.parseInt(getIntent().getExtras().getString("actual_price"))-Integer.parseInt(getIntent().getExtras().getString("selling_price")));
-        discount_amount.setText(dis_amt);
-        total_amount.setText(getIntent().getExtras().getString("oederAmount"));
+        actual_price.setText(getResources().getString(R.string.rs_symbol)+getIntent().getExtras().getString("actual_price"));
+
+
+        shipping_fee.setText(getResources().getString(R.string.rs_symbol)+getIntent().getExtras().getString("shipping_charge"));
+        selling_price.setText(getResources().getString(R.string.rs_symbol)+getIntent().getExtras().getString("selling_price"));
+        dis_amt= String.valueOf(Integer.parseInt(getIntent().getExtras().getString("selling_price"))-Integer.parseInt(getIntent().getExtras().getString("actual_price")));
+        discount_amount.setText(getResources().getString(R.string.rs_symbol)+dis_amt);
+        if(getIntent().getExtras().getString("ordertype").equals("freinddeal")){
+          sell.setVisibility(View.GONE);ship.setVisibility(View.GONE);extra.setVisibility(View.GONE);
+        }
+
+        total_amount.setText(getResources().getString(R.string.rs_symbol)+getIntent().getExtras().getString("oederAmount"));
         GetRating(getIntent().getExtras().getString("product_id"),share_session.getUserDetail().get("id"));
 
 
@@ -171,7 +174,10 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
            order_approved.setText("Ordered And Approvep");
            returnview.setVisibility(View.VISIBLE);
            cencelled_statement.setVisibility(View.GONE);
-           ratingview.setVisibility(View.VISIBLE);
+           ratingview.setVisibility(View.VISIBLE);;;;;;;;;;;;
+           if(getIntent().getExtras().getString("ordertype").equals("freinddeal")){
+               returnview.setVisibility(View.GONE);
+           }
        }else if(getIntent().getExtras().getString("orderStatus").equals("CENCELLED")){
            progress.setImageResource(R.drawable.half_fill_progressbar);
            delivery_status.setText("Cancelled");
@@ -185,6 +191,28 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
            cencelled_statement.setVisibility(View.GONE);
            ratingview.setVisibility(View.GONE);
        }
+
+        Log.e("dateadd", String.valueOf(addDay(getIntent().getExtras().getString("delivery_date"),7)));
+        if(addDay(getIntent().getExtras().getString("delivery_date"),7)){
+            returnview.setVisibility(View.VISIBLE);
+            RatingBar.setVisibility(View.GONE);
+            if(getIntent().getExtras().getString("ordertype").equals("freinddeal")){
+                returnview.setVisibility(View.GONE);
+                RatingBar.setVisibility(View.VISIBLE);
+            }
+        }else {
+            returnview.setVisibility(View.GONE);
+            if(getIntent().getExtras().getString("delivery_date").equals("0000-00-00")){
+                RatingBar.setVisibility(View.GONE);
+            }
+            else {
+                RatingBar.setVisibility(View.VISIBLE);
+            }
+
+        }
+        if(getIntent().getExtras().getString("ordertype").equals("freinddeal")){
+            returnview.setVisibility(View.GONE);
+        }
 
     }
 

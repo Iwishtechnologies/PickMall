@@ -10,16 +10,34 @@
         android:id="@+id/product_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_margin="5dp"
-
         android:background="@drawable/product_round_design"
         android:orientation="vertical"
         android:weightSum="2">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_margin="10dp"
+            android:id="@+id/hotlayout"
             android:layout_height="150dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:elevation="1dp"
+                android:id="@+id/mainoffer"
+                android:visibility="gone"
+                android:background="@drawable/offer_label">
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:id="@+id/mainoff"
+                    android:text="50% off"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/whiteColor"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"/>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/silderColor"
+    android:orientation="vertical"
+    tools:context=".activity.ProductActivity">
+
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/progress"
+        android:outlineAmbientShadowColor="@color/colorAccent"
+        android:outlineSpotShadowColor="@color/colorAccent"
+        android:progressTint="@color/colorAccent"
+        android:indeterminateTint="@color/colorAccent"
+        android:layout_centerInParent="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/main"
+        android:background="@color/whiteColor">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/back"
+                android:src="@drawable/leftarrow" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/search_design_product"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:paddingStart="10dp"
+                    android:text="Find Guest Order"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_below="@id/main"
+        android:id="@+id/scroll"
+        android:alpha="1"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+
+            <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:id="@+id/sliderimage"
+                app:round_radius="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/guestorderimage"
+                app:shape_mode="round_rect"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="10dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fonttype="text_regular"
+                    android:textSize="18dp"
+                    android:textColor="@color/light_black"
+                    android:text="Enter OrderID to find Order "/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="#DBDBDB"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#DBDBDB"
+                    android:id="@+id/code"
+                    android:inputType="text"
+                    android:maxLength="12"
+                    android:hint="E.g. 52875"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_margin="20dp"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/whiteColor"
+                    android:background="#C9C9C9"
+                    android:id="@+id/submit"
+                    android:layout_alignParentBottom="true"
+                    android:text="Find"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

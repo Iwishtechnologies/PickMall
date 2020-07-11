@@ -36,7 +36,7 @@ import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.other.ShippingAddressList;
 
 public class VendorRequestActivity extends AppCompatActivity  implements InternetConnectivityListener {
-    EditText name,mobile,address,altermobile,pincode,gstin,type;
+    EditText name,mobile,address,altermobile,pincode,gstin,type,email;
     Button apply;
     ImageView back;
     ProgressBar progressBar;
@@ -64,6 +64,7 @@ public class VendorRequestActivity extends AppCompatActivity  implements Interne
         back= findViewById(R.id.back);
         progressBar= findViewById(R.id.progress);
         main= findViewById(R.id.main);
+        email= findViewById(R.id.email);
         Connectivity();
 
 
@@ -73,10 +74,10 @@ public class VendorRequestActivity extends AppCompatActivity  implements Interne
        apply.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               if(ValidatteInputs(name.getText().toString(),mobile.getText().toString(),address.getText().toString(),altermobile.getText().toString(),pincode.getText().toString(),gstin.getText().toString(),type.getText().toString())){
+               if(ValidatteInputs(name.getText().toString(),mobile.getText().toString(),address.getText().toString(),altermobile.getText().toString(),pincode.getText().toString(),gstin.getText().toString(),type.getText().toString(),email.getText().toString())){
                    main.setAlpha((float) 0.5);
                    progressBar.setVisibility(View.VISIBLE);
-                   Make_Request(name.getText().toString(),mobile.getText().toString(),address.getText().toString(),altermobile.getText().toString(),pincode.getText().toString(),gstin.getText().toString(),type.getText().toString());
+                   Make_Request(name.getText().toString(),mobile.getText().toString(),address.getText().toString(),altermobile.getText().toString(),pincode.getText().toString(),gstin.getText().toString(),type.getText().toString(),email.getText().toString());
                    Toast.makeText(VendorRequestActivity.this, "Thanks for Interest We Will Contact Soon", Toast.LENGTH_SHORT).show();
                    startActivity(new Intent(VendorRequestActivity.this,Account.class));
                    Animatoo.animateFade(VendorRequestActivity.this);
@@ -93,7 +94,7 @@ public class VendorRequestActivity extends AppCompatActivity  implements Interne
         });
     }
 
-    private  Boolean  ValidatteInputs(String name1,String mobile1,String address1,String altermobile1,String pincode1,String gstin1,String type1){
+    private  Boolean  ValidatteInputs(String name1,String mobile1,String address1,String altermobile1,String pincode1,String gstin1,String type1,String email1){
         Boolean result=true;
         if(name1.isEmpty()){
             name.setError("Is Empty");
@@ -148,11 +149,16 @@ public class VendorRequestActivity extends AppCompatActivity  implements Interne
             result=false;
             return result;
         }
+        if(email1.isEmpty()){
+            email.setError("Is Empty");
+            result=false;
+            return result;
+        }
 
         return result;
     }
 
-    private void Make_Request(String name1,String mobile1,String address1,String altermobile1,String pincode1,String gstin1,String type1){
+    private void Make_Request(String name1,String mobile1,String address1,String altermobile1,String pincode1,String gstin1,String type1,String email1){
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
@@ -164,6 +170,7 @@ public class VendorRequestActivity extends AppCompatActivity  implements Interne
             jsonObject.put("pincode",pincode1);
             jsonObject.put("gstin",gstin1);
             jsonObject.put("type",type1);
+            jsonObject.put("email",email1);
 
         } catch (JSONException e) {
             e.printStackTrace();

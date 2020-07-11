@@ -93,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Description..."
-                    android:focusable="false"
+                    android:focusable="true"
                     android:backgroundTint="@color/white"
                     android:inputType="text|textMultiLine"
                     android:textColor="@color/black"/>

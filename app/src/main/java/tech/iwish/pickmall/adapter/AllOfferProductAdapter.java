@@ -157,8 +157,8 @@ public class AllOfferProductAdapter extends RecyclerView.Adapter<AllOfferProduct
                 float disprice = per *Float.parseFloat(productLists.get(position).getExtraDiscount());
                  Finalamount= (int) (actual-disprice);
                  productLists.get(position).setActual_price(String.valueOf(Finalamount));
-                holder.offer.setVisibility(View.VISIBLE);
-                holder.off.setText(productLists.get(position).getExtraDiscount()+"% off");
+                holder.mainoffer.setVisibility(View.VISIBLE);
+                holder.mainoff.setText(productLists.get(position).getExtraDiscount()+"% off");
                 holder.amount.setText(context.getResources().getString(R.string.rs_symbol)+Finalamount);
             }
 
@@ -196,8 +196,8 @@ public class AllOfferProductAdapter extends RecyclerView.Adapter<AllOfferProduct
         private LinearLayout product_layout, mainproduct;
         private TextView amount, discount_price, product_name, per_dicount;
         private RatingBar product_rationg;
-        LinearLayout offer;
-        TextView off;
+        LinearLayout offer,mainoffer;
+        TextView off,mainoff;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -210,7 +210,9 @@ public class AllOfferProductAdapter extends RecyclerView.Adapter<AllOfferProduct
             product_name = (TextView) itemView.findViewById(R.id.product_name);
             per_dicount = (TextView) itemView.findViewById(R.id.per_dicount);
             off = (TextView) itemView.findViewById(R.id.off);
+            mainoff = (TextView) itemView.findViewById(R.id.mainoff);
             offer = itemView.findViewById(R.id.offer);
+            mainoffer = itemView.findViewById(R.id.mainoffer);
             product_rationg = (RatingBar) itemView.findViewById(R.id.product_rationg);
         }
     }
