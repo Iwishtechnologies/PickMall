@@ -24,8 +24,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
-import com.allenliu.androidsharelib.AndroidShare;
-import com.allenliu.androidsharelib.AndroidSharePlatform;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
@@ -49,7 +47,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import fr.tvbarthel.intentshare.IntentShare;
 import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
 import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
 import okhttp3.Call;
@@ -192,16 +189,16 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
 
     private void shareTextUrl(String Code) {
 
-        Uri bmpUri = getLocalBitmapUri(drawableToBitmap(getResources().getDrawable(R.drawable.picbanner))); // see previous remote images section
-        Intent shareIntent;
-        shareIntent = new Intent();
-        shareIntent.setPackage("com.whatsapp");
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "PICKMALL Online Shopping Everything On Factory Price\n\nPICKMALL, as one of the best online shopping app in India,\n\nyou can shop the latest trendy items with lowest price & high quality at home. Free shipping & Cash on delivery service are supported, all latest trendy products UP TO 90% OFF! \n\nWe Sell Everything On Fair Price Because PICKMALL Is a Platform For Customer Can Buy Everything From Factory’s Without Any Extra Price Or Any Type Of Commission.\n\nHey check out my app at: https://play.google.com/store/apps/details?id=tech.iwish.pickmall \n\n Referrel Code:-"+ Code);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-        shareIntent.setType("image/*");
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(shareIntent, "Share Opportunity"));
+//        Uri bmpUri = getLocalBitmapUri(drawableToBitmap(getResources().getDrawable(R.drawable.picbanner))); // see previous remote images section
+//        Intent shareIntent;
+//        shareIntent = new Intent();
+//        shareIntent.setPackage("com.whatsapp");
+//        shareIntent.setAction(Intent.ACTION_SEND);
+//        shareIntent.putExtra(Intent.EXTRA_TEXT, "PICKMALL Online Shopping Everything On Factory Price\n\nPICKMALL, as one of the best online shopping app in India,\n\nyou can shop the latest trendy items with lowest price & high quality at home. Free shipping & Cash on delivery service are supported, all latest trendy products UP TO 90% OFF! \n\nWe Sell Everything On Fair Price Because PICKMALL Is a Platform For Customer Can Buy Everything From Factory’s Without Any Extra Price Or Any Type Of Commission.\n\nHey check out my app at: https://play.google.com/store/apps/details?id=tech.iwish.pickmall \n\n Referrel Code:-"+ Code);
+//        shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+//        shareIntent.setType("image/*");
+//        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//        startActivity(Intent.createChooser(shareIntent, "Share Opportunity"));
     }
 
     private Bitmap getbitmap() {

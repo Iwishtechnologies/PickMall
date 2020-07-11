@@ -201,7 +201,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         OkHttpClient okHttpClient1 = new OkHttpClient();
         final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("images","images", RequestBody.create(MEDIA_TYPE_PNG, imageValue))
+                .addFormDataPart("images","name", RequestBody.create(MEDIA_TYPE_PNG, imageValue))
                 .addFormDataPart("description", description.getText().toString().trim())
                 .addFormDataPart("user_number", data.get(USERMOBILE).toString())
                 .build();

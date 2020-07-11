@@ -1,5 +1,6 @@
 package tech.iwish.pickmall.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,6 +46,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.Viewholder> {
     Comment_Interface comment_Interface;
     Share_session shareSession;
     Map data;
+    boolean likeCheck = false;
 
     public NewsAdapter(List<NewsList> newsLists, Comment_Interface comment_interface) {
         this.newsLists = newsLists;
@@ -68,10 +70,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.Viewholder> {
         NewsList list = newsLists.get(position);
 
 
-            String a = Constants.IMAGES + list.getImage();
-            Glide.with(context).load(a).into(holder.images);
+        String a = Constants.IMAGES + list.getImage();
+        Glide.with(context).load(a).into(holder.images);
 
-            holder.descripsion.setText(list.getDescription());
+        holder.descripsion.setText(list.getDescription());
         holder.likeSet.setText(list.getLikes());
 
 
@@ -85,7 +87,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.Viewholder> {
     public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         LinearLayout likeClick, comment;
-        TextView likeSet,descripsion;
+        TextView likeSet, descripsion;
         ImageView images;
 
         public Viewholder(@NonNull View itemView) {
@@ -118,6 +120,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.Viewholder> {
         }
 
         private void likes() {
+
+            likeCheck = true;
+
+
             OkHttpClient okHttpClient = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
             JSONObject jsonObject = new JSONObject();
@@ -128,7 +134,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.Viewholder> {
                 e.printStackTrace();
             }
             RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-                Request request1 = new Request.Builder().url(Constants.LIKES).post(body).build();
+            Request request1 = new Request.Builder().url(Constants.LIKES).post(body).build();
             okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -146,6 +152,26 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.Viewholder> {
                             if (responses.equals("TRUE")) {
 
 
+                                if (((Activity) context) != null) {
+
+                                    ((Activity) context).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            String msg = jsonHelper.GetResult("msg");
+                                            String like = likeSet.getText().toString().trim();
+                                            int likes = Integer.parseInt(like);
+                                            if (msg.equals("like")) {
+                                                int addLike = likes + 1;
+                                                likeSet.setText(String.valueOf(addLike));
+                                            } else {
+                                                int unLike = likes - 1;
+                                                likeSet.setText(String.valueOf(unLike));
+                                            }
+                                        }
+                                    });
+
+                                }
                             }
                         }
                     }

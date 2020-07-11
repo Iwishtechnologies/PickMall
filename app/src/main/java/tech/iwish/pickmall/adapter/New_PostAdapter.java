@@ -1,6 +1,12 @@
 package tech.iwish.pickmall.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +19,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -154,7 +166,26 @@ public class New_PostAdapter extends RecyclerView.Adapter<New_PostAdapter.Viewho
                         if (jsonHelper.isValidJson()) {
                             String responses = jsonHelper.GetResult("response");
                             if (responses.equals("TRUE")) {
+                                if (((Activity) context) != null) {
 
+                                    ((Activity) context).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            String msg = jsonHelper.GetResult("msg");
+                                            String like = likeSet.getText().toString().trim();
+                                            int likes = Integer.parseInt(like);
+                                            if (msg.equals("like")) {
+                                                int addLike = likes + 1;
+                                                likeSet.setText(String.valueOf(addLike));
+                                            } else {
+                                                int unLike = likes - 1;
+                                                likeSet.setText(String.valueOf(unLike));
+                                            }
+                                        }
+                                    });
+
+                                }
                             }
                         }
                     }
@@ -165,8 +196,67 @@ public class New_PostAdapter extends RecyclerView.Adapter<New_PostAdapter.Viewho
 
         private void share() {
 
+            Bitmap map= getbitmap();
+            Uri bmpUri = getLocalBitmapUri(map); // see previous remote images section
+            Intent shareIntent;
+            shareIntent = new Intent();
+            shareIntent.setPackage("com.whatsapp");
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+            shareIntent.setType("image/*");
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            context.startActivity(Intent.createChooser(shareIntent, "Share Opportunity"));
 
         }
+
+
+
+        private Bitmap getbitmap() {
+
+            Log.e("getbitmap: ", Constants.IMAGES + new_postLists.get(getAdapterPosition()).getImage()+".png");
+            Log.e("getbitmap: ", Constants.IMAGES + new_postLists.get(getAdapterPosition()).getImage()+".png");
+
+
+            final Bitmap[] image = new Bitmap[1];
+            Glide.with(context)
+                    .asBitmap()
+                    .load(Constants.IMAGES + new_postLists.get(getAdapterPosition()).getImage())
+                    .into(new CustomTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                            image[0] =resource;
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+                        }
+                    });
+            return image[0];
+        }
+
+
+
+        private Uri getLocalBitmapUri(Bitmap bmp) {
+            Uri bmpUri = null;
+            File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
+            FileOutputStream out = null;
+            try {
+                out = new FileOutputStream(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            bmpUri = Uri.fromFile(file);
+            return bmpUri;
+        }
+
+
 
     }
 

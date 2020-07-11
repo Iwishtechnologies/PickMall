@@ -48,6 +48,8 @@ public class NewsActivity extends AppCompatActivity {
     New_PostIInterface new_postIInterface;
     String type;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

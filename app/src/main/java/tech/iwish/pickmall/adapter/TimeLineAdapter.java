@@ -1,5 +1,6 @@
 package tech.iwish.pickmall.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -139,6 +140,27 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.Viewho
                         if (jsonHelper.isValidJson()) {
                             String responses = jsonHelper.GetResult("response");
                             if (responses.equals("TRUE")) {
+
+                                if (((Activity) context) != null) {
+
+                                    ((Activity) context).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            String msg = jsonHelper.GetResult("msg");
+                                            String like = likeSet.getText().toString().trim();
+                                            int likes = Integer.parseInt(like);
+                                            if (msg.equals("like")) {
+                                                int addLike = likes + 1;
+                                                likeSet.setText(String.valueOf(addLike));
+                                            } else {
+                                                int unLike = likes - 1;
+                                                likeSet.setText(String.valueOf(unLike));
+                                            }
+                                        }
+                                    });
+
+                                }
 
                             }
                         }
