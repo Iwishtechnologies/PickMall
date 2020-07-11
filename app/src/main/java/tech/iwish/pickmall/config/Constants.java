@@ -16,8 +16,8 @@ public class Constants {
 //    public static String SUBFOLDER = "/api/";
 
     //    public static String URL = "http://pickmall.iwishtech.xyz/api/";
-//    public static String URL = "http://173.212.226.143:8086/api/";
-    public static String URL = "http://admin.pickmall.in/api/";
+    public static String URL = "http://173.212.226.143:8086/api/";
+//    public static String URL = "http://admin.pickmall.in/api/";
 
     public static String SILDER_IMAGE = URL + "silder";
     public static String USER_ADDRESS = URL + "user_address";
@@ -134,16 +134,57 @@ public class Constants {
     public static String CATEGORY_IMAGE_SET = URL + "category_image_set";
     public static String SILDER_OPEN_BOTH = URL + "silder_open_both";
     public static String FRIENDDEALPLAYRULE = URL + "Frienddealplayrule";
+    public static String SUGGESTION = URL + "suggestion";
+    public static String NEWS = URL + "news";
+    public static String LIKES = URL + "likes";
+    public static String NEWS_COMMENT = URL + "news_comment";
+    public static String NEWS_COMMENT_SEND = URL + "news_comment_sends";
+    public static String NEW_POST_LIKE = URL + "new_post_like";
+    public static String NEW_POST_SHOW = URL + "new_post_show";
+    public static String NEW_POST_COMMENT = URL + "new_post_comment";
+    public static String NEW_POST_COMMENT_SEND = URL + "new_post_comment_sends";
+    public static String TIMELINE_SHOW = URL + "timeline_show";
+    public static String SEND_NEW_POST = URL + "send_new_post";
+
 
 
 
 
     //        public static String IMAGES = "http://pickmall.iwishtech.xyz/img/";
-//        public static String IMAGES = "http://173.212.226.143:8086/img/";
-    public static String IMAGES = "http://admin.pickmall.in/img/";
+        public static String IMAGES = "http://173.212.226.143:8086/img/";
+//    public static String IMAGES = "http://admin.pickmall.in/img/";
     public static String SHAREDPREFERENCE = "money_pref";
     public static final String SHAREDPREFERENCE_STR = "money_pref_str";
 //    public static final String COUPENiMAGE = "http://173.212.226.143:8086/template";
 
 
+
+//     some value
+
+    public static String NEW_POST =  "new_post";
+    public static String ALLNEWS =  "news";
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

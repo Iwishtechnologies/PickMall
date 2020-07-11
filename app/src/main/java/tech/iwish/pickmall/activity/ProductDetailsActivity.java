@@ -74,7 +74,7 @@ import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 
 public class ProductDetailsActivity extends AppCompatActivity implements View.OnClickListener, ProductCountInterface {
 
-    private TextView ac_priceEdit, dicount_price_Edit, title_name_edit, select_size_color, one_product_name, quty_value,
+    private TextView ac_priceEdit, dicount_price_Edit, title_name_edit, select_size_color, one_product_name, quty_value,hight_count,
             one_rs_amount, one_rs_dicount_price, dicount_price_text, product_count_value, new_user_text, total_user_req, rating, timeset, free_one_win;
     private List<ProductDetailsImageList> productDetailsListImageList = new ArrayList<>();
     private List<ProductSizeColorList> productSizeColorLists = new ArrayList<>();
@@ -96,7 +96,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     private ProductSizeInterFace productSizeInterFace;
     private LinearLayout qty_layouts, dicount_price_per_mrp_layout, friendDealTimeLayout, onersview;
     TextViewFont onediscription, fulldiscription, CountCheck;
-    String referCode, referCount = null;
+    String referCode, Totalcount,referCount = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +122,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         quty_value = (TextView) findViewById(R.id.quty_value);
         timeset = (TextView) findViewById(R.id.timeset);
         free_one_win = (TextView) findViewById(R.id.free_one_win);
+        hight_count = (TextView) findViewById(R.id.hight_count);
         size_product_recycleview = (RecyclerView) findViewById(R.id.size_product_recycleview);
 
         productImageDetailsViewpager = (ViewPager) findViewById(R.id.productImageDetailsViewpager);
@@ -210,6 +211,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 button_layout.setVisibility(View.VISIBLE);
                 qty_layouts.setVisibility(View.VISIBLE);
                 dicount_price_per_mrp_layout.setVisibility(View.VISIBLE);
+                hight_count.setVisibility(View.GONE);
 
 
                 float mrp = Float.parseFloat(discount_price);
@@ -258,6 +260,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                     if (item_type.equals("friend_deal")) {
                         onediscription.setText("Start A Rs 1 Friends Deal Invite");
                         fulldiscription.setText(new_user_request + " New Users & Get Product In Just Rs 1 Hurry Limited Offer");
+                        hight_count.setVisibility(View.GONE);
                         new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), ProductDetailsActivity.this, timeset, item_type).Time_12_H();
                         RankingMethod();
                     } else if (item_type.equals("one_win")) {
@@ -265,11 +268,13 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                         free_one_win.setVisibility(View.VISIBLE);
                         onediscription.setText("Start a Deal, Invite Maximum Friends, When System Get Complete Downloads.");
                         fulldiscription.setText(" The Person Who Share With More Peoples That Person Will Be Win This Deal");
+                        hight_count.setVisibility(View.VISIBLE);
                         RankingMethod();
                     } else {
                         onediscription.setText("Start A Rs 90 Friends Deal Invite");
                         fulldiscription.setText(new_user_request + " New Users & Get  A Big & Costly Product In Just Rs 90 Hurry Limited Offer");
                         new FriendDeaTimeSet(product_id, shareSession.getUserDetail().get("UserMobile"), ProductDetailsActivity.this, timeset, item_type).Time_24_H();
+                        hight_count.setVisibility(View.GONE);
                         RankingMethod();
                     }
                 }
@@ -910,7 +915,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     private void productChehckFriendeal() {
 
-
+        Log.e("item_type",item_type);
+        Log.e("item_type",item_type);
 
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -918,6 +924,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         try {
             jsonObject.put("client_number", data.get(USERMOBILE).toString());
             jsonObject.put("product_id", product_id);
+            jsonObject.put("item_type", item_type);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -956,7 +964,22 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                                 referCount = jsonHelper.GetResult("counts");
                                                 CountCheck.setText("Your Share Complete " + referCount);
                                             }
-                                        } else {
+                                        } else if(jsonHelper.GetResult("message").equals("one_win_all_ready")){
+                                            share_btn.setVisibility(View.VISIBLE);
+                                            friend_deal_image.setVisibility(View.GONE);
+
+                                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                                            for (int i = 0; i < jsonArray.length(); i++) {
+                                                jsonHelper.setChildjsonObj(jsonArray, i);
+
+                                                Totalcount = jsonHelper.GetResult("count");
+                                                referCount = jsonHelper.GetResult("user_share_count");
+                                                referCode = jsonHelper.GetResult("code");
+                                                CountCheck.setText("Your Share Complete " + referCount);
+                                                hight_count.setText("Highest share " + new_user_request +" / "+ Totalcount);
+                                            }
+
+                                        }else {
                                             share_btn.setVisibility(View.GONE);
                                             friend_deal_image.setVisibility(View.VISIBLE);
                                         }
@@ -985,6 +1008,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         try {
             jsonObject.put("client_number", data.get(USERMOBILE).toString());
             jsonObject.put("product_id", product_id);
+            jsonObject.put("item_type", item_type);
         } catch (JSONException e) {
             e.printStackTrace();
         }

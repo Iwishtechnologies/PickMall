@@ -15,14 +15,40 @@ public class Feed extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
-        recyclerView= findViewById(R.id.recycle);
 
+        recyclerView= findViewById(R.id.recycle);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL); // set Horizontal Orientation
         recyclerView.setLayoutManager(linearLayoutManager); // set LayoutManager to RecyclerView
 
-
-
     }
+
+
+    
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

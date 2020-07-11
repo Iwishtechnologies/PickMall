@@ -1,4 +1,9 @@
 package tech.iwish.pickmall.Notification;
 
-public class DeviceToken  {
+import com.google.firebase.iid.FirebaseInstanceId;
+
+public class DeviceToken {
+
+
+
 }

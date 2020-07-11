@@ -37,6 +37,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.jetbrains.annotations.NotNull;
@@ -86,6 +88,7 @@ import tech.iwish.pickmall.other.SilderLists;
 import tech.iwish.pickmall.reciver.InterNetConnection;
 import tech.iwish.pickmall.session.Share_session;
 
+import static tech.iwish.pickmall.OkhttpConnection.ProductListF.flash_sale_list_fake;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.friend_deal_list_fake;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.item_fakelist;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.silder_list_fack;
@@ -116,7 +119,7 @@ public class MainActivity extends AppCompatActivity
     //    private static final long START_TIME_IN_MILLIS = 86400000;
 //        private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     private long mTimeLeftInMillis;
-    private LinearLayout viewAll_FreshSale, product_count_card_layout, flash_line, viewall_friend_deal, prepaid_layout;
+    private LinearLayout viewAll_FreshSale, product_count_card_layout, flash_line, viewall_friend_deal, prepaid_layout ,message;
     private ImageView homeBottom, feedBottom, cardBottom, accountBottom;
     private String bottomClickCheck;
     private SwipeRefreshLayout swipe_refresh_layout;
@@ -156,6 +159,24 @@ public class MainActivity extends AppCompatActivity
 
 
         FirebaseMessaging.getInstance().subscribeToTopic("OFFER");
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+
+                        // Log and toast
+//                        Toast.makeText(MainActivity.this, "aaaaa", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
 
         InterNetConnection interNetConnection = new InterNetConnection();
         IntentFilter intentFilter = new IntentFilter();
@@ -176,6 +197,7 @@ public class MainActivity extends AppCompatActivity
         flash_line = (LinearLayout) findViewById(R.id.flash_line);
         viewall_friend_deal = (LinearLayout) findViewById(R.id.viewall_friend_deal);
         prepaid_layout = (LinearLayout) findViewById(R.id.prepaid_layout);
+        message = (LinearLayout) findViewById(R.id.message);
 
         homeBottom = (ImageView) findViewById(R.id.HomeBottom);
         feedBottom = (ImageView) findViewById(R.id.FeedBottom);
@@ -226,6 +248,7 @@ public class MainActivity extends AppCompatActivity
         search_bar_layout.setOnClickListener(this);
         viewall_friend_deal.setOnClickListener(this);
         prepaid_layout.setOnClickListener(this);
+        message.setOnClickListener(this);
         homeBottom.setImageDrawable(getResources().getDrawable(R.drawable.home_icon_orange));
 //        swipe_refresh_layout.setOnRefreshListener(this);
         cardProductCount();
@@ -242,6 +265,9 @@ public class MainActivity extends AppCompatActivity
         }
 
     }
+
+
+
 
     private void friend_deal_90_rs_amount_return() {
 
@@ -331,7 +357,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void silder() {
+    private void silder()   {
 
         silderAdapter = new SilderAdapter(MainActivity.this, silder_list_fack());
         viewPages.setAdapter(silderAdapter);
@@ -603,6 +629,7 @@ public class MainActivity extends AppCompatActivity
         }, 250, 3000);
 
 
+
     }
 
     @Override
@@ -610,9 +637,6 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent();
         int id = view.getId();
         switch (id) {
-            case R.id.HomeBottom:
-
-                break;
             case R.id.FeedBottom:
                 intent = new Intent(MainActivity.this, AllcategoryActivity.class);
                 startActivity(intent);
@@ -651,6 +675,10 @@ public class MainActivity extends AppCompatActivity
                 intent = new Intent(MainActivity.this, ProductActivity.class);
                 intent.putExtra("type", "prepaid");
                 intent.putExtra("itemName", "Prepaid");
+                startActivity(intent);
+                break;
+            case R.id.message:
+                intent = new Intent(MainActivity.this, MessageActivity.class);
                 startActivity(intent);
                 break;
         }

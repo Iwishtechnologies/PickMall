@@ -98,6 +98,7 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
 
             String a = Constants.IMAGES + productListList.get(position).getPimg();
             Glide.with(context).load(a).into(holder.image_flash_sale);
+
             holder.product_name_flash.setText(productListList.get(position).getProductName());
             getStock(productListList.get(position).getProduct_id(),holder);
             //=========================================================

@@ -27,6 +27,7 @@ public class OfferNotification extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
+
         notification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
 
     }
@@ -71,6 +72,18 @@ public class OfferNotification extends FirebaseMessagingService {
 
     }
 
+    @Override
+    public void onNewToken(@NonNull String s) {
+        super.onNewToken(s);
+    }
+
+
+    //    @Override
+//    public void onNewToken(String token) {
+//        Log.d( "Refreshed token: " , token);
+//
+//        OfferNotification.this.sendRegistrationToServer(token);
+//    }
 
 //    @Override
 //    public void onTokenRefresh() {

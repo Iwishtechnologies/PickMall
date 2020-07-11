@@ -135,6 +135,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 }else {
                     coupenview.setVisibility(View.GONE);
                     grandTotal = Integer.parseInt(product_amt);
+                    finalamountsInt=grandTotal;
                 }
 
                 total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);

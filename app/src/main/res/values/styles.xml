@@ -131,6 +131,13 @@
 
     </style>
 
+    <style name="post" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">#381B1A</item>
+        <item name="colorPrimary">#DC9B40 </item>
+        <item name="android:name">Cart </item>
+
+    </style>
+
     <style name="full_screen_dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>

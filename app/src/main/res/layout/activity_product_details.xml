@@ -599,7 +599,7 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="400dp"
+                    android:layout_height="430dp"
                     android:layout_marginTop="-20dp"
                     android:layout_marginBottom="-30dp"
                     android:background="@drawable/bottom"
@@ -959,6 +959,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:paddingLeft="20dp"
+                            android:layout_marginTop="4dp"
                             android:paddingTop="10dp"
                             android:paddingRight="20dp">
 
@@ -998,6 +999,24 @@
                             android:paddingRight="20dp">
 
                             <tech.iwish.pickmall.extended.TextViewFont
+                                android:id="@+id/hight_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="@color/white"
+                                app:fonttype="text_semi_bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:orientation="horizontal"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp">
+
+                            <tech.iwish.pickmall.extended.TextViewFont
                                 android:id="@+id/CountCheck"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -1006,6 +1025,7 @@
                                 app:fonttype="text_semi_bold" />
 
                         </LinearLayout>
+
 
                     </LinearLayout>
 
