@@ -53,7 +53,7 @@ import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 public class NewPostActivity extends AppCompatActivity implements View.OnClickListener {
 
     LinearLayout upload_img;
-    ImageView imageSet, postBtn;
+    ImageView imageSet, postBtn,againImageSelect;
     private static int RESULT_LOAD_IMAGE = 1;
     Uri imageUri;
     RelativeLayout imageSetRelativeLayout;
@@ -78,6 +78,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         postBtn = findViewById(R.id.postBtn);
         description = findViewById(R.id.description);
         timelineRecyclerview = findViewById(R.id.timelineRecyclerview);
+        againImageSelect = findViewById(R.id.againImageSelect);
 
         shareSession = new Share_session(this);
         data = shareSession.Fetchdata();
@@ -87,6 +88,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
         upload_img.setOnClickListener(this);
         postBtn.setOnClickListener(this);
+        againImageSelect.setOnClickListener(this);
     }
 
     private void TimeLineShow() {
@@ -183,6 +185,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
         switch (id) {
             case R.id.upload_img:
+            case R.id.againImageSelect:
                 SelectImage();
                 break;
             case R.id.postBtn:
@@ -199,9 +202,9 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 
     private void sendData() {
         OkHttpClient okHttpClient1 = new OkHttpClient();
-        final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
+        final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/*");
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("images","name", RequestBody.create(MEDIA_TYPE_PNG, imageValue))
+                .addFormDataPart("images",imageValue.getName(), RequestBody.create(MediaType.parse("image/*"), imageValue))
                 .addFormDataPart("description", description.getText().toString().trim())
                 .addFormDataPart("user_number", data.get(USERMOBILE).toString())
                 .build();
@@ -263,6 +266,17 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
 //        startActivityForResult(i, RESULT_LOAD_IMAGE);
 
 
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(Intent.createChooser(intent, "Select Picture"),0);
+
+//        Intent intent = new Intent();
+//        intent.setAction(android.content.Intent.ACTION_VIEW);
+//        intent.setType("image/*");
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
+
         ImagePicker.Companion.with(NewPostActivity.this).compress(1024).maxResultSize(1080, 1080).start();
 
     }
@@ -271,14 +285,17 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-
         if (data.getData() != null) {
-            imageValue = new File(String.valueOf(data.getData()).substring(7));
+
+            Uri uri = Uri.parse(data.getData().toString());
+            imageValue =  new File(uri.getPath());
             upload_img.setClickable(false);
+            upload_img.setVisibility(View.GONE);
             imageSetRelativeLayout.setVisibility(View.VISIBLE);
             imageUri = data.getData();
             imageSet.setImageURI(imageUri);
             Imagecheck = true;
+
         }
 
 

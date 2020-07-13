@@ -6,10 +6,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
 import android.util.Log;
@@ -29,6 +31,11 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.ShortDynamicLink;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.config.Constants;
@@ -210,29 +217,17 @@ public class OneRsShareActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Uri shortLink = task.getResult().getShortLink();
                         Uri flowchartLink = task.getResult().getPreviewLink();
+
+                        Uri bmpUri = getLocalBitmapUri(drawableToBitmap(getResources().getDrawable(R.drawable.picbanner))); // see previous remote images section
                         Intent intent = new Intent();
-                        intent.setType("text/plain");
+                        intent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+                        intent.setType("image/*");
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         intent.setAction(Intent.ACTION_SEND);
                         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Trip from Voyajo");
                         intent.putExtra(intent.EXTRA_TEXT, msg + shortLink);
-                        startActivity(intent);
-
-//                        Drawable drawable = getResources().getDrawable(R.drawable.pick_mall_image);
-//                        Bitmap bmp = null;
-//                        bmp = ((BitmapDrawable) drawable).getBitmap();
-//                        Uri uri = Uri.parse("android.resource://tech.iwish.pickmall/"+R.drawable.applogo);
-                      /*  Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.applogo);
-                        Intent intent = new Intent();
-                        intent.setAction(Intent.ACTION_SEND);
-                        intent.setType("text/plain");
-                        intent.setPackage("com.whatsapp");
-                        intent.setType("image/*");
-                        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Trip from Voyajo");
-                        intent.putExtra(intent.EXTRA_TEXT, "Pay Rs.1 to start a deal in Friends Deal\n\nRs.1 Friend’s Deal wherein you have a fair chance to win a product, you will get an amazing product for just Rs.1.\n\nIsn’t it a great deal? So, what are you waiting for? Log on to the PICKMALL App now and choose from the different products that PICKMALL offers under this deal!\n\nYou can also get unbelievable cashback and discounts on orders! Hurry!\n\n " + shortLink);
-                        intent.putExtra(Intent.EXTRA_STREAM, uri);
-                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        startActivity(intent);
-                      */
+                        startActivity(Intent.createChooser(intent, "Share Opportunity"));
+//                        startActivity(intent);
 
 
                     } else {
@@ -244,6 +239,54 @@ public class OneRsShareActivity extends AppCompatActivity {
         invite_friend_deal.setEnabled(true);
 
     }
+
+
+
+
+    public static Bitmap drawableToBitmap (Drawable drawable) {
+        Bitmap bitmap = null;
+
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if(bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+
+        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
+
+    private Uri getLocalBitmapUri(Bitmap bmp) {
+        Uri bmpUri = null;
+        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+        try {
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        bmpUri = Uri.fromFile(file);
+        return bmpUri;
+    }
+
+
+
+
 
     @Override
     public void onBackPressed() {

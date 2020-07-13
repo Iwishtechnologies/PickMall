@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
@@ -31,6 +32,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -67,7 +72,6 @@ public class New_PostAdapter extends RecyclerView.Adapter<New_PostAdapter.Viewho
     }
 
 
-
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -100,8 +104,8 @@ public class New_PostAdapter extends RecyclerView.Adapter<New_PostAdapter.Viewho
 
     public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        LinearLayout likeClick, comment,shareLinearLayout;
-        TextView likeSet,descripsion;
+        LinearLayout likeClick, comment, shareLinearLayout;
+        TextView likeSet, descripsion;
         ImageView images;
 
         public Viewholder(@NonNull View itemView) {
@@ -196,27 +200,49 @@ public class New_PostAdapter extends RecyclerView.Adapter<New_PostAdapter.Viewho
 
         private void share() {
 
-            Bitmap map= getbitmap();
-            Uri bmpUri = getLocalBitmapUri(map); // see previous remote images section
-            Intent shareIntent;
-            shareIntent = new Intent();
-            shareIntent.setPackage("com.whatsapp");
-            shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "");
-            shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-            shareIntent.setType("image/*");
-            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            context.startActivity(Intent.createChooser(shareIntent, "Share Opportunity"));
+
+
+//            Intent shareIntent;
+//            shareIntent = new Intent();
+//            shareIntent.setPackage("com.whatsapp");
+//            shareIntent.setAction(Intent.ACTION_SEND);
+//            shareIntent.putExtra(Intent.EXTRA_TEXT, "");
+//            shareIntent.putExtra(Intent.EXTRA_STREAM, "/storage/emulated/0/DCIM/Camera/IMG_20200711_161838043.jpg");
+//            shareIntent.setType("image/*");
+//            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//            context.startActivity(Intent.createChooser(shareIntent, "Share Opportunity"));
+
+
+            String imageUrl = "http://www.avajava.com/images/avajavalogo.jpg";
+            String destinationFile = "im161sdcsd1cage.jpg";
+
+            try {
+                saveImage(imageUrl, destinationFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }
 
 
+        public  void saveImage(String imageUrl, String destinationFile) throws IOException {
+            URL url = new URL(imageUrl);
+            InputStream is = url.openStream();
+            OutputStream os = new FileOutputStream(destinationFile);
+
+            byte[] b = new byte[2048];
+            int length;
+
+            while ((length = is.read(b)) != -1) {
+                os.write(b, 0, length);
+            }
+
+            is.close();
+            os.close();
+        }
+
 
         private Bitmap getbitmap() {
-
-            Log.e("getbitmap: ", Constants.IMAGES + new_postLists.get(getAdapterPosition()).getImage()+".png");
-            Log.e("getbitmap: ", Constants.IMAGES + new_postLists.get(getAdapterPosition()).getImage()+".png");
-
 
             final Bitmap[] image = new Bitmap[1];
             Glide.with(context)
@@ -225,7 +251,7 @@ public class New_PostAdapter extends RecyclerView.Adapter<New_PostAdapter.Viewho
                     .into(new CustomTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                            image[0] =resource;
+                            image[0] = resource;
                         }
 
                         @Override
@@ -234,7 +260,6 @@ public class New_PostAdapter extends RecyclerView.Adapter<New_PostAdapter.Viewho
                     });
             return image[0];
         }
-
 
 
         private Uri getLocalBitmapUri(Bitmap bmp) {
@@ -257,7 +282,24 @@ public class New_PostAdapter extends RecyclerView.Adapter<New_PostAdapter.Viewho
         }
 
 
+    }
 
+
+//    =========================================================
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
+            return null;
+        }
     }
 
 

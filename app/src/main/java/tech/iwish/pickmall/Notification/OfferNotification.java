@@ -75,6 +75,10 @@ public class OfferNotification extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
+        sendRegistrationToServer(s);
+    }
+
+    private void sendRegistrationToServer(String token) {
     }
 
 
