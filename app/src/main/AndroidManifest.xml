@@ -18,6 +18,8 @@
         android:roundIcon="@drawable/applogo"
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
+        android:grantUriPermissions="true"
+        android:exported="false"
         android:usesCleartextTraffic="true">
         <activity android:name=".activity.TrackOrderActivity" android:theme="@style/tracktheme" android:screenOrientation="portrait"></activity>
         <activity

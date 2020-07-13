@@ -6,8 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -15,6 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
 import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
@@ -25,16 +30,21 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.adapter.TrackOrderAdapter;
 import tech.iwish.pickmall.adapter.WishListAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.extended.TextViewFont;
+import tech.iwish.pickmall.other.TrackorderList;
 import tech.iwish.pickmall.other.WishlistList;
 import tech.iwish.pickmall.session.Share_session;
 
 public class TrackOrderActivity extends AppCompatActivity implements InternetConnectivityListener {
       ImageView outfordelivery,shipped,packed,contactus;
       TextViewFont orderid,date;
+      LinearLayout shi;
+      RecyclerView recyclerView;
+      List<TrackorderList>trackorderLists= new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,18 +54,22 @@ public class TrackOrderActivity extends AppCompatActivity implements InternetCon
         ActivityAction();
     }
     private void InitializeActivity(){
-        outfordelivery= findViewById(R.id.outfordelivery);
-        shipped= findViewById(R.id.shipped);
         packed= findViewById(R.id.packed);
         contactus= findViewById(R.id.contact);
         orderid= findViewById(R.id.orderid);
         date= findViewById(R.id.date);
+        shi= findViewById(R.id.shi);
+        recyclerView= findViewById(R.id.recycle);
+        GetChennelIdOrderID(getIntent().getExtras().getString("orderid"));
         Connectivity();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(TrackOrderActivity.this);
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
     }
 
     private void SetActivityData(){
-       orderid.setText("OrderID : "+getIntent().getExtras().getString("orderid"));
+       orderid.setText("OrderID : "+getIntent().getExtras().getString("uniqueid"));
        date.setText("Purchase Date - "+getIntent().getExtras().getString("date"));
     }
 
@@ -65,72 +79,117 @@ public class TrackOrderActivity extends AppCompatActivity implements InternetCon
         });
     }
 //
-//    private void SetRecycleView(){
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(WishListActivity.this);
-//        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
-//        recyclerView.setLayoutManager(linearLayoutManager);
-//
-//        OkHttpClient client = new OkHttpClient();
-//        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-//        JSONObject jsonObject = new JSONObject();
-//        try {
-//            jsonObject.put("mobile",share_session.getUserDetail().get("UserMobile") );
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-//        Request request = new Request.Builder().post(body)
-//                .url(Constants.GET_USER_WISHLIST)
-//                .build();
-//        client.newCall(request).enqueue(new okhttp3.Callback() {
-//            @Override
-//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            @Override
-//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//                if (response.isSuccessful()) {
-//                    String result = response.body().string();
-//
-//                    JsonHelper jsonHelper = new JsonHelper(result);
-//                    if (jsonHelper.isValidJson()) {
-//                        String responses = jsonHelper.GetResult("response");
-//                        if (responses.equals("TRUE")) {
-//                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
-//                            for (int i = 0; i < jsonArray.length(); i++) {
-//                                jsonHelper.setChildjsonObj(jsonArray, i);
-//                                wishlistLists.add(new WishlistList(jsonHelper.GetResult("product_id"), jsonHelper.GetResult("ProductName"), jsonHelper.GetResult("item_id"), jsonHelper.GetResult("catagory_id"), jsonHelper.GetResult("actual_price"), jsonHelper.GetResult("discount_price"), jsonHelper.GetResult("discount_price_per"), jsonHelper.GetResult("status"), jsonHelper.GetResult("pimg"), jsonHelper.GetResult("vendor_id"), jsonHelper.GetResult("type"), jsonHelper.GetResult("datetime")));
-//                            }
-//                            WishListActivity.this.runOnUiThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    if(wishlistLists.size()==0){
-//                                        no_product.setVisibility(View.VISIBLE);
-//                                        shimmer_view.setVisibility(View.GONE);
-//                                        recyclerView.setVisibility(View.GONE);
-//                                    }
-//                                    else {
-//                                        WishListAdapter wishListAdapter = new WishListAdapter(WishListActivity.this, wishlistLists);
-//                                        shimmer_view.setVisibility(View.GONE);
-//                                        recyclerView.setVisibility(View.VISIBLE);
-//                                        recyclerView.setAdapter(wishListAdapter);
-//                                    }
-//
-//                                }
-//                            });
-//
-//                        }
-//                    }
-//
-//                }
-//            }
-//        });
-//
-//
-//    }
+    private void GetChennelIdOrderID(String orderid){
 
+        OkHttpClient client = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id",orderid);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request = new Request.Builder().post(body)
+                .url(Constants.CHENNELID_ORDERID)
+                .build();
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                TrackOrder(jsonHelper.GetResult("chennel_id"),jsonHelper.GetResult("shipment_id"),jsonHelper.GetResult("token"));
+                                             }
+                        }
+                        else
+                        {
+                            TrackOrderActivity.this.runOnUiThread(() -> {
+
+                            });
+                        }
+                    }
+
+                }
+            }
+        });
+
+
+    }
+
+
+    private void TrackOrder(String chennelid ,String orderid, String token){
+
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("https://apiv2.shiprocket.in/v1/external/courier/track/shipment/"+orderid+"")
+                .get()
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Authorization","Bearer " + token)
+                .addHeader("cache-control", "no-cache")
+                .build();
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    JSONObject mainObject,tracking_data,shipment_track_activities = null;
+                    try {
+                        mainObject = new JSONObject(result);
+                        tracking_data = new JSONObject(mainObject.getString("tracking_data"));
+                        JsonHelper jsonHelper = new JsonHelper(mainObject.getString("tracking_data"));
+                        String trackStatus = tracking_data.getString("track_status");
+                       if(trackStatus.equals("1")){
+                           JSONArray jsonArray = jsonHelper.setChildjsonArray(tracking_data, "shipment_track_activities");
+                           for (int i = 0; i < jsonArray.length(); i++) {
+                               jsonHelper.setChildjsonObj(jsonArray, i);
+                               trackorderLists.add(new TrackorderList(jsonHelper.GetResult("date"),jsonHelper.GetResult("location"),jsonHelper.GetResult("activity")));
+                           }
+                           TrackOrderActivity.this.runOnUiThread(() -> {
+                               if(trackorderLists.size()==0){
+                                   recyclerView.setVisibility(View.GONE);
+                                   shi.setVisibility(View.VISIBLE);
+                               }
+                               else {
+                                   recyclerView.setVisibility(View.VISIBLE);
+                                   shi.setVisibility(View.GONE);
+                                   TrackOrderAdapter trackOrderAdapter= new TrackOrderAdapter(TrackOrderActivity.this,trackorderLists);
+                                   recyclerView.setAdapter(trackOrderAdapter);
+                               }
+
+                           });
+
+
+
+                       }else {
+
+                       }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+
+    }
 
     public void Connectivity(){
         InternetAvailabilityChecker mInternetAvailabilityChecker;

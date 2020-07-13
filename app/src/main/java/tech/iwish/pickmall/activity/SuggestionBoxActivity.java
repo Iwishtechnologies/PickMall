@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import org.jetbrains.annotations.NotNull;
@@ -38,6 +39,7 @@ public class SuggestionBoxActivity extends AppCompatActivity {
     Map data;
     ImageButton submit;
     ProgressBar progress_bar;
+    ImageView back;
 
 
     @Override
@@ -48,6 +50,9 @@ public class SuggestionBoxActivity extends AppCompatActivity {
         editSuggestion = findViewById(R.id.editSuggestion);
         submit = findViewById(R.id.submit);
         progress_bar = findViewById(R.id.progress_bar);
+        back = findViewById(R.id.back);
+
+
         progress_bar.setVisibility(View.GONE);
 
         shareSession = new Share_session(this);
@@ -65,6 +70,13 @@ public class SuggestionBoxActivity extends AppCompatActivity {
                 }
                 submit.setClickable(true);
                 progress_bar.setVisibility(View.GONE);
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
 
