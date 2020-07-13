@@ -159,6 +159,11 @@ public class MainActivity extends AppCompatActivity
 
 
         FirebaseMessaging.getInstance().subscribeToTopic("OFFER");
+        String token = ("fcm"+ FirebaseInstanceId.getInstance().getToken());
+
+        Log.e(TAG,token);
+        Log.e(TAG,token);
+
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -175,6 +180,8 @@ public class MainActivity extends AppCompatActivity
 //                        Toast.makeText(MainActivity.this, "aaaaa", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+
 
 
 

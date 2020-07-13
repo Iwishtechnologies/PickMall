@@ -74,7 +74,7 @@ import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 
 public class ProductDetailsActivity extends AppCompatActivity implements View.OnClickListener, ProductCountInterface {
 
-    private TextView ac_priceEdit, dicount_price_Edit, title_name_edit, select_size_color, one_product_name, quty_value,hight_count,
+    private TextView ac_priceEdit, dicount_price_Edit, title_name_edit, select_size_color, one_product_name, quty_value, hight_count,
             one_rs_amount, one_rs_dicount_price, dicount_price_text, product_count_value, new_user_text, total_user_req, rating, timeset, free_one_win;
     private List<ProductDetailsImageList> productDetailsListImageList = new ArrayList<>();
     private List<ProductSizeColorList> productSizeColorLists = new ArrayList<>();
@@ -96,7 +96,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     private ProductSizeInterFace productSizeInterFace;
     private LinearLayout qty_layouts, dicount_price_per_mrp_layout, friendDealTimeLayout, onersview;
     TextViewFont onediscription, fulldiscription, CountCheck;
-    String referCode, Totalcount,referCount = null;
+    String referCode, Totalcount, referCount = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -915,8 +915,8 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
 
     private void productChehckFriendeal() {
 
-        Log.e("item_type",item_type);
-        Log.e("item_type",item_type);
+        Log.e("item_type", item_type);
+        Log.e("item_type", item_type);
 
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -964,7 +964,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                                 referCount = jsonHelper.GetResult("counts");
                                                 CountCheck.setText("Your Share Complete " + referCount);
                                             }
-                                        } else if(jsonHelper.GetResult("message").equals("one_win_all_ready")){
+                                        } else if (jsonHelper.GetResult("message").equals("one_win_all_ready")) {
                                             share_btn.setVisibility(View.VISIBLE);
                                             friend_deal_image.setVisibility(View.GONE);
 
@@ -972,14 +972,20 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                             for (int i = 0; i < jsonArray.length(); i++) {
                                                 jsonHelper.setChildjsonObj(jsonArray, i);
 
+                                                referCode = jsonHelper.GetResult("code");
                                                 Totalcount = jsonHelper.GetResult("count");
                                                 referCount = jsonHelper.GetResult("user_share_count");
-                                                referCode = jsonHelper.GetResult("code");
+                                                if(referCount == null){
+                                                    referCount = "0";
+                                                }
+                                                if(Totalcount == null){
+                                                    Totalcount = "0";
+                                                }
                                                 CountCheck.setText("Your Share Complete " + referCount);
-                                                hight_count.setText("Highest share " + new_user_request +" / "+ Totalcount);
+                                                hight_count.setText("Highest share " + new_user_request + " / " + Totalcount);
                                             }
 
-                                        }else {
+                                        } else {
                                             share_btn.setVisibility(View.GONE);
                                             friend_deal_image.setVisibility(View.VISIBLE);
                                         }
@@ -1047,6 +1053,20 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                                 referCode = jsonHelper.GetResult("code");
                                                 referCount = jsonHelper.GetResult("counts");
                                             }
+                                            Intent intent = new Intent(ProductDetailsActivity.this, OneRsShareActivity.class);
+                                            intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                                            intent.putExtra("product_image", product_Image);
+                                            intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                                            intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
+                                            intent.putExtra("refer_code", referCode);
+                                            intent.putExtra("item_type", item_type);
+                                            intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
+
+                                            startActivity(intent);
+                                        } else if (jsonHelper.GetResult("message").equals("one_win_all_ready")) {
+                                            share_btn.setVisibility(View.VISIBLE);
+                                            friend_deal_image.setVisibility(View.GONE);
+
                                             Intent intent = new Intent(ProductDetailsActivity.this, OneRsShareActivity.class);
                                             intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
                                             intent.putExtra("product_image", product_Image);
