@@ -972,9 +972,17 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                             for (int i = 0; i < jsonArray.length(); i++) {
                                                 jsonHelper.setChildjsonObj(jsonArray, i);
 
+                                                referCode = jsonHelper.GetResult("code");
                                                 Totalcount = jsonHelper.GetResult("count");
                                                 referCount = jsonHelper.GetResult("user_share_count");
-                                                referCode = jsonHelper.GetResult("code");
+
+                                                if(referCount == null){
+                                                    referCount = "0";
+                                                }
+                                                if(Totalcount == null){
+                                                    Totalcount = "0";
+                                                }
+
                                                 CountCheck.setText("Your Share Complete " + referCount);
                                                 hight_count.setText("Highest share " + new_user_request +" / "+ Totalcount);
                                             }
@@ -1047,6 +1055,21 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                                 referCode = jsonHelper.GetResult("code");
                                                 referCount = jsonHelper.GetResult("counts");
                                             }
+                                            Intent intent = new Intent(ProductDetailsActivity.this, OneRsShareActivity.class);
+                                            intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                                            intent.putExtra("product_image", product_Image);
+                                            intent.putExtra("discount_price", getIntent().getStringExtra("discount_price"));
+                                            intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
+                                            intent.putExtra("refer_code", referCode);
+                                            intent.putExtra("item_type", item_type);
+                                            intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
+
+                                            startActivity(intent);
+                                        }
+                                        else if (jsonHelper.GetResult("message").equals("one_win_all_ready")) {
+                                            share_btn.setVisibility(View.VISIBLE);
+                                            friend_deal_image.setVisibility(View.GONE);
+
                                             Intent intent = new Intent(ProductDetailsActivity.this, OneRsShareActivity.class);
                                             intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
                                             intent.putExtra("product_image", product_Image);
