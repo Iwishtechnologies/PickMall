@@ -534,7 +534,7 @@ public class MainActivity extends AppCompatActivity
 
 //        check
 
-//        flashSaleAdapter = new FlashSaleAdapter(MainActivity.this, flash_sale_list_fake());
+        flashSaleAdapter = new FlashSaleAdapter(MainActivity.this, flash_sale_list_fake());
 //        flash_sale_main_recycle.setAdapter(flashSaleAdapter);
 
         OkHttpClient client = new OkHttpClient();

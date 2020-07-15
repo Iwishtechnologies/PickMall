@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.load.model.Model;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -36,6 +37,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import tech.iwish.pickmall.OkhttpConnection.ProductListF;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.AllOfferProductAdapter;
 import tech.iwish.pickmall.adapter.ProductAdapter;
@@ -60,7 +62,10 @@ public class ProductFragment extends Fragment {
     private Map data;
     Boolean isScrolling = false;
     int currentItems, totalItems, scrollOutItems;
+    AllOfferProductAdapter allOfferProductAdapter;
     StaggeredGridLayoutManager layoutManager;
+
+
     public ProductFragment() {
     }
 
@@ -70,6 +75,7 @@ public class ProductFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_product, null);
 
         product_recycleview = (RecyclerView) view.findViewById(R.id.product_recycleview);
+
 
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         product_recycleview.setLayoutManager(layoutManager);
@@ -92,7 +98,9 @@ public class ProductFragment extends Fragment {
 //                PRODUCT_PERAMETER = "product";
 //                item = getActivity().getIntent().getExtras().getString("item");
 //                item = arguments.getString("item");
+
                 datafetchProduct(Constants.ALL_PRODUCT, arguments.getString("item"));
+;
                 break;
             case "vendorStoreAllProduct":
 //                PRODUCT_PERAMETER = "vendor_store_all_product";
@@ -241,8 +249,9 @@ public class ProductFragment extends Fragment {
 
     private void datafetchProduct(String Api, String item_id) {
 
-//        Log.e("item_id",item_id);
-//        Log.e("item_id",item_id);
+
+        allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), ProductListF.productFake(), item_id);
+        product_recycleview.setAdapter(allOfferProductAdapter);
 
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -303,7 +312,7 @@ public class ProductFragment extends Fragment {
                                         getActivity().runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                AllOfferProductAdapter allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), productOfferlists, item_id);
+                                                 allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), productOfferlists, item_id);
                                                 product_recycleview.setAdapter(allOfferProductAdapter);
 //                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
 //                                        productAdapter.notifyDataSetChanged();

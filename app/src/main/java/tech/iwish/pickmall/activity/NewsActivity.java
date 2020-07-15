@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.media.Image;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -60,6 +61,9 @@ public class NewsActivity extends AppCompatActivity {
         no_message = findViewById(R.id.no_message);
         titleSet = findViewById(R.id.titleSet);
 
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
         type = getIntent().getStringExtra("type");
 

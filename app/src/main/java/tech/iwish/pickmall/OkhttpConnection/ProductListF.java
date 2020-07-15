@@ -7,6 +7,7 @@ import tech.iwish.pickmall.other.FIltersideList;
 import tech.iwish.pickmall.other.FlashsalemainList;
 import tech.iwish.pickmall.other.FriendSaleList;
 import tech.iwish.pickmall.other.ItemList;
+import tech.iwish.pickmall.other.ProductOfferlist;
 import tech.iwish.pickmall.other.SilderLists;
 
 public class ProductListF {
@@ -80,6 +81,32 @@ public class ProductListF {
         fIltersideLists.add(new FIltersideList("Brand"));
         fIltersideLists.add(new FIltersideList("Categories"));
         return fIltersideLists;
+    }
+    public static List productFake(){
+
+        List<ProductOfferlist> productOfferlists = new ArrayList<>();
+
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+        productOfferlists.add(new ProductOfferlist("","","","","","","","","","","","","","","","","","",""));
+
+        return productOfferlists;
     }
 
 
