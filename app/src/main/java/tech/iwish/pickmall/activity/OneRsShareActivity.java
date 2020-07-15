@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
 import android.util.Log;
@@ -88,6 +89,9 @@ public class OneRsShareActivity extends AppCompatActivity {
 
         refund_image.setVisibility(View.VISIBLE);
         time_layout.setVisibility(View.VISIBLE);
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
 
         if (item_type.equals("friend_deal")) {
 

@@ -220,6 +220,9 @@ public class MainActivity extends AppCompatActivity
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         flash_sale_main_recycle.setLayoutManager(linearLayoutManager);
 
+
+
+
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(MainActivity.this);
         linearLayoutManager1.setOrientation(RecyclerView.HORIZONTAL);
         friend_deal_recycleview.setLayoutManager(linearLayoutManager1);
@@ -531,7 +534,7 @@ public class MainActivity extends AppCompatActivity
 
 //        check
 
-//        flashSaleAdapter = new FlashSaleAdapter(MainActivity.this, flash_sale_list_fake());
+        flashSaleAdapter = new FlashSaleAdapter(MainActivity.this, flash_sale_list_fake());
 //        flash_sale_main_recycle.setAdapter(flashSaleAdapter);
 
         OkHttpClient client = new OkHttpClient();

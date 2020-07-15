@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         android:id="@+id/product_layout"
         android:layout_width="match_parent"
@@ -98,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="255"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     app:fonttype="regular" />
@@ -126,7 +131,7 @@
                     android:id="@+id/discount_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2550"
+                    android:text=""
                     android:textColor="@color/lightsilverColor"
                     android:textSize="10sp"
                     app:fonttype="text_semi_bold" />
@@ -135,7 +140,7 @@
                     android:id="@+id/per_dicount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="-50%"
+                    android:text=""
                     android:textColor="@color/redColor"
                     android:textSize="10sp"
                     app:fonttype="text_semi_bold" />
@@ -168,4 +173,6 @@
 
         </LinearLayout>
     </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 </LinearLayout>

@@ -5,14 +5,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.load.model.Model;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -32,6 +37,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import tech.iwish.pickmall.OkhttpConnection.ProductListF;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.AllOfferProductAdapter;
 import tech.iwish.pickmall.adapter.ProductAdapter;
@@ -54,6 +60,10 @@ public class ProductFragment extends Fragment {
     public static String PRODUCT_PERAMETER;
     private Share_session shareSession;
     private Map data;
+    Boolean isScrolling = false;
+    int currentItems, totalItems, scrollOutItems;
+    AllOfferProductAdapter allOfferProductAdapter;
+    StaggeredGridLayoutManager layoutManager;
 
 
     public ProductFragment() {
@@ -66,7 +76,8 @@ public class ProductFragment extends Fragment {
 
         product_recycleview = (RecyclerView) view.findViewById(R.id.product_recycleview);
 
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+
+        layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         product_recycleview.setLayoutManager(layoutManager);
 
 
@@ -87,7 +98,9 @@ public class ProductFragment extends Fragment {
 //                PRODUCT_PERAMETER = "product";
 //                item = getActivity().getIntent().getExtras().getString("item");
 //                item = arguments.getString("item");
+
                 datafetchProduct(Constants.ALL_PRODUCT, arguments.getString("item"));
+;
                 break;
             case "vendorStoreAllProduct":
 //                PRODUCT_PERAMETER = "vendor_store_all_product";
@@ -112,19 +125,17 @@ public class ProductFragment extends Fragment {
                 datafetchProduct(Constants.PREPAID_PRODUCT, "prepaid");
                 break;
             case "Price":
-                if(arguments.getString("item").equals("30")){
+                if (arguments.getString("item").equals("30")) {
                     datafetchProduct(Constants.PREPAIDPRICESHORT, "prepaid");
-                }
-                else {
+                } else {
                     datafetchProduct(Constants.SORTBYPRICE, arguments.getString("item"));
                 }
 
                 break;
             case "short":
-                if(arguments.getString("item").equals("30")){
-                    datafetchProduct(Constants.PREPAIDSHORT,"prepaid");
-                }
-                else {
+                if (arguments.getString("item").equals("30")) {
+                    datafetchProduct(Constants.PREPAIDSHORT, "prepaid");
+                } else {
                     datafetchProduct(Constants.SORTBYREVIEW, arguments.getString("item"));
                 }
 
@@ -133,7 +144,7 @@ public class ProductFragment extends Fragment {
                 datafetchProduct(Constants.SILDER_OPEN, arguments.getString("item"));
                 break;
             case "both_category_open":
-                silder_open_both(Constants.SILDER_OPEN_BOTH, arguments.getString("item"),arguments.getString("category_id"));
+                silder_open_both(Constants.SILDER_OPEN_BOTH, arguments.getString("item"), arguments.getString("category_id"));
                 break;
         }
 
@@ -238,8 +249,9 @@ public class ProductFragment extends Fragment {
 
     private void datafetchProduct(String Api, String item_id) {
 
-//        Log.e("item_id",item_id);
-//        Log.e("item_id",item_id);
+
+        allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), ProductListF.productFake(), item_id);
+        product_recycleview.setAdapter(allOfferProductAdapter);
 
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -273,7 +285,7 @@ public class ProductFragment extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
 
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                if(Api.equals(Constants.ALL_PRODUCT) || Api.equals(Constants.SIMILAER_PRODUCT) ){
+                                if (Api.equals(Constants.ALL_PRODUCT) || Api.equals(Constants.SIMILAER_PRODUCT)) {
                                     productOfferlists.add(new ProductOfferlist(jsonHelper.GetResult("product_id"),
                                             jsonHelper.GetResult("ProductName"),
                                             jsonHelper.GetResult("SKU"),
@@ -300,7 +312,7 @@ public class ProductFragment extends Fragment {
                                         getActivity().runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                AllOfferProductAdapter allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), productOfferlists, item_id);
+                                                 allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), productOfferlists, item_id);
                                                 product_recycleview.setAdapter(allOfferProductAdapter);
 //                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
 //                                        productAdapter.notifyDataSetChanged();
@@ -308,8 +320,7 @@ public class ProductFragment extends Fragment {
                                             }
                                         });
                                     }
-                                }
-                                else {
+                                } else {
                                     productListList.add(new ProductList(jsonHelper.GetResult("product_id"),
                                             jsonHelper.GetResult("ProductName"),
                                             jsonHelper.GetResult("SKU"),
@@ -347,14 +358,15 @@ public class ProductFragment extends Fragment {
                                         });
                                     }
                                 }
+                            }
                         }
                     }
                 }
-            }}
+            }
         });
     }
 
-    private void silder_open_both(String Api, String item_id , String category_id) {
+    private void silder_open_both(String Api, String item_id, String category_id) {
 
 //        Log.e("item_id",item_id);
 //        Log.e("item_id",item_id);
@@ -392,7 +404,7 @@ public class ProductFragment extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
 
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                if(Api.equals(Constants.ALL_PRODUCT) || Api.equals(Constants.SIMILAER_PRODUCT) ){
+                                if (Api.equals(Constants.ALL_PRODUCT) || Api.equals(Constants.SIMILAER_PRODUCT)) {
                                     productOfferlists.add(new ProductOfferlist(jsonHelper.GetResult("product_id"),
                                             jsonHelper.GetResult("ProductName"),
                                             jsonHelper.GetResult("SKU"),
@@ -427,8 +439,7 @@ public class ProductFragment extends Fragment {
                                             }
                                         });
                                     }
-                                }
-                                else {
+                                } else {
                                     productListList.add(new ProductList(jsonHelper.GetResult("product_id"),
                                             jsonHelper.GetResult("ProductName"),
                                             jsonHelper.GetResult("SKU"),
@@ -466,10 +477,11 @@ public class ProductFragment extends Fragment {
                                         });
                                     }
                                 }
+                            }
                         }
                     }
                 }
-            }}
+            }
         });
     }
 
@@ -531,8 +543,39 @@ public class ProductFragment extends Fragment {
                                         public void run() {
                                             ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, "");
                                             product_recycleview.setAdapter(productAdapter);
-//                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
+//                                            product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
                                             productAdapter.notifyDataSetChanged();
+//                                            product_recycleview.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//                                                @Override
+//                                                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                                                    super.onScrollStateChanged(recyclerView, newState);
+//
+//                                                    if(newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL){
+//                                                        loading = true;
+//                                                    }
+//
+//                                                }
+//
+//                                                @Override
+//                                                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                                                    super.onScrolled(recyclerView, dx, dy);
+//
+//                                                    currentItem = layoutManager.getChildCount();
+//                                                    totalItems = layoutManager.getItemCount();
+//                                                    int positionView = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+//
+//                                                    Log.e("ww", String.valueOf(positionView));
+//
+//
+////                                                   scrollOutItem = layoutManager.findFirstVisibleItemPosition();
+////                                                    if (loading == (currentItem + scrollOutItem == totalItems)){
+////                                                        loading = false;
+////
+////
+////                                                    }
+//
+//                                                }
+//                                            });
 
                                         }
                                     });
