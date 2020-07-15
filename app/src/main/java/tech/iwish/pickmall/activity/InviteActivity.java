@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -81,6 +82,8 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite);
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
         InitializeActivity();
         SetActivityData();
         ActivityAction();
@@ -104,12 +107,7 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
 
 
     protected void  ActivityAction(){
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        back.setOnClickListener(view -> onBackPressed());
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

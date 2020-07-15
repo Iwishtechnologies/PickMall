@@ -60,10 +60,12 @@ public class AllOfferProductAdapter extends RecyclerView.Adapter<AllOfferProduct
         String status = productLists.get(position).getStatus();
 
         if(productLists.get(position).getProduct_id().isEmpty()){
-
+            holder.shimmer.setShimmer(null);
+            holder.shimmer.stopShimmer();
         }else {
             holder.shimmer.setShimmer(null);
             holder.shimmer.stopShimmer();
+
 
 
             if (status.equals("TRUE")) {

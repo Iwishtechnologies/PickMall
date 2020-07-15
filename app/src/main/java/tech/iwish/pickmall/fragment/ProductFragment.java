@@ -285,6 +285,7 @@ public class ProductFragment extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
 
                                 jsonHelper.setChildjsonObj(jsonArray, i);
+                                Log.e("trrdgfhjb",Api);
                                 if (Api.equals(Constants.ALL_PRODUCT) || Api.equals(Constants.SIMILAER_PRODUCT)) {
                                     productOfferlists.add(new ProductOfferlist(jsonHelper.GetResult("product_id"),
                                             jsonHelper.GetResult("ProductName"),
@@ -346,15 +347,12 @@ public class ProductFragment extends Fragment {
 
 
                                     if (getActivity() != null) {
-                                        getActivity().runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id);
-                                                product_recycleview.setAdapter(productAdapter);
+                                        getActivity().runOnUiThread(() -> {
+                                            ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id);
+                                            product_recycleview.setAdapter(productAdapter);
 //                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
 //                                        productAdapter.notifyDataSetChanged();
 
-                                            }
                                         });
                                     }
                                 }
