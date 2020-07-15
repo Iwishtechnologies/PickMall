@@ -27,7 +27,7 @@ public class OfferNotification extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-
+//        remoteMessage.getNotification().getImageUrl()
         notification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
 
     }

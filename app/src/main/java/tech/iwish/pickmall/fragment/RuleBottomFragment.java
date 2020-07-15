@@ -76,6 +76,8 @@ public class RuleBottomFragment  extends AppCompatActivity {
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recycle.setLayoutManager(linearLayoutManager);
 
+
+
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
@@ -117,9 +119,13 @@ public class RuleBottomFragment  extends AppCompatActivity {
                                 }
                                 else {
                                          BottonFriendRuleAdapter bottonFriendRuleAdapter = new BottonFriendRuleAdapter(RuleBottomFragment.this, bottomFragmentRuleLists);
-////                                        shimmer_view.setVisibility(View.GONE);
-////                                        recyclerView.setVisibility(View.VISIBLE);
+//                                        shimmer_view.setVisibility(View.GONE);
+//                                        recyclerView.setVisibility(View.VISIBLE);
                                         recycle.setAdapter(bottonFriendRuleAdapter);
+
+
+
+
                                 }
 
                             });

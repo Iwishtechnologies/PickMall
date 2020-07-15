@@ -220,6 +220,9 @@ public class MainActivity extends AppCompatActivity
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         flash_sale_main_recycle.setLayoutManager(linearLayoutManager);
 
+
+
+
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(MainActivity.this);
         linearLayoutManager1.setOrientation(RecyclerView.HORIZONTAL);
         friend_deal_recycleview.setLayoutManager(linearLayoutManager1);
