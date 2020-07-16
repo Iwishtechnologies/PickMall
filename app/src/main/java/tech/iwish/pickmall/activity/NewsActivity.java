@@ -55,7 +55,8 @@ public class NewsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
-
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         news_recyclerView = findViewById(R.id.news_recyclerView);
         back = findViewById(R.id.back);
         no_message = findViewById(R.id.no_message);
@@ -273,7 +274,7 @@ public class NewsActivity extends AppCompatActivity {
                                     @Override
                                     public void run() {
 
-                                        New_PostAdapter new_postAdapter = new New_PostAdapter(new_postLists,new_postIInterface);
+                                        New_PostAdapter new_postAdapter = new New_PostAdapter(new_postLists,new_postIInterface, NewsActivity.this);
                                         news_recyclerView.setAdapter(new_postAdapter);
 
                                     }

@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,7 @@ import okhttp3.Response;
 import tech.iwish.pickmall.Interface.Comment_Interface;
 import tech.iwish.pickmall.Interface.New_PostIInterface;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.activity.NewsActivity;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.other.Comment_list;
@@ -62,20 +64,23 @@ public class New_PostAdapter extends RecyclerView.Adapter<New_PostAdapter.Viewho
 
     New_PostIInterface new_postIInterface;
     Context context;
+    NewsActivity newsActivity;
     Share_session shareSession;
     Map data;
     List<New_PostList> new_postLists;
 
-    public New_PostAdapter(List<New_PostList> new_postLists, New_PostIInterface new_postIInterface) {
+    public New_PostAdapter(List<New_PostList> new_postLists, New_PostIInterface new_postIInterface ,NewsActivity newsActivity) {
         this.new_postLists = new_postLists;
         this.new_postIInterface = new_postIInterface;
+        this.newsActivity=newsActivity;
     }
 
 
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_new_post, null);
         context = parent.getContext();
         shareSession = new Share_session(context);
@@ -200,65 +205,28 @@ public class New_PostAdapter extends RecyclerView.Adapter<New_PostAdapter.Viewho
 
         private void share() {
 
-
-
-//            Intent shareIntent;
-//            shareIntent = new Intent();
-//            shareIntent.setPackage("com.whatsapp");
-//            shareIntent.setAction(Intent.ACTION_SEND);
-//            shareIntent.putExtra(Intent.EXTRA_TEXT, "");
-//            shareIntent.putExtra(Intent.EXTRA_STREAM, "/storage/emulated/0/DCIM/Camera/IMG_20200711_161838043.jpg");
-//            shareIntent.setType("image/*");
-//            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//            context.startActivity(Intent.createChooser(shareIntent, "Share Opportunity"));
-
-
-            String imageUrl = "http://www.avajava.com/images/avajavalogo.jpg";
-            String destinationFile = "im161sdcsd1cage.jpg";
-
-            try {
-                saveImage(imageUrl, destinationFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-
-        public  void saveImage(String imageUrl, String destinationFile) throws IOException {
-            URL url = new URL(imageUrl);
-            InputStream is = url.openStream();
-            OutputStream os = new FileOutputStream(destinationFile);
-
-            byte[] b = new byte[2048];
-            int length;
-
-            while ((length = is.read(b)) != -1) {
-                os.write(b, 0, length);
-            }
-
-            is.close();
-            os.close();
-        }
-
+            Uri bmpUri = getLocalBitmapUri(getbitmap());
+            Intent shareIntent;
+            shareIntent = new Intent();
+            shareIntent.setPackage("com.whatsapp");
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, new_postLists.get(getAdapterPosition()).getDescription());
+            shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+            shareIntent.setType("image/*");
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            context.startActivity(Intent.createChooser(shareIntent, "Share Opportunity"));
+                    }
 
         private Bitmap getbitmap() {
 
-            final Bitmap[] image = new Bitmap[1];
-            Glide.with(context)
-                    .asBitmap()
-                    .load(Constants.IMAGES + new_postLists.get(getAdapterPosition()).getImage())
-                    .into(new CustomTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                            image[0] = resource;
-                        }
-
-                        @Override
-                        public void onLoadCleared(@Nullable Drawable placeholder) {
-                        }
-                    });
-            return image[0];
+             Bitmap image = null;
+            try {
+                URL url = new URL( Constants.IMAGES+new_postLists.get(getAdapterPosition()).getImage());
+                 image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            } catch(IOException e) {
+                System.out.println(e);
+            }
+            return image ;
         }
 
 

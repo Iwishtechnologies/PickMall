@@ -310,15 +310,12 @@ public class ProductFragment extends Fragment {
                                     ));
 
                                     if (getActivity() != null) {
-                                        getActivity().runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                 allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), productOfferlists, item_id);
-                                                product_recycleview.setAdapter(allOfferProductAdapter);
-//                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
-//                                        productAdapter.notifyDataSetChanged();
+                                        getActivity().runOnUiThread(() -> {
+                                             allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), productOfferlists, item_id);
+                                            product_recycleview.setAdapter(allOfferProductAdapter);
+//                                          product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
+//                                          productAdapter.notifyDataSetChanged();
 
-                                            }
                                         });
                                     }
                                 } else {
