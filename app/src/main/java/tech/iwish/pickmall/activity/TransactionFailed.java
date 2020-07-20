@@ -14,10 +14,13 @@ public class TransactionFailed extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.transaction_failed);
         failed= findViewById(R.id.failed);
+
         failed.setOnClickListener(view -> {
             startActivity(new Intent(TransactionFailed.this,MainActivity.class));
         });
     }
+
 }

@@ -28,6 +28,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import tech.iwish.pickmall.activity.FailTransactionActivity;
+import tech.iwish.pickmall.activity.MainActivity;
 import tech.iwish.pickmall.activity.OneRsShareActivity;
 import tech.iwish.pickmall.activity.PaymentOptionActivity;
 import tech.iwish.pickmall.activity.SuccessfullyActivity;
@@ -72,7 +74,7 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
         Checkout.preload(Paymentgateway.this);
 
         Checkout checkout = new Checkout();
-        checkout.setKeyID("rzp_test_cqTSMSd3guM3Ej");
+        checkout.setKeyID("rzp_live_GifdQTDljFMdQN");
 
         int amount = Integer.parseInt(grandTotal);
 
@@ -118,9 +120,19 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
 
     @Override
     public void onPaymentError(int i, String s) {
-        Toast.makeText(Paymentgateway.this, "fail" + s, Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(Paymentgateway.this, TransactionFailed.class).putExtra("status","FALSE"));
+
+        try {
+
+            startActivity(new Intent(Paymentgateway.this, FailTransactionActivity.class));
+
+
+        } catch (Exception e) {
+            Log.e("Fail", "Exception in onPaymentError", e);
+        }
+
+
     }
+
 
 
     private void friendDeal_one_rs_order_place(String wallet, String paymentmethod) {

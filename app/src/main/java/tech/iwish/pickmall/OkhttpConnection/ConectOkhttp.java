@@ -32,12 +32,14 @@ public class ConectOkhttp {
     Share_session share_session;
 
 
-    public boolean res=false;
+    public boolean res = false;
 
     private void formdata() {
         //        Form data
         OkHttpClient okHttpClient = new OkHttpClient();
-        RequestBody requestBody = new FormBody.Builder().add("item_id", "38").build();
+        RequestBody requestBody = new FormBody.Builder()
+                .add("item_id", "38")
+                .build();
         Request request1 = new Request.Builder().url("http://173.212.226.143:8086/categoryapi").post(requestBody).build();
         okHttpClient.newCall(request1).enqueue(new Callback() {
             @Override
@@ -115,7 +117,6 @@ public class ConectOkhttp {
         });
 
 
-
 //        try {
 //            Response response = okHttpClient.newCall(request1).execute();
 //            Log.e("response" , response.body().string());
@@ -126,57 +127,48 @@ public class ConectOkhttp {
     }
 
 
-private void multipartformdata(){
+    private void multipartformdata() {
 
-    File file = null;
+        File file = null;
 
-    OkHttpClient okHttpClient1 = new OkHttpClient();
-    final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
-    RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("images",file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
+        OkHttpClient okHttpClient1 = new OkHttpClient();
+        final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
+        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("images", file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
 //            .addFormDataPart("images",file.getName(), RequestBody.create(MEDIA_TYPE_PNG, file))
-            .addFormDataPart("description", "")
-            .build();
+                .addFormDataPart("description", "")
+                .build();
 
 
-    Request request1 = new Request.Builder().url(Constants.SEND_NEW_POST).post(requestBody).build();
-    okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
-        @Override
-        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-            e.printStackTrace();
-            Log.e("error", String.valueOf(e));
-        }
-
-        @Override
-        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-            if (response.isSuccessful()) {
-
-                String result = response.body().string();
-                Log.e("response", result);
-                final JsonHelper jsonHelper = new JsonHelper(result);
-                if (jsonHelper.isValidJson()) {
-                    String responses = jsonHelper.GetResult("response");
-                    if (responses.equals("TRUE")) {
-
-
-
-                    }
-                }
-
+        Request request1 = new Request.Builder().url(Constants.SEND_NEW_POST).post(requestBody).build();
+        okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+                Log.e("error", String.valueOf(e));
             }
-        }
-    });
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    final JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
 
 
+                        }
+                    }
 
-}
+                }
+            }
+        });
 
 
-
-
-
-
-
+    }
 
 
 }

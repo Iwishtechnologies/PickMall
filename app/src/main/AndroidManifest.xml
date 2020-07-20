@@ -21,7 +21,12 @@
         android:grantUriPermissions="true"
         android:exported="false"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.TrackOrderActivity" android:theme="@style/tracktheme" android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".activity.FailTransactionActivity"></activity>
+        <activity
+            android:name=".activity.TrackOrderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/tracktheme" />
         <activity
             android:name=".activity.GuestOderActivity"
             android:screenOrientation="portrait"
