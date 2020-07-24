@@ -39,6 +39,7 @@ import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.extended.TextViewFont;
+import tech.iwish.pickmall.session.Share_session;
 
 public class ReturnOrderActivity extends AppCompatActivity {
     ShapedImageView productImage;
@@ -53,6 +54,7 @@ public class ReturnOrderActivity extends AppCompatActivity {
     Boolean img1=false,img2=false,img3=false;
     LinearLayout imageview ,mainview;
     ProgressBar progressBar;
+    Share_session share_session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class ReturnOrderActivity extends AppCompatActivity {
     }
 
     private void InitializeActivity(){
+        share_session= new Share_session(ReturnOrderActivity.this);
         productImage=findViewById(R.id.productImage);
         name= findViewById(R.id.productName);
         returncharges=findViewById(R.id.charges);
@@ -122,6 +125,7 @@ public class ReturnOrderActivity extends AppCompatActivity {
 
     public void MakeRequest(File path1,File path2,File path3,String ooderid,String reason,String amt)
     {
+        Log.e("id",share_session.GetAddrssId());
         OkHttpClient okHttpClient1 = new OkHttpClient();
         final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -131,6 +135,7 @@ public class ReturnOrderActivity extends AppCompatActivity {
                 .addFormDataPart("oid",ooderid)
                 .addFormDataPart("reason",reason)
                 .addFormDataPart("pamt",amt)
+                .addFormDataPart("padd",share_session.GetAddrssId())
                 .build();
 
 

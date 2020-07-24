@@ -60,7 +60,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        Log.e("name",orderLists.get(position).getProduct_name());
+//        Log.e("name",orderLists.get(position).getProduct_name());
         holder.name.setText(orderLists.get(position).getProduct_name());
         Glide.with(context).load(Constants.IMAGES+orderLists.get(position).getPimg()).placeholder(R.drawable.male_icon).into(holder.image);
         holder.status.setText(orderLists.get(position).getOrder_status());

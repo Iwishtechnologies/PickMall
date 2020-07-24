@@ -136,13 +136,13 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
     private void SetActivityData(){
         name.setText(getIntent().getExtras().getString("ProductName"));
         orderid.setText("Order ID - "+getIntent().getExtras().getString("uniqueid"));
-        price.setText(getResources().getString(R.string.rs_symbol)+getIntent().getExtras().getString("orderamt"));
+        price.setText(getResources().getString(R.string.rs_symbol)+getIntent().getExtras().getString("actual_price"));
         cname.setText(share_session.getUserDetail().get("username"));
         qty.setText(getIntent().getExtras().getString("qty"));
         street.setText(getIntent().getExtras().getString("address"));
         phone.setText(share_session.getUserDetail().get("UserMobile"));
         approvedate.setText(getIntent().getExtras().getString("orderdate"));
-        price.setText(getIntent().getExtras().getString("oederAmount"));
+        price.setText(getIntent().getExtras().getString("actual_price"));
         color.setText(getIntent().getExtras().getString("color"));
         Glide.with(OrderDetailActivity.this).load(Constants.IMAGES+getIntent().getExtras().getString("image")).placeholder(R.drawable.male_icon).into(image);
         actual_price.setText(getResources().getString(R.string.rs_symbol)+getIntent().getExtras().getString("actual_price"));
@@ -174,7 +174,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
            order_approved.setText("Ordered And Approvep");
            returnview.setVisibility(View.VISIBLE);
            cencelled_statement.setVisibility(View.GONE);
-           ratingview.setVisibility(View.VISIBLE);;;;;;;;;;;;
+           ratingview.setVisibility(View.VISIBLE);
            if(getIntent().getExtras().getString("ordertype").equals("freinddeal")){
                returnview.setVisibility(View.GONE);
            }
@@ -184,7 +184,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
            order_approved.setText("Ordered And Approvep");
            cencelled_statement.setVisibility(View.VISIBLE);
            ratingview.setVisibility(View.GONE);
-       }else if(getIntent().getExtras().getString("orderStatus").equals("CONFIRM")){
+       }else if(getIntent().getExtras().getString("orderStatus").equals("APPROVED")){
            progress.setImageResource(R.drawable.half_fill_progressbar);
            delivery_status.setText("Pending");
            order_approved.setText("Ordered And Approvep");

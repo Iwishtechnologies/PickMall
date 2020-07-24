@@ -239,9 +239,10 @@ public class ForgotpasswordActivity extends AppCompatActivity {
                             });
 
                         }else {
-                            progress.setVisibility(View.GONE);
-                            linearLayout.setAlpha(1);
+
                             ForgotpasswordActivity.this.runOnUiThread(() -> {
+                                progress.setVisibility(View.GONE);
+                                linearLayout.setAlpha(1);
                                 Toast.makeText(ForgotpasswordActivity.this, jsonHelper.GetResult("data"), Toast.LENGTH_SHORT).show();
 
                             });

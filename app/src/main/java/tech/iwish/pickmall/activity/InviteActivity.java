@@ -196,7 +196,7 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
         shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
         shareIntent.setType("image/*");
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(shareIntent, "Share Opportunity"));
+        startActivity(Intent.createChooser(shareIntent, "Share"));
     }
 
     private Bitmap getbitmap() {
