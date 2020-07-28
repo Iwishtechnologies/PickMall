@@ -109,13 +109,14 @@ public class BottomPincodeFragment extends BottomSheetDialogFragment {
                     final JsonHelper jsonHelper = new JsonHelper(result);
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
 
-                        switch (responses) {
-                            case "TRUE":
-                                JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    jsonHelper.setChildjsonObj(jsonArray, i);
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
 
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+
+                                if (getActivity() != null) {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -125,9 +126,12 @@ public class BottomPincodeFragment extends BottomSheetDialogFragment {
                                             dismiss();
                                         }
                                     });
+
                                 }
-                                break;
-                            case "PIN_CODE_NOT_FOUND":
+                            }
+                        }else {
+                            if (getActivity() != null) {
+
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -135,9 +139,8 @@ public class BottomPincodeFragment extends BottomSheetDialogFragment {
                                     }
                                 });
 
-                                break;
+                            }
                         }
-
                     }
                 }
             }
@@ -166,7 +169,7 @@ public class BottomPincodeFragment extends BottomSheetDialogFragment {
 
 
         ViewGroup.LayoutParams layoutParams = bottomSheet.getLayoutParams();
-        int windowHeight = getWindowHeight()-300;
+        int windowHeight = getWindowHeight() - 300;
         if (layoutParams != null) {
             layoutParams.height = windowHeight;
         }

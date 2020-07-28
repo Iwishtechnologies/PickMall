@@ -85,7 +85,6 @@
                             android:backgroundTint="@color/address_tint_color"
                             android:hint="Email *"
                             android:inputType="textEmailAddress"
-                            android:maxLength="25"
                             android:maxLines="1"
                             android:textColor="@color/address_text_color"
                             android:textSize="15sp" />

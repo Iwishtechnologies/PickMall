@@ -359,6 +359,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.Viewholder> im
             intent.putExtra("vendor_id", cardData.get(getAdapterPosition()).get("VENDOR_ID"));
             intent.putExtra("discount_price_per", cardData.get(getAdapterPosition()).get("PRODUCT_DICOUNT_PERCEN"));
             intent.putExtra("gst", cardData.get(getAdapterPosition()).get("GST"));
+            intent.putExtra("vendor_id", cardData.get(getAdapterPosition()).get("VENDOR_ID"));
 
             context.startActivity(intent);
 

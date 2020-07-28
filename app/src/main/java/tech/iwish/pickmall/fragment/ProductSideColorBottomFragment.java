@@ -277,7 +277,7 @@ public class ProductSideColorBottomFragment extends BottomSheetDialogFragment im
 //                    prepaid set
                     MyhelperSql myhelperSql = new MyhelperSql(getActivity());
                     SQLiteDatabase sqLiteDatabase = myhelperSql.getWritableDatabase();
-                    myhelperSql.dataAddCard(product_id, product_name, product_qty, select_color, select_size, imagename, actual_price, discount_price, product_type, gst, vendor_id, product_dicount_percent, sqLiteDatabase);
+                    myhelperSql.dataAddCard(product_id, product_name, product_qty, select_color, select_size, imagename, actual_price, discount_price, product_type, gst, vendor_id, product_dicount_percent,prepaid, sqLiteDatabase);
                     productCountInterface.counntproduct();
                     dismiss();
                     break;

@@ -1,11 +1,13 @@
 package tech.iwish.pickmall.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -64,6 +66,9 @@ public class ProductFragment extends Fragment {
     int currentItems, totalItems, scrollOutItems;
     AllOfferProductAdapter allOfferProductAdapter;
     StaggeredGridLayoutManager layoutManager;
+    private int pastVisibleItems;
+    private boolean isLoading;
+    TextView no_products;
 
 
     public ProductFragment() {
@@ -75,10 +80,29 @@ public class ProductFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_product, null);
 
         product_recycleview = (RecyclerView) view.findViewById(R.id.product_recycleview);
+        no_products = (TextView) view.findViewById(R.id.no_products);
 
 
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         product_recycleview.setLayoutManager(layoutManager);
+
+
+        product_recycleview.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                        Log.e("a", String.valueOf(layoutManager.getChildCount()));
+                        Log.e("a", String.valueOf(layoutManager.getItemCount()));
+                        Log.e("a", String.valueOf(layoutManager.findFirstVisibleItemPositions(null)));
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+            }
+        });
 
 
         Bundle arguments = getArguments();
@@ -119,7 +143,7 @@ public class ProductFragment extends Fragment {
                 datafetchProduct(Constants.SEARCH_PRODUCT_BY_NAME, getActivity().getIntent().getStringExtra("name"));
                 break;
             case "FilterActivity":
-                FilterProduct(Constants.FILTER_PRODUCT, getActivity().getIntent().getStringExtra("itemId"));
+                FilterProduct(Constants.FILTER_PRODUCT, getActivity().getIntent().getStringExtra("item_id"));
                 break;
             case "prepaid":
                 datafetchProduct(Constants.PREPAID_PRODUCT, "prepaid");
@@ -280,6 +304,10 @@ public class ProductFragment extends Fragment {
                         productListList.clear();
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
+
+                            no_products.setVisibility(View.GONE);
+                            product_recycleview.setVisibility(View.VISIBLE);
+
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -355,8 +383,20 @@ public class ProductFragment extends Fragment {
                                 }
                             }
                         }
+                        else {
+                            if(getActivity() != null){
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        product_recycleview.setVisibility(View.GONE);
+                                        no_products.setVisibility(View.VISIBLE);
+                                    }
+                                });
+                            }
+                        }
                     }
                 }
+                response.close();
             }
         });
     }
@@ -476,6 +516,7 @@ public class ProductFragment extends Fragment {
                         }
                     }
                 }
+                response.close();
             }
         });
     }
@@ -531,6 +572,22 @@ public class ProductFragment extends Fragment {
                                     ));
 
                                 }
+/*
+
+                                Handler mainHandler = new Handler(getActivity().getMainLooper());
+
+                                Runnable myRunnable = new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, "");
+                                        product_recycleview.setAdapter(productAdapter);
+                                        productAdapter.notifyDataSetChanged();
+
+                                    } // This is your code
+                                };
+                                mainHandler.post(myRunnable);
+*/
 
                                 if (getActivity() != null) {
                                     getActivity().runOnUiThread(new Runnable() {
@@ -540,37 +597,7 @@ public class ProductFragment extends Fragment {
                                             product_recycleview.setAdapter(productAdapter);
 //                                            product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
                                             productAdapter.notifyDataSetChanged();
-//                                            product_recycleview.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//                                                @Override
-//                                                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                                                    super.onScrollStateChanged(recyclerView, newState);
-//
-//                                                    if(newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL){
-//                                                        loading = true;
-//                                                    }
-//
-//                                                }
-//
-//                                                @Override
-//                                                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                                                    super.onScrolled(recyclerView, dx, dy);
-//
-//                                                    currentItem = layoutManager.getChildCount();
-//                                                    totalItems = layoutManager.getItemCount();
-//                                                    int positionView = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-//
-//                                                    Log.e("ww", String.valueOf(positionView));
-//
-//
-////                                                   scrollOutItem = layoutManager.findFirstVisibleItemPosition();
-////                                                    if (loading == (currentItem + scrollOutItem == totalItems)){
-////                                                        loading = false;
-////
-////
-////                                                    }
-//
-//                                                }
-//                                            });
+
 
                                         }
                                     });
@@ -580,6 +607,7 @@ public class ProductFragment extends Fragment {
                         }
                     }
                 }
+                response.close();
             }
         });
     }

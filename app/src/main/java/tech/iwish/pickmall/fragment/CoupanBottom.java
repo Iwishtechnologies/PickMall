@@ -60,10 +60,11 @@ public class CoupanBottom extends BottomSheetDialogFragment {
     Map data;
     UpdateFinalAmountData updateFinalAmountData;
 
-    public CoupanBottom(int order_amount,UpdateFinalAmountData updateFinalAmountData){
-        this.Order_amount= String.valueOf(order_amount);
-        this.updateFinalAmountData=updateFinalAmountData;
+    public CoupanBottom(int order_amount, UpdateFinalAmountData updateFinalAmountData) {
+        this.Order_amount = String.valueOf(order_amount);
+        this.updateFinalAmountData = updateFinalAmountData;
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -83,7 +84,7 @@ public class CoupanBottom extends BottomSheetDialogFragment {
             coupon();
 
             if (coupon_check.getText().toString().trim().isEmpty()) {
-                Toast toast ;
+                Toast toast;
                 Toast.makeText(getActivity(), "Coupon Code Invalid", Toast.LENGTH_SHORT).show();
 
             } else {
@@ -103,7 +104,7 @@ public class CoupanBottom extends BottomSheetDialogFragment {
         try {
             jsonObject.put("client_number", shareSession.getUserDetail().get("UserMobile"));
             jsonObject.put("coupon", coupon_check.getText().toString().trim());
-                jsonObject.put("order_amount",Order_amount.trim());
+            jsonObject.put("order_amount", Order_amount.trim());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -127,11 +128,11 @@ public class CoupanBottom extends BottomSheetDialogFragment {
                         if (responses.equals("TRUE")) {
                             getActivity().runOnUiThread(() -> {
                                 Toast.makeText(getActivity(), "successfully applied Coupens", Toast.LENGTH_SHORT).show();
-                                 int coupenamt=Integer.parseInt(jsonHelper.GetResult("data"))-Integer.parseInt(Order_amount.trim());
-                                updateFinalAmountData.UpdateAmount(jsonHelper.GetResult("data"),coupon_check.getText().toString().trim(), String.valueOf(Math.abs(coupenamt)));
+                                int coupenamt = Integer.parseInt(jsonHelper.GetResult("data")) - Integer.parseInt(Order_amount.trim());
+                                updateFinalAmountData.UpdateAmount(jsonHelper.GetResult("data"), coupon_check.getText().toString().trim(), String.valueOf(Math.abs(coupenamt)));
                             });
 
-                        }else {
+                        } else {
                             getActivity().runOnUiThread(() -> {
                                 Toast.makeText(getActivity(), jsonHelper.GetResult("data"), Toast.LENGTH_SHORT).show();
                             });

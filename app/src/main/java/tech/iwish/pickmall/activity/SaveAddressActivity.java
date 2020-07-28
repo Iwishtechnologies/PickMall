@@ -280,6 +280,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                 map.put("PRODUCT_AMOUNT_DICOUNT", cursor.getString(cursor.getColumnIndex("PRODUCT_AMOUNT_DICOUNT")));
                 map.put("PRODUCT_TYPE", cursor.getString(cursor.getColumnIndex("PRODUCT_TYPE")));
                 map.put("GST", cursor.getString(cursor.getColumnIndex("GST")));
+                map.put("VENDOR_ID", cursor.getString(cursor.getColumnIndex("VENDOR_ID")));
 
 
                 int qty = Integer.parseInt(cursor.getString(cursor.getColumnIndex("PRODUCT_QTY")));
@@ -357,6 +358,7 @@ public class SaveAddressActivity extends AppCompatActivity implements RefreshCar
                         intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
                         intent.putExtra("prepaid", prepaid);
                         intent.putExtra("item_type", item_type);
+                        intent.putExtra("vendor_id",getIntent().getStringExtra("vendor_id"));
                         intent.putExtra("type", "buy_now");
                         startActivity(intent);
                         break;

@@ -126,21 +126,36 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 coupen = getIntent().getStringExtra("coupen");
                 coupenamount = getIntent().getStringExtra("coupenamount");
 //                coupon
-                if(!coupen.equals("null")  && !coupenamount.equals("null")){
+                if (!coupen.equals("null") && !coupenamount.equals("null")) {
                     coupenview.setVisibility(View.VISIBLE);
                     coupenAmount.setText(coupenamount);
                     couponamtInt = Integer.parseInt(coupenamount);
                     grandTotal = Integer.parseInt(product_amt) - couponamtInt;
-                    finalamountsInt=grandTotal;
-                }else {
+                    finalamountsInt = grandTotal;
+                } else {
                     coupenview.setVisibility(View.GONE);
                     grandTotal = Integer.parseInt(product_amt);
-                    finalamountsInt=grandTotal;
+                    finalamountsInt = grandTotal;
                 }
 
                 total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
                 pricr.setText(getResources().getString(R.string.rs_symbol) + product_amt);
 
+
+                myhelperSql = new MyhelperSql(this);
+                String query = "Select * from PRODUCT_CARD";
+                sqLiteDatabase = myhelperSql.getWritableDatabase();
+                Cursor cursor = sqLiteDatabase.rawQuery(query, new String[]{});
+                cursor.moveToFirst();
+                if (cursor != null && cursor.moveToFirst()) {
+                    for (int i = 0; i < cursor.getCount(); i++) {
+
+                        if (cursor.getString(cursor.getColumnIndex("PRAPAID")).equals("prepaid")) {
+                            cases.setVisibility(View.GONE);
+                        }
+                        cursor.moveToNext();
+                    }
+                }
 
                 break;
             case "buy_now":
@@ -170,21 +185,18 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 int amtprod = Integer.parseInt(product_amt);
                 product_amt = String.valueOf(qtyprod * amtprod);
 
+//              coupon
 
-//                coupon
-
-                if(!coupen.equals("null")  && !coupenamount.equals("null")){
+                if (!coupen.equals("null") && !coupenamount.equals("null")) {
                     coupenview.setVisibility(View.VISIBLE);
                     coupenAmount.setText(coupenamount);
                     couponamtInt = Integer.parseInt(coupenamount);
                     grandTotal = Integer.parseInt(product_amt) - couponamtInt;
-                    finalamountsInt = grandTotal;
-                }else {
+                } else {
                     coupenview.setVisibility(View.GONE);
                     grandTotal = Integer.parseInt(product_amt);
-                    finalamountsInt = grandTotal;
                 }
-
+                finalamountsInt = grandTotal;
 
                 pricr.setText(getResources().getString(R.string.rs_symbol) + product_amt);
                 total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
@@ -472,9 +484,6 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
     private void Online_payment() {
 
 
-
-
-
         Intent intent;
         intent = new Intent(PaymentOptionActivity.this, Paymentgateway.class);
         String f = String.valueOf(grandTotal);
@@ -484,7 +493,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 //                intent = new Intent(PaymentOptionActivity.this, Paymentgateway.class);
                 intent.putExtra("type", "CardActivity");
                 intent.putExtra("finalamountsInt", f);
-                intent.putExtra("coupon_amt",coupen);
+                intent.putExtra("coupon_amt", coupen);
 //                startActivity(intent);
                 break;
             case "buy_now":
@@ -497,7 +506,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
                 intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
                 intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
-                intent.putExtra("coupon_amt",coupen);
+                intent.putExtra("coupon_amt", coupen);
                 intent.putExtra("type", "buy_now");
 //                startActivity(intent);
                 break;
@@ -516,7 +525,6 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 break;
         }
         startActivity(intent);
-
 
 
         //        product_name = intent.getStringExtra("product_name");

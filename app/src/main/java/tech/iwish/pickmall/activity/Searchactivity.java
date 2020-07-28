@@ -47,6 +47,7 @@ public class Searchactivity extends AppCompatActivity implements TextWatcher {
     private EditText searchEditText;
     private List<SearchList> searchListList = new ArrayList<>();
     private LinearLayout back;
+    TextView not_found;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class Searchactivity extends AppCompatActivity implements TextWatcher {
         searchRecyclreview = (RecyclerView) findViewById(R.id.searchRecyclreview);
         searchEditText = (EditText)findViewById(R.id.searchEditText);
         back = findViewById(R.id.back);
+        not_found = findViewById(R.id.not_found);
 
         setSupportActionBar(searchToolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -80,6 +82,7 @@ public class Searchactivity extends AppCompatActivity implements TextWatcher {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     searchMethod(v.getText().toString());
+                    searchListList.clear();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                     View view = getCurrentFocus();
                     if (view == null) {
@@ -123,23 +126,32 @@ public class Searchactivity extends AppCompatActivity implements TextWatcher {
                         if (responses.equals("TRUE")) {
                             searchListList.clear();
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
-
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
                                 searchListList.add(new SearchList(jsonHelper.GetResult("name")));
                             }
 
                             if (Searchactivity.this != null) {
-
                                 Searchactivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        not_found.setVisibility(View.GONE);
                                         SearchBarAdapter searchBarAdapter = new SearchBarAdapter(Searchactivity.this,searchListList);
                                         searchRecyclreview.setAdapter(searchBarAdapter);
                                     }
                                 });
                             }
 
+                        }else {
+
+//                            if (Searchactivity.this != null) {
+//                                Searchactivity.this.runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        not_found.setVisibility(View.VISIBLE);
+//                                    }
+//                                });
+//                            }
                         }
                     }
                 }

@@ -125,7 +125,6 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
 
             startActivity(new Intent(Paymentgateway.this, FailTransactionActivity.class));
 
-
         } catch (Exception e) {
             Log.e("Fail", "Exception in onPaymentError", e);
         }

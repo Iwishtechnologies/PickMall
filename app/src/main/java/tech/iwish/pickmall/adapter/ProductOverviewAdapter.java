@@ -1,5 +1,6 @@
 package tech.iwish.pickmall.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +19,9 @@ import tech.iwish.pickmall.other.ProductOverViewList;
 public class ProductOverviewAdapter extends RecyclerView.Adapter<ProductOverviewAdapter.Viewholder> {
 
     private List<ProductOverViewList> productOverViewLists;
-    private Context context;
+    private Activity context;
 
-    public ProductOverviewAdapter(FragmentActivity activity, List<ProductOverViewList> productOverViewLists) {
+    public ProductOverviewAdapter(Activity activity, List<ProductOverViewList> productOverViewLists) {
         this.context = activity;
         this.productOverViewLists = productOverViewLists;
     }

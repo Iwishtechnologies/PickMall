@@ -321,7 +321,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         }
 
         Bundle bundle = new Bundle();
-        ProductOverViewFragment productOverViewFragment = new ProductOverViewFragment();
+        ProductOverViewFragment productOverViewFragment = new ProductOverViewFragment(ProductDetailsActivity.this);
         bundle.putString("product_id", product_id);
         bundle.putString("vendor_id", vendor_id);
         productOverViewFragment.setArguments(bundle);
@@ -681,7 +681,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                     product_qty = quty_value.getText().toString();
                     MyhelperSql myhelperSql = new MyhelperSql(this);
                     SQLiteDatabase sqLiteDatabase = myhelperSql.getWritableDatabase();
-                    myhelperSql.dataAddCard(product_id, product_name, product_qty, product_colorbtn.getText().toString(), select_size, product_Image, actual_price, discount_price, product_type, gst, vendor_id, dicount_price_text.getText().toString(), sqLiteDatabase);
+                    myhelperSql.dataAddCard(product_id, product_name, product_qty, product_colorbtn.getText().toString(), select_size, product_Image, actual_price, discount_price, product_type, gst, vendor_id, dicount_price_text.getText().toString(),prepaid, sqLiteDatabase);
                     cardcount();
                     add_card_btn.setVisibility(View.GONE);
                     go_to_card.setVisibility(View.VISIBLE);

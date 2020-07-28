@@ -9,6 +9,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -134,6 +136,7 @@ public class MainActivity extends AppCompatActivity
     Share_session share_session;
     private Map data;
     private CountDownTimer mCountDownTimer;
+    NestedScrollView scrollMainActivity;
 
     private String productName , actual_prices , pimg , order_id;
 
@@ -210,15 +213,32 @@ public class MainActivity extends AppCompatActivity
         feedBottom = (ImageView) findViewById(R.id.FeedBottom);
         cardBottom = (ImageView) findViewById(R.id.CardBottom);
         accountBottom = (ImageView) findViewById(R.id.accountBottom);
-
+        scrollMainActivity = findViewById(R.id.scrollMainActivity);
 
 //        swipe_refresh_layout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
         search_bar_layout = (RelativeLayout) findViewById(R.id.search_bar_layout);
+        scrollMainActivity.setNestedScrollingEnabled(false);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this);
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         flash_sale_main_recycle.setLayoutManager(linearLayoutManager);
+        flash_sale_main_recycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                Log.e("aaaa", String.valueOf(linearLayoutManager.getChildCount()));
+                Log.e("aaaa", String.valueOf(linearLayoutManager.getItemCount()));
+                Log.e("aaaa", String.valueOf(linearLayoutManager.findFirstVisibleItemPosition()));
+
+            }
+        });
 
 
 
@@ -230,6 +250,8 @@ public class MainActivity extends AppCompatActivity
 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL);
         itemCateroryrecycle.setLayoutManager(layoutManager);
+
+
 
         viewAll_FreshSale.setOnClickListener(this);
 //        amont return
@@ -276,9 +298,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
-
-
     private void friend_deal_90_rs_amount_return() {
 
 
@@ -311,6 +330,7 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                 }
+                response.close();
             }
         });
 
@@ -337,23 +357,24 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String result = response.body().string();
-                    Log.e("result", result);
-                    JsonHelper jsonHelper = new JsonHelper(result);
-                    if (jsonHelper.isValidJson()) {
-                        String responses = jsonHelper.GetResult("response");
-                        if (responses.equals("TRUE")) {
+                response.close();
+//                if (response.isSuccessful()) {
+//                    String result = response.body().string();
+//                    Log.e("result", result);
+//                    JsonHelper jsonHelper = new JsonHelper(result);
+//                    if (jsonHelper.isValidJson()) {
+//                        String responses = jsonHelper.GetResult("response");
+//                        if (responses.equals("TRUE")) {
+//
+//
+//                        }
+//                    }
+//                }
 
-
-                        }
-                    }
-                }
             }
         });
 
     }
-
 
     private void cardProductCount() {
 
@@ -377,6 +398,8 @@ public class MainActivity extends AppCompatActivity
         Request request = new Request.Builder()
                 .url(Constants.SILDER_IMAGE)
                 .build();
+
+
         client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -417,6 +440,7 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                 }
+                response.close();
             }
         });
 
@@ -472,6 +496,7 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                 }
+                response.close();
             }
         });
         return itemLists;
@@ -523,6 +548,7 @@ public class MainActivity extends AppCompatActivity
 
                     }
                 }
+                response.close();
             }
         });
 
@@ -613,6 +639,7 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                 }
+                response.close();
             }
         });
 
@@ -696,12 +723,10 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
     @Override
     public void cardrefersh() {
         cardProductCount();
     }
-
 
     @Override
     public void itemcatinterface(String value) {
@@ -713,7 +738,6 @@ public class MainActivity extends AppCompatActivity
 //        FlashSaleMain();
         Log.e(TAG, "flashsaleId: " + saleid);
     }
-
 
     private void HotProduct() {
 
@@ -727,8 +751,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-
-
 
 
         if (doubleBackToExitPressedOnce) {
@@ -755,13 +777,11 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
         cardProductCount();
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void notification() {
@@ -790,7 +810,6 @@ public class MainActivity extends AppCompatActivity
     public void onInternetConnectivityChanged(boolean b) {
 
     }
-
 
     private void popup() {
 
@@ -911,6 +930,7 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                 }
+                response.close();
             }
         });
 
@@ -950,6 +970,7 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                 }
+                response.close();
             }
         });
 

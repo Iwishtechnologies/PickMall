@@ -96,7 +96,6 @@ public class VendorStoreActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
-
                     String result = response.body().string();
                     Log.e("response", result);
                     final JsonHelper jsonHelper = new JsonHelper(result);
@@ -107,16 +106,16 @@ public class VendorStoreActivity extends AppCompatActivity implements View.OnCli
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-
-                                VendorStoreActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        following_text.setText(jsonHelper.GetResult("following_count"));
-                                        total_product.setText(jsonHelper.GetResult("product_count"));
-                                        store_name.setText(jsonHelper.GetResult("shope_name"));
-                                    }
-                                });
-
+                                if (VendorStoreActivity.this != null) {
+                                    VendorStoreActivity.this.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            following_text.setText(jsonHelper.GetResult("following_count"));
+                                            total_product.setText(jsonHelper.GetResult("product_count"));
+                                            store_name.setText(jsonHelper.GetResult("shope_name"));
+                                        }
+                                    });
+                                }
                             }
                         }
                     }

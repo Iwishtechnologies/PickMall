@@ -1,5 +1,6 @@
 package tech.iwish.pickmall.fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -68,9 +69,15 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
     private List<ProductDescriptionlist> productDescriptionlists = new ArrayList<>();
     private String product_id, vendor_id;
     private TextView select_pincode, checker_pincode;
-    private TableLayout tableLayout,tableLayout1;
+    private TableLayout tableLayout, tableLayout1;
     ImageView fulldetails;
-    private LinearLayout return_policy , venodr_layout,viewlayout;
+    private LinearLayout return_policy, venodr_layout, viewlayout;
+    Activity activity;
+
+
+    public ProductOverViewFragment(Activity activity) {
+        this.activity = activity;
+    }
 
 
     @Nullable
@@ -84,11 +91,11 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         checker_pincode = (TextView) view.findViewById(R.id.checker_pincode);
         return_policy = (LinearLayout) view.findViewById(R.id.return_policy);
         venodr_layout = (LinearLayout) view.findViewById(R.id.venodr_layout);
-        viewlayout=view.findViewById(R.id.viewlayout);
+        viewlayout = view.findViewById(R.id.viewlayout);
 
         tableLayout = (TableLayout) view.findViewById(R.id.tableLayout);
         tableLayout1 = (TableLayout) view.findViewById(R.id.tableLayout1);
-        fulldetails =  view.findViewById(R.id.fulldetails);
+        fulldetails = view.findViewById(R.id.fulldetails);
 
         select_pincode.setOnClickListener(this);
         return_policy.setOnClickListener(this);
@@ -109,9 +116,9 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         productoverview();
         productdescription();
 
-        if(!vendor_id.equals("1")){
+        if (!vendor_id.equals("1")) {
             vendorstore();
-        }else {
+        } else {
             venodr_layout.setVisibility(View.GONE);
         }
 
@@ -126,8 +133,8 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
 
         Bundle bundle1 = new Bundle();
         ProductFragment productFragment = new ProductFragment();
-        bundle1.putString("product_id",product_id);
-        bundle1.putString("type","similar_product");
+        bundle1.putString("product_id", product_id);
+        bundle1.putString("type", "similar_product");
         productFragment.setArguments(bundle1);
         getChildFragmentManager().beginTransaction().add(R.id.similer_product_framelayout, productFragment).commit();
         Overview();
@@ -170,7 +177,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                                 jsonHelper.setChildjsonObj(jsonArray, i);
 //                                productOverViewLists.add(new ProductOverViewList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("overview"), jsonHelper.GetResult("title")));
                             }
-                            getActivity().runOnUiThread(new Runnable() {
+                            activity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
 
@@ -219,12 +226,12 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                                 productOverViewLists.add(new ProductOverViewList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("overview"), jsonHelper.GetResult("title")));
                             }
 
-                            if(getActivity() !=null){
+                            if (activity != null) {
 
-                                getActivity().runOnUiThread(new Runnable() {
+                                activity.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        ProductOverviewAdapter productOverviewAdapter = new ProductOverviewAdapter(getActivity(), productOverViewLists);
+                                        ProductOverviewAdapter productOverviewAdapter = new ProductOverviewAdapter(activity, productOverViewLists);
                                         product_overview.setAdapter(productOverviewAdapter);
                                     }
                                 });
@@ -274,10 +281,10 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
 //        tableLayout.bringToFront();
 
 
-                                if(getActivity() != null){
+                                if (activity != null) {
 
                                     final int finalI = i;
-                                    getActivity().runOnUiThread(() -> {
+                                    activity.runOnUiThread(() -> {
 
 
 //                                            LinearLayout linearLayout = new LinearLayout(getActivity());
@@ -287,14 +294,14 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
 
                                         TableRow tr = new TableRow(getContext());
                                         tr.setWeightSum(2);
-                                        tr.setPadding(10,10,10,10);
+                                        tr.setPadding(10, 10, 10, 10);
                                         tr.getResources().getDrawable(R.color.silderColor);
 
                                         TextView c1 = new TextView(getContext());
                                         TableRow.LayoutParams params1 = new TableRow.LayoutParams(150, TableRow.LayoutParams.WRAP_CONTENT, 1f);
-                                        params1.setMargins(0,0,5,0);
+                                        params1.setMargins(0, 0, 5, 0);
                                         c1.setLayoutParams(params1);
-                                        c1.setText(productDescriptionlists.get(finalI).getDescription_title()+" ");
+                                        c1.setText(productDescriptionlists.get(finalI).getDescription_title() + " ");
                                         c1.setPadding(20, 20, 20, 20);
                                         c1.setTextSize(14);
                                         c1.setBackgroundResource(R.drawable.table_border);
@@ -302,8 +309,8 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
 
                                         TextView c2 = new TextView(getContext());
                                         TableRow.LayoutParams params = new TableRow.LayoutParams(150, TableRow.LayoutParams.WRAP_CONTENT, 1f);
-                                         c2.setLayoutParams(params);
-                                         c2.setText(productDescriptionlists.get(finalI).getDescription_data());
+                                        c2.setLayoutParams(params);
+                                        c2.setText(productDescriptionlists.get(finalI).getDescription_data());
                                         c2.setPadding(20, 20, 20, 20);
                                         c2.setTextSize(14);
                                         c2.setBackgroundResource(R.drawable.table_border);
@@ -346,7 +353,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                 bottomPincodeFragment.show(getActivity().getSupportFragmentManager(), bottomPincodeFragment.getTag());
                 break;
             case R.id.return_policy:
-                getActivity().startActivity(new Intent(new Intent(getContext(), ReturnPolicyActivity.class)));
+                startActivity(new Intent(new Intent(getContext(), ReturnPolicyActivity.class)));
                 break;
 
             case R.id.fulldetails:
@@ -366,7 +373,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         }
     }
 
-    protected void Overview(){
+    protected void Overview() {
 
 //        LinearLayout linearLayout =new LinearLayout(getActivity());
 ////        linearLayout.setId(finalI+500);
@@ -380,7 +387,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("pid",product_id);
+            jsonObject.put("pid", product_id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -406,15 +413,15 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                productOverViewLists.add(new ProductOverViewList("1","1", jsonHelper.GetResult("overview"), jsonHelper.GetResult("title")));
+                                productOverViewLists.add(new ProductOverViewList("1", "1", jsonHelper.GetResult("overview"), jsonHelper.GetResult("title")));
                                 tableLayout1.setStretchAllColumns(true);
 //        tableLayout.bringToFront();
 
 
-                                if(getActivity() != null){
+                                if (activity != null) {
 
                                     final int finalI = i;
-                                    getActivity().runOnUiThread(() -> {
+                                    activity.runOnUiThread(() -> {
 
 
 //                                            LinearLayout linearLayout = new LinearLayout(getActivity());
@@ -424,22 +431,22 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
 
                                         TableRow tr1 = new TableRow(getContext());
                                         tr1.setWeightSum(2);
-                                        tr1.setPadding(10,10,10,10);
+                                        tr1.setPadding(10, 10, 10, 10);
                                         tr1.getResources().getDrawable(R.color.silderColor);
 
                                         TextView c3 = new TextView(getContext());
                                         TableRow.LayoutParams params1 = new TableRow.LayoutParams(150, TableRow.LayoutParams.WRAP_CONTENT, 1f);
-                                        params1.setMargins(0,0,5,0);
+                                        params1.setMargins(0, 0, 5, 0);
                                         c3.setLayoutParams(params1);
-                                        c3.setText(productOverViewLists.get(finalI).getTitle()+" ");
+                                        c3.setText(productOverViewLists.get(finalI).getTitle() + " ");
                                         c3.setPadding(20, 20, 20, 20);
                                         c3.setTextSize(14);
                                         c3.setBackgroundResource(R.drawable.table_border);
                                         c3.setTextColor(getResources().getColor(R.color.white));
 
                                         TextView c4 = new TextView(getContext());
-                                        TableRow.LayoutParams params = new TableRow.LayoutParams( 150, TableRow.LayoutParams.WRAP_CONTENT, 1f);
-                                        params.setMargins(0,0,10,0);
+                                        TableRow.LayoutParams params = new TableRow.LayoutParams(150, TableRow.LayoutParams.WRAP_CONTENT, 1f);
+                                        params.setMargins(0, 0, 10, 0);
                                         c4.setLayoutParams(params);
                                         c4.setText(productOverViewLists.get(finalI).getOverview());
                                         c4.setPadding(20, 20, 20, 20);

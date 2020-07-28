@@ -82,13 +82,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
         }else {
             holder.shimmer.setShimmer(null);
             holder.shimmer.stopShimmer();
-
-
             if (status.equals("TRUE")) {
 //            holder.product_rationg.setRating((float) 4.5);
                 Drawable drawable = holder.product_rationg.getProgressDrawable();
                 switch (productLists.get(position).getFakeRating()) {
-
                     case "0.1":
                     case "0.2":
                     case "0.3":
@@ -113,7 +110,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
                     case "2.2":
                     case "2.3":
                     case "2.4":
-                        drawable.setColorFilter(context.getColor(R.color.progress_rating_red_color), PorterDuff.Mode.SRC_ATOP);
+                        drawable.setColorFilter(context.getResources().getColor(R.color.progress_rating_red_color), PorterDuff.Mode.SRC_ATOP);
                         break;
                     case "2.5":
                     case "2.6":
@@ -130,7 +127,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
                     case "3.7":
                     case "3.8":
                     case "3.9":
-                        drawable.setColorFilter(context.getColor(R.color.progress_rating_yellow_color), PorterDuff.Mode.SRC_ATOP);
+                        drawable.setColorFilter(context.getResources().getColor(R.color.progress_rating_yellow_color), PorterDuff.Mode.SRC_ATOP);
                         break;
                     case "4":
                     case "4.1":
@@ -143,7 +140,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
                     case "4.8":
                     case "4.9":
                     case "5":
-                        drawable.setColorFilter(context.getColor(R.color.progress_rating_green_color), PorterDuff.Mode.SRC_ATOP);
+                        drawable.setColorFilter(context.getResources().getColor(R.color.progress_rating_green_color), PorterDuff.Mode.SRC_ATOP);
                         break;
                 }
 
@@ -172,13 +169,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
                 CardCount cardCount = new CardCount();
                 cardCount.DicountPercent(productLists.get(position).getActual_price(), productLists.get(position).getDiscount_price());
 
-
                 String a = Constants.IMAGES + productLists.get(position).getPimg();
                 Glide.with(context).load(a).into(holder.product_img);
 
-//            Checkoffer(productLists.get(position).getProduct_id(),holder);
-
-                Log.e("hotpto", productLists.get(position).getHot_product());
                 if (productLists.get(position).getHot_product().equals("True")) {
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     layoutParams.setMargins(0, 0, 0, 0);
@@ -187,11 +180,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
                     holder.product_img.setLayoutParams(pro);
                     holder.hotlayout.setLayoutParams(layoutParams);
                     holder.product_name.setVisibility(View.GONE);
-
-
                 }
-
-
                 holder.product_layout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

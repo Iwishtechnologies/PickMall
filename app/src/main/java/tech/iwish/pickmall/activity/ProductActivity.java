@@ -41,6 +41,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private LinearLayout search_product, item_image_layout;
     private TextView itme_name, filter, shorts, best_sellers, pricefilter;
     String type;
+    String imageSet , a;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         switch (type) {
             case "MainActivity_product":
                 image(getIntent().getStringExtra("item_id"));
+                a = Constants.IMAGES + imageSet;
+                Glide.with(ProductActivity.this).load(a).into(image_item);
                 productloadfradment(getIntent().getStringExtra("item_id"), getIntent().getStringExtra("item_name"), "product");
                 break;
             case "Category_by_product":
@@ -75,10 +78,14 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case "FilterActivity":
                 item_image_layout.setVisibility(View.GONE);
-                productloadfradment(getIntent().getStringExtra("itemId"), getIntent().getStringExtra("itemName"), "FilterActivity");
+                a = Constants.IMAGES + imageSet;
+                Glide.with(ProductActivity.this).load(a).into(image_item);
+                productloadfradment(getIntent().getStringExtra("item_id"), getIntent().getStringExtra("itemName"), "FilterActivity");
                 break;
             case "prepaid":
                 image("30");
+                a = Constants.IMAGES + imageSet;
+                Glide.with(ProductActivity.this).load(a).into(image_item);
                 productloadfradment("30", getIntent().getStringExtra("itemName"), "prepaid");
                 break;
             case "silder_load":
@@ -135,15 +142,18 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
+
                                 ProductActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         item_image_layout.setVisibility(View.VISIBLE);
                                         String image = jsonHelper.GetResult("banner_img");
-                                        String a = Constants.IMAGES + image;
-                                        Glide.with(ProductActivity.this).load(a).into(image_item);
+                                        imageSet = image;
                                     }
                                 });
+
+
+
                             }
                         } else {
                             ProductActivity.this.runOnUiThread(new Runnable() {

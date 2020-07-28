@@ -96,14 +96,9 @@ public class Profile extends AppCompatActivity implements InternetConnectivityLi
             String filename = String.valueOf(ImagePath).substring(String.valueOf(ImagePath).lastIndexOf("/") + 1);
             UploadProfileImage(share_session.getUserDetail().get("UserMobile"),ImageUri ,filename);
         }
-
-
     }
 
-
-
-    public void UploadProfileImage(String mobile, Uri path,String name)
-    {
+    public void UploadProfileImage(String mobile, Uri path,String name) {
         File finalFile = new File(String.valueOf(path).substring(7));
         OkHttpClient okHttpClient1 = new OkHttpClient();
          final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/jpg");

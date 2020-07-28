@@ -2,6 +2,7 @@ package tech.iwish.pickmall.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -88,7 +89,7 @@ public class FilterActivity extends AppCompatActivity implements FiltersInterfac
 //                Log.e("onClick: ", data.get(FILTER_LIST_COLOR).toString());
                 Intent intent = new Intent(FilterActivity.this, ProductActivity.class);
                 intent.putExtra("type", "FilterActivity");
-                intent.putExtra("itemId", getIntent().getStringExtra("item_id"));
+                intent.putExtra("item_id", getIntent().getStringExtra("item_id"));
                 intent.putExtra("itemName", getIntent().getStringExtra("item_name"));
                 startActivity(intent);
                 break;
