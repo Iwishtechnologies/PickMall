@@ -46,13 +46,13 @@ import tech.iwish.pickmall.other.WishlistList;
 public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAllProductAdapter.Viewholder> {
 
     private FlashSaleProductactivity context;
-    private List<ProductList> productListList ;
+    private List<ProductList> productListList;
     private boolean shimmer = true;
     private int shimmernumber = 5;
     String nextSale;
 
 
-    public FlashSaleAllProductAdapter(FlashSaleProductactivity flashSaleProductactivity, List<ProductList> productListList , String nextSale) {
+    public FlashSaleAllProductAdapter(FlashSaleProductactivity flashSaleProductactivity, List<ProductList> productListList, String nextSale) {
         this.context = flashSaleProductactivity;
         this.productListList = productListList;
         this.nextSale = nextSale;
@@ -83,16 +83,16 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
             holder.amount_flash.setBackground(null);
 
 
-            if(!nextSale.isEmpty()){
+            if (!nextSale.isEmpty()) {
                 holder.buy_now.setVisibility(View.GONE);
-            }else {
+            } else {
                 holder.buy_now.setVisibility(View.VISIBLE);
             }
 
             holder.amount_flash.setText(context.getResources().getString(R.string.rs_symbol) + productListList.get(position).getActual_price());
 
             SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol) + productListList.get(position).getDiscount_price());
-            content.setSpan(new StrikethroughSpan(), 0, content.length(), 0 );
+            content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
             holder.dicount_price_flash.setText(content);
 
 
@@ -100,16 +100,16 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
             Glide.with(context).load(a).into(holder.image_flash_sale);
 
             holder.product_name_flash.setText(productListList.get(position).getProductName());
-            getStock(productListList.get(position).getProduct_id(),holder);
+            getStock(productListList.get(position).getProduct_id(), holder);
             //=========================================================
             float actual = Float.valueOf(productListList.get(position).getActual_price());
-            float dis = Float.valueOf( productListList.get(position).getDiscount_price());
+            float dis = Float.valueOf(productListList.get(position).getDiscount_price());
             float disco = dis - actual;
             float fin = disco / dis * 100;
             int aa = (int) fin;
-            holder.off.setText(aa+"% off");
+            holder.off.setText(aa + "% off");
             //=========================================================
-            holder.percent_price.setText(productListList.get(position).getDiscount_price_per() +" "+aa+"% OFF");
+            holder.percent_price.setText(productListList.get(position).getDiscount_price_per() + " " + aa + "% OFF");
             holder.percent_price.setVisibility(View.GONE);
 
 
@@ -145,7 +145,7 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
     public class Viewholder extends RecyclerView.ViewHolder {
 
         private ShimmerFrameLayout shimmerLayout;
-        private TextView product_name_flash, amount_flash, dicount_price_flash, percent_price,buy_now,off;
+        private TextView product_name_flash, amount_flash, dicount_price_flash, percent_price, buy_now, off;
         private ImageView image_flash_sale;
         private LinearLayout flash_main_layout;
         ProgressBar progressBar;
@@ -160,20 +160,21 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
             percent_price = (TextView) itemView.findViewById(R.id.percent_price);
             image_flash_sale = (ImageView) itemView.findViewById(R.id.image_flash_sale);
             flash_main_layout = (LinearLayout) itemView.findViewById(R.id.flash_main_layout);
-            progressBar =  itemView.findViewById(R.id.progress_2);
-            buy_now =  itemView.findViewById(R.id.buy_now);
-            off =  itemView.findViewById(R.id.off);
+            progressBar = itemView.findViewById(R.id.progress_2);
+            buy_now = itemView.findViewById(R.id.buy_now);
+            off = itemView.findViewById(R.id.off);
 
         }
     }
 
 
-    private void getStock(String pid,Viewholder viewholder){
+    private void getStock(String pid, Viewholder viewholder) {
+
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("product_id",pid);
+            jsonObject.put("product_id", pid);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -201,8 +202,9 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
                                 context.runOnUiThread(() -> {
-                            float stock=Float.valueOf(jsonHelper.GetResult("stock"));
-                                   viewholder.progressBar.setProgress((int)stock);
+//                                    float stock = Float.valueOf(jsonHelper.GetResult("stock"));
+                                    float stock = Float.parseFloat(jsonHelper.GetResult("stock"));
+                                    viewholder.progressBar.setProgress((int) stock);
                                 });
                             }
                         }

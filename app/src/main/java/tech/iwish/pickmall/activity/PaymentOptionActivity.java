@@ -67,6 +67,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
     private ProgressBar progressbar;
     TableRow coupenview;
     private int finalamountsInt, shippingchargebuy_now, couponamtInt;
+    String COD_ShippinfCheck = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -398,7 +399,19 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 rayruWallet.setChecked(false);
                 onlinePayments.setChecked(false);
                 paymentAvailable.setVisibility(View.GONE);
-                shippingcharge();
+
+                if(COD_ShippinfCheck != null){
+                    Log.e("aaaa" , COD_ShippinfCheck);
+                    shippingCharge.setText(COD_ShippinfCheck);
+                    shippingchargebuy_now = shippinsAmt;
+                    int totalamt = shippinsAmt + productsAmt;
+                    finalamountsInt = totalamt;
+                    shippingCharege = String.valueOf(totalamt);
+                    total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + shippingCharege);
+                    cases.setClickable(true);
+                }else {
+                    shippingcharge();
+                }
                 break;
         }
 
@@ -408,6 +421,8 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
 //        cases.setClickable(false);
 
+        progressbar.setVisibility(View.VISIBLE);
+
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(Constants.SHIPPING_CHARGE)
@@ -416,6 +431,14 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
+                if(PaymentOptionActivity.this != null){
+                    PaymentOptionActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressbar.setVisibility(View.GONE);
+                        }
+                    });
+                }
             }
 
             @Override
@@ -447,6 +470,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                                         @Override
                                         public void run() {
                                             shippingCharge.setText(shippingAmt);
+                                            COD_ShippinfCheck = shippingAmt;
                                             shippingchargebuy_now = shippinsAmt;
                                             int totalamt = shippinsAmt + productsAmt;
                                             finalamountsInt = totalamt;
@@ -470,6 +494,15 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                                 }
 
 
+                            }
+
+                            if(PaymentOptionActivity.this != null){
+                                PaymentOptionActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progressbar.setVisibility(View.GONE);
+                                    }
+                                });
                             }
 
                         }

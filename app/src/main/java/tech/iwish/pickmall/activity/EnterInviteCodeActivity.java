@@ -42,7 +42,7 @@ public class EnterInviteCodeActivity extends AppCompatActivity implements Intern
     ProgressBar progressBar;
     ScrollView scrollView;
     EditText code;
-    Button  submit;
+    Button submit;
     ImageView back;
     Share_session share_session;
 
@@ -55,19 +55,19 @@ public class EnterInviteCodeActivity extends AppCompatActivity implements Intern
         ActivityAction();
     }
 
-    protected void InitializeActivity(){
-        back= findViewById(R.id.back);
-        progressBar= findViewById(R.id.progress);
-        code= findViewById(R.id.code);
-        submit= findViewById(R.id.submit);
-        scrollView= findViewById(R.id.scroll);
-        share_session= new Share_session(EnterInviteCodeActivity.this);
+    protected void InitializeActivity() {
+        back = findViewById(R.id.back);
+        progressBar = findViewById(R.id.progress);
+        code = findViewById(R.id.code);
+        submit = findViewById(R.id.submit);
+        scrollView = findViewById(R.id.scroll);
+        share_session = new Share_session(EnterInviteCodeActivity.this);
         Connectivity();
 
     }
 
 
-    protected void  ActivityAction() {
+    protected void ActivityAction() {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,12 +77,12 @@ public class EnterInviteCodeActivity extends AppCompatActivity implements Intern
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(code.getText().toString().length()>=8){
+                if (code.getText().toString().length() >= 8) {
                     scrollView.setAlpha((float) 0.2);
                     progressBar.setVisibility(View.VISIBLE);
-                    if(ValidateInput(code.getText().toString())){
-                        ProcessingCode(code.getText().toString(),share_session.getUserDetail().get("UserMobile"));
-                }
+                    if (ValidateInput(code.getText().toString())) {
+                        ProcessingCode(code.getText().toString(), share_session.getUserDetail().get("UserMobile"));
+                    }
 
                 }
             }
@@ -96,13 +96,12 @@ public class EnterInviteCodeActivity extends AppCompatActivity implements Intern
             @SuppressLint("ResourceAsColor")
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-              if(code.getText().toString().length()>=8){
-                  submit.setBackgroundColor(getResources().getColor(R.color.redColor));
-                  submit.setClickable(true);
-              }
-              else {
-                  submit.setBackgroundColor(getResources().getColor(R.color.lightgray));
-              }
+                if (code.getText().toString().length() >= 8) {
+                    submit.setBackgroundColor(getResources().getColor(R.color.redColor));
+                    submit.setClickable(true);
+                } else {
+                    submit.setBackgroundColor(getResources().getColor(R.color.lightgray));
+                }
 
             }
 
@@ -116,31 +115,29 @@ public class EnterInviteCodeActivity extends AppCompatActivity implements Intern
 
     }
 
-    protected void SetActivityData(){
-  }
+    protected void SetActivityData() {
+    }
 
-    protected Boolean  ValidateInput(String code){
-        if(code.equals("")){
+    protected Boolean ValidateInput(String code) {
+        if (code.equals("")) {
             return false;
-        }
-        else {
-            if(code.length()>=8){
+        } else {
+            if (code.length() >= 8) {
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         }
     }
 
 
-    private void ProcessingCode(String code,String mobile1){
+    private void ProcessingCode(String code, String mobile1) {
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("code",code);
-            jsonObject.put("mobile",mobile1);
+            jsonObject.put("code", code);
+            jsonObject.put("mobile", mobile1);
 
 
         } catch (JSONException e) {
@@ -179,20 +176,20 @@ public class EnterInviteCodeActivity extends AppCompatActivity implements Intern
                                     progressBar.setVisibility(View.GONE);
                                     scrollView.setAlpha(1);
                                     SaveTransaction();
-                                    Toast.makeText(EnterInviteCodeActivity.this, ""+jsonHelper.GetResult("data"), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(EnterInviteCodeActivity.this, "" + jsonHelper.GetResult("data"), Toast.LENGTH_SHORT).show();
                                 }
                             });
 
-                        }
-                        else {
+                        } else {
                             EnterInviteCodeActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     progressBar.setVisibility(View.GONE);
                                     scrollView.setAlpha(1);
-                                    Toast.makeText(EnterInviteCodeActivity.this, ""+jsonHelper.GetResult("data"), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(EnterInviteCodeActivity.this, "" + jsonHelper.GetResult("data"), Toast.LENGTH_SHORT).show();
                                 }
-                            });                        }
+                            });
+                        }
                     }
 
                 }
@@ -201,15 +198,15 @@ public class EnterInviteCodeActivity extends AppCompatActivity implements Intern
 
     }
 
-    private void SaveTransaction(){
+    private void SaveTransaction() {
         OkHttpClient okHttpClient1 = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("mobile",share_session.getUserDetail().get("UserMobile") );
-            jsonObject.put("description","Earned Referral Amount ");
+            jsonObject.put("mobile", share_session.getUserDetail().get("UserMobile"));
+            jsonObject.put("description", "Earned Referral Amount ");
             jsonObject.put("type", "Credit");
-            jsonObject.put("status","Completed");
+            jsonObject.put("status", "Completed");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -256,7 +253,7 @@ public class EnterInviteCodeActivity extends AppCompatActivity implements Intern
         });
     }
 
-    public void Connectivity(){
+    public void Connectivity() {
         InternetAvailabilityChecker mInternetAvailabilityChecker;
         mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
         mInternetAvailabilityChecker.addInternetConnectivityListener(EnterInviteCodeActivity.this);
@@ -264,13 +261,11 @@ public class EnterInviteCodeActivity extends AppCompatActivity implements Intern
 
     @Override
     public void onInternetConnectivityChanged(boolean isConnected) {
-        if (isConnected){
-        }
-        else {
-            startActivity(new Intent(EnterInviteCodeActivity.this,NoInternetConnectionActivity.class));
+        if (isConnected) {
+        } else {
+            startActivity(new Intent(EnterInviteCodeActivity.this, NoInternetConnectionActivity.class));
         }
     }
-
 
 
 }

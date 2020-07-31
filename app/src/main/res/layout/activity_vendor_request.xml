@@ -127,7 +127,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Adddress "
+                        android:hint="Address "
                         android:inputType="text"
                         android:ems="10"
                         android:id="@+id/address"

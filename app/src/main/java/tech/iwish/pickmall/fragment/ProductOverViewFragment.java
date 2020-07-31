@@ -101,11 +101,11 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         return_policy.setOnClickListener(this);
         fulldetails.setOnClickListener(this);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         product_overview.setLayoutManager(linearLayoutManager);
 
-        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(activity);
         linearLayoutManager1.setOrientation(RecyclerView.VERTICAL);
         product_description.setLayoutManager(linearLayoutManager1);
 
@@ -123,7 +123,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         }
 
 
-        Share_session share_session = new Share_session(getContext());
+        Share_session share_session = new Share_session(activity);
         Map data = share_session.Fetchdata();
         if (data.get(PINCODR_SERVICE_CHECK) != null) {
             checker_pincode.setText(data.get(PINCODR_SERVICE_CHECK).toString());
@@ -292,12 +292,12 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
 //                                            layoutParams.setMargins(50, 0, 15, 0);
 //                                            linearLayout.setLayoutParams(layoutParams);
 
-                                        TableRow tr = new TableRow(getContext());
+                                        TableRow tr = new TableRow(activity);
                                         tr.setWeightSum(2);
                                         tr.setPadding(10, 10, 10, 10);
                                         tr.getResources().getDrawable(R.color.silderColor);
 
-                                        TextView c1 = new TextView(getContext());
+                                        TextView c1 = new TextView(activity);
                                         TableRow.LayoutParams params1 = new TableRow.LayoutParams(150, TableRow.LayoutParams.WRAP_CONTENT, 1f);
                                         params1.setMargins(0, 0, 5, 0);
                                         c1.setLayoutParams(params1);
@@ -307,7 +307,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                                         c1.setBackgroundResource(R.drawable.table_border);
                                         c1.setTextColor(getResources().getColor(R.color.white));
 
-                                        TextView c2 = new TextView(getContext());
+                                        TextView c2 = new TextView(activity);
                                         TableRow.LayoutParams params = new TableRow.LayoutParams(150, TableRow.LayoutParams.WRAP_CONTENT, 1f);
                                         c2.setLayoutParams(params);
                                         c2.setText(productDescriptionlists.get(finalI).getDescription_data());
@@ -353,7 +353,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                 bottomPincodeFragment.show(getActivity().getSupportFragmentManager(), bottomPincodeFragment.getTag());
                 break;
             case R.id.return_policy:
-                startActivity(new Intent(new Intent(getContext(), ReturnPolicyActivity.class)));
+                startActivity(new Intent(new Intent(activity, ReturnPolicyActivity.class)));
                 break;
 
             case R.id.fulldetails:
@@ -365,7 +365,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void pincodefetch(String city, String state) {
-        Share_session share_session = new Share_session(getContext());
+        Share_session share_session = new Share_session(activity);
         Map data = share_session.Fetchdata();
         if (data.get(PINCODR_SERVICE_CHECK) != null) {
             checker_pincode.setText(data.get(PINCODR_SERVICE_CHECK).toString());
@@ -429,12 +429,12 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
 //                                            layoutParams.setMargins(50, 0, 15, 0);
 //                                            linearLayout.setLayoutParams(layoutParams);
 
-                                        TableRow tr1 = new TableRow(getContext());
+                                        TableRow tr1 = new TableRow(activity);
                                         tr1.setWeightSum(2);
                                         tr1.setPadding(10, 10, 10, 10);
                                         tr1.getResources().getDrawable(R.color.silderColor);
 
-                                        TextView c3 = new TextView(getContext());
+                                        TextView c3 = new TextView(activity);
                                         TableRow.LayoutParams params1 = new TableRow.LayoutParams(150, TableRow.LayoutParams.WRAP_CONTENT, 1f);
                                         params1.setMargins(0, 0, 5, 0);
                                         c3.setLayoutParams(params1);
@@ -444,7 +444,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                                         c3.setBackgroundResource(R.drawable.table_border);
                                         c3.setTextColor(getResources().getColor(R.color.white));
 
-                                        TextView c4 = new TextView(getContext());
+                                        TextView c4 = new TextView(activity);
                                         TableRow.LayoutParams params = new TableRow.LayoutParams(150, TableRow.LayoutParams.WRAP_CONTENT, 1f);
                                         params.setMargins(0, 0, 10, 0);
                                         c4.setLayoutParams(params);

@@ -71,6 +71,7 @@ import okhttp3.Response;
 import tech.iwish.pickmall.Interface.CardProductRefreshInterface;
 import tech.iwish.pickmall.Interface.FlashsaleTimeIdInterface;
 import tech.iwish.pickmall.Interface.ItemCategoryInterface;
+import tech.iwish.pickmall.Notification.Token;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.FlashSaleAdapter;
 import tech.iwish.pickmall.adapter.FriendSaleAdapter;
@@ -121,7 +122,7 @@ public class MainActivity extends AppCompatActivity
     //    private static final long START_TIME_IN_MILLIS = 86400000;
 //        private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     private long mTimeLeftInMillis;
-    private LinearLayout viewAll_FreshSale, product_count_card_layout, flash_line, viewall_friend_deal, prepaid_layout ,message;
+    private LinearLayout viewAll_FreshSale, product_count_card_layout, flash_line, viewall_friend_deal, prepaid_layout, message;
     private ImageView homeBottom, feedBottom, cardBottom, accountBottom;
     private String bottomClickCheck;
     private SwipeRefreshLayout swipe_refresh_layout;
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity
     private CountDownTimer mCountDownTimer;
     NestedScrollView scrollMainActivity;
 
-    private String productName , actual_prices , pimg , order_id;
+    private String productName, actual_prices, pimg, order_id;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -162,30 +163,7 @@ public class MainActivity extends AppCompatActivity
 
 
         FirebaseMessaging.getInstance().subscribeToTopic("OFFER");
-        String token = ("fcm"+ FirebaseInstanceId.getInstance().getToken());
-
-        Log.e(TAG,token);
-        Log.e(TAG,token);
-
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-
-                        // Log and toast
-//                        Toast.makeText(MainActivity.this, "aaaaa", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
-
+        String token = ("fcm" + FirebaseInstanceId.getInstance().getToken());
 
 
         InterNetConnection interNetConnection = new InterNetConnection();
@@ -223,25 +201,6 @@ public class MainActivity extends AppCompatActivity
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this);
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         flash_sale_main_recycle.setLayoutManager(linearLayoutManager);
-        flash_sale_main_recycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                Log.e("aaaa", String.valueOf(linearLayoutManager.getChildCount()));
-                Log.e("aaaa", String.valueOf(linearLayoutManager.getItemCount()));
-                Log.e("aaaa", String.valueOf(linearLayoutManager.findFirstVisibleItemPosition()));
-
-            }
-        });
-
-
-
 
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(MainActivity.this);
         linearLayoutManager1.setOrientation(RecyclerView.HORIZONTAL);
@@ -252,14 +211,17 @@ public class MainActivity extends AppCompatActivity
         itemCateroryrecycle.setLayoutManager(layoutManager);
 
 
-
         viewAll_FreshSale.setOnClickListener(this);
 //        amont return
 
         share_session = new Share_session(this);
         data = share_session.Fetchdata();
 
+
         if (data.get(USERMOBILE) != null) {
+
+            sendRegistrationToServer(token);
+
             one_rs_amount_return();
             friend_deal_90_rs_amount_return();
             popup();
@@ -388,7 +350,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void silder()   {
+    private void silder() {
 
         silderAdapter = new SilderAdapter(MainActivity.this, silder_list_fack());
         viewPages.setAdapter(silderAdapter);
@@ -446,28 +408,94 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public List itemCat() {
+//    public List itemCat() {
+//
+//        itemAdapter = new ItemAdapter(MainActivity.this, item_fakelist(), this);
+//        itemCateroryrecycle.setAdapter(itemAdapter);
+//
+//        OkHttpClient client = new OkHttpClient();
+//        Request request = new Request.Builder()
+//                .url(Constants.ITEM_TYPE)
+//                .build();
+//        client.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            @Override
+//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                if (response.isSuccessful()) {
+//
+//                    String result = response.body().string();
+//                    Log.e("output", result);
+//                    JsonHelper jsonHelper = new JsonHelper(result);
+//                    if (jsonHelper.isValidJson()) {
+//                        String responses = jsonHelper.GetResult("response");
+//                        if (responses.equals("TRUE")) {
+//                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+//
+//                            for (int i = 0; i < jsonArray.length(); i++) {
+//                                jsonHelper.setChildjsonObj(jsonArray, i);
+//                                itemLists.add(new ItemList(jsonHelper.GetResult("item_id"), jsonHelper.GetResult("item_name"), jsonHelper.GetResult("icon_img"), jsonHelper.GetResult("type"), jsonHelper.GetResult("item_type")));
+//
+//                            }
+//
+//                            if (MainActivity.this != null) {
+//
+//                                MainActivity.this.runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+////                                    itemAdapter = new ItemAdapter(MainActivity.this, itemLists , this);
+//                                        itemAdapter = new ItemAdapter(MainActivity.this, itemLists, itemCategoryInterface);
+//                                        itemCateroryrecycle.setAdapter(itemAdapter);
+//
+//                                    }
+//                                });
+//                            }
+//
+//
+//                        }
+//                    }
+//                }
+//                response.close();
+//            }
+//        });
+//        return itemLists;
+//    }
 
-        itemAdapter = new ItemAdapter(MainActivity.this, item_fakelist(), this);
-        itemCateroryrecycle.setAdapter(itemAdapter);
+//    bacgroud
+
+    public void itemCat() {
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(Constants.ITEM_TYPE)
                 .build();
-        client.newCall(request).enqueue(new Callback() {
+
+        AsyncTask<Void, Void, String> asyncTask = new AsyncTask<Void, Void, String>() {
+
             @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
+            protected String doInBackground(Void... voids) {
+                try {
+                    Response response = client.newCall(request).execute();
+                    if (!response.isSuccessful()) {
+                        return null;
+                    }
+                    return response.body().string();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
             }
 
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
 
-                    String result = response.body().string();
-                    Log.e("output", result);
-                    JsonHelper jsonHelper = new JsonHelper(result);
+                if (s != null) {
+
+                    JsonHelper jsonHelper = new JsonHelper(s);
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
@@ -478,29 +506,21 @@ public class MainActivity extends AppCompatActivity
                                 itemLists.add(new ItemList(jsonHelper.GetResult("item_id"), jsonHelper.GetResult("item_name"), jsonHelper.GetResult("icon_img"), jsonHelper.GetResult("type"), jsonHelper.GetResult("item_type")));
 
                             }
-
-                            if (MainActivity.this != null) {
-
-                                MainActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-//                                    itemAdapter = new ItemAdapter(MainActivity.this, itemLists , this);
-                                        itemAdapter = new ItemAdapter(MainActivity.this, itemLists, itemCategoryInterface);
-                                        itemCateroryrecycle.setAdapter(itemAdapter);
-
-                                    }
-                                });
-                            }
-
+                            itemAdapter = new ItemAdapter(MainActivity.this, itemLists, itemCategoryInterface);
+                            itemCateroryrecycle.setAdapter(itemAdapter);
 
                         }
                     }
+
                 }
-                response.close();
             }
-        });
-        return itemLists;
+        };
+
+        asyncTask.execute();
+
+
     }
+
 
     private void FriendDeal() {
 
@@ -666,7 +686,6 @@ public class MainActivity extends AppCompatActivity
         }, 250, 3000);
 
 
-
     }
 
     @Override
@@ -770,7 +789,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
 
@@ -971,6 +990,41 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
                 response.close();
+            }
+        });
+
+
+    }
+
+
+    public void sendRegistrationToServer(String refreshedToken) {
+
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("token", refreshedToken);
+            jsonObject.put("mobile", data.get(USERMOBILE).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.TOKEN_SEND).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("result", result);
+                }
+
             }
         });
 

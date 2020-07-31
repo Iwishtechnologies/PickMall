@@ -266,6 +266,14 @@
         </service>
 
 
+        <service
+            android:name=".Notification.Token">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package tech.iwish.pickmall.fragment;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -87,24 +88,6 @@ public class ProductFragment extends Fragment {
         product_recycleview.setLayoutManager(layoutManager);
 
 
-        product_recycleview.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                        Log.e("a", String.valueOf(layoutManager.getChildCount()));
-                        Log.e("a", String.valueOf(layoutManager.getItemCount()));
-                        Log.e("a", String.valueOf(layoutManager.findFirstVisibleItemPositions(null)));
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-            }
-        });
-
-
         Bundle arguments = getArguments();
         if (arguments != null) {
             type = arguments.getString("type");
@@ -124,7 +107,7 @@ public class ProductFragment extends Fragment {
 //                item = arguments.getString("item");
 
                 datafetchProduct(Constants.ALL_PRODUCT, arguments.getString("item"));
-;
+                ;
                 break;
             case "vendorStoreAllProduct":
 //                PRODUCT_PERAMETER = "vendor_store_all_product";
@@ -146,7 +129,7 @@ public class ProductFragment extends Fragment {
                 FilterProduct(Constants.FILTER_PRODUCT, getActivity().getIntent().getStringExtra("item_id"));
                 break;
             case "prepaid":
-                datafetchProduct(Constants.PREPAID_PRODUCT, "prepaid");
+                prepaid(Constants.PREPAID_PRODUCT, "prepaid");
                 break;
             case "Price":
                 if (arguments.getString("item").equals("30")) {
@@ -173,6 +156,89 @@ public class ProductFragment extends Fragment {
         }
 
         return view;
+    }
+
+    private void prepaid(String Api, String prepaid) {
+
+        allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), ProductListF.productFake(), prepaid);
+        product_recycleview.setAdapter(allOfferProductAdapter);
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("item_id", prepaid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Api).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("output", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        productListList.clear();
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+
+                            no_products.setVisibility(View.GONE);
+                            product_recycleview.setVisibility(View.VISIBLE);
+
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+
+                                productListList.add(new ProductList(jsonHelper.GetResult("product_id"),
+                                        jsonHelper.GetResult("ProductName"),
+                                        jsonHelper.GetResult("SKU"),
+                                        jsonHelper.GetResult("item_id"),
+                                        jsonHelper.GetResult("catagory_id"),
+                                        jsonHelper.GetResult("actual_price"),
+                                        jsonHelper.GetResult("discount_price"),
+                                        jsonHelper.GetResult("discount_price_per"),
+                                        jsonHelper.GetResult("status"),
+                                        jsonHelper.GetResult("pimg"),
+                                        jsonHelper.GetResult("vendor_id"),
+                                        jsonHelper.GetResult("FakeRating"),
+                                        jsonHelper.GetResult("gst"),
+                                        jsonHelper.GetResult("hot_product"),
+                                        jsonHelper.GetResult("hsn_no"),
+                                        jsonHelper.GetResult("weight"),
+                                        jsonHelper.GetResult("type"),
+                                        jsonHelper.GetResult("flash_sale"),
+                                        jsonHelper.GetResult("extraoffer"),
+                                        jsonHelper.GetResult("startdate"),
+                                        jsonHelper.GetResult("enddate")
+                                ));
+
+                            }
+
+                            if (getActivity() != null) {
+                                getActivity().runOnUiThread(() -> {
+                                    ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, "prepaid");
+                                    product_recycleview.setAdapter(productAdapter);
+                                });
+                            }
+
+                        }
+                    }
+                }
+                response.close();
+            }
+        });
+
+
     }
 
 
@@ -313,7 +379,7 @@ public class ProductFragment extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
 
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                Log.e("trrdgfhjb",Api);
+                                Log.e("trrdgfhjb", Api);
                                 if (Api.equals(Constants.ALL_PRODUCT) || Api.equals(Constants.SIMILAER_PRODUCT)) {
                                     productOfferlists.add(new ProductOfferlist(jsonHelper.GetResult("product_id"),
                                             jsonHelper.GetResult("ProductName"),
@@ -337,15 +403,6 @@ public class ProductFragment extends Fragment {
 
                                     ));
 
-                                    if (getActivity() != null) {
-                                        getActivity().runOnUiThread(() -> {
-                                             allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), productOfferlists, item_id);
-                                            product_recycleview.setAdapter(allOfferProductAdapter);
-//                                          product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
-//                                          productAdapter.notifyDataSetChanged();
-
-                                        });
-                                    }
                                 } else {
                                     productListList.add(new ProductList(jsonHelper.GetResult("product_id"),
                                             jsonHelper.GetResult("ProductName"),
@@ -371,29 +428,25 @@ public class ProductFragment extends Fragment {
                                     ));
 
 
-                                    if (getActivity() != null) {
-                                        getActivity().runOnUiThread(() -> {
-                                            ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id);
-                                            product_recycleview.setAdapter(productAdapter);
-//                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
-//                                        productAdapter.notifyDataSetChanged();
-
-                                        });
-                                    }
                                 }
                             }
-                        }
-                        else {
-                            if(getActivity() != null){
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        product_recycleview.setVisibility(View.GONE);
-                                        no_products.setVisibility(View.VISIBLE);
+
+
+                            if (getActivity() != null) {
+                                getActivity().runOnUiThread(() -> {
+
+                                    if (Api.equals(Constants.ALL_PRODUCT) || Api.equals(Constants.SIMILAER_PRODUCT)) {
+                                        allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), productOfferlists, item_id);
+                                        product_recycleview.setAdapter(allOfferProductAdapter);
+                                    } else {
+                                        ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id);
+                                        product_recycleview.setAdapter(productAdapter);
                                     }
                                 });
                             }
+
                         }
+
                     }
                 }
                 response.close();
@@ -522,6 +575,89 @@ public class ProductFragment extends Fragment {
     }
 
     private void hotproducts(String Api) {
+
+
+        final OkHttpClient client = new OkHttpClient();
+
+        final Request request = new Request.Builder()
+                .url(Api)
+                .build();
+
+        AsyncTask<Void, Void, String> asyncTask = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    Response response = client.newCall(request).execute();
+                    if (!response.isSuccessful()) {
+                        return null;
+                    }
+                    return response.body().string();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                if (s != null) {
+
+                    Log.e("output", s);
+                    JsonHelper jsonHelper = new JsonHelper(s);
+                    if (jsonHelper.isValidJson()) {
+                        productListList.clear();
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                productListList.add(new ProductList(jsonHelper.GetResult("product_id"),
+                                        jsonHelper.GetResult("ProductName"),
+                                        jsonHelper.GetResult("SKU"),
+                                        jsonHelper.GetResult("item_id"),
+                                        jsonHelper.GetResult("catagory_id"),
+                                        jsonHelper.GetResult("actual_price"),
+                                        jsonHelper.GetResult("discount_price"),
+                                        jsonHelper.GetResult("discount_price_per"),
+                                        jsonHelper.GetResult("status"),
+                                        jsonHelper.GetResult("pimg"),
+                                        jsonHelper.GetResult("vendor_id"),
+                                        jsonHelper.GetResult("FakeRating"),
+                                        jsonHelper.GetResult("gst"),
+                                        jsonHelper.GetResult("hot_product"),
+                                        jsonHelper.GetResult("hsn_no"),
+                                        jsonHelper.GetResult("weight"),
+                                        jsonHelper.GetResult("type"),
+                                        jsonHelper.GetResult("flash_sale"),
+                                        jsonHelper.GetResult("extraoffer"),
+                                        jsonHelper.GetResult("startdate"),
+                                        jsonHelper.GetResult("enddate")
+                                ));
+
+                            }
+
+                            ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, "");
+                            product_recycleview.setAdapter(productAdapter);
+//                                            product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
+                            productAdapter.notifyDataSetChanged();
+
+
+                        }
+                    }
+
+                }
+            }
+        };
+
+        asyncTask.execute();
+    }
+
+
+
+/*
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(Api)
@@ -572,7 +708,7 @@ public class ProductFragment extends Fragment {
                                     ));
 
                                 }
-/*
+*//*
 
                                 Handler mainHandler = new Handler(getActivity().getMainLooper());
 
@@ -587,7 +723,7 @@ public class ProductFragment extends Fragment {
                                     } // This is your code
                                 };
                                 mainHandler.post(myRunnable);
-*/
+*//*
 
                                 if (getActivity() != null) {
                                     getActivity().runOnUiThread(new Runnable() {
@@ -610,10 +746,14 @@ public class ProductFragment extends Fragment {
                 response.close();
             }
         });
-    }
+
+        */
 
 
 }
+
+
+
 
 
 

@@ -112,7 +112,7 @@
                     android:backgroundTint="#DBDBDB"
                     android:id="@+id/code"
                     android:inputType="text"
-                    android:maxLength="12"
+                    android:maxLength="20"
                     android:hint="E.g. orotmssd45"/>
             </LinearLayout>
 

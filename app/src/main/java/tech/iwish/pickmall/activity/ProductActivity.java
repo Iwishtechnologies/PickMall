@@ -64,8 +64,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         switch (type) {
             case "MainActivity_product":
                 image(getIntent().getStringExtra("item_id"));
-                a = Constants.IMAGES + imageSet;
-                Glide.with(ProductActivity.this).load(a).into(image_item);
                 productloadfradment(getIntent().getStringExtra("item_id"), getIntent().getStringExtra("item_name"), "product");
                 break;
             case "Category_by_product":
@@ -78,14 +76,10 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case "FilterActivity":
                 item_image_layout.setVisibility(View.GONE);
-                a = Constants.IMAGES + imageSet;
-                Glide.with(ProductActivity.this).load(a).into(image_item);
                 productloadfradment(getIntent().getStringExtra("item_id"), getIntent().getStringExtra("itemName"), "FilterActivity");
                 break;
             case "prepaid":
                 image("30");
-                a = Constants.IMAGES + imageSet;
-                Glide.with(ProductActivity.this).load(a).into(image_item);
                 productloadfradment("30", getIntent().getStringExtra("itemName"), "prepaid");
                 break;
             case "silder_load":
@@ -148,7 +142,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                                     public void run() {
                                         item_image_layout.setVisibility(View.VISIBLE);
                                         String image = jsonHelper.GetResult("banner_img");
-                                        imageSet = image;
+                                        a = Constants.IMAGES + image;
+                                        Glide.with(ProductActivity.this).load(a).into(image_item);
+
                                     }
                                 });
 

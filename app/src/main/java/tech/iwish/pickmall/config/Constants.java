@@ -147,6 +147,7 @@ public class Constants {
     public static String SEND_NEW_POST = URL + "send_new_post";
     public static String FINDGUESTORDER = URL + "Guestorder";
     public static String CHENNELID_ORDERID = URL + "ChennelID";
+    public static String TOKEN_SEND = URL + "refreshedToken";
 
 
 

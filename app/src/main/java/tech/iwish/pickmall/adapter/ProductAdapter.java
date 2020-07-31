@@ -56,10 +56,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
     private List<ProductList> productLists;
     private Context context;
     int aaa,extradiscount=0;
-    private String prepaid;
+    private String prepaid="noprepaid";
 
-    public
-    ProductAdapter(Context productActivity, List<ProductList> productListList, String prepaid) {
+    public ProductAdapter(Context productActivity, List<ProductList> productListList, String prepaid) {
         this.context = productActivity;
         this.productLists = productListList;
         this.prepaid = prepaid;
@@ -154,11 +153,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
                 float sub = mrp - dicountsAmt;
                 float div = sub / mrp;
                 aaa = (int) (div * 100);
-                Log.e("prepaid", prepaid);
-                if (prepaid.equals("prepaid")) {
-                    holder.offer.setVisibility(View.VISIBLE);
-                    holder.off.setText(aaa + "% off");
-                    holder.per_dicount.setVisibility(View.GONE);
+//                Log.e("prepaid", prepaid);
+
+                if(prepaid != null){
+                    if (prepaid.equals("prepaid")) {
+                        holder.offer.setVisibility(View.VISIBLE);
+                        holder.off.setText(aaa + "% off");
+                        holder.per_dicount.setVisibility(View.GONE);
+                    }
+                }else {
+                    Log.e("pr","null");
                 }
 
                 holder.per_dicount.setText(" " + String.valueOf(aaa) + "% OFF");

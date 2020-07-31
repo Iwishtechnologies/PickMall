@@ -208,7 +208,7 @@ public class New_PostAdapter extends RecyclerView.Adapter<New_PostAdapter.Viewho
             Uri bmpUri = getLocalBitmapUri(getbitmap());
             Intent shareIntent;
             shareIntent = new Intent();
-            shareIntent.setPackage("com.whatsapp");
+//            shareIntent.setPackage("com.whatsapp");
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.putExtra(Intent.EXTRA_TEXT, new_postLists.get(getAdapterPosition()).getDescription());
             shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
