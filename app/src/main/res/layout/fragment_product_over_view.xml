@@ -1632,6 +1632,7 @@
 
 
                             <tech.iwish.pickmall.extended.TextViewFont
+                                android:id="@+id/shopName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="4dp"
@@ -1687,6 +1688,7 @@
                                 android:orientation="horizontal">
 
                                 <tech.iwish.pickmall.extended.TextViewFont
+                                    android:id="@+id/show_product_cunt"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="4dp"
@@ -1701,10 +1703,10 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/open_store"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/change_btn">
-
                         </LinearLayout>
 
                     </LinearLayout>
@@ -1716,6 +1718,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/club_back_single_line_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/vendor_product_recycleview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 

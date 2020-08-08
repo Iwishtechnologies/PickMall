@@ -1,6 +1,9 @@
 package tech.iwish.pickmall.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -23,12 +28,16 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import tech.iwish.pickmall.OkhttpConnection.ProductListF;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.adapter.AllOfferProductAdapter;
+import tech.iwish.pickmall.adapter.ProductAdapter;
 import tech.iwish.pickmall.adapter.ProductDetailsImageAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.fragment.ProductFragment;
 import tech.iwish.pickmall.other.ProductDetailsImageList;
+import tech.iwish.pickmall.other.ProductList;
 import tech.iwish.pickmall.session.Share_session;
 
 import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
@@ -40,6 +49,11 @@ public class VendorStoreActivity extends AppCompatActivity implements View.OnCli
     private Share_session shareSession;
     private Map data;
     private TextView following_text, total_product, store_name;
+    RecyclerView vendorProductRecycleView;
+    StaggeredGridLayoutManager layoutManager;
+    AllOfferProductAdapter allOfferProductAdapter;
+    private List<ProductList> productListList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +66,11 @@ public class VendorStoreActivity extends AppCompatActivity implements View.OnCli
         following_text = (TextView) findViewById(R.id.following_text);
         total_product = (TextView) findViewById(R.id.total_product);
         store_name = (TextView) findViewById(R.id.store_name);
+        vendorProductRecycleView = findViewById(R.id.vendorProductRecycleView);
+
+
+        layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        vendorProductRecycleView.setLayoutManager(layoutManager);
 
         shareSession = new Share_session(this);
         data = shareSession.Fetchdata();
@@ -61,17 +80,106 @@ public class VendorStoreActivity extends AppCompatActivity implements View.OnCli
 
         vendor_id = getIntent().getStringExtra("vendor_id");
 
-        Log.e("venor_id", vendor_id);
-        Bundle bundle = new Bundle();
-        ProductFragment productFragment = new ProductFragment();
-        bundle.putString("vendor_id", vendor_id);
-        bundle.putString("type", "vendorStoreAllProduct");
-        productFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.vendor_product_frame_layout, productFragment).commit();
+//        Log.e("venor_id", vendor_id);
+//        Bundle bundle = new Bundle();
+//        ProductFragment productFragment = new ProductFragment();
+//        bundle.putString("vendor_id", vendor_id);
+//        bundle.putString("type", "vendorStoreAllProduct");
+//        productFragment.setArguments(bundle);
+//        getSupportFragmentManager().beginTransaction().replace(R.id.vendor_product_frame_layout, productFragment).commit();
 
 
         vendor_store_Details();
+        vendorProduct();
         follow_show(Constants.VENDOR_STORE_FOLLOW_CHECK);
+    }
+
+    private void vendorProduct() {
+
+        allOfferProductAdapter = new AllOfferProductAdapter(VendorStoreActivity.this, ProductListF.productFake(), "");
+        vendorProductRecycleView.setAdapter(allOfferProductAdapter);
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("item_id", vendor_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+//        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/"+PRODUCT_PERAMETER).post(body).build();
+        Request request1 = new Request.Builder().url(Constants.VENDOR_STORE_ALL_PRODUCT).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("output", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        productListList.clear();
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+
+
+
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                productListList.add(new ProductList(jsonHelper.GetResult("product_id"),
+                                        jsonHelper.GetResult("ProductName"),
+                                        jsonHelper.GetResult("SKU"),
+                                        jsonHelper.GetResult("item_id"),
+                                        jsonHelper.GetResult("catagory_id"),
+                                        jsonHelper.GetResult("actual_price"),
+                                        jsonHelper.GetResult("discount_price"),
+                                        jsonHelper.GetResult("discount_price_per"),
+                                        jsonHelper.GetResult("status"),
+                                        jsonHelper.GetResult("pimg"),
+                                        jsonHelper.GetResult("vendor_id"),
+                                        jsonHelper.GetResult("FakeRating"),
+                                        jsonHelper.GetResult("gst"),
+                                        jsonHelper.GetResult("hot_product"),
+                                        jsonHelper.GetResult("hsn_no"),
+                                        jsonHelper.GetResult("weight"),
+                                        jsonHelper.GetResult("type"),
+                                        jsonHelper.GetResult("flash_sale"),
+                                        jsonHelper.GetResult("extraoffer"),
+                                        jsonHelper.GetResult("startdate"),
+                                        jsonHelper.GetResult("enddate")
+                                ));
+
+                            }
+
+                            if (VendorStoreActivity.this != null) {
+                                VendorStoreActivity.this.runOnUiThread(() -> {
+
+                                    layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                                    vendorProductRecycleView.setLayoutManager(layoutManager);
+                                    ProductAdapter productAdapter = new ProductAdapter(VendorStoreActivity.this, productListList, "");
+                                    vendorProductRecycleView.setAdapter(productAdapter);
+
+                                });
+                            }
+
+                        }
+
+                    }
+                }
+                response.close();
+            }
+        });
+
+
+
     }
 
 

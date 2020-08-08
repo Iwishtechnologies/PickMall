@@ -112,7 +112,8 @@ public class ProductFragment extends Fragment {
             case "vendorStoreAllProduct":
 //                PRODUCT_PERAMETER = "vendor_store_all_product";
 //                item = getActivity().getIntent().getExtras().getString("vendor_id");
-                datafetchProduct(Constants.VENDOR_STORE_ALL_PRODUCT, getActivity().getIntent().getExtras().getString("vendor_id"));
+//                datafetchProduct(Constants.VENDOR_STORE_ALL_PRODUCT, getActivity().getIntent().getExtras().getString("vendor_id"));
+                VendorStore(Constants.VENDOR_STORE_ALL_PRODUCT, getActivity().getIntent().getExtras().getString("vendor_id"));
                 break;
             case "Category_by_product":
 //                PRODUCT_PERAMETER = "Category_by_product";
@@ -156,6 +157,92 @@ public class ProductFragment extends Fragment {
         }
 
         return view;
+    }
+
+    private void VendorStore(String Api, String item_id) {
+
+        allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), ProductListF.productFake(), item_id);
+        product_recycleview.setAdapter(allOfferProductAdapter);
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("item_id", item_id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+//        Request request1 = new Request.Builder().url("http://173.212.226.143:8086/api/"+PRODUCT_PERAMETER).post(body).build();
+        Request request1 = new Request.Builder().url(Api).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("output", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        productListList.clear();
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+
+                            no_products.setVisibility(View.GONE);
+                            product_recycleview.setVisibility(View.VISIBLE);
+
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                productListList.add(new ProductList(jsonHelper.GetResult("product_id"),
+                                        jsonHelper.GetResult("ProductName"),
+                                        jsonHelper.GetResult("SKU"),
+                                        jsonHelper.GetResult("item_id"),
+                                        jsonHelper.GetResult("catagory_id"),
+                                        jsonHelper.GetResult("actual_price"),
+                                        jsonHelper.GetResult("discount_price"),
+                                        jsonHelper.GetResult("discount_price_per"),
+                                        jsonHelper.GetResult("status"),
+                                        jsonHelper.GetResult("pimg"),
+                                        jsonHelper.GetResult("vendor_id"),
+                                        jsonHelper.GetResult("FakeRating"),
+                                        jsonHelper.GetResult("gst"),
+                                        jsonHelper.GetResult("hot_product"),
+                                        jsonHelper.GetResult("hsn_no"),
+                                        jsonHelper.GetResult("weight"),
+                                        jsonHelper.GetResult("type"),
+                                        jsonHelper.GetResult("flash_sale"),
+                                        jsonHelper.GetResult("extraoffer"),
+                                        jsonHelper.GetResult("startdate"),
+                                        jsonHelper.GetResult("enddate")
+                                ));
+
+                            }
+
+                            if (getActivity() != null) {
+                                getActivity().runOnUiThread(() -> {
+
+                                    ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id);
+                                    product_recycleview.setAdapter(productAdapter);
+
+                                });
+                            }
+
+                        }
+
+                    }
+                }
+                response.close();
+            }
+        });
+
+
     }
 
     private void prepaid(String Api, String prepaid) {
@@ -577,7 +664,7 @@ public class ProductFragment extends Fragment {
     private void hotproducts(String Api) {
 
 
-        final OkHttpClient client = new OkHttpClient();
+/*        final OkHttpClient client = new OkHttpClient();
 
         final Request request = new Request.Builder()
                 .url(Api)
@@ -614,6 +701,7 @@ public class ProductFragment extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
 
                                 jsonHelper.setChildjsonObj(jsonArray, i);
+                                Log.e("product_id",jsonHelper.GetResult("product_id"));
                                 productListList.add(new ProductList(jsonHelper.GetResult("product_id"),
                                         jsonHelper.GetResult("ProductName"),
                                         jsonHelper.GetResult("SKU"),
@@ -632,9 +720,7 @@ public class ProductFragment extends Fragment {
                                         jsonHelper.GetResult("weight"),
                                         jsonHelper.GetResult("type"),
                                         jsonHelper.GetResult("flash_sale"),
-                                        jsonHelper.GetResult("extraoffer"),
-                                        jsonHelper.GetResult("startdate"),
-                                        jsonHelper.GetResult("enddate")
+                                        jsonHelper.GetResult("extraoffer")
                                 ));
 
                             }
@@ -653,11 +739,9 @@ public class ProductFragment extends Fragment {
         };
 
         asyncTask.execute();
-    }
+    }*/
 
 
-
-/*
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(Api)
@@ -708,22 +792,22 @@ public class ProductFragment extends Fragment {
                                     ));
 
                                 }
-*//*
 
-                                Handler mainHandler = new Handler(getActivity().getMainLooper());
 
-                                Runnable myRunnable = new Runnable() {
-                                    @Override
-                                    public void run() {
+//                                Handler mainHandler = new Handler(getActivity().getMainLooper());
+//
+//                                Runnable myRunnable = new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//
+//                                        ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, "");
+//                                        product_recycleview.setAdapter(productAdapter);
+//                                        productAdapter.notifyDataSetChanged();
+//
+//                                    } // This is your code
+//                                };
+//                                mainHandler.post(myRunnable);
 
-                                        ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, "");
-                                        product_recycleview.setAdapter(productAdapter);
-                                        productAdapter.notifyDataSetChanged();
-
-                                    } // This is your code
-                                };
-                                mainHandler.post(myRunnable);
-*//*
 
                                 if (getActivity() != null) {
                                     getActivity().runOnUiThread(new Runnable() {
@@ -747,8 +831,8 @@ public class ProductFragment extends Fragment {
             }
         });
 
-        */
 
+    }
 
 }
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -46,13 +47,13 @@ import tech.iwish.pickmall.extended.TextViewFont;
 import tech.iwish.pickmall.session.Share_session;
 
 public class OrderDetailActivity extends AppCompatActivity implements InternetConnectivityListener {
-    TextViewFont name,orderid,color,seller,price,cname,street,city,state,phone,approvedate,delivery_status,cencelled_statement,order_approved,colony,actual_price,selling_price,discount_amount,shipping_fee,total_amount,qty;
+    TextViewFont name, orderid, color, seller, price, cname, street, city, state, phone, approvedate, delivery_status, cencelled_statement, order_approved, colony, actual_price, selling_price, discount_amount, shipping_fee, total_amount, qty;
     ShapedImageView image;
-    ImageView progress,track;
+    ImageView progress, track;
     Intent intent;
     Share_session share_session;
     String dis_amt;
-    LinearLayout returnview,ratingview,sell,extra,ship;
+    LinearLayout returnview, ratingview, sell, extra, ship;
     Button help;
     RatingBar RatingBar;
     ShimmerFrameLayout shimmer;
@@ -73,58 +74,85 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
 
     }
 
-    private  void InitializeActivity(){
-        share_session= new Share_session(OrderDetailActivity.this);
-        actual_price= findViewById(R.id.actual_price);
-        selling_price= findViewById(R.id.selling_price);
-        discount_amount= findViewById(R.id.discount_amount);
-        shipping_fee= findViewById(R.id.shipping_fee);
-        total_amount= findViewById(R.id.total_amount);
-        name= findViewById(R.id.name);
-        orderid= findViewById(R.id.orderid);
-        color= findViewById(R.id.color);
-        seller= findViewById(R.id.seller);
-        price= findViewById(R.id.price);
-        cname= findViewById(R.id.cname);
-        street= findViewById(R.id.street);
-        city= findViewById(R.id.city);
-        state= findViewById(R.id.state);
-        phone= findViewById(R.id.contact);
-        progress= findViewById(R.id.progress);
-        approvedate= findViewById(R.id.approvedate);
-        delivery_status= findViewById(R.id.delivery_status);
-        cencelled_statement= findViewById(R.id.cencelled_statement);
-        order_approved= findViewById(R.id.order_approved);
-        colony= findViewById(R.id.colony);
-        image= findViewById(R.id.image);
-        help= findViewById(R.id.help);
-        RatingBar= findViewById(R.id.rating);
-        shimmer= findViewById(R.id.shimmer);
-        returnorder= findViewById(R.id.returnorder);
-        returnview= findViewById(R.id.returnview);
-        ratingview= findViewById(R.id.ratingview);
-        sell= findViewById(R.id.sell);
-        extra= findViewById(R.id.extra);
-        ship= findViewById(R.id.ship);
-        qty= findViewById(R.id.qty);
-        track= findViewById(R.id.track);
+    private void InitializeActivity() {
+        share_session = new Share_session(OrderDetailActivity.this);
+        actual_price = findViewById(R.id.actual_price);
+        selling_price = findViewById(R.id.selling_price);
+        discount_amount = findViewById(R.id.discount_amount);
+        shipping_fee = findViewById(R.id.shipping_fee);
+        total_amount = findViewById(R.id.total_amount);
+        name = findViewById(R.id.name);
+        orderid = findViewById(R.id.orderid);
+        color = findViewById(R.id.color);
+        seller = findViewById(R.id.seller);
+        price = findViewById(R.id.price);
+        cname = findViewById(R.id.cname);
+        street = findViewById(R.id.street);
+        city = findViewById(R.id.city);
+        state = findViewById(R.id.state);
+        phone = findViewById(R.id.contact);
+        progress = findViewById(R.id.progress);
+        approvedate = findViewById(R.id.approvedate);
+        delivery_status = findViewById(R.id.delivery_status);
+        cencelled_statement = findViewById(R.id.cencelled_statement);
+        order_approved = findViewById(R.id.order_approved);
+        colony = findViewById(R.id.colony);
+        image = findViewById(R.id.image);
+        help = findViewById(R.id.help);
+        RatingBar = findViewById(R.id.rating);
+        shimmer = findViewById(R.id.shimmer);
+        returnorder = findViewById(R.id.returnorder);
+        returnview = findViewById(R.id.returnview);
+        ratingview = findViewById(R.id.ratingview);
+        sell = findViewById(R.id.sell);
+        extra = findViewById(R.id.extra);
+        ship = findViewById(R.id.ship);
+        qty = findViewById(R.id.qty);
+        track = findViewById(R.id.track);
         GetAddress(getIntent().getExtras().getString("address"));
         GetVendorDetail(getIntent().getExtras().getString("vendor_id"));
         Connectivity();
 
     }
 
-    private void ActivityAction(){
-        help.setOnClickListener(view -> startActivity(new Intent(OrderDetailActivity.this,SupportActivity.class)));
-        RatingBar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) ->{ uploadRating(getIntent().getExtras().getString("product_id"),share_session.getUserDetail().get("id"), String.valueOf(rating));ProductFeedback();});
-        returnorder.setOnClickListener(view -> startActivity(new Intent(OrderDetailActivity.this,ReturnOrderActivity.class).putExtra("image",getIntent().getExtras().getString("image")).putExtra("name",getIntent().getExtras().getString("ProductName")).putExtra("orderId",getIntent().getExtras().getString("orderid")).putExtra("orerAmt",getIntent().getExtras().getString("oederAmount")).putExtra("product_id",getIntent().getExtras().getString("product_id"))));
+    private void ActivityAction() {
+        help.setOnClickListener(view -> startActivity(new Intent(OrderDetailActivity.this, SupportActivity.class)));
+        RatingBar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
+
+            String checkrating = String.valueOf(rating);
+            switch (checkrating) {
+                case "0.5":
+                case "1":
+                case "1.5":
+                case "2":
+                case "2.5":
+                case "3":
+                case "3.5":
+                    uploadRating(getIntent().getExtras().getString("product_id"), share_session.getUserDetail().get("id"), String.valueOf(rating));
+                    ProductFeedback();
+                    break;
+                case "4":
+                case "4.5":
+                case "5":
+                    uploadRating(getIntent().getExtras().getString("product_id"), share_session.getUserDetail().get("id"), String.valueOf(rating));
+                    ProductFeedback();
+                    Uri uri = Uri.parse("market://details?id=" + getPackageName());
+                    Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(myAppLinkToMarket);
+                    break;
+            }
+
+        });
+        returnorder.setOnClickListener(view -> startActivity(new Intent(OrderDetailActivity.this, ReturnOrderActivity.class).putExtra("image", getIntent().getExtras().getString("image")).putExtra("name", getIntent().getExtras().getString("ProductName")).putExtra("orderId", getIntent().getExtras().getString("orderid")).putExtra("orerAmt", getIntent().getExtras().getString("oederAmount")).putExtra("product_id", getIntent().getExtras().getString("product_id"))));
         seller.setOnClickListener(view -> {
-            Intent intent= new Intent(OrderDetailActivity.this,VendorStoreActivity.class);
-            intent.putExtra("vendor_id",getIntent().getExtras().getString("vendor_id"));
+            Intent intent = new Intent(OrderDetailActivity.this, VendorStoreActivity.class);
+            intent.putExtra("vendor_id", getIntent().getExtras().getString("vendor_id"));
             startActivity(intent);
 
         });
-        track.setOnClickListener(v -> {startActivity(new Intent(OrderDetailActivity.this,TrackOrderActivity.class).putExtra("uniqueid",getIntent().getExtras().getString("uniqueid")).putExtra("date",getIntent().getExtras().getString("orderdate")).putExtra("orderid",getIntent().getExtras().getString("orderid"))); });
+        track.setOnClickListener(v -> {
+            startActivity(new Intent(OrderDetailActivity.this, TrackOrderActivity.class).putExtra("uniqueid", getIntent().getExtras().getString("uniqueid")).putExtra("date", getIntent().getExtras().getString("orderdate")).putExtra("orderid", getIntent().getExtras().getString("orderid")));
+        });
     }
 
     @Override
@@ -133,10 +161,10 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         return true;
     }
 
-    private void SetActivityData(){
+    private void SetActivityData() {
         name.setText(getIntent().getExtras().getString("ProductName"));
-        orderid.setText("Order ID - "+getIntent().getExtras().getString("uniqueid"));
-        price.setText(getResources().getString(R.string.rs_symbol)+getIntent().getExtras().getString("actual_price"));
+        orderid.setText("Order ID - " + getIntent().getExtras().getString("uniqueid"));
+        price.setText(getResources().getString(R.string.rs_symbol) + getIntent().getExtras().getString("actual_price"));
         cname.setText(share_session.getUserDetail().get("username"));
         qty.setText(getIntent().getExtras().getString("qty"));
         street.setText(getIntent().getExtras().getString("address"));
@@ -144,84 +172,84 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         approvedate.setText(getIntent().getExtras().getString("orderdate"));
         price.setText(getIntent().getExtras().getString("actual_price"));
         color.setText(getIntent().getExtras().getString("color"));
-        Glide.with(OrderDetailActivity.this).load(Constants.IMAGES+getIntent().getExtras().getString("image")).placeholder(R.drawable.male_icon).into(image);
-        actual_price.setText(getResources().getString(R.string.rs_symbol)+getIntent().getExtras().getString("actual_price"));
+        Glide.with(OrderDetailActivity.this).load(Constants.IMAGES + getIntent().getExtras().getString("image")).placeholder(R.drawable.male_icon).into(image);
+        actual_price.setText(getResources().getString(R.string.rs_symbol) + getIntent().getExtras().getString("actual_price"));
 
 
-        shipping_fee.setText(getResources().getString(R.string.rs_symbol)+getIntent().getExtras().getString("shipping_charge"));
-        selling_price.setText(getResources().getString(R.string.rs_symbol)+getIntent().getExtras().getString("selling_price"));
-        dis_amt= String.valueOf(Integer.parseInt(getIntent().getExtras().getString("selling_price"))-Integer.parseInt(getIntent().getExtras().getString("actual_price")));
-        discount_amount.setText(getResources().getString(R.string.rs_symbol)+dis_amt);
-        if(getIntent().getExtras().getString("ordertype").equals("freinddeal")){
-          sell.setVisibility(View.GONE);ship.setVisibility(View.GONE);extra.setVisibility(View.GONE);
+        shipping_fee.setText(getResources().getString(R.string.rs_symbol) + getIntent().getExtras().getString("shipping_charge"));
+        selling_price.setText(getResources().getString(R.string.rs_symbol) + getIntent().getExtras().getString("selling_price"));
+        dis_amt = String.valueOf(Integer.parseInt(getIntent().getExtras().getString("selling_price")) - Integer.parseInt(getIntent().getExtras().getString("actual_price")));
+        discount_amount.setText(getResources().getString(R.string.rs_symbol) + dis_amt);
+        if (getIntent().getExtras().getString("ordertype").equals("freinddeal")) {
+            sell.setVisibility(View.GONE);
+            ship.setVisibility(View.GONE);
+            extra.setVisibility(View.GONE);
         }
 
-        total_amount.setText(getResources().getString(R.string.rs_symbol)+getIntent().getExtras().getString("oederAmount"));
-        GetRating(getIntent().getExtras().getString("product_id"),share_session.getUserDetail().get("id"));
+        total_amount.setText(getResources().getString(R.string.rs_symbol) + getIntent().getExtras().getString("oederAmount"));
+        GetRating(getIntent().getExtras().getString("product_id"), share_session.getUserDetail().get("id"));
 
 
-       if(getIntent().getExtras().getString("orderStatus").equals("PENDING"))
-        {
+        if (getIntent().getExtras().getString("orderStatus").equals("PENDING")) {
             progress.setImageResource(R.drawable.half_fill_progressbar);
             delivery_status.setText("Pending");
             order_approved.setText("Pending");
             cencelled_statement.setVisibility(View.GONE);
             returnview.setVisibility(View.GONE);
             ratingview.setVisibility(View.GONE);
-        }else if(getIntent().getExtras().getString("orderStatus").equals("DELIVERED")){
-           progress.setImageResource(R.drawable.full_fill_progressbar);
-           delivery_status.setText("Delivered");
-           order_approved.setText("Ordered And Approvep");
-           returnview.setVisibility(View.VISIBLE);
-           cencelled_statement.setVisibility(View.GONE);
-           ratingview.setVisibility(View.VISIBLE);
-           if(getIntent().getExtras().getString("ordertype").equals("freinddeal")){
-               returnview.setVisibility(View.GONE);
-           }
-       }else if(getIntent().getExtras().getString("orderStatus").equals("CENCELLED")){
-           progress.setImageResource(R.drawable.half_fill_progressbar);
-           delivery_status.setText("Cancelled");
-           order_approved.setText("Ordered And Approvep");
-           cencelled_statement.setVisibility(View.VISIBLE);
-           ratingview.setVisibility(View.GONE);
-       }else if(getIntent().getExtras().getString("orderStatus").equals("APPROVED")){
-           progress.setImageResource(R.drawable.half_fill_progressbar);
-           delivery_status.setText("Pending");
-           order_approved.setText("Ordered And Approvep");
-           cencelled_statement.setVisibility(View.GONE);
-           ratingview.setVisibility(View.GONE);
-       }
+        } else if (getIntent().getExtras().getString("orderStatus").equals("DELIVERED")) {
+            progress.setImageResource(R.drawable.full_fill_progressbar);
+            delivery_status.setText("Delivered");
+            order_approved.setText("Ordered And Approvep");
+            returnview.setVisibility(View.VISIBLE);
+            cencelled_statement.setVisibility(View.GONE);
+            ratingview.setVisibility(View.VISIBLE);
+            if (getIntent().getExtras().getString("ordertype").equals("freinddeal")) {
+                returnview.setVisibility(View.GONE);
+            }
+        } else if (getIntent().getExtras().getString("orderStatus").equals("CENCELLED")) {
+            progress.setImageResource(R.drawable.half_fill_progressbar);
+            delivery_status.setText("Cancelled");
+            order_approved.setText("Ordered And Approvep");
+            cencelled_statement.setVisibility(View.VISIBLE);
+            ratingview.setVisibility(View.GONE);
+        } else if (getIntent().getExtras().getString("orderStatus").equals("APPROVED")) {
+            progress.setImageResource(R.drawable.half_fill_progressbar);
+            delivery_status.setText("Pending");
+            order_approved.setText("Ordered And Approvep");
+            cencelled_statement.setVisibility(View.GONE);
+            ratingview.setVisibility(View.GONE);
+        }
 
-        Log.e("dateadd", String.valueOf(addDay(getIntent().getExtras().getString("delivery_date"),7)));
-        if(addDay(getIntent().getExtras().getString("delivery_date"),7)){
+        Log.e("dateadd", String.valueOf(addDay(getIntent().getExtras().getString("delivery_date"), 7)));
+        if (addDay(getIntent().getExtras().getString("delivery_date"), 7)) {
             returnview.setVisibility(View.VISIBLE);
             RatingBar.setVisibility(View.GONE);
-            if(getIntent().getExtras().getString("ordertype").equals("freinddeal")){
+            if (getIntent().getExtras().getString("ordertype").equals("freinddeal")) {
                 returnview.setVisibility(View.GONE);
                 RatingBar.setVisibility(View.VISIBLE);
             }
-        }else {
+        } else {
             returnview.setVisibility(View.GONE);
-            if(getIntent().getExtras().getString("delivery_date").equals("0000-00-00")){
+            if (getIntent().getExtras().getString("delivery_date").equals("0000-00-00")) {
                 RatingBar.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 RatingBar.setVisibility(View.VISIBLE);
             }
 
         }
-        if(getIntent().getExtras().getString("ordertype").equals("freinddeal")){
+        if (getIntent().getExtras().getString("ordertype").equals("freinddeal")) {
             returnview.setVisibility(View.GONE);
         }
 
     }
 
-    private void GetAddress(String id){
+    private void GetAddress(String id) {
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("id",id);
+            jsonObject.put("id", id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -251,11 +279,11 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
                                     @Override
                                     public void run() {
 
-                                        street.setText(jsonHelper.GetResult("house_no") +""+jsonHelper.GetResult("landmark") );
+                                        street.setText(jsonHelper.GetResult("house_no") + "" + jsonHelper.GetResult("landmark"));
                                         colony.setText(jsonHelper.GetResult("colony"));
                                         city.setText(jsonHelper.GetResult("city"));
-                                        state.setText(jsonHelper.GetResult("state") + " - "+ jsonHelper.GetResult("pincode") );
-                                        phone.setText("Phone Number : "+jsonHelper.GetResult("delivery_number") );
+                                        state.setText(jsonHelper.GetResult("state") + " - " + jsonHelper.GetResult("pincode"));
+                                        phone.setText("Phone Number : " + jsonHelper.GetResult("delivery_number"));
 
                                     }
                                 });
@@ -270,14 +298,14 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
 
     }
 
-    private void uploadRating(String pid , String cid, final String rating){
+    private void uploadRating(String pid, String cid, final String rating) {
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("pid",pid);
-            jsonObject.put("cid",cid);
-            jsonObject.put("rating",rating);
+            jsonObject.put("pid", pid);
+            jsonObject.put("cid", cid);
+            jsonObject.put("rating", rating);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -320,19 +348,19 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
 
     }
 
-    private void GetRating(String pid , String cid){
+    private void GetRating(String pid, String cid) {
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("pid",pid);
-            jsonObject.put("cid",cid);
+            jsonObject.put("pid", pid);
+            jsonObject.put("cid", cid);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
         Request request = new Request.Builder().post(body)
-                .url(Constants.GETRATING)                .build();
+                .url(Constants.GETRATING).build();
         client.newCall(request).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -351,7 +379,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                Log.e("vggh",jsonHelper.GetResult("rating"));
+                                Log.e("vggh", jsonHelper.GetResult("rating"));
                                 OrderDetailActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -364,8 +392,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
 
                             }
 
-                        }
-                        else {
+                        } else {
                             OrderDetailActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -384,12 +411,12 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
 
     }
 
-    private void GetVendorDetail(String id){
+    private void GetVendorDetail(String id) {
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         final JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("id",id);
+            jsonObject.put("id", id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -419,7 +446,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
                                     @Override
                                     public void run() {
 //                                      Log.e("vggh",jsonHelper.GetResult("data"));
-                                        seller.setText("Seller : "+jsonHelper.GetResult("shopname"));
+                                        seller.setText("Seller : " + jsonHelper.GetResult("shopname"));
 
                                     }
                                 });
@@ -434,7 +461,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
 
     }
 
-    public void Connectivity(){
+    public void Connectivity() {
         InternetAvailabilityChecker mInternetAvailabilityChecker;
         mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
         mInternetAvailabilityChecker.addInternetConnectivityListener(OrderDetailActivity.this);
@@ -442,15 +469,14 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
 
     @Override
     public void onInternetConnectivityChanged(boolean isConnected) {
-        if (isConnected){
-        }
-        else {
-            startActivity(new Intent(OrderDetailActivity.this,NoInternetConnectionActivity.class));
+        if (isConnected) {
+        } else {
+            startActivity(new Intent(OrderDetailActivity.this, NoInternetConnectionActivity.class));
         }
     }
 
     public static boolean addDay(String oldDate, int numberOfDays) {
-        Date current = null,result = null;
+        Date current = null, result = null;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         try {
@@ -458,31 +484,31 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        c.add(Calendar.DAY_OF_YEAR,numberOfDays);
-        dateFormat=new SimpleDateFormat("dd-MM-yyyy");
-        Date newDate=new Date(c.getTimeInMillis());
-        String resultDate=dateFormat.format(newDate);
+        c.add(Calendar.DAY_OF_YEAR, numberOfDays);
+        dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date newDate = new Date(c.getTimeInMillis());
+        String resultDate = dateFormat.format(newDate);
 
         Date date = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         String formattedDate = df.format(date);
         try {
-             current = df.parse(formattedDate);
-             result = df.parse(resultDate);
+            current = df.parse(formattedDate);
+            result = df.parse(resultDate);
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        if(current.after(result)){
+        if (current.after(result)) {
             return false;
-        }else {
+        } else {
             return true;
         }
 
     }
 
-    private void ProductFeedback(){
+    private void ProductFeedback() {
 //        final Dialog dialog = new Dialog(OrderDetailActivity.this,R.style.full_screen_dialog); // Context, this, etc.
 //        dialog.setContentView(R.layout.design_product_feedback);
 //        getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,

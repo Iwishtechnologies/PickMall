@@ -193,7 +193,8 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String result = response.body().string();
-
+                    Log.e("pid",pid);
+                    Log.e("results",result);
                     JsonHelper jsonHelper = new JsonHelper(result);
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
@@ -201,10 +202,13 @@ public class FlashSaleAllProductAdapter extends RecyclerView.Adapter<FlashSaleAl
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
+
                                 context.runOnUiThread(() -> {
 //                                    float stock = Float.valueOf(jsonHelper.GetResult("stock"));
-                                    float stock = Float.parseFloat(jsonHelper.GetResult("stock"));
-                                    viewholder.progressBar.setProgress((int) stock);
+                                    if(!jsonHelper.GetResult("stock").equals("null")){
+                                        float stock = Float.parseFloat(jsonHelper.GetResult("stock"));
+                                        viewholder.progressBar.setProgress((int) stock);
+                                    }
                                 });
                             }
                         }

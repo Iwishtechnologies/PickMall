@@ -60,8 +60,8 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="SS SPORT"
-                    android:textSize="16sp"
                     android:textColor="@color/whiteColor"
+                    android:textSize="16sp"
                     app:fonttype="text_semi_bold" />
 
                 <LinearLayout
@@ -83,8 +83,8 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="250"
-                            android:textSize="12sp"
                             android:textColor="@color/whiteColor"
+                            android:textSize="12sp"
                             app:fonttype="text_semi_bold" />
 
                         <tech.iwish.pickmall.extended.TextViewFont
@@ -93,18 +93,20 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="Followers"
-                            android:textSize="10sp"
                             android:textColor="@color/whiteColor"
+                            android:textSize="10sp"
                             app:fonttype="regular" />
                     </LinearLayout>
+
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="@color/whiteColor"
                         android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginTop="7dp"
-                        android:layout_marginBottom="7dp"/>
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="7dp"
+                        android:background="@color/whiteColor" />
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -117,8 +119,8 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="250"
-                            android:textSize="12sp"
                             android:textColor="@color/whiteColor"
+                            android:textSize="12sp"
                             app:fonttype="text_semi_bold" />
 
                         <tech.iwish.pickmall.extended.TextViewFont
@@ -127,18 +129,20 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="Product"
-                            android:textSize="10sp"
                             android:textColor="@color/whiteColor"
+                            android:textSize="10sp"
                             app:fonttype="regular" />
                     </LinearLayout>
+
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="@color/whiteColor"
                         android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginTop="7dp"
-                        android:layout_marginBottom="7dp"/>
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="7dp"
+                        android:background="@color/whiteColor" />
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -150,8 +154,8 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="250"
-                            android:textSize="12sp"
                             android:textColor="@color/whiteColor"
+                            android:textSize="12sp"
                             app:fonttype="text_semi_bold" />
 
                         <tech.iwish.pickmall.extended.TextViewFont
@@ -160,8 +164,8 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="Monthly Sold"
-                            android:textSize="10sp"
                             android:textColor="@color/whiteColor"
+                            android:textSize="10sp"
                             app:fonttype="regular" />
                     </LinearLayout>
 
@@ -176,18 +180,20 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
                     <LinearLayout
                         android:id="@+id/follow_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:background="@drawable/follow_btn" />
+                        android:background="@drawable/follow_btn"
+                        android:orientation="vertical" />
+
                     <LinearLayout
                         android:id="@+id/followings_btn"
                         android:layout_width="wrap_content"
-                        android:orientation="vertical"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/followings" />
+                        android:background="@drawable/followings"
+                        android:orientation="vertical" />
 
                 </RelativeLayout>
 
@@ -217,7 +223,18 @@
     <FrameLayout
         android:id="@+id/vendor_product_frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:visibility="gone"
+        android:layout_height="match_parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/vendorProductRecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
 </LinearLayout>
 
 

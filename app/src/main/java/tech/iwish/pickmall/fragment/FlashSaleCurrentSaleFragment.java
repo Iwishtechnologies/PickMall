@@ -167,18 +167,21 @@ public class FlashSaleCurrentSaleFragment extends Fragment implements FlashsaleT
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
 
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
+                                if(getActivity() != null){
 
-                                        flashImage.setVisibility(View.VISIBLE);
-                                        String image = jsonHelper.GetResult("banner_img");
-                                        String a = Constants.IMAGES +image;
-                                        Glide.with(getActivity()).load(a).into(flashImage);
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
 
-                                    }
-                                });
+                                            flashImage.setVisibility(View.VISIBLE);
+                                            String image = jsonHelper.GetResult("banner_img");
+                                            String a = Constants.IMAGES +image;
+                                            Glide.with(getActivity()).load(a).into(flashImage);
 
+                                        }
+                                    });
+
+                                }
                             }
                         }else {
                             getActivity().runOnUiThread(new Runnable() {

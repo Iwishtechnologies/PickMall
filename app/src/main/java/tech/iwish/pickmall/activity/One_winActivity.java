@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -247,7 +249,10 @@ public class One_winActivity extends AppCompatActivity {
                                         images.setVisibility(View.VISIBLE);
                                         String image = jsonHelper.GetResult("banner_img");
                                         String a = Constants.IMAGES + image;
-                                        Glide.with(One_winActivity.this).load(a).into(images);
+                                        Glide.with(getApplicationContext()).load(a).into(images);
+
+
+
                                     }
                                 });
                             }

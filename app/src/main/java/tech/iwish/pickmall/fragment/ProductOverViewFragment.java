@@ -50,13 +50,17 @@ import okhttp3.Response;
 import tech.iwish.pickmall.Interface.PincodeInterFace;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.ReturnPolicyActivity;
+import tech.iwish.pickmall.activity.VendorStoreActivity;
 import tech.iwish.pickmall.adapter.ProductDescriptionAdapter;
 import tech.iwish.pickmall.adapter.ProductOverviewAdapter;
+import tech.iwish.pickmall.adapter.VendorStoreLimitProductAdapter;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.extended.TextViewFont;
 import tech.iwish.pickmall.other.ProductDescriptionlist;
+import tech.iwish.pickmall.other.ProductList;
 import tech.iwish.pickmall.other.ProductOverViewList;
+import tech.iwish.pickmall.other.VendorStoreDetails;
 import tech.iwish.pickmall.session.Share_session;
 
 import static tech.iwish.pickmall.session.Share_session.PINCODR_SERVICE_CHECK;
@@ -64,15 +68,17 @@ import static tech.iwish.pickmall.session.Share_session.PINCODR_SERVICE_CHECK;
 
 public class ProductOverViewFragment extends Fragment implements View.OnClickListener, PincodeInterFace {
 
-    private RecyclerView product_overview, product_description;
+    private RecyclerView product_overview, product_description, vendor_product_recycleview;
     private List<ProductOverViewList> productOverViewLists = new ArrayList<>();
     private List<ProductDescriptionlist> productDescriptionlists = new ArrayList<>();
+    private List<VendorStoreDetails> vendorStoreDetailsList = new ArrayList<>();
     private String product_id, vendor_id;
-    private TextView select_pincode, checker_pincode;
+    private TextView select_pincode, checker_pincode, shopName, show_product_cunt;
     private TableLayout tableLayout, tableLayout1;
     ImageView fulldetails;
-    private LinearLayout return_policy, venodr_layout, viewlayout;
+    private LinearLayout return_policy, venodr_layout, viewlayout, open_store;
     Activity activity;
+    private List<ProductList> productListList = new ArrayList<>();
 
 
     public ProductOverViewFragment(Activity activity) {
@@ -92,14 +98,21 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         return_policy = (LinearLayout) view.findViewById(R.id.return_policy);
         venodr_layout = (LinearLayout) view.findViewById(R.id.venodr_layout);
         viewlayout = view.findViewById(R.id.viewlayout);
+        vendor_product_recycleview = view.findViewById(R.id.vendor_product_recycleview);
 
         tableLayout = (TableLayout) view.findViewById(R.id.tableLayout);
         tableLayout1 = (TableLayout) view.findViewById(R.id.tableLayout1);
+        open_store = view.findViewById(R.id.open_store);
+
         fulldetails = view.findViewById(R.id.fulldetails);
+
+        shopName = view.findViewById(R.id.shopName);
+        show_product_cunt = view.findViewById(R.id.show_product_cunt);
 
         select_pincode.setOnClickListener(this);
         return_policy.setOnClickListener(this);
         fulldetails.setOnClickListener(this);
+        open_store.setOnClickListener(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -117,6 +130,9 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         productdescription();
 
         if (!vendor_id.equals("1")) {
+            LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(activity);
+            linearLayoutManager2.setOrientation(RecyclerView.HORIZONTAL);
+            vendor_product_recycleview.setLayoutManager(linearLayoutManager2);
             vendorstore();
         } else {
             venodr_layout.setVisibility(View.GONE);
@@ -142,9 +158,12 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
 
     }
 
+
     private void vendorstore() {
 
 //        not ready
+
+        venodr_layout.setVisibility(View.VISIBLE);
 
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -171,18 +190,61 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
-                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
 
+                            JSONObject temp_json = jsonHelper.getCurrentJsonObj();
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "shop_details");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-//                                productOverViewLists.add(new ProductOverViewList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("overview"), jsonHelper.GetResult("title")));
+                                vendorStoreDetailsList.add(new VendorStoreDetails(jsonHelper.GetResult("id"), jsonHelper.GetResult("shopname"), jsonHelper.GetResult("product_count"), jsonHelper.GetResult("store_follow")));
+                                int finalI = i;
+                                activity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        shopName.setText(vendorStoreDetailsList.get(finalI).getShopname());
+                                        show_product_cunt.setText(getResources().getString(R.string.followers) + " " + vendorStoreDetailsList.get(finalI).getStore_follow() + " " + getResources().getString(R.string.product) + " " + vendorStoreDetailsList.get(finalI).getProduct_count());
+                                    }
+                                });
                             }
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
 
-                                }
-                            });
+//                            product
+                            productListList.clear();
+
+                            JSONArray jsonArray1 = jsonHelper.setChildjsonArray(temp_json, "data");
+                            for (int j = 0; j < jsonArray1.length(); j++) {
+                                jsonHelper.setChildjsonObj(jsonArray1, j);
+                                productListList.add(new ProductList(jsonHelper.GetResult("product_id"),
+                                        jsonHelper.GetResult("ProductName"),
+                                        jsonHelper.GetResult("SKU"),
+                                        jsonHelper.GetResult("item_id"),
+                                        jsonHelper.GetResult("catagory_id"),
+                                        jsonHelper.GetResult("actual_price"),
+                                        jsonHelper.GetResult("discount_price"),
+                                        jsonHelper.GetResult("discount_price_per"),
+                                        jsonHelper.GetResult("status"),
+                                        jsonHelper.GetResult("pimg"),
+                                        jsonHelper.GetResult("vendor_id"),
+                                        jsonHelper.GetResult("FakeRating"),
+                                        jsonHelper.GetResult("gst"),
+                                        jsonHelper.GetResult("hot_product"),
+                                        jsonHelper.GetResult("hsn_no"),
+                                        jsonHelper.GetResult("weight"),
+                                        jsonHelper.GetResult("type"),
+                                        jsonHelper.GetResult("flash_sale"),
+                                        jsonHelper.GetResult("extraoffer"),
+                                        jsonHelper.GetResult("startdate"),
+                                        jsonHelper.GetResult("enddate")
+                                ));
+                            }
+
+                            if (activity != null) {
+                                activity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        VendorStoreLimitProductAdapter vendorStoreLimitProductAdapter = new VendorStoreLimitProductAdapter(productListList);
+                                        vendor_product_recycleview.setAdapter(vendorStoreLimitProductAdapter);
+                                    }
+                                });
+                            }
 
                         }
                     }
@@ -287,11 +349,6 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                                     activity.runOnUiThread(() -> {
 
 
-//                                            LinearLayout linearLayout = new LinearLayout(getActivity());
-//                                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//                                            layoutParams.setMargins(50, 0, 15, 0);
-//                                            linearLayout.setLayoutParams(layoutParams);
-
                                         TableRow tr = new TableRow(activity);
                                         tr.setWeightSum(2);
                                         tr.setPadding(10, 10, 10, 10);
@@ -355,8 +412,11 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
             case R.id.return_policy:
                 startActivity(new Intent(new Intent(activity, ReturnPolicyActivity.class)));
                 break;
-
             case R.id.fulldetails:
+                break;
+            case R.id.open_store:
+                startActivity(new Intent(activity, VendorStoreActivity.class).putExtra("vendor_id", vendor_id));
+                break;
 
         }
 

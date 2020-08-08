@@ -22,6 +22,8 @@
     <string name="account_sec">Account Security</string>
     <string name="promt"></string>
     <string name="payment_option">PAYMENT OPTION</string>
+    <string name="followers">Followers</string>
+    <string name="product">Product</string>
 
 
     <string name="photo"> My Photo </string>
