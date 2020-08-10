@@ -17,12 +17,26 @@
         android:progressTint="@color/colorAccent"
         android:indeterminateTint="@color/colorAccent"
         android:layout_centerInParent="true"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:id="@+id/retun_message"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:visibility="gone"
+        android:text="You Have Already Requested for Return order \n Please wait \n you will be notify soon for return order process  "
+        android:layout_height="wrap_content"/>
+
 <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
+        android:visibility="visible"
         android:id="@+id/mainview"
         android:layout_height="match_parent">
 
@@ -138,6 +152,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:padding="20dp"
+            android:orientation="vertical"
             android:background="@color/white"
             android:layout_marginTop="5dp"
             android:layout_height="wrap_content">
@@ -148,9 +163,17 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white"
                 android:hint="Reason"
+                android:visibility="gone"
                 android:inputType="text"
                 android:maxLength="30"
                 android:textColor="@color/black" />
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/spinner"
+                android:text="Select Reason"
+                android:textColorHint="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

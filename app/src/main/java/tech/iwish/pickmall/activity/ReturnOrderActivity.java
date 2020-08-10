@@ -3,6 +3,7 @@ package tech.iwish.pickmall.activity;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -16,12 +17,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.material.snackbar.Snackbar;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +51,7 @@ import tech.iwish.pickmall.session.Share_session;
 public class ReturnOrderActivity extends AppCompatActivity {
     ShapedImageView productImage;
     TextViewFont name ,returncharges,orderAmount;
+    TextView return_message;
     EditText reason;
     ImageView upload1,upload2,upload3;
     Button submit,Image1,Image2,Image3;
@@ -54,6 +62,7 @@ public class ReturnOrderActivity extends AppCompatActivity {
     Boolean img1=false,img2=false,img3=false;
     LinearLayout imageview ,mainview;
     ProgressBar progressBar;
+    MaterialSpinner spinner;
     Share_session share_session;
 
     @Override
@@ -61,9 +70,11 @@ public class ReturnOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_return_order);
         InitializeActivity();
+        CheckReturnRequest(getIntent().getExtras().getString("orderId"));
         SetActivityData();
         ActivityAction();
     }
+
 
     private void InitializeActivity(){
         share_session= new Share_session(ReturnOrderActivity.this);
@@ -82,9 +93,12 @@ public class ReturnOrderActivity extends AppCompatActivity {
         imageview=findViewById(R.id.Imagesview);
         mainview=findViewById(R.id.mainview);
         progressBar=findViewById(R.id.progress);
+        spinner=findViewById(R.id.spinner);
+        return_message=findViewById(R.id.retun_message);
         Log.e("dsfsfdsag",getIntent().getExtras().getString("orderId"));
     }
     private void ActivityAction(){
+     spinner.setOnItemSelectedListener((MaterialSpinner.OnItemSelectedListener<String>) (view, position, id, item) ->{ reason.setText(item); Snackbar.make(view,item +" Selected", Snackbar.LENGTH_LONG).show();});
      Image1.setOnClickListener(view -> { UploadCode=1;ImagePicker.Companion.with(ReturnOrderActivity.this).compress(1024).maxResultSize(1080, 1080).start(); });
      Image2.setOnClickListener(view -> { UploadCode=2;ImagePicker.Companion.with(ReturnOrderActivity.this).compress(1024).maxResultSize(1080, 1080).start(); });
      Image3.setOnClickListener(view -> { UploadCode=3;ImagePicker.Companion.with(ReturnOrderActivity.this).compress(1024).maxResultSize(1080, 1080).start(); });
@@ -95,6 +109,7 @@ public class ReturnOrderActivity extends AppCompatActivity {
         name.setText(getIntent().getExtras().getString("name"));
         returncharges.setText("Order Return Charges  ₹"+"70");
         orderAmount.setText("₹"+getIntent().getExtras().getString("orerAmt"));
+        spinner.setItems("No Longer Needed", "Late Delivery Of Items", "Quality Issue", "Missing Item", "Does Not Match Discription","Damage Product","Not Working","Wrong Colour","Wrong Product","Size Issue","Other");
     }
 
 
@@ -179,7 +194,8 @@ public class ReturnOrderActivity extends AppCompatActivity {
 
     private boolean ValidateInput(String  reas){
         if(reas.isEmpty()){
-            reason.setError("Write Reason");
+//            reason.setError("Write Reason");
+            Toast.makeText(this, "Select Reason", Toast.LENGTH_SHORT).show();
             return false;
         }else {
             if(img1){
@@ -202,4 +218,63 @@ public class ReturnOrderActivity extends AppCompatActivity {
 
         }
     }
+
+    private void CheckReturnRequest(String orderid){
+
+        OkHttpClient client = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id",orderid);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request = new Request.Builder().post(body)
+                .url(Constants.RETURNCHECK)
+                .build();
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                     }
+                            ReturnOrderActivity.this.runOnUiThread(() -> {
+                                 if(jsonHelper.GetResult("cencel_status").equals("1")){
+                                     mainview.setAlpha((float) 0.1);
+                                     mainview.setVisibility(View.GONE);
+                                     mainview.setClickable(false);
+                                     return_message.setVisibility(View.VISIBLE);
+                                 }
+                            });
+
+                        }
+                        else
+                        {
+                            ReturnOrderActivity.this.runOnUiThread(() -> {
+
+                            });
+                        }
+                    }
+
+                }
+            }
+        });
+
+
+    }
+
 }

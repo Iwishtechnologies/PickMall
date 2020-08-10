@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import org.jetbrains.annotations.NotNull;
@@ -48,10 +49,11 @@ public class VendorStoreActivity extends AppCompatActivity implements View.OnCli
     private LinearLayout follow_btn, followings_btn;
     private Share_session shareSession;
     private Map data;
-    private TextView following_text, total_product, store_name;
+    private TextView following_text, total_product, store_name,rating;
     RecyclerView vendorProductRecycleView;
     StaggeredGridLayoutManager layoutManager;
     AllOfferProductAdapter allOfferProductAdapter;
+    RatingBar ratingbar;
     private List<ProductList> productListList = new ArrayList<>();
 
 
@@ -60,6 +62,8 @@ public class VendorStoreActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendor_store);
 
+        rating = findViewById(R.id.rating);
+        ratingbar = findViewById(R.id.ratingbar1);
         follow_btn = (LinearLayout) findViewById(R.id.follow_btn);
         followings_btn = (LinearLayout) findViewById(R.id.followings_btn);
 
@@ -221,6 +225,8 @@ public class VendorStoreActivity extends AppCompatActivity implements View.OnCli
                                             following_text.setText(jsonHelper.GetResult("following_count"));
                                             total_product.setText(jsonHelper.GetResult("product_count"));
                                             store_name.setText(jsonHelper.GetResult("shope_name"));
+                                            rating.setText(jsonHelper.GetResult("rating")+"/5");
+                                            ratingbar.setRating(Float.parseFloat(jsonHelper.GetResult("rating")));
                                         }
                                     });
                                 }
