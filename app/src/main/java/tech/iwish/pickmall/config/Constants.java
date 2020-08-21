@@ -79,7 +79,7 @@ public class Constants {
     public static String UPLOADRATING = URL + "rating";
     public static String GETRATING = URL + "getProductRating";
     public static String GETVENDORDETAIL = URL + "getvendordetail";
-        public static String FOLLOWINGVENDOR = URL + "Following_Vendors";
+    public static String FOLLOWINGVENDOR = URL + "Following_Vendors";
     public static String PROFILE = URL + "Profile";
     public static String SIGNUP = URL + "Signup";
     public static String COUPENS = URL + "Coupons";
@@ -149,6 +149,7 @@ public class Constants {
     public static String CHENNELID_ORDERID = URL + "ChennelID";
     public static String TOKEN_SEND = URL + "refreshedToken";
     public static String RETURNCHECK = URL + "CheckReturn";
+    public static String NOTIFICATION = URL + "Notification";
 
 
 

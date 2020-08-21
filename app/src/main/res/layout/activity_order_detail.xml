@@ -258,7 +258,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/cencelled_date"
-                                android:text="Thu, 15 Aug 2020"
+                                android:text=""
                                 android:textSize="10dp"
                                 app:fonttype="regular"/>
 
