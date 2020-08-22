@@ -60,7 +60,8 @@ public class OfferNotification extends FirebaseMessagingService {
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.drawable.small_logo_icon)
+                .setSmallIcon(R.drawable.aac).setTicker(title).setWhen(0)
+                .setColor(getResources().getColor(R.color.orangeColor))
                 .setContentTitle(title)
                 .setContentText(body)
                 .setLargeIcon(myLogo)

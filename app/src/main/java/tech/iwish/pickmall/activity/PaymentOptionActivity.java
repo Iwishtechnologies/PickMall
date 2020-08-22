@@ -17,16 +17,28 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.paytm.pg.merchant.PaytmChecksum;
+import com.paytm.pgsdk.PaytmOrder;
+import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
+import com.paytm.pgsdk.TransactionManager;
+
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import okhttp3.Call;
 import okhttp3.MediaType;
@@ -45,9 +57,10 @@ import tech.iwish.pickmall.sqlconnection.MyhelperSql;
 import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 import static tech.iwish.pickmall.session.Share_session.WALLET_AMOUNT;
 
+
 public class PaymentOptionActivity extends Activity implements View.OnClickListener {
 
-    private RelativeLayout rayru_wallet_relative, online_payment, cases, amountAddWallet;
+    private RelativeLayout rayru_wallet_relative, online_payment, cases, amountAddWallet, paytm;
     private RadioButton rayruWallet, onlinePayments, caseRadios;
     private TextView paymentButton, shippingCharge;
     String Checker;
@@ -68,6 +81,17 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
     TableRow coupenview;
     private int finalamountsInt, shippingchargebuy_now, couponamtInt;
     String COD_ShippinfCheck = null;
+    String tokens = "";
+    public final static String TAG = "PaymentOptionActivity";
+
+    private Integer ActivityRequestCode = 2;
+    private String midString = "GtyipR16237755156153",
+            txnAmountString = "10",
+            orderIdString = "4",
+            txnTokenString = "";
+//    private String midString = "GtyipR16237755156153", txnAmountString = "10", orderIdString = "2", txnTokenString = "uMnQqlhwXXBJBVx5sDC2ALyuzC6arz3ec1YhCxF56sUs6V+SpfxWRRwR2A8NEflqnAxgg0HTX69Hkuh2Ys4r8ATAYK8y8Zqv5Rl1DIU6+pg=";
+
+    URL url;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +103,9 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
         online_payment = (RelativeLayout) findViewById(R.id.online_payment);
         cases = (RelativeLayout) findViewById(R.id.cases);
         amountAddWallet = (RelativeLayout) findViewById(R.id.amountAddWallet);
+        paytm = (RelativeLayout) findViewById(R.id.paytm);
+
+
         coupenview = findViewById(R.id.coupenview);
         coupenAmount = findViewById(R.id.coupenAmount);
 
@@ -110,6 +137,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
         online_payment.setOnClickListener(this);
         cases.setOnClickListener(this);
         amountAddWallet.setOnClickListener(this);
+        paytm.setOnClickListener(this);
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
 
@@ -258,6 +286,9 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             case R.id.cases:
                 setclick(view);
                 break;
+            case R.id.paytm:
+                paytmMethod();
+                break;
             case R.id.amountAddWallet:
                 Intent intent = new Intent(new Intent(PaymentOptionActivity.this, WalletActivity.class));
                 intent.putExtra("check", true);
@@ -265,6 +296,218 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 break;
         }
     }
+
+/*      private void paytmMethods() {
+
+
+        String mid = "GtyipR16237755156153";
+        String orderid = "4410";
+
+
+        JSONObject paytmParams = new JSONObject();
+
+        *//* for Production *//*
+// URL url = new URL("https://securegw.paytm.in/theia/api/v1/initiateTransaction?mid=YOUR_MID_HERE&orderId=ORDERID_98765");
+
+        try {
+
+            JSONObject body = new JSONObject();
+            body.put("requestType", "Payment");
+            body.put("mid", mid);
+            body.put("websiteName", "WEBSTAGING");
+            body.put("orderId", orderid);
+            body.put("callbackUrl", "https://merchant.com/callback");
+
+            JSONObject txnAmount = new JSONObject();
+            txnAmount.put("value", "1.00");
+            txnAmount.put("currency", "INR");
+
+            JSONObject userInfo = new JSONObject();
+            userInfo.put("custId", "CUST_001");
+            body.put("txnAmount", txnAmount);
+            body.put("userInfo", userInfo);
+
+            *//*
+             * Generate checksum by parameters we have in body
+             * You can get Checksum JAR from https://developer.paytm.com/docs/checksum/
+             * Find your Merchant Key in your Paytm Dashboard at https://dashboard.paytm.com/next/apikeys
+             *//*
+
+            String checksum = PaytmChecksum.generateSignature(body.toString(), "xWa_4MkQub51GSZ2");
+//
+            JSONObject head = new JSONObject();
+            head.put("signature", checksum);
+
+            paytmParams.put("body", body);
+            paytmParams.put("head", head);
+
+            String post_data = paytmParams.toString();
+
+            *//* for Staging *//*
+            url = new URL("https://securegw-stage.paytm.in/theia/api/v1/initiateTransaction?mid=YOUR_MID_HERE&orderId=ORDERID_98765");
+
+
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setDoOutput(true);
+
+            DataOutputStream requestWriter = new DataOutputStream(connection.getOutputStream());
+            requestWriter.writeBytes(post_data);
+            requestWriter.close();
+            String responseData = "";
+            InputStream is = connection.getInputStream();
+            BufferedReader responseReader = new BufferedReader(new InputStreamReader(is));
+            if ((responseData = responseReader.readLine()) != null) {
+                System.out.append("Response: " + responseData);
+            }
+            responseReader.close();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+
+    }
+*/
+
+
+    private void paytmMethod() {
+
+        getToken();
+
+        txnTokenString = tokens;
+        // for test mode use it
+        String host = "https://securegw-stage.paytm.in/";
+//        for production mode use it
+//        String host = "https://securegw.paytm.in/";
+
+        String orderDetails = "MID: " + midString + ", OrderId: " + orderIdString + ", TxnToken: " + txnTokenString
+                + ", Amount: " + txnAmountString;
+
+        Log.e(TAG, "order details " + orderDetails);
+
+        String callBackUrl = host + "theia/paytmCallback?ORDER_ID=" + orderIdString;
+        Log.e(TAG, " callback URL " + callBackUrl);
+        PaytmOrder paytmOrder = new PaytmOrder(orderIdString, midString, txnTokenString, txnAmountString, callBackUrl);
+        TransactionManager transactionManager = new TransactionManager(paytmOrder, new PaytmPaymentTransactionCallback() {
+            @Override
+            public void onTransactionResponse(Bundle bundle) {
+                Log.e(TAG, "Response (onTransactionResponse) : " + bundle.toString());
+            }
+
+            @Override
+            public void networkNotAvailable() {
+                Log.e(TAG, "network not available ");
+            }
+
+            @Override
+            public void onErrorProceed(String s) {
+                Log.e(TAG, " onErrorProcess " + s.toString());
+            }
+
+            @Override
+            public void clientAuthenticationFailed(String s) {
+                Log.e(TAG, "Clientauth " + s);
+            }
+
+            @Override
+            public void someUIErrorOccurred(String s) {
+                Log.e(TAG, " UI error " + s);
+            }
+
+            @Override
+            public void onErrorLoadingWebPage(int i, String s, String s1) {
+                Log.e(TAG, " error loading web " + s + "--" + s1);
+            }
+
+            @Override
+            public void onBackPressedCancelTransaction() {
+                Log.e(TAG, "backPress ");
+            }
+
+            @Override
+            public void onTransactionCancel(String s, Bundle bundle) {
+                Log.e(TAG, " transaction cancel " + s);
+            }
+        });
+
+        transactionManager.setShowPaymentUrl(host + "theia/api/v1/showPaymentPage");
+        transactionManager.startTransaction(this, ActivityRequestCode);
+
+
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.e(TAG, " result code " + resultCode);
+        // -1 means successful  // 0 means failed
+        // one error is - nativeSdkForMerchantMessage : networkError
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ActivityRequestCode && data != null) {
+            Bundle bundle = data.getExtras();
+            if (bundle != null) {
+                for (String key : bundle.keySet()) {
+                    Log.e(TAG, key + " : " + (bundle.get(key) != null ? bundle.get(key) : "NULL"));
+                }
+            }
+            Log.e(TAG, " data " + data.getStringExtra("nativeSdkForMerchantMessage"));
+            Log.e(TAG, " data response - " + data.getStringExtra("response"));
+/*
+ data response - {"BANKNAME":"WALLET","BANKTXNID":"1395841115",
+ "CHECKSUMHASH":"7jRCFIk6mrep+IhnmQrlrL43KSCSXrmM+VHP5pH0hekXaaxjt3MEgd1N9mLtWyu4VwpWexHOILCTAhybOo5EVDmAEV33rg2VAS/p0PXdk\u003d",
+ "CURRENCY":"INR","GATEWAYNAME":"WALLET","MID":"EAc0553138556","ORDERID":"100620202152",
+ "PAYMENTMODE":"PPI","RESPCODE":"01","RESPMSG":"Txn Success","STATUS":"TXN_SUCCESS",
+ "TXNAMOUNT":"2.00","TXNDATE":"2020-06-10 16:57:45.0","TXNID":"20200610111212800110168328631290118"}
+  */
+            Toast.makeText(this, data.getStringExtra("nativeSdkForMerchantMessage")
+                    + data.getStringExtra("response"), Toast.LENGTH_SHORT).show();
+        } else {
+            Log.e(TAG, " payment failed");
+        }
+    }
+
+
+    private String getToken() {
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("amount", "10");
+            jsonObject.put("orderId", "4");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.PAYTMS).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("result", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "token");
+                            tokens = jsonHelper.GetResult("token");
+                        }
+                    }
+                }
+            }
+        });
+
+
+        return tokens;
+    }
+
 
     private void walletmethod() {
 
@@ -400,8 +643,8 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 onlinePayments.setChecked(false);
                 paymentAvailable.setVisibility(View.GONE);
 
-                if(COD_ShippinfCheck != null){
-                    Log.e("aaaa" , COD_ShippinfCheck);
+                if (COD_ShippinfCheck != null) {
+                    Log.e("aaaa", COD_ShippinfCheck);
                     shippingCharge.setText(COD_ShippinfCheck);
                     shippingchargebuy_now = shippinsAmt;
                     int totalamt = shippinsAmt + productsAmt;
@@ -409,9 +652,12 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                     shippingCharege = String.valueOf(totalamt);
                     total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + shippingCharege);
                     cases.setClickable(true);
-                }else {
+                } else {
                     shippingcharge();
                 }
+                break;
+            case R.id.paytm:
+                Toast.makeText(this, "paytm", Toast.LENGTH_SHORT).show();
                 break;
         }
 
@@ -431,7 +677,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
-                if(PaymentOptionActivity.this != null){
+                if (PaymentOptionActivity.this != null) {
                     PaymentOptionActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -496,7 +742,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
                             }
 
-                            if(PaymentOptionActivity.this != null){
+                            if (PaymentOptionActivity.this != null) {
                                 PaymentOptionActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {

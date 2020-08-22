@@ -239,16 +239,23 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private boolean validation() {
+
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
         if (address_email.getEditText().getText().toString().isEmpty()) {
-            address_email.setError("fill ");
+            address_email.setError("Field can not be Empty");
+            return false;
+        }
+        if (!address_email.getEditText().getText().toString().trim().matches(emailPattern)) {
+            address_email.setError("Pleace valid email");
             return false;
         }
         if (address_name.getEditText().getText().toString().isEmpty()) {
-            address_name.setError("fill ");
+            address_name.setError("Field can not be Empty");
             return false;
         }
         if (address_number.getEditText().getText().toString().isEmpty()) {
-            address_number.setError("fill ");
+            address_number.setError("Field can not be Empty");
             return false;
         }
         if (address_number.getEditText().length() < 10) {
@@ -256,7 +263,7 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
             return false;
         }
         if (address_pincode.getEditText().getText().toString().isEmpty()) {
-            address_pincode.setError("fill ");
+            address_pincode.setError("Field can not be Empty");
             return false;
         }
         if (address_pincode.getEditText().length() < 6) {
@@ -265,11 +272,11 @@ public class AddressActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         if (address_house_no.getEditText().getText().toString().isEmpty()) {
-            address_house_no.setError("fill ");
+            address_house_no.setError("Field can not be Empty");
             return false;
         }
         if (address_colony.getEditText().getText().toString().isEmpty()) {
-            address_colony.setError("fill ");
+            address_colony.setError("Field can not be Empty");
             return false;
         }
         if (!pincode_city_fetch()) {

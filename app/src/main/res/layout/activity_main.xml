@@ -152,13 +152,20 @@
                         android:layout_height="wrap_content"
                         android:background="@color/light_brown_color"
                         android:gravity="center"
-                        android:padding="5dp">
+                        android:padding="5dp"
+                        android:orientation="vertical">
 
                         <tech.iwish.pickmall.extended.TextViewFont
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Free Shipping For Everything"
                             android:textColor="@color/white" />
+
+                        <Button
+                            android:id="@+id/paytm_kro"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Paytm"/>
 
                     </LinearLayout>
 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="@color/orangeColor"-->
+<!--        android:layout_alignParentBottom="true">-->
+<!--    </LinearLayout>-->
+
+    <LinearLayout
+        android:id="@+id/center"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/test_bottom_design"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/prepaid_deals_icon"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/orangeColor"
+        android:layout_toRightOf="@id/center"
+        android:layout_alignParentBottom="true"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/orangeColor"
+        android:layout_toLeftOf="@id/center"
+        android:layout_alignParentBottom="true"/>
+
+
+</RelativeLayout>

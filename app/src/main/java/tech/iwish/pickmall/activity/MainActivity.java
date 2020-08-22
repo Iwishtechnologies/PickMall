@@ -18,6 +18,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,6 +43,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.paytm.pgsdk.PaytmOrder;
+import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
+import com.paytm.pgsdk.TransactionManager;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -82,6 +86,8 @@ import tech.iwish.pickmall.connection.ConnectionServer;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.countdowntime.CountdownTime;
 import tech.iwish.pickmall.fragment.ProductFragment;
+import tech.iwish.pickmall.gateway.Paymentgateway;
+import tech.iwish.pickmall.gateway.Paytmgatway;
 import tech.iwish.pickmall.other.CardCount;
 import tech.iwish.pickmall.other.FlashsalemainList;
 import tech.iwish.pickmall.other.FriendSaleList;
@@ -141,6 +147,10 @@ public class MainActivity extends AppCompatActivity
 
     private String productName, actual_prices, pimg, order_id;
 
+    //    ******************************************************
+    private Integer ActivityRequestCode = 2;
+    private String midString = "pMwrjE07945349166231", txnAmountString = "10", orderIdString = "2", txnTokenString = "uMnQqlhwXXBJBVx5sDC2ALyuzC6arz3ec1YhCxF56sUs6V+SpfxWRRwR2A8NEflqnAxgg0HTX69Hkuh2Ys4r8ATAYK8y8Zqv5Rl1DIU6+pg=";
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -171,6 +181,14 @@ public class MainActivity extends AppCompatActivity
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         intentFilter.addAction("android.net.wifi.WIFI_STATE_CHANGED");
         registerReceiver(interNetConnection, intentFilter);
+
+        Button paytm_kro = findViewById(R.id.paytm_kro);
+        paytm_kro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startPaytmPayment(txnTokenString);
+            }
+        });
 
 
         viewPages = (ViewPager) findViewById(R.id.viewPages);
@@ -1030,6 +1048,15 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
+
+//    ******************************************************************************************
+
+    public void startPaytmPayment(String token) {
+
+
+    }
+
 
 
 }
