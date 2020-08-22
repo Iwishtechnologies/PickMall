@@ -26,10 +26,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -41,6 +44,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -73,11 +78,13 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
     private List<ProductDescriptionlist> productDescriptionlists = new ArrayList<>();
     private List<VendorStoreDetails> vendorStoreDetailsList = new ArrayList<>();
     private String product_id, vendor_id;
-    private TextView select_pincode, checker_pincode, shopName, show_product_cunt;
+    private TextView select_pincode, checker_pincode, shopName, show_product_cunt,wringrating;
     private TableLayout tableLayout, tableLayout1;
     ImageView fulldetails;
     private LinearLayout return_policy, venodr_layout, viewlayout, open_store;
     Activity activity;
+    CircleImageView profile_image;
+    RatingBar vendor_rating;
     private List<ProductList> productListList = new ArrayList<>();
 
 
@@ -91,6 +98,8 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product_over_view, null);
 
+        vendor_rating =  view.findViewById(R.id.vendor_rating);
+        wringrating =  view.findViewById(R.id.wringrating);
         product_overview = (RecyclerView) view.findViewById(R.id.product_overview);
         product_description = (RecyclerView) view.findViewById(R.id.product_description);
         select_pincode = (TextView) view.findViewById(R.id.select_pincode);
@@ -103,6 +112,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
         tableLayout = (TableLayout) view.findViewById(R.id.tableLayout);
         tableLayout1 = (TableLayout) view.findViewById(R.id.tableLayout1);
         open_store = view.findViewById(R.id.open_store);
+        profile_image = view.findViewById(R.id.profile_image);
 
         fulldetails = view.findViewById(R.id.fulldetails);
 
@@ -195,14 +205,16 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "shop_details");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                vendorStoreDetailsList.add(new VendorStoreDetails(jsonHelper.GetResult("id"), jsonHelper.GetResult("shopname"), jsonHelper.GetResult("product_count"), jsonHelper.GetResult("store_follow")));
+                                vendorStoreDetailsList.add(new VendorStoreDetails(jsonHelper.GetResult("id"), jsonHelper.GetResult("shopname"), jsonHelper.GetResult("product_count"), jsonHelper.GetResult("store_follow"), jsonHelper.GetResult("img"), jsonHelper.GetResult("rating")));
                                 int finalI = i;
-                                activity.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        shopName.setText(vendorStoreDetailsList.get(finalI).getShopname());
-                                        show_product_cunt.setText(getResources().getString(R.string.followers) + " " + vendorStoreDetailsList.get(finalI).getStore_follow() + " " + getResources().getString(R.string.product) + " " + vendorStoreDetailsList.get(finalI).getProduct_count());
+                                activity.runOnUiThread(() -> {
+                                    shopName.setText(vendorStoreDetailsList.get(finalI).getShopname());
+                                    if(!vendorStoreDetailsList.get(finalI).getImage().equals("")){
+                                        Glide.with(getActivity()).load(Constants.IMAGES+vendorStoreDetailsList.get(finalI).getImage()).into(profile_image);
                                     }
+                                    vendor_rating.setRating(Float.parseFloat(vendorStoreDetailsList.get(finalI).getRating()));
+                                    wringrating.setText(vendorStoreDetailsList.get(finalI).getRating());
+                                    show_product_cunt.setText(getResources().getString(R.string.followers) + " " + vendorStoreDetailsList.get(finalI).getStore_follow() + " " + getResources().getString(R.string.product) + " " + vendorStoreDetailsList.get(finalI).getProduct_count());
                                 });
                             }
 
@@ -381,8 +393,6 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
 
                                 }
 
-
-//                          \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
                             }
 //                            getActivity().runOnUiThread(new Runnable() {

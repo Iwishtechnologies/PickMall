@@ -1,5 +1,6 @@
 package tech.iwish.pickmall.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -92,17 +93,14 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
     }
 
     private void ActivityAction(){
-             add_amount.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (ValidateInput(amount.getText().toString())){
-                            progressBar.setVisibility(View.VISIBLE);
-                            scrollView.setAlpha((float) 0.2);
-                          AddAmount(Integer.parseInt(amount.getText().toString()));
-                        }
+             add_amount.setOnClickListener(view -> {
+                 if (ValidateInput(amount.getText().toString())){
+                     progressBar.setVisibility(View.VISIBLE);
+                     scrollView.setAlpha((float) 0.2);
+                   AddAmount(Integer.parseInt(amount.getText().toString()));
+                 }
 
-                    }
-                });
+             });
              back.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View view) {
@@ -208,7 +206,7 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
     public void AddAmount(int amount){
             Checkout.preload(WalletActivity.this);
             Checkout checkout = new Checkout();
-            checkout.setKeyID("rzp_test_cqTSMSd3guM3Ej");
+            checkout.setKeyID("rzp_live_GifdQTDljFMdQN");
             JSONObject object= new JSONObject();
             try {
                 object.put("name" ,share_session.getUserDetail().get("username"));

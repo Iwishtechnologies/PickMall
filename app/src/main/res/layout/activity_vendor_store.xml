@@ -139,6 +139,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="7dp"
+                        android:visibility="gone"
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="7dp"
                         android:background="@color/whiteColor" />
@@ -146,6 +147,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:orientation="vertical">
 
                         <tech.iwish.pickmall.extended.TextViewFont
@@ -201,6 +203,7 @@
                     style="@style/Widget.AppCompat.RatingBar.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/ratingbar1"
                     android:layout_marginTop="10dp"
                     android:progressTint="@color/whiteColor"
                     android:rating="4" />
@@ -211,6 +214,7 @@
                     android:layout_gravity="center"
                     android:ellipsize="end"
                     android:gravity="center"
+                    android:id="@+id/rating"
                     android:maxLines="1"
                     android:text="3.5/5"
                     android:textColor="@color/whiteColor"

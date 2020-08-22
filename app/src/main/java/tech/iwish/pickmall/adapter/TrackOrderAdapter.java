@@ -35,7 +35,7 @@ public class TrackOrderAdapter extends RecyclerView.Adapter<TrackOrderAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
                 holder.title.setText(trackorderLists.get(position).getActivity());
-                holder.subtitle.setText(trackorderLists.get(position).getLocation());
+//                holder.subtitle.setText(trackorderLists.get(position).getLocation());
                 holder.date.setText(trackorderLists.get(position).getDate());
     }
 

@@ -3,6 +3,7 @@ package tech.iwish.pickmall.activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
@@ -99,7 +100,6 @@ import tech.iwish.pickmall.session.Share_session;
 
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.flash_sale_list_fake;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.friend_deal_list_fake;
-import static tech.iwish.pickmall.OkhttpConnection.ProductListF.item_fakelist;
 import static tech.iwish.pickmall.OkhttpConnection.ProductListF.silder_list_fack;
 import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 import static tech.iwish.pickmall.session.Share_session.USER_NUMBER_CHECK;
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity
 //        private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     private long mTimeLeftInMillis;
     private LinearLayout viewAll_FreshSale, product_count_card_layout, flash_line, viewall_friend_deal, prepaid_layout, message;
-    private ImageView homeBottom, feedBottom, cardBottom, accountBottom;
+    private ImageView homeBottom, feedBottom, cardBottom, accountBottom, Notification;
     private String bottomClickCheck;
     private SwipeRefreshLayout swipe_refresh_layout;
     //   adapter
@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity
     private Map data;
     private CountDownTimer mCountDownTimer;
     NestedScrollView scrollMainActivity;
+    TextView notificationCount;
 
     private String productName, actual_prices, pimg, order_id;
 
@@ -196,6 +197,8 @@ public class MainActivity extends AppCompatActivity
         itemCateroryrecycle = (RecyclerView) findViewById(R.id.itemCateroryrecycle);
         friend_deal_recycleview = (RecyclerView) findViewById(R.id.friend_deal_recycleview);
 
+        notificationCount =  findViewById(R.id.notificationCount);
+        Notification =  findViewById(R.id.Notification);
         time_countDown = (TextView) findViewById(R.id.time_countDown);
         product_count_card = (TextView) findViewById(R.id.product_count_card);
         viewAll_FreshSale = (LinearLayout) findViewById(R.id.viewAll_FreshSale);
@@ -210,6 +213,7 @@ public class MainActivity extends AppCompatActivity
         cardBottom = (ImageView) findViewById(R.id.CardBottom);
         accountBottom = (ImageView) findViewById(R.id.accountBottom);
         scrollMainActivity = findViewById(R.id.scrollMainActivity);
+        Notification.setOnClickListener(v -> {startActivity(new Intent(MainActivity.this,NotificationActivity.class));});
 
 //        swipe_refresh_layout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
@@ -755,6 +759,7 @@ public class MainActivity extends AppCompatActivity
                 intent = new Intent(MainActivity.this, MessageActivity.class);
                 startActivity(intent);
                 break;
+
         }
 
 
