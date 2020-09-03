@@ -177,6 +177,7 @@ public class ReturnOrderActivity extends AppCompatActivity {
                               mainview.setAlpha(1);
                               progressBar.setVisibility(View.GONE);
                                 Toast.makeText(ReturnOrderActivity.this, "return request received", Toast.LENGTH_SHORT).show();
+                                onBackPressed();
                             });
                         }else {
                             ReturnOrderActivity.this.runOnUiThread(() -> {

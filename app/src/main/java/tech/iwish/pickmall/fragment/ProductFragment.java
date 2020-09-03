@@ -810,17 +810,25 @@ public class ProductFragment extends Fragment {
 
 
                                 if (getActivity() != null) {
-                                    getActivity().runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, "");
-                                            product_recycleview.setAdapter(productAdapter);
+                                    Handler mainHandler = new Handler(getContext().getMainLooper());
+                                    mainHandler.post(() -> {
+                                        ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, "");
+                                        product_recycleview.setAdapter(productAdapter);
 //                                            product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
-                                            productAdapter.notifyDataSetChanged();
-
-
-                                        }
+                                        productAdapter.notifyDataSetChanged();
                                     });
+
+//                                    getActivity().runOnUiThread(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                            ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, "");
+//                                            product_recycleview.setAdapter(productAdapter);
+////                                            product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
+//                                            productAdapter.notifyDataSetChanged();
+//
+//
+//                                        }
+//                                    });
                                 }
 
                             }

@@ -245,11 +245,19 @@
                                     android:id="@+id/delivery_status"
                                     android:textColor="@color/black"
                                     app:fonttype="regular"/>
-                                <ImageView
+<!--                                <ImageView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:id="@+id/track"-->
+<!--                                    android:src="@drawable/open_button"/>-->
+                                <Button
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="20dp"
+                                    android:layout_marginLeft="5dp"
                                     android:id="@+id/track"
-                                    android:src="@drawable/right_arrow"/>
+                                    android:background="@color/redColor"
+                                    android:textColor="@color/white"
+                                    android:text="Track Order"/>
 
                             </LinearLayout>
 

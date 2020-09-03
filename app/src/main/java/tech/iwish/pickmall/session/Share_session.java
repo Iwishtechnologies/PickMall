@@ -43,8 +43,8 @@ public class Share_session {
     public static final String FILTER_LIST_COLOR = "filter_color";
     public static final String ADDRESSID = "addressid";
     public static final String FIRSTTIME = "firsttime";
-
-
+    public static final String COUNT = "count";
+    public static final String UNREAD = "unread";
 
 
     SharedPreferences.Editor editor;
@@ -59,20 +59,20 @@ public class Share_session {
         editor = Preferences.edit();
     }
 
-    public Map Fetchdata(){
+    public Map Fetchdata() {
         return this.Preferences.getAll();
     }
 
-    public void  Login_check(){
+    public void Login_check() {
         editor.putBoolean(LOGIN_CHECk, true).commit();
     }
 
-    public void  user_number_check(){
+    public void user_number_check() {
         editor.putBoolean(USER_NUMBER_CHECK, true).commit();
     }
 
-    public void address(String name , String number , String pincode , String house_no , String location , String landmark , String state , String city ,String sno){
-        editor.putString(NAME_ADDRESS,name ).commit();
+    public void address(String name, String number, String pincode, String house_no, String location, String landmark, String state, String city, String sno) {
+        editor.putString(NAME_ADDRESS, name).commit();
         editor.putString(NUMBER_ADDRESS, number).commit();
         editor.putString(PINCODE_ADDRESS, pincode).commit();
         editor.putString(HOUSE_NO_ADDRESS, house_no).commit();
@@ -89,100 +89,114 @@ public class Share_session {
         editor.putString(IS_LOGIN, String.valueOf(true)).commit();
 
     }
+
     public void pincode_service_check(String pincode) {
         editor.putString(PINCODR_SERVICE_CHECK, pincode).commit();
 
     }
 
-    public HashMap<String,String> getUserDetail()
-    {
-        HashMap<String,String> data = new HashMap<>();
-        data.put(USERMOBILE,Preferences.getString(USERMOBILE,null));
-        data.put(USERNAME,Preferences.getString(USERNAME,null));
-        data.put(USERGENDER,Preferences.getString(USERGENDER,null));
-        data.put(PROFILEIMAGE,Preferences.getString(PROFILEIMAGE,null));
-        data.put(ACCOUNTID,Preferences.getString(ACCOUNTID,null));
-        return  data;
+    public HashMap<String, String> getUserDetail() {
+        HashMap<String, String> data = new HashMap<>();
+        data.put(USERMOBILE, Preferences.getString(USERMOBILE, null));
+        data.put(USERNAME, Preferences.getString(USERNAME, null));
+        data.put(USERGENDER, Preferences.getString(USERGENDER, null));
+        data.put(PROFILEIMAGE, Preferences.getString(PROFILEIMAGE, null));
+        data.put(ACCOUNTID, Preferences.getString(ACCOUNTID, null));
+        return data;
     }
 
-    public void UpdateUserDetail(String data,String Parameter)
-    {
-        if(Parameter.equals("name"))
-        {
-            editor.putString(USERNAME,data).commit();
+    public void UpdateUserDetail(String data, String Parameter) {
+        if (Parameter.equals("name")) {
+            editor.putString(USERNAME, data).commit();
         }
-        if(Parameter.equals("gender"))
-        {
-            editor.putString(USERGENDER,data).commit();
+        if (Parameter.equals("gender")) {
+            editor.putString(USERGENDER, data).commit();
         }
-        if(Parameter.equals("image"))
-        {
-            editor.putString(PROFILEIMAGE,data).commit();
+        if (Parameter.equals("image")) {
+            editor.putString(PROFILEIMAGE, data).commit();
         }
     }
 
-    public void setUserDetail(String name , String gender , String image , String account_id)
-    {
-        editor.putString(USERNAME,name);
-        editor.putString(USERGENDER,gender);
+    public void setUserDetail(String name, String gender, String image, String account_id) {
+        editor.putString(USERNAME, name);
+        editor.putString(USERGENDER, gender);
         editor.putString(PROFILEIMAGE, image);
-        editor.putString(ACCOUNTID,account_id);
+        editor.putString(ACCOUNTID, account_id);
         editor.commit();
     }
 
-    public void walletAmount(String amt){
-        editor.putString(WALLET_AMOUNT , amt).commit();
+    public void walletAmount(String amt) {
+        editor.putString(WALLET_AMOUNT, amt).commit();
     }
 
 
-    public void Logout(){
+    public void Logout() {
         editor.clear().commit();
         context.startActivity(new Intent(context, MainActivity.class));
         Animatoo.animateInAndOut(context);
     }
 
 
-    public void filterMethod(JSONObject list){
-        editor.putString(FILTER_LIST ,list.toString());
+    public void filterMethod(JSONObject list) {
+        editor.putString(FILTER_LIST, list.toString());
         editor.commit();
     }
 
-    public String getfilterMethod(){
-        return Preferences.getString(FILTER_LIST,null);
+    public String getfilterMethod() {
+        return Preferences.getString(FILTER_LIST, null);
     }
 
-    public void filterSizeRemoveMethod(){
+    public void filterSizeRemoveMethod() {
 //        editor.putString(FILTER_LIST ,list.toString());
         editor.remove(FILTER_LIST).commit();
     }
-    public void filterColorRemoveMethod(){
+
+    public void filterColorRemoveMethod() {
 //        editor.putString(FILTER_LIST ,list.toString());
         editor.remove(FILTER_LIST_COLOR).commit();
     }
 
-    public void filterColor(JSONObject list){
-        editor.putString(FILTER_LIST_COLOR ,list.toString());
+    public void filterColor(JSONObject list) {
+        editor.putString(FILTER_LIST_COLOR, list.toString());
         editor.commit();
     }
-    public  void  SetProfileImage(String image){
-        editor.putString(PROFILEIMAGE,image).commit();
+
+    public void SetProfileImage(String image) {
+        editor.putString(PROFILEIMAGE, image).commit();
     }
 
-    public void SetAddressId(String id){
-        editor.putString(ADDRESSID,id).commit();
+    public void SetAddressId(String id) {
+        editor.putString(ADDRESSID, id).commit();
     }
 
-    public String GetAddrssId(){
-        return  Preferences.getString(ADDRESSID,null);
+    public String GetAddrssId() {
+        return Preferences.getString(ADDRESSID, null);
     }
 
-    public void  Firsttime(){
-        editor.putString(FIRSTTIME,"true" ).commit();
+    public void Firsttime() {
+        editor.putString(FIRSTTIME, "true").commit();
     }
-    public Boolean  GetFirsttime(){
-        return Boolean.valueOf(Preferences.getString(FIRSTTIME,null));
+
+    public Boolean GetFirsttime() {
+        return Boolean.valueOf(Preferences.getString(FIRSTTIME, null));
     }
- }
+
+    public String GetCount() {
+        return Preferences.getString(COUNT, null);
+    }
+
+    public void SetCount(String count) {
+        editor.putString(COUNT, count).commit();
+    }
+
+    public String GetUnread() {
+        return Preferences.getString(UNREAD, null);
+    }
+
+    public void SetUnread(String count) {
+        editor.putString(UNREAD, count).commit();
+    }
+}
 
 
 

@@ -51,9 +51,10 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        share_session= new Share_session(SplashActivity.this);
         GetOfferBanner();
         setContentView(R.layout.activity_splash);
-        share_session= new Share_session(SplashActivity.this);
+
 
 
 
@@ -62,6 +63,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             data = share_session.Fetchdata();
             if(data.get(USER_NUMBER_CHECK) != null){
+                GetCount();
                 if (banner.equals("null")) {
                     startActivity(new Intent(SplashActivity.this , MainActivity.class));
                  }
@@ -73,6 +75,8 @@ public class SplashActivity extends AppCompatActivity {
             {
                 if(share_session.GetFirsttime())
                 {
+
+                    GetCount();
                     if (banner.equals("null")) {
                         startActivity(new Intent(SplashActivity.this , MainActivity.class));
                     }
@@ -83,6 +87,9 @@ public class SplashActivity extends AppCompatActivity {
 
                 }
                 else {
+                    share_session.SetCount(String.valueOf(0));
+                    share_session.SetUnread(String.valueOf(0));
+                    GetCount();
                     startActivity(new Intent(SplashActivity.this , Register1Activity.class));
                 }
 //                Intent mainIntent = new Intent(SplashActivity.this,Register1Activity.class);
@@ -93,12 +100,55 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
+    public void GetCount()
+    {
+        OkHttpClient okHttpClient1 = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("mobile", "mobile");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.NotiFIcationCount).post(body).build();
+        okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+                SplashActivity.this.runOnUiThread(() -> Toast.makeText(SplashActivity.this, "Connection Time Out", Toast.LENGTH_SHORT).show());
+            }
 
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                int unread= Integer.valueOf(jsonHelper.GetResult("sno"))-Integer.valueOf(share_session.GetCount());
+                                share_session.SetUnread(String.valueOf(unread));
+                            }
+                        }
+
+                    }
+
+                }
+
+
+            }
+
+        });
+    }
 
     public void GetOfferBanner()
     {
-
-
         OkHttpClient okHttpClient1 = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();

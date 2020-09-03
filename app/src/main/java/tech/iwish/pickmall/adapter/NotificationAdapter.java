@@ -1,6 +1,7 @@
 package tech.iwish.pickmall.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.title.setText(notificationLists.get(position).getTitle());
         holder.body.setText(notificationLists.get(position).getBody());
         holder.time.setText(notificationLists.get(position).getTitle());
-        Glide.with(context).load(Constants.IMAGES+notificationLists.get(position).getTitle()).centerCrop().placeholder(R.drawable.vendor_default).into(holder.image);
+        Glide.with(context).load(Constants.IMAGES+notificationLists.get(position).getImage()).centerCrop().placeholder(R.drawable.vendor_default).into(holder.image);
+
     }
 
     @Override

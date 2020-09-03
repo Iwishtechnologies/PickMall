@@ -49,12 +49,12 @@ import tech.iwish.pickmall.session.Share_session;
 public class OrderDetailActivity extends AppCompatActivity implements InternetConnectivityListener {
     TextViewFont name, orderid, color, seller, price, cname, street, city, state, phone, approvedate, delivery_status, cencelled_statement, order_approved, colony, actual_price, selling_price, discount_amount, shipping_fee, total_amount, qty,cencelled_date;
     ShapedImageView image;
-    ImageView progress, track;
+    ImageView progress;
     Intent intent;
     Share_session share_session;
     String dis_amt;
     LinearLayout returnview, ratingview, sell, extra, ship;
-    Button help;
+    Button help,track;
     RatingBar RatingBar;
     ShimmerFrameLayout shimmer;
     Button returnorder;

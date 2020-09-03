@@ -17,10 +17,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:padding="15sp"
-        android:layout_weight="0.1"
         android:background="@color/dark_brown_color"
         android:gravity="center_vertical"
-        android:layout_height="40dp">
+        android:layout_height="wrap_content">
 
         <tech.iwish.pickmall.extended.TextViewFont
             android:layout_width="wrap_content"
@@ -33,7 +32,7 @@
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notificationRecycleview"
-        android:layout_weight="1.9"
+        android:layout_weight="2"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

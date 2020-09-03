@@ -21,7 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.razorpay.Checkout;
+import com.razorpay.PaymentData;
 import com.razorpay.PaymentResultListener;
+import com.razorpay.PaymentResultWithDataListener;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -48,7 +50,7 @@ import tech.iwish.pickmall.extended.TextViewFont;
 import tech.iwish.pickmall.other.WalletList;
 import tech.iwish.pickmall.session.Share_session;
 
-public class WalletActivity extends AppCompatActivity implements PaymentResultListener , InternetConnectivityListener {
+public class WalletActivity extends AppCompatActivity implements  InternetConnectivityListener, PaymentResultWithDataListener {
     TextViewFont balance;
      String Balance = "0";
      Share_session share_session;
@@ -206,7 +208,7 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
     public void AddAmount(int amount){
             Checkout.preload(WalletActivity.this);
             Checkout checkout = new Checkout();
-            checkout.setKeyID("rzp_live_GifdQTDljFMdQN");
+            checkout.setKeyID("rzp_test_IwB0WlNamcGg4w");
             JSONObject object= new JSONObject();
             try {
                 object.put("name" ,share_session.getUserDetail().get("username"));
@@ -229,24 +231,43 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
     }
 
 
+
     @Override
-    public void onPaymentSuccess(String s) {
-       UpdateWallet(share_session.getUserDetail().get("UserMobile"),amount.getText().toString());
+    public void onPaymentSuccess(String s, PaymentData paymentData) {
+        Log.e("orderid",paymentData.getOrderId());
+        UpdateWallet(share_session.getUserDetail().get("UserMobile"),amount.getText().toString(),paymentData.getPaymentId(),paymentData.getOrderId(),paymentData.getSignature());
         SaveTransaction();
-       if(!(getIntent().getExtras().isEmpty())){
-           onBackPressed();
-       }
+        if(!(getIntent().getExtras().isEmpty())){
+            onBackPressed();
+        }
     }
 
     @Override
-    public void onPaymentError(int i, String s) {
+    public void onPaymentError(int i, String s, PaymentData paymentData) {
         Toast.makeText(WalletActivity.this, "fail"+s, Toast.LENGTH_SHORT).show();
         progressBar.setVisibility(View.GONE);
         scrollView.setAlpha(1);
-//        UpdateWallet(share_session.getUserDetail().get("UserMobile"),amount.getText().toString());
     }
 
-    public String UpdateWallet(String mobile , final String amount) {
+
+//    @Override
+//    public void onPaymentSuccess(String s) {
+//       UpdateWallet(share_session.getUserDetail().get("UserMobile"),amount.getText().toString());
+//        SaveTransaction();
+//       if(!(getIntent().getExtras().isEmpty())){
+//           onBackPressed();
+//       }
+//    }
+//
+//    @Override
+//    public void onPaymentError(int i, String s) {
+//        Toast.makeText(WalletActivity.this, "fail"+s, Toast.LENGTH_SHORT).show();
+//        progressBar.setVisibility(View.GONE);
+//        scrollView.setAlpha(1);
+////        UpdateWallet(share_session.getUserDetail().get("UserMobile"),amount.getText().toString());
+//    }
+
+    public String UpdateWallet(String mobile , final String amount,String paymentid,String orderid,String signature ) {
 
         OkHttpClient okHttpClient1 = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -254,6 +275,9 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
         try {
             jsonObject.put("mobile", mobile);
             jsonObject.put("amount", amount);
+            jsonObject.put("paymentid", paymentid);
+            jsonObject.put("orderid", orderid);
+            jsonObject.put("signature", signature);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -438,9 +462,6 @@ public class WalletActivity extends AppCompatActivity implements PaymentResultLi
             startActivity(new Intent(WalletActivity.this,NoInternetConnectionActivity.class));
         }
     }
-
-
-
 
 
 }

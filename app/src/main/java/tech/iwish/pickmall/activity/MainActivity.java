@@ -262,6 +262,11 @@ public class MainActivity extends AppCompatActivity
             notification();
         }
 
+        if(Integer.valueOf(share_session.GetUnread())>0){
+            notificationCount.setText(share_session.GetUnread());
+            notificationCount.setVisibility(View.VISIBLE);
+        }
+
     }
 
     private void friend_deal_90_rs_amount_return() {
@@ -370,12 +375,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                });
             }
 
             @Override
@@ -394,7 +393,17 @@ public class MainActivity extends AppCompatActivity
                                 silderListsList.add(new SilderLists(jsonHelper.GetResult("sno"), jsonHelper.GetResult("image"), jsonHelper.GetResult("categoryid"), jsonHelper.GetResult("item_name"), jsonHelper.GetResult("status")));
                             }
                             if (MainActivity.this != null) {
-                                MainActivity.this.runOnUiThread(new Runnable() {
+//                                MainActivity.this.runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        silderAdapter = new SilderAdapter(MainActivity.this, silderListsList);
+//                                        viewPages.setAdapter(silderAdapter);
+//                                        createSilderauto();
+//                                    }
+//                                });
+
+                                Handler mainHandler = new Handler(MainActivity.this.getMainLooper());
+                                mainHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
                                         silderAdapter = new SilderAdapter(MainActivity.this, silderListsList);
@@ -402,6 +411,9 @@ public class MainActivity extends AppCompatActivity
                                         createSilderauto();
                                     }
                                 });
+
+
+
                             }
                         }
                     }
@@ -559,14 +571,24 @@ public class MainActivity extends AppCompatActivity
 
                             if (MainActivity.this != null) {
 
-                                MainActivity.this.runOnUiThread(new Runnable() {
+//                                MainActivity.this.runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        friendSaleAdapter = new FriendSaleAdapter(MainActivity.this, friendSaleLists);
+//                                        friend_deal_recycleview.setAdapter(friendSaleAdapter);
+//
+//                                    }
+//                                });
+                                Handler mainHandler = new Handler(MainActivity.this.getMainLooper());
+                                mainHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
                                         friendSaleAdapter = new FriendSaleAdapter(MainActivity.this, friendSaleLists);
                                         friend_deal_recycleview.setAdapter(friendSaleAdapter);
-
                                     }
                                 });
+
+
                             }
                         }
 
@@ -609,7 +631,17 @@ public class MainActivity extends AppCompatActivity
 
                             productListList.clear();
                             if (MainActivity.this != null) {
-                                MainActivity.this.runOnUiThread(() -> new CountdownTime(time_countDown));
+
+                                Handler mainHandler = new Handler(MainActivity.this.getMainLooper());
+                                mainHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        new CountdownTime(time_countDown);
+                                    }
+                                });
+
+
+//                                MainActivity.this.runOnUiThread(() -> new CountdownTime(time_countDown));
                             }
 
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
@@ -642,13 +674,24 @@ public class MainActivity extends AppCompatActivity
 
                             if (MainActivity.this != null) {
 
-                                MainActivity.this.runOnUiThread(new Runnable() {
+//                                MainActivity.this.runOnUiThread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        flashSaleAdapter = new FlashSaleAdapter(MainActivity.this, productListList);
+//                                        flash_sale_main_recycle.setAdapter(flashSaleAdapter);
+//                                    }
+//                                });
+
+                                Handler mainHandler = new Handler(MainActivity.this.getMainLooper());
+                                mainHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
                                         flashSaleAdapter = new FlashSaleAdapter(MainActivity.this, productListList);
                                         flash_sale_main_recycle.setAdapter(flashSaleAdapter);
+
                                     }
                                 });
+
 
                             }
                         } else {

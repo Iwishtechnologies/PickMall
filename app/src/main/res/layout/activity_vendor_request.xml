@@ -127,6 +127,65 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="Flat "
+                        android:inputType="text"
+                        android:ems="10"
+                        android:maxLines="1"
+                        android:id="@+id/flat"
+                        android:padding="25dp"
+                        android:background="@drawable/rectangle_edittext"
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="-10dp"
+                    android:layout_height="wrap_content">
+
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="City "
+                        android:inputType="text"
+                        android:ems="10"
+                        android:maxLines="1"
+                        android:id="@+id/city"
+                        android:padding="25dp"
+                        android:background="@drawable/rectangle_edittext"
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="-10dp"
+                    android:layout_height="wrap_content">
+
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="State "
+                        android:inputType="text"
+                        android:ems="10"
+                        android:maxLines="1"
+                        android:id="@+id/street"
+                        android:padding="25dp"
+                        android:background="@drawable/rectangle_edittext"
+                        />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="-10dp"
+                    android:layout_height="wrap_content">
+
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:hint="Address "
                         android:inputType="text"
                         android:ems="10"
