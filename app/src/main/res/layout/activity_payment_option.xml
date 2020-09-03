@@ -111,6 +111,45 @@
 
 
         <RelativeLayout
+            android:id="@+id/paytm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/payment_design"
+            android:elevation="10dp"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:tag="onlpayment">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/online_payment_icon" />
+
+            <tech.iwish.pickmall.extended.TextViewFont
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:padding="4dp"
+                android:text="Paytm"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:fonttype="text_semi_bold" />
+
+            <RadioButton
+                android:id="@+id/paytmRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:buttonTint="@color/orangeColor"
+                android:clickable="false"
+                android:layoutDirection="rtl" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
             android:id="@+id/online_payment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -261,8 +300,8 @@
                     <TableRow
                         android:paddingTop="5dp"
                         android:paddingBottom="3dp"
-                        android:weightSum="2"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        android:weightSum="2">
 
                         <tech.iwish.pickmall.extended.TextViewFont
                             android:layout_width="wrap_content"
@@ -282,10 +321,10 @@
                     </TableRow>
 
                     <TableRow
+                        android:id="@+id/coupenview"
                         android:paddingTop="5dp"
                         android:paddingBottom="3dp"
                         android:visibility="gone"
-                        android:id="@+id/coupenview"
                         android:weightSum="2">
 
                         <tech.iwish.pickmall.extended.TextViewFont
@@ -391,7 +430,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </RelativeLayout>
 

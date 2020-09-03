@@ -7,11 +7,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
 
     <application
         android:allowBackup="true"
-        android:exported="false"
-        android:grantUriPermissions="true"
         android:hardwareAccelerated="false"
         android:icon="@drawable/new_logo"
         android:label="@string/app_name"
@@ -20,9 +20,12 @@
         android:roundIcon="@drawable/new_logo"
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".activity.NotificationActivity" android:theme="@style/notificationtheme" android:screenOrientation="portrait"/>
-        <activity android:name=".activity.FailTransactionActivity" />
+        android:grantUriPermissions="true"
+        android:exported="false"
+        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/xml">
+
+        <activity android:name=".activity.FailTransactionActivity"></activity>
         <activity
             android:name=".activity.TrackOrderActivity"
             android:screenOrientation="portrait"
@@ -264,11 +267,16 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".Notification.Token">
+
+
+        <service
+            android:name=".Notification.Token">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
+
+
     </application>
 
 </manifest>

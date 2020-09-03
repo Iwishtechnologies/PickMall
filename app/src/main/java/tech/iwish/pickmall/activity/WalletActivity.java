@@ -234,7 +234,9 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
 
     @Override
     public void onPaymentSuccess(String s, PaymentData paymentData) {
+        Log.e("orderid",paymentData.getPaymentId());
         Log.e("orderid",paymentData.getOrderId());
+
         UpdateWallet(share_session.getUserDetail().get("UserMobile"),amount.getText().toString(),paymentData.getPaymentId(),paymentData.getOrderId(),paymentData.getSignature());
         SaveTransaction();
         if(!(getIntent().getExtras().isEmpty())){

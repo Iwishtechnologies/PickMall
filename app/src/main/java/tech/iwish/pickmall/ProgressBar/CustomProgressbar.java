@@ -20,7 +20,6 @@ public class CustomProgressbar {
     public void startprogress(){
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
-
         LayoutInflater inflater = activity.getLayoutInflater();
         builder.setView(inflater.inflate(R.layout.row_custom_progress_bar , null));
 

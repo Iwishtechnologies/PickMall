@@ -88,6 +88,8 @@ public class ConectOkhttp {
         }
         RequestBody body = RequestBody.create(JSON, jsonObject.toString());
         Request request1 = new Request.Builder().url("http://173.212.226.143:8086/categoryapi").post(body).build();
+
+
         okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
