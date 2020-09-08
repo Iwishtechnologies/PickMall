@@ -26,6 +26,7 @@
         android:networkSecurityConfig="@xml/xml">
 
         <activity android:name=".activity.FailTransactionActivity"></activity>
+        <activity android:name=".activity.NotificationActivity"></activity>
         <activity
             android:name=".activity.TrackOrderActivity"
             android:screenOrientation="portrait"

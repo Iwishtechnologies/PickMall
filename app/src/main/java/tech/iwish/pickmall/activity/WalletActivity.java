@@ -33,6 +33,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import ir.hamiss.internetcheckconnection.InternetAvailabilityChecker;
 import ir.hamiss.internetcheckconnection.InternetConnectivityListener;
@@ -68,6 +69,7 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
+        Checkout.preload(getApplicationContext());
         InitializeActivity();
         ActivityAction();
         SetActivityData();
@@ -204,19 +206,63 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
 
     }
 
+    static String getAlphaNumericString(int n)
+    {
+
+        // lower limit for LowerCase Letters
+        int lowerLimit = 97;
+
+        // lower limit for LowerCase Letters
+        int upperLimit = 122;
+
+        Random random = new Random();
+
+        // Create a StringBuffer to store the result
+        StringBuffer r = new StringBuffer(n);
+
+        for (int i = 0; i < n; i++) {
+
+            // take a random value between 97 and 122
+            int nextRandomChar = lowerLimit
+                    + (int)(random.nextFloat()
+                    * (upperLimit - lowerLimit + 1));
+
+            // append a character at the end of bs
+            r.append((char)nextRandomChar);
+        }
+
+        // return the resultant string
+        return r.toString();
+    }
 
     public void AddAmount(int amount){
+//        try {
+//            JSONObject orderRequest = new JSONObject();
+//            orderRequest.put("amount", 50000); // amount in the smallest currency unit
+//            orderRequest.put("currency", "INR");
+//            orderRequest.put("receipt", "order_rcptid_11");
+//            orderRequest.put("payment_capture", false);
+//
+//            Order order = razorpay.Orders.create(orderRequest);
+//        } catch (RazorpayException e) {
+//            // Handle Exception
+//            System.out.println(e.getMessage());
+//     }
+
             Checkout.preload(WalletActivity.this);
             Checkout checkout = new Checkout();
             checkout.setKeyID("rzp_test_IwB0WlNamcGg4w");
+
             JSONObject object= new JSONObject();
             try {
                 object.put("name" ,share_session.getUserDetail().get("username"));
                 object.put("amount" ,Double.valueOf(amount)*100);
                 object.put("current" ,"INR");
+//                object.put("order_id" ,"getAlphaNumericString(20)+Double.valueOf(amount)*100");
                 object.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
                 JSONObject preFill = new JSONObject();
                 preFill.put("contact" ,share_session.getUserDetail().get("UserMobile"));
+
                 object.put("prfill" ,preFill);
                 checkout.open(WalletActivity.this, object);
 
@@ -225,7 +271,7 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
 //            Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
-
+//
 
 
     }
@@ -235,10 +281,10 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
     @Override
     public void onPaymentSuccess(String s, PaymentData paymentData) {
         Log.e("orderid",paymentData.getPaymentId());
-        Log.e("orderid",paymentData.getOrderId());
+//        Log.e("orderid",paymentData.getOrderId());
 
-        UpdateWallet(share_session.getUserDetail().get("UserMobile"),amount.getText().toString(),paymentData.getPaymentId(),paymentData.getOrderId(),paymentData.getSignature());
-        SaveTransaction();
+        UpdateWallet(share_session.getUserDetail().get("UserMobile"),amount.getText().toString(),paymentData.getPaymentId(),"paymentData.getOrderId()",paymentData.getSignature());
+
         if(!(getIntent().getExtras().isEmpty())){
             onBackPressed();
         }
@@ -278,7 +324,7 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
             jsonObject.put("mobile", mobile);
             jsonObject.put("amount", amount);
             jsonObject.put("paymentid", paymentid);
-            jsonObject.put("orderid", orderid);
+//            jsonObject.put("orderid", orderid);
             jsonObject.put("signature", signature);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -311,6 +357,7 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
                             WalletActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    SaveTransaction(paymentid);
                                     progressBar.setVisibility(View.GONE);
                                     scrollView.setAlpha(1);
                                     balance.setText(jsonHelper.GetResult("wallet"));
@@ -319,6 +366,17 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
                             });
 
                         }
+                        else{
+                            WalletActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressBar.setVisibility(View.GONE);
+                                    scrollView.setAlpha(1);
+                                    Toast.makeText(WalletActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+                               }
                     }
 
                 }
@@ -356,7 +414,7 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String result = response.body().string();
-
+                   walletLists.clear();
                     JsonHelper jsonHelper = new JsonHelper(result);
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
@@ -393,7 +451,7 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
 
 
 
-        private void SaveTransaction(){
+        private void SaveTransaction(String paymentid){
             OkHttpClient okHttpClient1 = new OkHttpClient();
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
             JSONObject jsonObject = new JSONObject();
@@ -403,6 +461,7 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
                 jsonObject.put("description","Add to wallet");
                 jsonObject.put("type", "Credit");
                 jsonObject.put("status","Completed");
+                jsonObject.put("transaction",paymentid);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -424,7 +483,14 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
                         if (jsonHelper.isValidJson()) {
                             String responses = jsonHelper.GetResult("response");
                             if (responses.equals("TRUE")) {
-                                JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                                WalletActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SetRecycleView();
+                                    }
+                                });
+
+//                                JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
 //
 //                            for (int i = 0; i < jsonArray.length(); i++) {
 //                                jsonHelper.setChildjsonObj(jsonArray, i);
