@@ -53,16 +53,16 @@ import tech.iwish.pickmall.session.Share_session;
 
 public class WalletActivity extends AppCompatActivity implements  InternetConnectivityListener, PaymentResultWithDataListener {
     TextViewFont balance;
-     String Balance = "0";
-     Share_session share_session;
-     Button add_amount;
-     EditText amount;
-     ShimmerFrameLayout shimmer;
+    String Balance = "0";
+    Share_session share_session;
+    Button add_amount;
+    EditText amount;
+    ShimmerFrameLayout shimmer;
     LinearLayout layout,shimmerview,noitem;
-     ImageView back;
-     ProgressBar progressBar;
-     ScrollView scrollView;
-     RecyclerView recyclerView;
+    ImageView back;
+    ProgressBar progressBar;
+    ScrollView scrollView;
+    RecyclerView recyclerView;
     List<WalletList> walletLists= new ArrayList<>();
 
     @Override
@@ -97,42 +97,42 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
     }
 
     private void ActivityAction(){
-             add_amount.setOnClickListener(view -> {
-                 if (ValidateInput(amount.getText().toString())){
-                     progressBar.setVisibility(View.VISIBLE);
-                     scrollView.setAlpha((float) 0.2);
-                   AddAmount(Integer.parseInt(amount.getText().toString()));
-                 }
+        add_amount.setOnClickListener(view -> {
+            if (ValidateInput(amount.getText().toString())){
+                progressBar.setVisibility(View.VISIBLE);
+                scrollView.setAlpha((float) 0.2);
+                AddAmount(Integer.parseInt(amount.getText().toString()));
+            }
 
-             });
-             back.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View view) {
-                     onBackPressed();
-                 }
-             });
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
-            amount.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        amount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(!amount.getText().toString().isEmpty()){
+                    add_amount.setBackground(getResources().getDrawable(R.drawable.add_amount_enable));
                 }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                      if(!amount.getText().toString().isEmpty()){
-                          add_amount.setBackground(getResources().getDrawable(R.drawable.add_amount_enable));
-                      }
-                      else {
-                          add_amount.setBackground(getResources().getDrawable(R.drawable.add_amount_desable));
-                      }
+                else {
+                    add_amount.setBackground(getResources().getDrawable(R.drawable.add_amount_desable));
                 }
+            }
 
-                @Override
-                public void afterTextChanged(Editable editable) {
+            @Override
+            public void afterTextChanged(Editable editable) {
 
-                }
-            });
+            }
+        });
     }
 
 
@@ -169,11 +169,11 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
-                         JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                   Balance = jsonHelper.GetResult("wallet");
+                                Balance = jsonHelper.GetResult("wallet");
                             }
 
                             WalletActivity.this.runOnUiThread(new Runnable() {
@@ -197,12 +197,12 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
     }
 
     public Boolean ValidateInput(String amount1){
-     if(amount1.isEmpty()){
-         amount.setError("EnterAmount");
-         return false;
-     }else {
-         return true;
-     }
+        if(amount1.isEmpty()){
+            amount.setError("EnterAmount");
+            return false;
+        }else {
+            return true;
+        }
 
     }
 
@@ -249,28 +249,28 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
 //            System.out.println(e.getMessage());
 //     }
 
-            Checkout.preload(WalletActivity.this);
-            Checkout checkout = new Checkout();
-            checkout.setKeyID("rzp_live_GifdQTDljFMdQN");
+        Checkout.preload(WalletActivity.this);
+        Checkout checkout = new Checkout();
+        checkout.setKeyID("rzp_live_GifdQTDljFMdQN");
 
-            JSONObject object= new JSONObject();
-            try {
-                object.put("name" ,share_session.getUserDetail().get("username"));
-                object.put("amount" ,Double.valueOf(amount)*100);
-                object.put("current" ,"INR");
+        JSONObject object= new JSONObject();
+        try {
+            object.put("name" ,share_session.getUserDetail().get("username"));
+            object.put("amount" ,Double.valueOf(amount)*100);
+            object.put("current" ,"INR");
 //                object.put("order_id" ,"getAlphaNumericString(20)+Double.valueOf(amount)*100");
-                object.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
-                JSONObject preFill = new JSONObject();
-                preFill.put("contact" ,share_session.getUserDetail().get("UserMobile"));
+            object.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
+            JSONObject preFill = new JSONObject();
+            preFill.put("contact" ,share_session.getUserDetail().get("UserMobile"));
 
-                object.put("prfill" ,preFill);
-                checkout.open(WalletActivity.this, object);
+            object.put("prfill" ,preFill);
+            checkout.open(WalletActivity.this, object);
 
 
-            } catch (JSONException e) {
+        } catch (JSONException e) {
 //            Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
+            e.printStackTrace();
+        }
 //
 
 
@@ -376,7 +376,7 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
 
                                 }
                             });
-                               }
+                        }
                     }
 
                 }
@@ -414,7 +414,7 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String result = response.body().string();
-                   walletLists.clear();
+                    walletLists.clear();
                     JsonHelper jsonHelper = new JsonHelper(result);
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
@@ -451,44 +451,44 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
 
 
 
-        private void SaveTransaction(String paymentid){
-            OkHttpClient okHttpClient1 = new OkHttpClient();
-            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("mobile",share_session.getUserDetail().get("UserMobile") );
-                jsonObject.put("amount", amount.getText().toString());
-                jsonObject.put("description","Add to wallet");
-                jsonObject.put("type", "Credit");
-                jsonObject.put("status","Completed");
-                jsonObject.put("transaction",paymentid);
-            } catch (JSONException e) {
+    private void SaveTransaction(String paymentid){
+        OkHttpClient okHttpClient1 = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("mobile",share_session.getUserDetail().get("UserMobile") );
+            jsonObject.put("amount", amount.getText().toString());
+            jsonObject.put("description","Add to wallet");
+            jsonObject.put("type", "Credit");
+            jsonObject.put("status","Completed");
+            jsonObject.put("transaction",paymentid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.SAVE_TRANSACTION).post(body).build();
+        okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
             }
-            RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-            Request request1 = new Request.Builder().url(Constants.SAVE_TRANSACTION).post(body).build();
-            okHttpClient1.newCall(request1).enqueue(new okhttp3.Callback() {
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    e.printStackTrace();
-                }
 
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    if (response.isSuccessful()) {
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
 
-                        String result = response.body().string();
-                        Log.e("response", result);
-                        final JsonHelper jsonHelper = new JsonHelper(result);
-                        if (jsonHelper.isValidJson()) {
-                            String responses = jsonHelper.GetResult("response");
-                            if (responses.equals("TRUE")) {
-                                WalletActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        SetRecycleView();
-                                    }
-                                });
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    final JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            WalletActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    SetRecycleView();
+                                }
+                            });
 
 //                                JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
 //
@@ -507,13 +507,13 @@ public class WalletActivity extends AppCompatActivity implements  InternetConnec
 //                                }
 //                            });
 
-                            }
                         }
-
                     }
+
                 }
-            });
-        }
+            }
+        });
+    }
 
 
     public void Connectivity(){

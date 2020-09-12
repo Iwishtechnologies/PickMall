@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,13 +28,14 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.iwish.pickmall.Interface.CardProductRefreshInterface;
+import tech.iwish.pickmall.Interface.Progressbar_product_inteface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.connection.JsonHelper;
 import tech.iwish.pickmall.fragment.ProductFragment;
 import tech.iwish.pickmall.fragment.ProductSideColorBottomFragment;
 
-public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProductActivity extends AppCompatActivity implements View.OnClickListener , Progressbar_product_inteface {
 
 
     public CardProductRefreshInterface cardProductRefre;
@@ -42,6 +44,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private TextView itme_name, filter, shorts, best_sellers, pricefilter;
     String type;
     String imageSet , a;
+    ProgressBar progress;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         shorts = (TextView) findViewById(R.id.shorts);
         best_sellers = (TextView) findViewById(R.id.best_sellers);
         pricefilter = (TextView) findViewById(R.id.pricefilter);
+        progress = findViewById(R.id.progress);
 
         Intent intent = getIntent();
          type = intent.getStringExtra("type");
@@ -92,6 +98,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
         }
+
+
 
 
 
@@ -227,7 +235,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private void productloadfradment(String id, String name, String type) {
 
         Bundle bundle = new Bundle();
-        ProductFragment productFragment = new ProductFragment();
+        ProductFragment productFragment = new ProductFragment(this);
         bundle.putString("item", id);
         bundle.putString("type", type);
         productFragment.setArguments(bundle);
@@ -239,7 +247,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private void productloadsfradment(String item_id,String category_id, String name, String type ) {
 
         Bundle bundle = new Bundle();
-        ProductFragment productFragment = new ProductFragment();
+        ProductFragment productFragment = new ProductFragment(this);
         bundle.putString("item", item_id);
         bundle.putString("category_id", category_id);
         bundle.putString("type", type);
@@ -296,6 +304,13 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 overridePendingTransition(R.anim.bottom_to_top, R.anim.slide_out_up);
                 break;
         }
+    }
+
+
+    @Override
+    public void progressbar_product_intefaces(String val) {
+        if(val.equals("PROGRESSBAR_START")) progress.setVisibility(View.VISIBLE);
+        else progress.setVisibility(View.GONE);
     }
 }
 

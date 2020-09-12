@@ -104,16 +104,34 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
     @Override
     public void onPaymentSuccess(String s) {
 
-        switch (type) {
-            case "CardActivity":
-                card_order_place("","");
-                break;
-            case "buy_now":
-                buy_now_order_place("","");
-                break;
-            case "friendDeal_one_rs":
-                friendDeal_one_rs_order_place("","CARD");
-                break;
+        if (getIntent().getStringExtra("paymentOption").equals("NORMAL_CARD")) {
+
+            switch (type) {
+                case "CardActivity":
+                    card_order_place("", "CARD");
+                    break;
+                case "buy_now":
+                    buy_now_order_place("", "CARD");
+                    break;
+                case "friendDeal_one_rs":
+                    friendDeal_one_rs_order_place("", "CARD");
+                    break;
+            }
+
+        } else {
+
+            switch (type) {
+                case "CardActivity":
+                    card_order_place("", "RESELL");
+                    break;
+                case "buy_now":
+                    buy_now_order_place("", "RESELL");
+                    break;
+                case "friendDeal_one_rs":
+                    friendDeal_one_rs_order_place("", "RESELL");
+                    break;
+            }
+
         }
 
     }
@@ -131,7 +149,6 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
 
 
     }
-
 
 
     private void friendDeal_one_rs_order_place(String wallet, String paymentmethod) {
@@ -179,13 +196,13 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
 
 
                             Intent intent = new Intent(Paymentgateway.this, OneRsShareActivity.class);
-                            intent.putExtra("item_type",getIntent().getStringExtra("item_type"));
-                            intent.putExtra("product_id",getIntent().getStringExtra("product_id"));
-                            intent.putExtra("product_name",getIntent().getStringExtra("product_name"));
-                            intent.putExtra("product_type",getIntent().getStringExtra("product_type"));
-                            intent.putExtra("product_image",getIntent().getStringExtra("imagename"));
-                            intent.putExtra("new_user_request",getIntent().getStringExtra("new_user_request"));
-                            intent.putExtra("refer_code",refer_code);
+                            intent.putExtra("item_type", getIntent().getStringExtra("item_type"));
+                            intent.putExtra("product_id", getIntent().getStringExtra("product_id"));
+                            intent.putExtra("product_name", getIntent().getStringExtra("product_name"));
+                            intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
+                            intent.putExtra("product_image", getIntent().getStringExtra("imagename"));
+                            intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
+                            intent.putExtra("refer_code", refer_code);
                             startActivity(intent);
 
                         }
@@ -231,7 +248,7 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
             jsonObject.put("client_number", data.get(USERMOBILE).toString());
             jsonObject.put("client_address", shareSession.GetAddrssId());
             jsonObject.put("product", jsonObjects.toString());
-            jsonObject.put("payment_option", "CARD");
+            jsonObject.put("payment_option", paymentmethod);
             jsonObject.put("shippingCharge", "no charge");
             jsonObject.put("gst", "");
             jsonObject.put("offer_id", getIntent().getStringExtra("coupon_amt"));
@@ -260,7 +277,7 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
 
-                            Intent intent = new Intent(Paymentgateway.this,SuccessfullyActivity.class);
+                            Intent intent = new Intent(Paymentgateway.this, SuccessfullyActivity.class);
                             startActivity(intent);
 
                         }
@@ -291,7 +308,7 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
             jsonObject.put("gst", "");
             jsonObject.put("item_type", "");
             jsonObject.put("offer_id", getIntent().getStringExtra("coupon_amt"));
-            jsonObject.put("payment_option", "CARD");
+            jsonObject.put("payment_option", paymentmethod);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -315,7 +332,7 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("TRUE")) {
 
-                            Intent intent = new Intent(Paymentgateway.this,SuccessfullyActivity.class);
+                            Intent intent = new Intent(Paymentgateway.this, SuccessfullyActivity.class);
                             startActivity(intent);
 
                         }

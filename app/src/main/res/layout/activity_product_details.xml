@@ -8,6 +8,7 @@
     android:orientation="vertical"
     tools:context=".activity.ProductDetailsActivity">
 
+
     <Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -82,7 +83,6 @@
                 android:layout_height="360dp">
 
                 <androidx.viewpager.widget.ViewPager
-
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
@@ -549,9 +549,7 @@
                 android:textColor="@color/whiteColor" />
         </LinearLayout>
     </RelativeLayout>
-
     <!--  Change design   -->
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
         android:layout_width="fill_parent"
@@ -569,8 +567,7 @@
                 android:layout_weight="1"
                 android:background="@color/white"
                 android:gravity="center"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -582,6 +579,7 @@
                         android:id="@+id/productImageDetailsViewpager"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
+
 
                 </RelativeLayout>
 
@@ -601,72 +599,74 @@
                     android:layout_width="wrap_content"
                     android:layout_height="430dp"
                     android:layout_marginTop="-20dp"
-                    android:layout_marginBottom="-30dp"
                     android:background="@drawable/bottom"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
-                        android:gravity="right"
-                        android:orientation="horizontal"
-                        android:paddingRight="30dp">
-
-                        <RatingBar
-                            android:id="@+id/ratingcheck"
-                            style="@style/Widget.AppCompat.RatingBar.Small"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="50dp"
-                            android:layout_marginEnd="5dp"
-                            android:elevation="2dp"
-                            android:gravity="center"
-                            android:progressTint="@color/white"
-                            android:visibility="gone" />
+                        android:layout_height="wrap_content">
 
                         <LinearLayout
-                            android:layout_width="40dp"
-                            android:layout_height="60dp"
-                            android:background="@drawable/rating_background"
-                            android:gravity="center"
-                            android:paddingTop="5dp">
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="40dp"
+                            android:gravity="right"
+                            android:orientation="horizontal"
+                            android:paddingRight="30dp"
+                            tools:ignore="RtlHardcoded,RtlSymmetry">
 
-                            <tech.iwish.pickmall.extended.TextViewFont
-                                android:id="@+id/ratingbox"
+
+                            <RatingBar
+                                android:id="@+id/ratingcheck"
+                                style="@style/Widget.AppCompat.RatingBar.Small"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:text="4.2"
-                                android:textColor="@color/white"
-                                app:fonttype="text_semi_bold" />
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="50dp"
+                                android:layout_marginEnd="5dp"
+                                android:elevation="2dp"
+                                android:gravity="center"
+                                android:progressTint="@color/white"
+                                android:visibility="gone" />
+
+                            <LinearLayout
+                                android:layout_width="40dp"
+                                android:layout_height="60dp"
+                                android:background="@drawable/rating_background"
+                                android:gravity="center"
+                                android:paddingTop="5dp">
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:id="@+id/ratingbox"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:text="4.2"
+                                    android:textColor="@color/white"
+                                    app:fonttype="text_semi_bold" />
+
+                            </LinearLayout>
+
+                            <com.sackcentury.shinebuttonlib.ShineButton
+                                android:id="@+id/wishlists"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_marginLeft="20dp"
+                                android:background="@drawable/product_like"
+                                android:src="@drawable/product_like"
+                                app:allow_random_color="false"
+                                app:big_shine_color="@color/redColor"
+                                app:click_animation_duration="200"
+                                app:enable_flashing="false"
+                                app:shine_animation_duration="1500"
+                                app:shine_turn_angle="10"
+                                app:small_shine_color="@color/redColor"
+                                app:small_shine_offset_angle="20" />
+
 
                         </LinearLayout>
+                    </RelativeLayout>
 
-                        <com.sackcentury.shinebuttonlib.ShineButton
-                            android:id="@+id/wishlists"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_marginLeft="20dp"
-                            android:background="@drawable/product_like"
-                            android:src="@drawable/product_like"
-                            app:allow_random_color="false"
-                            app:big_shine_color="@color/redColor"
-                            app:click_animation_duration="200"
-                            app:enable_flashing="false"
-                            app:shine_animation_duration="1500"
-                            app:shine_turn_angle="10"
-                            app:small_shine_color="@color/redColor"
-                            app:small_shine_offset_angle="20" />
-                        <!--                        <ImageView-->
-                        <!--                            android:id="@+id/wishlists"-->
-                        <!--                            android:layout_width="60dp"-->
-                        <!--                            android:layout_height="60dp"-->
-                        <!--                            android:layout_marginLeft="20dp"-->
-                        <!--                            android:src="@drawable/product_like" />-->
-
-                    </LinearLayout>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -884,6 +884,60 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/Resellshare"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:orientation="vertical"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:weightSum="2">
+
+                                    <ImageView
+                                        android:id="@+id/whatsappBtn"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/dimen_10dp"
+                                        android:layout_weight="1"
+                                        android:src="@drawable/whatsapp_btn" />
+
+                                    <ImageView
+                                        android:id="@+id/fb_Btn"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/dimen_10dp"
+                                        android:layout_marginTop="5dp"
+                                        android:layout_marginEnd="@dimen/dimen_10dp"
+                                        android:layout_weight="1"
+                                        android:src="@drawable/fb_btn" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/youtube_btn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginTop="@dimen/dimen_10dp"
+                                    android:orientation="horizontal"
+                                    android:weightSum="4">
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:src="@drawable/yt_btn" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
@@ -957,9 +1011,9 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
                             android:orientation="horizontal"
                             android:paddingLeft="20dp"
-                            android:layout_marginTop="4dp"
                             android:paddingTop="10dp"
                             android:paddingRight="20dp">
 
@@ -1058,6 +1112,13 @@
 
     </androidx.core.widget.NestedScrollView>
 
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
 
 </RelativeLayout>
 

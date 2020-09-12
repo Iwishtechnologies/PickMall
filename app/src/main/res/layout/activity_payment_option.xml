@@ -7,423 +7,546 @@
     android:orientation="vertical"
     tools:context=".activity.PaymentOptionActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <tech.iwish.pickmall.extended.TextViewFont
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/payment_option"
-                android:textColor="@color/black"
-                android:textSize="25sp" />
-        </LinearLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/rayru_wallet_relative"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/payment_design"
-            android:elevation="10dp"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:tag="wallet">
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/pick_mall_image" />
-
-            <tech.iwish.pickmall.extended.TextViewFont
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:clickable="false"
-                android:padding="4dp"
-                android:text="Pickmall Money Wallet"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:fonttype="text_semi_bold" />
-
-            <RadioButton
-                android:id="@+id/rayruWallet"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:buttonTint="@color/orangeColor"
-                android:clickable="false"
-                android:layoutDirection="rtl" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:gravity="center"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
 
             <LinearLayout
-                android:id="@+id/paymentAvailable"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/silderColor"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <tech.iwish.pickmall.extended.TextViewFont
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="10dp"
-                    android:text="Wallet Amount"
-                    android:textColor="@color/orangeColor"
-                    android:textSize="14sp" />
-
-                <tech.iwish.pickmall.extended.TextViewFont
-                    android:id="@+id/walletAmtTextview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:padding="10dp"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/paytm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/payment_design"
-            android:elevation="10dp"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:tag="onlpayment">
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/online_payment_icon" />
-
-            <tech.iwish.pickmall.extended.TextViewFont
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:padding="4dp"
-                android:text="Paytm"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:fonttype="text_semi_bold" />
-
-            <RadioButton
-                android:id="@+id/paytmRadio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:buttonTint="@color/orangeColor"
-                android:clickable="false"
-                android:layoutDirection="rtl" />
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/online_payment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/payment_design"
-            android:elevation="10dp"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:tag="onlpayment">
-
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/online_payment_icon" />
-
-            <tech.iwish.pickmall.extended.TextViewFont
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:padding="4dp"
-                android:text="Online Payment"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:fonttype="text_semi_bold" />
-
-            <RadioButton
-                android:id="@+id/onlinePayments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:buttonTint="@color/orangeColor"
-                android:clickable="false"
-                android:layoutDirection="rtl" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/cases"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/payment_design"
-            android:elevation="10dp"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:tag="cashsss">
-
-            <tech.iwish.pickmall.extended.TextViewFont
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:text="COD"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <RadioButton
-                android:id="@+id/caseRadios"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:buttonTint="@color/orangeColor"
-                android:clickable="false"
-                android:layoutDirection="rtl" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/amountAddWallet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <tech.iwish.pickmall.extended.TextViewFont
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:text="Add money to Pickmall Wallet"
-                android:textColor="@color/orangeColor"
-                android:textSize="16sp"
-                app:fonttype="text_semi_bold" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <LinearLayout
-                android:id="@+id/price_details_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@color/whiteColor"
-                android:elevation="1dp"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <tech.iwish.pickmall.extended.TextViewFont
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingStart="5dp"
-
-                    android:paddingTop="10dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="10dp"
-                    android:text="PRICE DEATAILS"
-
-                    android:textColor="@color/address_text_color"
-                    android:textSize="16sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/silderColor" />
-
-                <TableLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/payment_option"
+                        android:textColor="@color/black"
+                        android:textSize="25sp" />
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/rayru_wallet_relative"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/payment_design"
+                    android:elevation="10dp"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:tag="wallet">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/pick_mall_image" />
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:clickable="false"
+                        android:padding="4dp"
+                        android:text="Pickmall Money Wallet"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:fonttype="text_semi_bold" />
+
+                    <RadioButton
+                        android:id="@+id/rayruWallet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:buttonTint="@color/orangeColor"
+                        android:clickable="false"
+                        android:layoutDirection="rtl" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:id="@+id/paymentAvailable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/silderColor"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="10dp"
+                            android:text="Wallet Amount"
+                            android:textColor="@color/orangeColor"
+                            android:textSize="14sp" />
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:id="@+id/walletAmtTextview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:padding="10dp"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/paytm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/payment_design"
+                    android:visibility="gone"
+                    android:elevation="10dp"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:tag="onlpayment">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/online_payment_icon" />
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:padding="4dp"
+                        android:text="Paytm"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:fonttype="text_semi_bold" />
+
+                    <RadioButton
+                        android:id="@+id/paytmRadio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:buttonTint="@color/orangeColor"
+                        android:clickable="false"
+                        android:layoutDirection="rtl" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/online_payment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/payment_design"
+                    android:elevation="10dp"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:tag="onlpayment">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/online_payment_icon" />
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:padding="4dp"
+                        android:text="Online Payment"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:fonttype="text_semi_bold" />
+
+                    <RadioButton
+                        android:id="@+id/onlinePayments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:buttonTint="@color/orangeColor"
+                        android:clickable="false"
+                        android:layoutDirection="rtl" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ResellLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/payment_design"
+                    android:elevation="10dp"
+                    android:orientation="vertical"
+                    android:padding="10dp"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp">
 
-                    <TableRow
-                        android:paddingTop="5dp"
-                        android:paddingBottom="3dp"
-                        android:weightSum="2">
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/online_payment_icon" />
 
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Price"
-                            app:fonttype="regular" />
-
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:id="@+id/pricr"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="2086"
-                            app:fonttype="regular" />
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingTop="5dp"
-                        android:paddingBottom="3dp"
-                        android:visibility="gone"
-                        android:weightSum="2">
-
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Tax (Gst)"
-                            app:fonttype="regular" />
-
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:id="@+id/gst_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="2086"
-                            app:fonttype="regular" />
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/coupenview"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="3dp"
-                        android:visibility="gone"
-                        android:weightSum="2">
-
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Coupen Applied"
-                            app:fonttype="regular" />
-
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:id="@+id/coupenAmount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="Free"
-                            app:fonttype="regular" />
-                    </TableRow>
-
-                    <TableRow
-                        android:paddingTop="5dp"
-                        android:paddingBottom="3dp"
-                        android:weightSum="2">
-
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="COD Fee"
-                            app:fonttype="regular" />
-
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:id="@+id/shippingCharge"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="Free"
-                            app:fonttype="regular" />
-                    </TableRow>
-
-                    <View
+                    <tech.iwish.pickmall.extended.TextViewFont
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/silderColor" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:padding="4dp"
+                        android:text="@string/resell_payment"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:fonttype="text_semi_bold" />
 
-                    <TableRow
-                        android:paddingTop="10dp"
-                        android:paddingBottom="8dp"
-                        android:weightSum="2">
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/resellPaymentOption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+
+                    <RelativeLayout
+                        android:id="@+id/ResellOnlinePayment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/payment_design"
+                        android:elevation="10dp"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        android:paddingEnd="10dp"
+                        android:tag="onlpayment"
+                        android:paddingStart="@dimen/dimen_18dp"
+                        tools:ignore="RtlSymmetry">
 
                         <tech.iwish.pickmall.extended.TextViewFont
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Total Amount"
-                            app:fonttype="regular" />
-
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:id="@+id/total_amount_tax"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="2089"
+                            android:layout_marginStart="30dp"
+                            android:padding="4dp"
+                            android:text="Online Payment"
                             android:textColor="@color/black"
                             android:textSize="16sp"
-                            app:fonttype="regular" />
-                    </TableRow>
+                            app:fonttype="text_semi_bold" />
 
-                </TableLayout>
+                        <RadioButton
+                            android:id="@+id/ResellonlinePayments"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:buttonTint="@color/orangeColor"
+                            android:clickable="false"
+                            android:layoutDirection="rtl" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/ResellPaytm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/payment_design"
+                        android:elevation="10dp"
+                        android:visibility="gone"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        android:paddingEnd="10dp"
+                        android:tag="onlpayment"
+                        android:paddingStart="@dimen/dimen_18dp"
+                        tools:ignore="RtlSymmetry">
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="30dp"
+                            android:padding="4dp"
+                            android:text="Paytm"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            app:fonttype="text_semi_bold" />
+
+                        <RadioButton
+                            android:id="@+id/ResellpaytmRadios"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:buttonTint="@color/orangeColor"
+                            android:clickable="false"
+                            android:layoutDirection="rtl" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/cases"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/payment_design"
+                    android:elevation="10dp"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:tag="cashsss">
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:text="COD"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <RadioButton
+                        android:id="@+id/caseRadios"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:buttonTint="@color/orangeColor"
+                        android:clickable="false"
+                        android:layoutDirection="rtl" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/amountAddWallet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:text="Add money to Pickmall Wallet"
+                        android:textColor="@color/orangeColor"
+                        android:textSize="16sp"
+                        app:fonttype="text_semi_bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:id="@+id/price_details_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/whiteColor"
+                        android:elevation="1dp"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingStart="5dp"
+
+                            android:paddingTop="10dp"
+                            android:paddingEnd="5dp"
+                            android:paddingBottom="10dp"
+                            android:text="PRICE DEATAILS"
+
+                            android:textColor="@color/address_text_color"
+                            android:textSize="16sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/silderColor" />
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp">
+
+                            <TableRow
+                                android:paddingTop="5dp"
+                                android:paddingBottom="3dp"
+                                android:weightSum="2">
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Price"
+                                    app:fonttype="regular" />
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:id="@+id/pricr"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:text="2086"
+                                    app:fonttype="regular" />
+                            </TableRow>
+
+                            <TableRow
+                                android:paddingTop="5dp"
+                                android:paddingBottom="3dp"
+                                android:visibility="gone"
+                                android:weightSum="2">
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Tax (Gst)"
+                                    app:fonttype="regular" />
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:id="@+id/gst_price"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:text="2086"
+                                    app:fonttype="regular" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/coupenview"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="3dp"
+                                android:visibility="gone"
+                                android:weightSum="2">
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Coupen Applied"
+                                    app:fonttype="regular" />
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:id="@+id/coupenAmount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:text="Free"
+                                    app:fonttype="regular" />
+                            </TableRow>
+
+                            <TableRow
+                                android:paddingTop="5dp"
+                                android:paddingBottom="3dp"
+                                android:weightSum="2">
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="COD Fee"
+                                    app:fonttype="regular" />
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:id="@+id/shippingCharge"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:text="Free"
+                                    app:fonttype="regular" />
+                            </TableRow>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/silderColor" />
+
+                            <TableRow
+                                android:paddingTop="10dp"
+                                android:paddingBottom="8dp"
+                                android:weightSum="2">
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Total Amount"
+                                    app:fonttype="regular" />
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:id="@+id/total_amount_tax"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:text="2089"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp"
+                                    app:fonttype="regular" />
+                            </TableRow>
+
+                        </TableLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:elevation="10dp"
+                    android:gravity="bottom"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:id="@+id/paymentButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginStart="60dp"
+                        android:layout_marginEnd="60dp"
+                        android:background="@drawable/wallet_button"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:text="Confirm"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="16sp"
+                        app:fonttype="text_semi_bold" />
+
+                </RelativeLayout>
+
             </LinearLayout>
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="10dp"
-            android:gravity="bottom"
-            android:orientation="vertical"
-            android:padding="10dp">
 
-            <tech.iwish.pickmall.extended.TextViewFont
-                android:id="@+id/paymentButton"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginStart="60dp"
-                android:layout_marginEnd="60dp"
-                android:background="@drawable/wallet_button"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="Confirm"
-                android:textColor="@color/whiteColor"
-                android:textSize="16sp"
-                app:fonttype="text_semi_bold" />
+        </LinearLayout>
+    </ScrollView>
 
-        </RelativeLayout>
 
-    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressbar"
@@ -431,6 +554,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="gone" />
+
 
 </RelativeLayout>
 

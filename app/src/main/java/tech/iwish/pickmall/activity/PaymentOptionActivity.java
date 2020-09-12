@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -60,36 +61,47 @@ import static tech.iwish.pickmall.session.Share_session.WALLET_AMOUNT;
 
 public class PaymentOptionActivity extends Activity implements View.OnClickListener {
 
-    private RelativeLayout rayru_wallet_relative, online_payment, cases, amountAddWallet, paytm;
-    private RadioButton rayruWallet, onlinePayments, caseRadios;
-    private TextView paymentButton, shippingCharge;
+    private RelativeLayout cases;
+    private RadioButton rayruWallet, onlinePayments, caseRadios , ResellonlinePayments ,ResellpaytmRadios;
+    private TextView shippingCharge;
     String Checker;
     private Map data;
     LinearLayout paymentAvailable;
-    private TextView edit_amount, pricr, total_amount_tax, gst_price, walletAmtTextview, coupenAmount;
+    private TextView total_amount_tax;
+    private TextView walletAmtTextview;
     private String type;
     private MyhelperSql myhelperSql;
     private SQLiteDatabase sqLiteDatabase;
     private List<JSONObject> jsonObjects = new ArrayList<>();
     private ArrayList<HashMap<String, String>> list = new ArrayList<>();
-    private String product_amt, shippingCharege, WalletAmount;
+    private String shippingCharege;
+    private String WalletAmount;
     private int shippinsAmt = -1, productsAmt, grandTotal, gstint, removeDout;
-    private String product_name, select_size, product_type, discount_price, prepaid,
-            imagename, product_qty, product_id, select_color, productgst, referCode, item_type, coupen, coupenamount;
+    private String product_name;
+    private String select_size;
+    private String product_type;
+    private String discount_price;
+    private String imagename;
+    private String product_qty;
+    private String product_id;
+    private String select_color;
+    private String productgst;
+    private String referCode;
+    private String item_type;
+    private String coupen;
+    private String coupenamount;
     private Share_session shareSession;
     private ProgressBar progressbar;
     TableRow coupenview;
-    private int finalamountsInt, shippingchargebuy_now, couponamtInt;
+    private int finalamountsInt;
+    private int shippingchargebuy_now;
     String COD_ShippinfCheck = null;
+    LinearLayout resellPaymentOption;
     String tokens = "";
     public final static String TAG = "PaymentOptionActivity";
+    RelativeLayout ResellLayout;
 
     private Integer ActivityRequestCode = 2;
-    private String midString = "GtyipR16237755156153",
-            txnAmountString = "10",
-            orderIdString = "4",
-            txnTokenString = "";
-//    private String midString = "GtyipR16237755156153", txnAmountString = "10", orderIdString = "2", txnTokenString = "uMnQqlhwXXBJBVx5sDC2ALyuzC6arz3ec1YhCxF56sUs6V+SpfxWRRwR2A8NEflqnAxgg0HTX69Hkuh2Ys4r8ATAYK8y8Zqv5Rl1DIU6+pg=";
 
     URL url;
 
@@ -99,32 +111,39 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
         setContentView(R.layout.activity_payment_option);
 
 
-        rayru_wallet_relative = (RelativeLayout) findViewById(R.id.rayru_wallet_relative);
-        online_payment = (RelativeLayout) findViewById(R.id.online_payment);
+        RelativeLayout rayru_wallet_relative = (RelativeLayout) findViewById(R.id.rayru_wallet_relative);
+        RelativeLayout online_payment = (RelativeLayout) findViewById(R.id.online_payment);
         cases = (RelativeLayout) findViewById(R.id.cases);
-        amountAddWallet = (RelativeLayout) findViewById(R.id.amountAddWallet);
-        paytm = (RelativeLayout) findViewById(R.id.paytm);
+        RelativeLayout amountAddWallet = (RelativeLayout) findViewById(R.id.amountAddWallet);
+        RelativeLayout paytm = (RelativeLayout) findViewById(R.id.paytm);
+        RelativeLayout ResellOnlinePayment = (RelativeLayout) findViewById(R.id.ResellOnlinePayment);
+        RelativeLayout ResellPaytm = (RelativeLayout) findViewById(R.id.ResellPaytm);
+        ResellLayout = (RelativeLayout) findViewById(R.id.ResellLayout);
 
 
         coupenview = findViewById(R.id.coupenview);
-        coupenAmount = findViewById(R.id.coupenAmount);
+        TextView coupenAmount = findViewById(R.id.coupenAmount);
 
         rayruWallet = (RadioButton) findViewById(R.id.rayruWallet);
         onlinePayments = (RadioButton) findViewById(R.id.onlinePayments);
         caseRadios = (RadioButton) findViewById(R.id.caseRadios);
+        ResellonlinePayments = (RadioButton) findViewById(R.id.ResellonlinePayments);
+        ResellpaytmRadios = (RadioButton) findViewById(R.id.ResellpaytmRadios);
 
-        paymentButton = (TextView) findViewById(R.id.paymentButton);
-        pricr = (TextView) findViewById(R.id.pricr);
+        TextView paymentButton = (TextView) findViewById(R.id.paymentButton);
+        TextView pricr = (TextView) findViewById(R.id.pricr);
         total_amount_tax = (TextView) findViewById(R.id.total_amount_tax);
 
         paymentAvailable = (LinearLayout) findViewById(R.id.paymentAvailable);
 
-        edit_amount = (TextView) findViewById(R.id.amount);
+        TextView edit_amount = (TextView) findViewById(R.id.amount);
         shippingCharge = (TextView) findViewById(R.id.shippingCharge);
-        gst_price = (TextView) findViewById(R.id.gst_price);
+        TextView gst_price = (TextView) findViewById(R.id.gst_price);
         walletAmtTextview = (TextView) findViewById(R.id.walletAmtTextview);
 
         progressbar = (ProgressBar) findViewById(R.id.progressbar);
+
+        resellPaymentOption = findViewById(R.id.resellPaymentOption);
 
         shareSession = new Share_session(this);
         data = shareSession.Fetchdata();
@@ -138,19 +157,18 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
         cases.setOnClickListener(this);
         amountAddWallet.setOnClickListener(this);
         paytm.setOnClickListener(this);
+        ResellLayout.setOnClickListener(this);
+        ResellOnlinePayment.setOnClickListener(this);
+        ResellPaytm.setOnClickListener(this);
+
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
 
 
+        int couponamtInt;
         switch (type) {
             case "CardActivity":
-                product_amt = intent.getStringExtra("amounts");
-
-//                productgst = intent.getStringExtra("gst");
-//                gstint = Integer.parseInt(productgst);
-//                grandTotal = Integer.parseInt(product_amt) + gstint;
-//                gst_price.setText(productgst);
-//                finalamountsInt = grandTotal;
+                String product_amt = intent.getStringExtra("amounts");
 
                 coupen = getIntent().getStringExtra("coupen");
                 coupenamount = getIntent().getStringExtra("coupenamount");
@@ -204,7 +222,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 pricr.setText(getResources().getString(R.string.rs_symbol) + product_amt);
 
 
-                prepaid = intent.getStringExtra("prepaid");
+                String prepaid = intent.getStringExtra("prepaid");
                 if (prepaid != null) {
                     if (prepaid.equals("prepaid")) {
                         cases.setVisibility(View.GONE);
@@ -274,7 +292,13 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                             walletmethod();
                             break;
                         case "online_payment":
-                            Online_payment();
+                            Online_payment("NORMAL_CARD");
+                            break;
+                        case "ResellOnlinPayment":
+                            Toast.makeText(this, "ResellOnlinPayment", Toast.LENGTH_SHORT).show();
+                            break;
+                        case "ResellPaytm":
+                            Toast.makeText(this, "ResellPaytm", Toast.LENGTH_SHORT).show();
                             break;
                     }
                 } else {
@@ -287,156 +311,101 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 setclick(view);
                 break;
             case R.id.paytm:
-                paytmMethod();
+//                paytmMethod();
                 break;
             case R.id.amountAddWallet:
                 Intent intent = new Intent(new Intent(PaymentOptionActivity.this, WalletActivity.class));
                 intent.putExtra("check", true);
                 startActivity(intent);
                 break;
+            case R.id.ResellLayout:
+                ResellPayment();
+                break;
+            case R.id.ResellOnlinePayment:
+                this.Checker = "ResellOnlinPayment";
+                ResellonlinePayments.setChecked(true);
+                ResellpaytmRadios.setChecked(false);
+                rayruWallet.setChecked(false);
+                onlinePayments.setChecked(false);
+                caseRadios.setChecked(false);
+                Toast.makeText(this, "resellPaymentOption", Toast.LENGTH_SHORT).show();
+                Online_payment("RESELL");
+                break;
+            case R.id.ResellPaytm:
+                this.Checker = "ResellPaytm";
+                ResellonlinePayments.setChecked(false);
+                ResellpaytmRadios.setChecked(true);
+                rayruWallet.setChecked(false);
+                onlinePayments.setChecked(false);
+                caseRadios.setChecked(false);
+                break;
         }
     }
 
-/*      private void paytmMethods() {
+
+    private void setclick(View view) {
+
+        int id = view.getId();
+        switch (id) {
+            case R.id.rayru_wallet_relative:
+                this.Checker = "pickmall_wallet";
+                rayruWallet.setChecked(true);
+                onlinePayments.setChecked(false);
+                caseRadios.setChecked(false);
+                ResellonlinePayments.setChecked(false);
+                ResellpaytmRadios.setChecked(false);
+                paymentAvailable.setVisibility(View.VISIBLE);
+                resellPaymentOption.setVisibility(View.GONE);
+                shippingCharge.setText("Free");
+                total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
+                if (data.get(WALLET_AMOUNT) != null) {
+                    WalletAmount = data.get(WALLET_AMOUNT).toString();
+                    walletAmtTextview.setText(WalletAmount);
+                }
+                break;
+            case R.id.online_payment:
+                this.Checker = "online_payment";
+                onlinePayments.setChecked(true);
+                resellPaymentOption.setVisibility(View.GONE);
+                rayruWallet.setChecked(false);
+                caseRadios.setChecked(false);
+                ResellonlinePayments.setChecked(false);
+                ResellpaytmRadios.setChecked(false);
+                paymentAvailable.setVisibility(View.GONE);
+                shippingCharge.setText("Free");
+                total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
+                break;
+            case R.id.cases:
+                this.Checker = "cod";
+                caseRadios.setChecked(true);
+                rayruWallet.setChecked(false);
+                resellPaymentOption.setVisibility(View.GONE);
+                onlinePayments.setChecked(false);
+                ResellonlinePayments.setChecked(false);
+                ResellpaytmRadios.setChecked(false);
+                paymentAvailable.setVisibility(View.GONE);
+
+                if (COD_ShippinfCheck != null) {
+                    Log.e("aaaa", COD_ShippinfCheck);
+                    shippingCharge.setText(COD_ShippinfCheck);
+                    shippingchargebuy_now = shippinsAmt;
+                    int totalamt = shippinsAmt + productsAmt;
+                    finalamountsInt = totalamt;
+                    shippingCharege = String.valueOf(totalamt);
+                    total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + shippingCharege);
+                    cases.setClickable(true);
+                } else {
+                    shippingcharge();
+                }
+                break;
+            case R.id.paytm:
+                resellPaymentOption.setVisibility(View.GONE);
+                break;
 
 
-        String mid = "GtyipR16237755156153";
-        String orderid = "4410";
-
-
-        JSONObject paytmParams = new JSONObject();
-
-        *//* for Production *//*
-// URL url = new URL("https://securegw.paytm.in/theia/api/v1/initiateTransaction?mid=YOUR_MID_HERE&orderId=ORDERID_98765");
-
-        try {
-
-            JSONObject body = new JSONObject();
-            body.put("requestType", "Payment");
-            body.put("mid", mid);
-            body.put("websiteName", "WEBSTAGING");
-            body.put("orderId", orderid);
-            body.put("callbackUrl", "https://merchant.com/callback");
-
-            JSONObject txnAmount = new JSONObject();
-            txnAmount.put("value", "1.00");
-            txnAmount.put("currency", "INR");
-
-            JSONObject userInfo = new JSONObject();
-            userInfo.put("custId", "CUST_001");
-            body.put("txnAmount", txnAmount);
-            body.put("userInfo", userInfo);
-
-            *//*
-             * Generate checksum by parameters we have in body
-             * You can get Checksum JAR from https://developer.paytm.com/docs/checksum/
-             * Find your Merchant Key in your Paytm Dashboard at https://dashboard.paytm.com/next/apikeys
-             *//*
-
-            String checksum = PaytmChecksum.generateSignature(body.toString(), "xWa_4MkQub51GSZ2");
-//
-            JSONObject head = new JSONObject();
-            head.put("signature", checksum);
-
-            paytmParams.put("body", body);
-            paytmParams.put("head", head);
-
-            String post_data = paytmParams.toString();
-
-            *//* for Staging *//*
-            url = new URL("https://securegw-stage.paytm.in/theia/api/v1/initiateTransaction?mid=YOUR_MID_HERE&orderId=ORDERID_98765");
-
-
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setDoOutput(true);
-
-            DataOutputStream requestWriter = new DataOutputStream(connection.getOutputStream());
-            requestWriter.writeBytes(post_data);
-            requestWriter.close();
-            String responseData = "";
-            InputStream is = connection.getInputStream();
-            BufferedReader responseReader = new BufferedReader(new InputStreamReader(is));
-            if ((responseData = responseReader.readLine()) != null) {
-                System.out.append("Response: " + responseData);
-            }
-            responseReader.close();
-        } catch (Exception exception) {
-            exception.printStackTrace();
         }
 
-
     }
-*/
-
-
-    private void paytmMethod() {
-
-        getToken();
-
-        txnTokenString = tokens;
-        // for test mode use it
-        String host = "https://securegw-stage.paytm.in/";
-//        for production mode use it
-//        String host = "https://securegw.paytm.in/";
-
-        String orderDetails = "MID: " + midString + ", OrderId: " + orderIdString + ", TxnToken: " + txnTokenString
-                + ", Amount: " + txnAmountString;
-
-        Log.e(TAG, "order details " + orderDetails);
-
-        String callBackUrl = host + "theia/paytmCallback?ORDER_ID=" + orderIdString;
-        Log.e(TAG, " callback URL " + callBackUrl);
-        PaytmOrder paytmOrder = new PaytmOrder(orderIdString, midString, txnTokenString, txnAmountString, callBackUrl);
-        TransactionManager transactionManager = new TransactionManager(paytmOrder, new PaytmPaymentTransactionCallback() {
-            @Override
-            public void onTransactionResponse(Bundle bundle) {
-                Log.e(TAG, "Response (onTransactionResponse) : " + bundle.toString());
-            }
-
-            @Override
-            public void networkNotAvailable() {
-                Log.e(TAG, "network not available ");
-            }
-
-            @Override
-            public void onErrorProceed(String s) {
-                Log.e(TAG, " onErrorProcess " + s.toString());
-            }
-
-            @Override
-            public void clientAuthenticationFailed(String s) {
-                Log.e(TAG, "Clientauth " + s);
-            }
-
-            @Override
-            public void someUIErrorOccurred(String s) {
-                Log.e(TAG, " UI error " + s);
-            }
-
-            @Override
-            public void onErrorLoadingWebPage(int i, String s, String s1) {
-                Log.e(TAG, " error loading web " + s + "--" + s1);
-            }
-
-            @Override
-            public void onBackPressedCancelTransaction() {
-                Log.e(TAG, "backPress ");
-            }
-
-            @Override
-            public void onTransactionCancel(String s, Bundle bundle) {
-                Log.e(TAG, " transaction cancel " + s);
-            }
-        });
-
-        transactionManager.setShowPaymentUrl(host + "theia/api/v1/showPaymentPage");
-        transactionManager.startTransaction(this, ActivityRequestCode);
-
-
-    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -467,48 +436,6 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
         }
     }
 
-
-    private String getToken() {
-
-        OkHttpClient okHttpClient = new OkHttpClient();
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("amount", "10");
-            jsonObject.put("orderId", "4");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url(Constants.PAYTMS).post(body).build();
-        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String result = response.body().string();
-                    Log.e("result", result);
-                    JsonHelper jsonHelper = new JsonHelper(result);
-                    if (jsonHelper.isValidJson()) {
-                        String responses = jsonHelper.GetResult("response");
-                        if (responses.equals("TRUE")) {
-                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "token");
-                            tokens = jsonHelper.GetResult("token");
-                        }
-                    }
-                }
-            }
-        });
-
-
-        return tokens;
-    }
-
-
     private void walletmethod() {
 
         if (data.get(WALLET_AMOUNT) != null) {
@@ -535,131 +462,14 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
         }
 
     }
-/*
 
-    private void productChehckFriendeal() {
-
-        progressbar.setVisibility(View.VISIBLE);
-        OkHttpClient okHttpClient = new OkHttpClient();
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("client_number", data.get(USERMOBILE).toString());
-            jsonObject.put("client_address", "");
-            jsonObject.put("product_id", product_id);
-            jsonObject.put("product_type", product_type);
-            jsonObject.put("product_color", select_color);
-            jsonObject.put("product_size", select_size);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url(Constants.FRIENDDEAL_PRODUCT_CHECK).post(body).build();
-        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-
-                    String result = response.body().string();
-                    Log.e("response", result);
-                    final JsonHelper jsonHelper = new JsonHelper(result);
-                    if (jsonHelper.isValidJson()) {
-                        String responses = jsonHelper.GetResult("response");
-                        if (responses.equals("TRUE")) {
-
-                            if (PaymentOptionActivity.this != null) {
-                                PaymentOptionActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (jsonHelper.GetResult("message").equals("all_ready")) {
-//                                            WalletAmountUpdate("friendDeal_one_rs_ord");
-
-                                            Intent intent = new Intent(PaymentOptionActivity.this, OneRsShareActivity.class);
-                                            intent.putExtra("product_name", product_name);
-                                            intent.putExtra("product_image", imagename);
-                                            intent.putExtra("discount_price", discount_price);
-                                            startActivity(intent);
-
-
-                                        } else {
-                                            friendDeal_one_rs_order_place("wallet", "WALLET");
-                                        }
-
-
-                                    }
-                                });
-
-
-                            }
-
-                        }
-                    }
-
-                }
-            }
-        });
-
-
-    }
-*/
-
-
-    private void setclick(View view) {
-
-        int id = view.getId();
-        switch (id) {
-            case R.id.rayru_wallet_relative:
-                this.Checker = "pickmall_wallet";
-                rayruWallet.setChecked(true);
-                onlinePayments.setChecked(false);
-                caseRadios.setChecked(false);
-                paymentAvailable.setVisibility(View.VISIBLE);
-                shippingCharge.setText("Free");
-                total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
-                if (data.get(WALLET_AMOUNT) != null) {
-                    WalletAmount = data.get(WALLET_AMOUNT).toString();
-                    walletAmtTextview.setText(WalletAmount);
-                }
-                break;
-            case R.id.online_payment:
-                this.Checker = "online_payment";
-                onlinePayments.setChecked(true);
-                rayruWallet.setChecked(false);
-                caseRadios.setChecked(false);
-                paymentAvailable.setVisibility(View.GONE);
-                shippingCharge.setText("Free");
-                total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
-                break;
-            case R.id.cases:
-                this.Checker = "cod";
-                caseRadios.setChecked(true);
-                rayruWallet.setChecked(false);
-                onlinePayments.setChecked(false);
-                paymentAvailable.setVisibility(View.GONE);
-
-                if (COD_ShippinfCheck != null) {
-                    Log.e("aaaa", COD_ShippinfCheck);
-                    shippingCharge.setText(COD_ShippinfCheck);
-                    shippingchargebuy_now = shippinsAmt;
-                    int totalamt = shippinsAmt + productsAmt;
-                    finalamountsInt = totalamt;
-                    shippingCharege = String.valueOf(totalamt);
-                    total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + shippingCharege);
-                    cases.setClickable(true);
-                } else {
-                    shippingcharge();
-                }
-                break;
-            case R.id.paytm:
-                Toast.makeText(this, "paytm", Toast.LENGTH_SHORT).show();
-                break;
-        }
+    private void ResellPayment() {
+        resellPaymentOption.setVisibility(View.VISIBLE);
+        rayruWallet.setChecked(false);
+        onlinePayments.setChecked(false);
+        caseRadios.setChecked(false);
+        shippingCharge.setText("Free");
+        total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
 
     }
 
@@ -677,14 +487,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
-                if (PaymentOptionActivity.this != null) {
-                    PaymentOptionActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressbar.setVisibility(View.GONE);
-                        }
-                    });
-                }
+                PaymentOptionActivity.this.runOnUiThread(() -> progressbar.setVisibility(View.GONE));
             }
 
             @Override
@@ -742,14 +545,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
                             }
 
-                            if (PaymentOptionActivity.this != null) {
-                                PaymentOptionActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        progressbar.setVisibility(View.GONE);
-                                    }
-                                });
-                            }
+                            new Handler(getMainLooper()).post(() -> progressbar.setVisibility(View.GONE));
 
                         }
                     }
@@ -760,7 +556,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
     }
 
-    private void Online_payment() {
+    private void Online_payment(String paymentoption) {
 
 
         Intent intent;
@@ -769,11 +565,9 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
 
         switch (type) {
             case "CardActivity":
-//                intent = new Intent(PaymentOptionActivity.this, Paymentgateway.class);
                 intent.putExtra("type", "CardActivity");
                 intent.putExtra("finalamountsInt", f);
                 intent.putExtra("coupon_amt", coupen);
-//                startActivity(intent);
                 break;
             case "buy_now":
 //                intent = new Intent(PaymentOptionActivity.this, Paymentgateway.class);
@@ -786,6 +580,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 intent.putExtra("select_color", getIntent().getStringExtra("select_color"));
                 intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
                 intent.putExtra("coupon_amt", coupen);
+                intent.putExtra("paymentOption", paymentoption);
                 intent.putExtra("type", "buy_now");
 //                startActivity(intent);
                 break;
@@ -800,23 +595,12 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 intent.putExtra("product_type", getIntent().getStringExtra("product_type"));
                 intent.putExtra("imagename", imagename);
                 intent.putExtra("item_type", item_type);
+                intent.putExtra("paymentOption", paymentoption);
                 intent.putExtra("new_user_request", getIntent().getStringExtra("new_user_request"));
                 break;
         }
         startActivity(intent);
 
-
-        //        product_name = intent.getStringExtra("product_name");
-//        select_size = intent.getStringExtra("select_size");
-//        product_amt = intent.getStringExtra("actual_price");
-//        discount_price = intent.getStringExtra("discount_price");
-//        imagename = intent.getStringExtra("imagename");
-//        product_qty = intent.getStringExtra("product_qty");
-//        product_id = intent.getStringExtra("product_id");
-//        select_color = intent.getStringExtra("select_color");
-//        product_type = intent.getStringExtra("product_type");
-//        productgst = intent.getStringExtra("gst");
-//        item_type = intent.getStringExtra("item_type");
     }
 
     private void coddelivery() {

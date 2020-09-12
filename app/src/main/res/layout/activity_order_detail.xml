@@ -296,6 +296,8 @@
                     android:layout_marginTop="10dp"
                       android:background="@color/club_back_single_text_color"/>
 
+
+
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -712,6 +714,15 @@
 
             </LinearLayout>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cancel"
+                android:visibility="gone"
+                android:textColor="@color/whiteColor"
+                android:text="Cancel Order"
+                android:background="@color/redColor" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:padding="2dp"
@@ -727,6 +738,8 @@
                     android:background="#DC9B40"
                     android:textColor="@color/white"
                     android:text="Return order"/>
+
+
         </LinearLayout>
 
      </LinearLayout>

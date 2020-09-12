@@ -219,7 +219,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             LoginActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(LoginActivity.this, "Number allow ready register", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "Number already register", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }

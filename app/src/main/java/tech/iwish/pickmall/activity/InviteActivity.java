@@ -69,7 +69,7 @@ import tech.iwish.pickmall.other.WishlistList;
 import tech.iwish.pickmall.session.Share_session;
 
 public class InviteActivity extends AppCompatActivity implements InternetConnectivityListener {
-    private static final int MAX_LENGTH =20;
+    private static final int MAX_LENGTH = 20;
     Button invite;
     ImageView back;
     TextViewFont invitecode;
@@ -77,7 +77,8 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
     ProgressBar progressBar;
     ScrollView scrollView;
     RecyclerView recyclerView;
-    List<RankList>rankLists= new ArrayList<>();
+    List<RankList> rankLists = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,32 +92,31 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
     }
 
 
+    protected void InitializeActivity() {
 
-    protected void InitializeActivity(){
-
-        invite= findViewById(R.id.invite);
-        back= findViewById(R.id.back);
-        invitecode= findViewById(R.id.invitecode);
-        progressBar= findViewById(R.id.progress);
-        scrollView= findViewById(R.id.scroll);
-        recyclerView= findViewById(R.id.recycle);
-        share_session= new Share_session(InviteActivity.this);
-        SaveReferrelCode(random(share_session.getUserDetail().get("id")),share_session.getUserDetail().get("UserMobile"));
+        invite = findViewById(R.id.invite);
+        back = findViewById(R.id.back);
+        invitecode = findViewById(R.id.invitecode);
+        progressBar = findViewById(R.id.progress);
+        scrollView = findViewById(R.id.scroll);
+        recyclerView = findViewById(R.id.recycle);
+        share_session = new Share_session(InviteActivity.this);
+        SaveReferrelCode(random(share_session.getUserDetail().get("id")), share_session.getUserDetail().get("UserMobile"));
         Connectivity();
     }
 
 
-    protected void  ActivityAction(){
+    protected void ActivityAction() {
         back.setOnClickListener(view -> onBackPressed());
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-       shareTextUrl(invitecode.getText().toString());
+                shareTextUrl(invitecode.getText().toString());
             }
         });
     }
 
-    protected void SetActivityData(){
+    protected void SetActivityData() {
 //          invitecode.setText(random(share_session.getUserDetail().get("id")));
     }
 
@@ -127,20 +127,20 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
         char data = ' ';
         String dat = "";
 
-        for (int i=0; i<=top; i++) {
-            data = (char)(ran.nextInt(25)+97);
-            dat = data + dat ;
+        for (int i = 0; i <= top; i++) {
+            data = (char) (ran.nextInt(25) + 97);
+            dat = data + dat;
         }
         return dat + id;
     }
 
-    private void SaveReferrelCode(String code,String mobile1){
+    private void SaveReferrelCode(String code, String mobile1) {
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("ref",code);
-            jsonObject.put("mobile",mobile1);
+            jsonObject.put("ref", code);
+            jsonObject.put("mobile", mobile1);
 
 
         } catch (JSONException e) {
@@ -192,7 +192,7 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
         shareIntent = new Intent();
         //shareIntent.setPackage("com.whatsapp");
         shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "PICKMALL Online Shopping Everything On Factory Price\n\nPICKMALL, as one of the best online shopping app in India,\n\nyou can shop the latest trendy items with lowest price & high quality at home. Free shipping & Cash on delivery service are supported, all latest trendy products UP TO 90% OFF! \n\nWe Sell Everything On Fair Price Because PICKMALL Is a Platform For Customer Can Buy Everything From Factory’s Without Any Extra Price Or Any Type Of Commission.\n\nHey check out my app at: https://play.google.com/store/apps/details?id=tech.iwish.pickmall \n\n Referrel Code:-"+ Code);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "PICKMALL Online Shopping Everything On Factory Price\n\nPICKMALL, as one of the best online shopping app in India,\n\nyou can shop the latest trendy items with lowest price & high quality at home. Free shipping & Cash on delivery service are supported, all latest trendy products UP TO 90% OFF! \n\nWe Sell Everything On Fair Price Because PICKMALL Is a Platform For Customer Can Buy Everything From Factory’s Without Any Extra Price Or Any Type Of Commission.\n\nHey check out my app at: https://play.google.com/store/apps/details?id=tech.iwish.pickmall \n\n Referrel Code:-" + Code);
         shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
         shareIntent.setType("image/*");
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -207,7 +207,7 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                       image[0] =resource;
+                        image[0] = resource;
                     }
 
                     @Override
@@ -217,17 +217,17 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
         return image[0];
     }
 
-    public static Bitmap drawableToBitmap (Drawable drawable) {
+    public static Bitmap drawableToBitmap(Drawable drawable) {
         Bitmap bitmap = null;
 
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if(bitmapDrawable.getBitmap() != null) {
+            if (bitmapDrawable.getBitmap() != null) {
                 return bitmapDrawable.getBitmap();
             }
         }
 
-        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
             bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
         } else {
             bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -259,23 +259,7 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public void Connectivity(){
+    public void Connectivity() {
         InternetAvailabilityChecker mInternetAvailabilityChecker;
         mInternetAvailabilityChecker = InternetAvailabilityChecker.init(this);
         mInternetAvailabilityChecker.addInternetConnectivityListener(InviteActivity.this);
@@ -283,16 +267,14 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
 
     @Override
     public void onInternetConnectivityChanged(boolean isConnected) {
-        if (isConnected){
-        }
-        else {
-            startActivity(new Intent(InviteActivity.this,NoInternetConnectionActivity.class));
+        if (isConnected) {
+        } else {
+            startActivity(new Intent(InviteActivity.this, NoInternetConnectionActivity.class));
         }
     }
 
 
-
-    private void SetRecycleView(){
+    private void SetRecycleView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(InviteActivity.this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -302,7 +284,7 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("mobile",share_session.getUserDetail().get("UserMobile") );
+            jsonObject.put("mobile", share_session.getUserDetail().get("UserMobile"));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -329,17 +311,16 @@ public class InviteActivity extends AppCompatActivity implements InternetConnect
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                rankLists.add(new RankList(String.valueOf(i+1), jsonHelper.GetResult("name"), "₹ "+jsonHelper.GetResult("tot")));
+                                rankLists.add(new RankList(String.valueOf(i + 1), jsonHelper.GetResult("name"), "₹ " + jsonHelper.GetResult("tot")));
                             }
                             InviteActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if(rankLists.size()==0){
+                                    if (rankLists.size() == 0) {
 //                                        no_product.setVisibility(View.VISIBLE);
 //                                        shimmer_view.setVisibility(View.GONE);
 //                                        recyclerView.setVisibility(View.GONE);
-                                    }
-                                    else {
+                                    } else {
                                         RevardRankAdapter revardRankAdapter = new RevardRankAdapter(InviteActivity.this, rankLists);
                                         recyclerView.setVisibility(View.VISIBLE);
                                         recyclerView.setAdapter(revardRankAdapter);

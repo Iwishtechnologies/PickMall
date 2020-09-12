@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -29,6 +30,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import tech.iwish.pickmall.Interface.ProgressbarStartProduct;
 import tech.iwish.pickmall.OkhttpConnection.ProductListF;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.AllOfferProductAdapter;
@@ -49,12 +51,13 @@ public class VendorStoreActivity extends AppCompatActivity implements View.OnCli
     private LinearLayout follow_btn, followings_btn;
     private Share_session shareSession;
     private Map data;
-    private TextView following_text, total_product, store_name,rating;
+    private TextView following_text, total_product, store_name, rating;
     RecyclerView vendorProductRecycleView;
     StaggeredGridLayoutManager layoutManager;
     AllOfferProductAdapter allOfferProductAdapter;
     RatingBar ratingbar;
     private List<ProductList> productListList = new ArrayList<>();
+    ProgressbarStartProduct progressbarStartProduct;
 
 
     @Override
@@ -84,6 +87,10 @@ public class VendorStoreActivity extends AppCompatActivity implements View.OnCli
 
         vendor_id = getIntent().getStringExtra("vendor_id");
 
+        progressbarStartProduct = val -> {
+
+        };
+
 //        Log.e("venor_id", vendor_id);
 //        Bundle bundle = new Bundle();
 //        ProductFragment productFragment = new ProductFragment();
@@ -100,7 +107,7 @@ public class VendorStoreActivity extends AppCompatActivity implements View.OnCli
 
     private void vendorProduct() {
 
-        allOfferProductAdapter = new AllOfferProductAdapter(VendorStoreActivity.this, ProductListF.productFake(), "");
+        allOfferProductAdapter = new AllOfferProductAdapter(VendorStoreActivity.this, ProductListF.productFake(), "", progressbarStartProduct);
         vendorProductRecycleView.setAdapter(allOfferProductAdapter);
 
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -132,7 +139,6 @@ public class VendorStoreActivity extends AppCompatActivity implements View.OnCli
                         if (responses.equals("TRUE")) {
 
 
-
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -162,17 +168,11 @@ public class VendorStoreActivity extends AppCompatActivity implements View.OnCli
                                 ));
 
                             }
-
-                            if (VendorStoreActivity.this != null) {
-                                VendorStoreActivity.this.runOnUiThread(() -> {
-
-                                    layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                                    vendorProductRecycleView.setLayoutManager(layoutManager);
-                                    ProductAdapter productAdapter = new ProductAdapter(VendorStoreActivity.this, productListList, "");
-                                    vendorProductRecycleView.setAdapter(productAdapter);
-
-                                });
-                            }
+                
+                            new Handler(getMainLooper()).post(() -> {
+                                vendorProductRecycleView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+                                vendorProductRecycleView.setAdapter(new ProductAdapter(VendorStoreActivity.this, productListList, "", progressbarStartProduct));
+                            });
 
                         }
 
@@ -181,7 +181,6 @@ public class VendorStoreActivity extends AppCompatActivity implements View.OnCli
                 response.close();
             }
         });
-
 
 
     }
@@ -225,7 +224,7 @@ public class VendorStoreActivity extends AppCompatActivity implements View.OnCli
                                             following_text.setText(jsonHelper.GetResult("following_count"));
                                             total_product.setText(jsonHelper.GetResult("product_count"));
                                             store_name.setText(jsonHelper.GetResult("shope_name"));
-                                            rating.setText(jsonHelper.GetResult("rating")+"/5");
+                                            rating.setText(jsonHelper.GetResult("rating") + "/5");
                                             ratingbar.setRating(Float.parseFloat(jsonHelper.GetResult("rating")));
                                         }
                                     });

@@ -229,7 +229,6 @@ public class New_PostAdapter extends RecyclerView.Adapter<New_PostAdapter.Viewho
             return image ;
         }
 
-
         private Uri getLocalBitmapUri(Bitmap bmp) {
             Uri bmpUri = null;
             File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");

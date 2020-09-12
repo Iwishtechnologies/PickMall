@@ -3,11 +3,13 @@ package tech.iwish.pickmall.fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.MediaType;
@@ -40,6 +43,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import tech.iwish.pickmall.Interface.ProgressbarStartProduct;
+import tech.iwish.pickmall.Interface.Progressbar_product_inteface;
 import tech.iwish.pickmall.OkhttpConnection.ProductListF;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.adapter.AllOfferProductAdapter;
@@ -70,9 +75,11 @@ public class ProductFragment extends Fragment {
     private int pastVisibleItems;
     private boolean isLoading;
     TextView no_products;
+    ProgressbarStartProduct progressbarStartProduct;
+    Progressbar_product_inteface progressbar_product_inteface;
 
-
-    public ProductFragment() {
+    public ProductFragment(Progressbar_product_inteface progressbar_product_inteface) {
+        this.progressbar_product_inteface = progressbar_product_inteface;
     }
 
     @Nullable
@@ -83,10 +90,12 @@ public class ProductFragment extends Fragment {
         product_recycleview = (RecyclerView) view.findViewById(R.id.product_recycleview);
         no_products = (TextView) view.findViewById(R.id.no_products);
 
-
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         product_recycleview.setLayoutManager(layoutManager);
 
+        progressbarStartProduct = val -> {
+            progressbar_product_inteface.progressbar_product_intefaces(val);
+        };
 
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -97,27 +106,16 @@ public class ProductFragment extends Fragment {
         Log.e("type", type);
         switch (type) {
             case "similar_product":
-//                item = arguments.getString("product_id");
-//                PRODUCT_PERAMETER = "similar_product";
                 datafetchProduct(Constants.SIMILAER_PRODUCT, arguments.getString("product_id"));
                 break;
             case "product":
-//                PRODUCT_PERAMETER = "product";
-//                item = getActivity().getIntent().getExtras().getString("item");
-//                item = arguments.getString("item");
-
                 datafetchProduct(Constants.ALL_PRODUCT, arguments.getString("item"));
                 ;
                 break;
             case "vendorStoreAllProduct":
-//                PRODUCT_PERAMETER = "vendor_store_all_product";
-//                item = getActivity().getIntent().getExtras().getString("vendor_id");
-//                datafetchProduct(Constants.VENDOR_STORE_ALL_PRODUCT, getActivity().getIntent().getExtras().getString("vendor_id"));
                 VendorStore(Constants.VENDOR_STORE_ALL_PRODUCT, getActivity().getIntent().getExtras().getString("vendor_id"));
                 break;
             case "Category_by_product":
-//                PRODUCT_PERAMETER = "Category_by_product";
-//                item =  getActivity().getIntent().getExtras().getString("category_id");
                 datafetchProduct(Constants.CATEGORY_BY_PRODUUCT, getActivity().getIntent().getExtras().getString("category_id"));
                 break;
             case "hotproduct":
@@ -161,7 +159,7 @@ public class ProductFragment extends Fragment {
 
     private void VendorStore(String Api, String item_id) {
 
-        allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), ProductListF.productFake(), item_id);
+        allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), ProductListF.productFake(), item_id, progressbarStartProduct);
         product_recycleview.setAdapter(allOfferProductAdapter);
 
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -228,7 +226,7 @@ public class ProductFragment extends Fragment {
                             if (getActivity() != null) {
                                 getActivity().runOnUiThread(() -> {
 
-                                    ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id);
+                                    ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id, progressbarStartProduct);
                                     product_recycleview.setAdapter(productAdapter);
 
                                 });
@@ -247,7 +245,7 @@ public class ProductFragment extends Fragment {
 
     private void prepaid(String Api, String prepaid) {
 
-        allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), ProductListF.productFake(), prepaid);
+        allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), ProductListF.productFake(), prepaid, progressbarStartProduct);
         product_recycleview.setAdapter(allOfferProductAdapter);
 
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -311,17 +309,13 @@ public class ProductFragment extends Fragment {
 
                             }
 
-                            if (getActivity() != null) {
-                                getActivity().runOnUiThread(() -> {
-                                    ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, "prepaid");
-                                    product_recycleview.setAdapter(productAdapter);
-                                });
-                            }
+                            new Handler(Looper.getMainLooper()).post(() -> {
+                                product_recycleview.setAdapter(new ProductAdapter(getActivity(), productListList, "prepaid", progressbarStartProduct));
+                            });
 
                         }
                     }
                 }
-                response.close();
             }
         });
 
@@ -332,7 +326,7 @@ public class ProductFragment extends Fragment {
     private void FilterProduct(String Api, String item_id) {
 
 
-        shareSession = new Share_session(getActivity());
+        shareSession = new Share_session(Objects.requireNonNull(getActivity()));
         data = shareSession.Fetchdata();
 
 
@@ -408,7 +402,7 @@ public class ProductFragment extends Fragment {
                                 getActivity().runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id);
+                                        ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id, progressbarStartProduct);
                                         product_recycleview.setAdapter(productAdapter);
 //                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
                                         productAdapter.notifyDataSetChanged();
@@ -427,7 +421,7 @@ public class ProductFragment extends Fragment {
     private void datafetchProduct(String Api, String item_id) {
 
 
-        allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), ProductListF.productFake(), item_id);
+        allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), ProductListF.productFake(), item_id, progressbarStartProduct);
         product_recycleview.setAdapter(allOfferProductAdapter);
 
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -518,20 +512,13 @@ public class ProductFragment extends Fragment {
                                 }
                             }
 
-
-                            if (getActivity() != null) {
-                                getActivity().runOnUiThread(() -> {
-
-                                    if (Api.equals(Constants.ALL_PRODUCT) || Api.equals(Constants.SIMILAER_PRODUCT)) {
-                                        allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), productOfferlists, item_id);
-                                        product_recycleview.setAdapter(allOfferProductAdapter);
-                                    } else {
-                                        ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id);
-                                        product_recycleview.setAdapter(productAdapter);
-                                    }
-                                });
-                            }
-
+                            new Handler(Looper.getMainLooper()).post(() -> {
+                                if (Api.equals(Constants.ALL_PRODUCT) || Api.equals(Constants.SIMILAER_PRODUCT)) {
+                                    product_recycleview.setAdapter(new AllOfferProductAdapter(getActivity(), productOfferlists, item_id, progressbarStartProduct));
+                                } else {
+                                    product_recycleview.setAdapter(new ProductAdapter(getActivity(), productListList, item_id, progressbarStartProduct));
+                                }
+                            });
                         }
 
                     }
@@ -543,8 +530,6 @@ public class ProductFragment extends Fragment {
 
     private void silder_open_both(String Api, String item_id, String category_id) {
 
-//        Log.e("item_id",item_id);
-//        Log.e("item_id",item_id);
 
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -606,7 +591,7 @@ public class ProductFragment extends Fragment {
                                         getActivity().runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                AllOfferProductAdapter allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), productOfferlists, item_id);
+                                                AllOfferProductAdapter allOfferProductAdapter = new AllOfferProductAdapter(getActivity(), productOfferlists, item_id, progressbarStartProduct);
                                                 product_recycleview.setAdapter(allOfferProductAdapter);
 //                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
 //                                        productAdapter.notifyDataSetChanged();
@@ -643,7 +628,7 @@ public class ProductFragment extends Fragment {
                                         getActivity().runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id);
+                                                ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, item_id, progressbarStartProduct);
                                                 product_recycleview.setAdapter(productAdapter);
 //                                    product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
 //                                        productAdapter.notifyDataSetChanged();
@@ -812,23 +797,12 @@ public class ProductFragment extends Fragment {
                                 if (getActivity() != null) {
                                     Handler mainHandler = new Handler(getContext().getMainLooper());
                                     mainHandler.post(() -> {
-                                        ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, "");
+                                        ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, "", progressbarStartProduct);
                                         product_recycleview.setAdapter(productAdapter);
 //                                            product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
                                         productAdapter.notifyDataSetChanged();
                                     });
 
-//                                    getActivity().runOnUiThread(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            ProductAdapter productAdapter = new ProductAdapter(getActivity(), productListList, "");
-//                                            product_recycleview.setAdapter(productAdapter);
-////                                            product_recycleview.addItemDecoration(new GridSpacingItemDecoration(50));
-//                                            productAdapter.notifyDataSetChanged();
-//
-//
-//                                        }
-//                                    });
                                 }
 
                             }

@@ -53,6 +53,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import tech.iwish.pickmall.Interface.PincodeInterFace;
+import tech.iwish.pickmall.Interface.Progressbar_product_inteface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.activity.ReturnPolicyActivity;
 import tech.iwish.pickmall.activity.VendorStoreActivity;
@@ -71,7 +72,7 @@ import tech.iwish.pickmall.session.Share_session;
 import static tech.iwish.pickmall.session.Share_session.PINCODR_SERVICE_CHECK;
 
 
-public class ProductOverViewFragment extends Fragment implements View.OnClickListener, PincodeInterFace {
+public class ProductOverViewFragment extends Fragment implements View.OnClickListener, PincodeInterFace , Progressbar_product_inteface {
 
     private RecyclerView product_overview, product_description, vendor_product_recycleview;
     private List<ProductOverViewList> productOverViewLists = new ArrayList<>();
@@ -158,7 +159,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
 
 
         Bundle bundle1 = new Bundle();
-        ProductFragment productFragment = new ProductFragment();
+        ProductFragment productFragment = new ProductFragment(this);
         bundle1.putString("product_id", product_id);
         bundle1.putString("type", "similar_product");
         productFragment.setArguments(bundle1);
@@ -249,13 +250,7 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                             }
 
                             if (activity != null) {
-                                activity.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        VendorStoreLimitProductAdapter vendorStoreLimitProductAdapter = new VendorStoreLimitProductAdapter(productListList);
-                                        vendor_product_recycleview.setAdapter(vendorStoreLimitProductAdapter);
-                                    }
-                                });
+                                activity.runOnUiThread(() -> vendor_product_recycleview.setAdapter(new VendorStoreLimitProductAdapter(productListList)));
                             }
 
                         }
@@ -302,12 +297,9 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
 
                             if (activity != null) {
 
-                                activity.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ProductOverviewAdapter productOverviewAdapter = new ProductOverviewAdapter(activity, productOverViewLists);
-                                        product_overview.setAdapter(productOverviewAdapter);
-                                    }
+                                activity.runOnUiThread(() -> {
+                                    ProductOverviewAdapter productOverviewAdapter = new ProductOverviewAdapter(activity, productOverViewLists);
+                                    product_overview.setAdapter(productOverviewAdapter);
                                 });
 
                             }
@@ -543,6 +535,11 @@ public class ProductOverViewFragment extends Fragment implements View.OnClickLis
                 }
             }
         });
+
+    }
+
+    @Override
+    public void progressbar_product_intefaces(String val) {
 
     }
 }

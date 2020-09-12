@@ -1,10 +1,18 @@
 package tech.iwish.pickmall.activity;
 
+import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
 import android.util.Log;
@@ -12,14 +20,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -28,6 +40,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +50,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +64,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import retrofit2.Callback;
 import tech.iwish.pickmall.Interface.ProductCountInterface;
 import tech.iwish.pickmall.Interface.ProductSizeInterFace;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.RetrofitInterface.FrontShareProductImageInterface;
+import tech.iwish.pickmall.RetrofitModel.FrontProductShareList;
 import tech.iwish.pickmall.adapter.ColorSizeImageAdapter;
 import tech.iwish.pickmall.adapter.ProductDetailsImageAdapter;
 import tech.iwish.pickmall.adapter.ProductSizeAdapter;
@@ -89,14 +110,26 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
     private RelativeLayout card;
     private Map data;
     Share_session shareSession;
-    private ImageView save_hearth, sub_button, add_button;
+    private ImageView save_hearth;
+    private ImageView sub_button;
+    private ImageView add_button;
+    private ImageView fb_Btn;
     ShineButton wishlist;
     public boolean wishlistchechi;
     private List<ProductColorList> productColorLists = new ArrayList<>();
     private ProductSizeInterFace productSizeInterFace;
-    private LinearLayout qty_layouts, dicount_price_per_mrp_layout, friendDealTimeLayout, onersview;
+    private LinearLayout qty_layouts;
+    private LinearLayout friendDealTimeLayout;
+    private LinearLayout onersview;
+    private LinearLayout youtube_btn;
     TextViewFont onediscription, fulldiscription, CountCheck;
     String referCode, Totalcount, referCount = null;
+    ArrayList<Uri> imageUriArray = new ArrayList<>();
+    FrontProductShareList list;
+    LinearLayout Resellshare;
+    ProgressBar progress;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +158,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         hight_count = (TextView) findViewById(R.id.hight_count);
         size_product_recycleview = (RecyclerView) findViewById(R.id.size_product_recycleview);
 
+        youtube_btn = findViewById(R.id.youtube_btn);
+        Resellshare = findViewById(R.id.Resellshare);
+
         productImageDetailsViewpager = (ViewPager) findViewById(R.id.productImageDetailsViewpager);
         color_size_image_recycle_view = (RecyclerView) findViewById(R.id.color_size_image_recycle_view);
         ratingcheck = (RatingBar) findViewById(R.id.ratingcheck);
@@ -147,12 +183,16 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         onediscription = findViewById(R.id.onediscription);
         product_count_layout = (LinearLayout) findViewById(R.id.product_count_layout);
         qty_layouts = (LinearLayout) findViewById(R.id.qty_layouts);
-        dicount_price_per_mrp_layout = (LinearLayout) findViewById(R.id.dicount_price_per_mrp_layout);
+        LinearLayout dicount_price_per_mrp_layout = (LinearLayout) findViewById(R.id.dicount_price_per_mrp_layout);
         friendDealTimeLayout = (LinearLayout) findViewById(R.id.friendDealTimeLayout);
+
+        progress = findViewById(R.id.progress);
 
         scrollview = (ScrollView) findViewById(R.id.scrollview);
 
         card = (RelativeLayout) findViewById(R.id.card);
+        ImageView whatsappBtn = findViewById(R.id.whatsappBtn);
+        ImageView fb_Btn = findViewById(R.id.fb_Btn);
 
         save_hearth = (ImageView) findViewById(R.id.save_hearth);
         onersview = findViewById(R.id.onersview);
@@ -203,6 +243,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 sizedatafetch(Constants.PRODDUCT_SIZE);
                 PRODUCT_TYPE = "allProduct";
                 product_layout.setVisibility(View.VISIBLE);
+                Resellshare.setVisibility(View.VISIBLE);
                 one_rs_main_layout.setVisibility(View.GONE);
                 one_rs_bottom_layout.setVisibility(View.GONE);
                 one_rs_rule.setVisibility(View.GONE);
@@ -239,6 +280,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 friendDealTimeLayout.setVisibility(View.VISIBLE);
                 qty_layouts.setVisibility(View.GONE);
                 dicount_price_per_mrp_layout.setVisibility(View.GONE);
+                Resellshare.setVisibility(View.GONE);
 
                 one_rs_button_place_order.setText(getResources().getString(R.string.rs_symbol) + actual_price + " Start a Deal");
                 total_request_user = getIntent().getStringExtra("total_request_user");
@@ -301,6 +343,9 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         go_to_card.setOnClickListener(this);
         friend_deal_image.setOnClickListener(this);
         share_btn.setOnClickListener(this);
+        youtube_btn.setOnClickListener(this);
+        whatsappBtn.setOnClickListener(this);
+        fb_Btn.setOnClickListener(this);
 
         ac_priceEdit.setText(getResources().getString(R.string.rs_symbol) + actual_price);
         title_name_edit.setText(product_name);
@@ -413,18 +458,15 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                 productDetailsListImageList.add(new ProductDetailsImageList(jsonHelper.GetResult("sno"), jsonHelper.GetResult("product_id"), jsonHelper.GetResult("image")));
                             }
 
-                            if (ProductDetailsActivity.this != null) {
+                            ProductDetailsActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
 
-                                ProductDetailsActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
+                                    ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
+                                    productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
 
-                                        ProductDetailsImageAdapter productDetailsImageAdapter = new ProductDetailsImageAdapter(ProductDetailsActivity.this, productDetailsListImageList);
-                                        productImageDetailsViewpager.setAdapter(productDetailsImageAdapter);
-
-                                    }
-                                });
-                            }
+                                }
+                            });
 
                         }
                     }
@@ -617,8 +659,254 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
             case R.id.share_btn:
                 productChehckFriendeals();
                 break;
+            case R.id.youtube_btn:
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://youtu.be/zkX4PXCxn5o"));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setPackage("com.google.android.youtube");
+                startActivity(intent);
+                break;
+            case R.id.whatsappBtn:
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ProductDetailsActivity.this);
+                View view2 = LayoutInflater.from(ProductDetailsActivity.this).inflate(R.layout.resell_dialog_amt, null);
+                builder.setView(view2);
+                ImageView cross_img = view2.findViewById(R.id.cross_img);
+                EditText EditTextAmt = view2.findViewById(R.id.EditTextAmt);
+                TextView submit = view2.findViewById(R.id.submit);
+
+                android.app.AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+                cross_img.setOnClickListener(v1 -> {
+                    alertDialog.dismiss();
+                });
+                submit.setOnClickListener(v1 -> {
+                    int val = 0;
+
+                    if (!EditTextAmt.getText().toString().trim().isEmpty())
+                        val = Integer.parseInt(EditTextAmt.getText().toString().trim());
+                    if (EditTextAmt.getText().toString().trim().isEmpty())
+                        Toast.makeText(ProductDetailsActivity.this, "Pleace Enter Amount", Toast.LENGTH_SHORT).show();
+                    else if (val < Integer.parseInt(actual_price))
+                        Toast.makeText(ProductDetailsActivity.this, "Pleace Valid Amount", Toast.LENGTH_SHORT).show();
+                    else {
+
+                        progress.setVisibility(View.VISIBLE);
+                        alertDialog.dismiss();
+                        retrofit2.Call<FrontProductShareList> frontProductShareListCall = FrontShareProductImageInterface.ProductFrontShare().getData(product_id);
+                        frontProductShareListCall.enqueue(new Callback<FrontProductShareList>() {
+                            @Override
+                            public void onResponse(retrofit2.Call<FrontProductShareList> call, retrofit2.Response<FrontProductShareList> response) {
+
+                                list = response.body();
+                                assert list != null;
+                                if (list.getResponse().equals("TRUE")) {
+
+                                    String productDes = "", productoverview = "";
+
+                                    if (list.getProductDescription() != null) {
+                                        for (int i = 0; i < list.getProductDescription().size(); i++) {
+                                            productDes += list.getProductDescription().get(i).getDescriptionTitle() + ": " + list.getProductDescription().get(i).getDescriptionData() + "\n";
+                                        }
+                                    }
+                                    if (list.getProductOverview() != null) {
+//                                        Toast.makeText(context, "" + list.getProductOverview().size(), Toast.LENGTH_SHORT).show();
+                                        for (int i = 0; i < list.getProductOverview().size(); i++) {
+                                            productoverview += list.getProductOverview().get(i).getTitle() + ": " + list.getProductOverview().get(i).getOverview() + "\n\n";
+                                        }
+                                    }
+
+                                    if (list.getProductImage() != null) {
+                                        for (int j = 0; j < list.getProductImage().size(); j++) {
+                                            int finalJ = j;
+                                            String finalProductDes = productDes;
+                                            String finalProductoverview = productoverview;
+                                            Glide.with(ProductDetailsActivity.this).asBitmap().load(Constants.IMAGES + list.getProductImage().get(j).getImage()).into(new CustomTarget<Bitmap>() {
+                                                @Override
+                                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                                    mulitplyImageshare(resource);
+                                                    if (finalJ == list.getProductImage().size() - 1) {
+                                                        String allproduct = "*" + "Product Description" + "*" + "\n" + finalProductDes + "\n\n" + "*" + "Amount" + "*" + "\n" + EditTextAmt.getText().toString() + "\n\n" + "*" + "Product Overview" + "*" + "\n" + finalProductoverview + "\n\n";
+                                                        wtsaapShare(allproduct);
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                                                }
+                                            });
+
+                                        }
+                                    }
+
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(retrofit2.Call<FrontProductShareList> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                });
+                break;
+            case R.id.fb_Btn:
+
+                android.app.AlertDialog.Builder builder1 = new android.app.AlertDialog.Builder(this);
+                View views = LayoutInflater.from(this).inflate(R.layout.resell_dialog_amt, null);
+                builder1.setView(views);
+                ImageView cross_imgs = views.findViewById(R.id.cross_img);
+                EditText EditTextAmts = views.findViewById(R.id.EditTextAmt);
+                TextView submits = views.findViewById(R.id.submit);
+                android.app.AlertDialog alertDialogs = builder1.create();
+                alertDialogs.show();
+                cross_imgs.setOnClickListener(v1 -> {
+                    alertDialogs.dismiss();
+                });
+                submits.setOnClickListener(v1 -> {
+                    int val = 0;
+                    if (!EditTextAmts.getText().toString().trim().isEmpty())
+                        val = Integer.parseInt(EditTextAmts.getText().toString().trim());
+                    if (EditTextAmts.getText().toString().trim().isEmpty())
+                        Toast.makeText(this, "Pleace Enter Amount", Toast.LENGTH_SHORT).show();
+                    else if (val < Integer.parseInt(actual_price))
+                        Toast.makeText(this, "Pleace Valid Amount", Toast.LENGTH_SHORT).show();
+                    else {
+                        progress.setVisibility(View.VISIBLE);
+                        alertDialogs.dismiss();
+
+                        retrofit2.Call<FrontProductShareList> frontProductShareListCall = FrontShareProductImageInterface.ProductFrontShare().getData(product_id);
+                        frontProductShareListCall.enqueue(new Callback<FrontProductShareList>() {
+                            @Override
+                            public void onResponse(retrofit2.Call<FrontProductShareList> call, retrofit2.Response<FrontProductShareList> response) {
+
+                                list = response.body();
+                                assert list != null;
+                                if (list.getResponse().equals("TRUE")) {
+
+                                    String productDes = "", productoverview = "";
+
+                                    if (list.getProductDescription() != null) {
+                                        for (int i = 0; i < list.getProductDescription().size(); i++) {
+                                            productDes += list.getProductDescription().get(i).getDescriptionTitle() + ": " + list.getProductDescription().get(i).getDescriptionData() + "\n";
+                                        }
+                                    }
+                                    if (list.getProductOverview() != null) {
+//                                        Toast.makeText(context, "" + list.getProductOverview().size(), Toast.LENGTH_SHORT).show();
+                                        for (int i = 0; i < list.getProductOverview().size(); i++) {
+                                            productoverview += list.getProductOverview().get(i).getTitle() + ": " + list.getProductOverview().get(i).getOverview() + "\n\n";
+                                        }
+                                    }
+
+                                    if (list.getProductImage() != null) {
+                                        for (int j = 0; j < list.getProductImage().size(); j++) {
+                                            int finalJ = j;
+                                            String finalProductDes = productDes;
+                                            String finalProductoverview = productoverview;
+                                            Glide.with(ProductDetailsActivity.this).asBitmap().load(Constants.IMAGES + list.getProductImage().get(j).getImage()).into(new CustomTarget<Bitmap>() {
+                                                @Override
+                                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                                    mulitplyImageshare(resource);
+                                                    if (finalJ == list.getProductImage().size() - 1) {
+                                                        String allproduct = "*" + "Product Description" + "*" + "\n" + finalProductDes + "\n\n" + "*" + "Amount" + "*" + "\n" + EditTextAmts.getText().toString() + "\n\n" + "*" + "Product Overview" + "*" + "\n" + finalProductoverview + "\n\n";
+                                                        shareintent(allproduct);
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                                                }
+                                            });
+
+                                        }
+                                    }
+
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(retrofit2.Call<FrontProductShareList> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                });
+
+                break;
         }
     }
+
+    private void shareintent(String msg) {
+
+        String productName = product_name;
+
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+//            intent.putExtra(Intent.EXTRA_TEXT, "*" + productName + "*" + "\n\n" + msg);
+        intent.setType("text/html");
+        intent.setType("image/jpeg");
+        intent.setPackage("com.facebook.katana");
+//        intent.setPackage("com.facebook.orca");
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUriArray);
+        startActivity(intent);
+        imageUriArray.clear();
+        Toast.makeText(ProductDetailsActivity.this, "Copy to Clipboard", Toast.LENGTH_SHORT).show();
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("label", "*" + productName + "*" + "\n\n" + msg);
+        clipboard.setPrimaryClip(clip);
+        progress.setVisibility(View.GONE);
+    }
+
+    private void wtsaapShare(String msg) {
+
+        String productName = product_name;
+
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+//            intent.putExtra(Intent.EXTRA_TEXT, "*" + productName + "*" + "\n\n" + msg);
+        intent.setType("text/html");
+        intent.setType("image/jpeg");
+        intent.setPackage("com.whatsapp");
+        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUriArray);
+        startActivity(intent);
+        imageUriArray.clear();
+        Toast.makeText(ProductDetailsActivity.this, "Copy to Clipboard", Toast.LENGTH_SHORT).show();
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("label", "*" + productName + "*" + "\n\n" + msg);
+        clipboard.setPrimaryClip(clip);
+        progress.setVisibility(View.GONE);
+
+    }
+
+    private void mulitplyImageshare(Bitmap bmp) {
+        Uri bmpUri = getLocalBitmapUri(bmp); // see previous remote images section
+        imageUriArray.add(bmpUri);
+    }
+
+    private Uri getLocalBitmapUri(Bitmap bmp) {
+        Uri bmpUri = null;
+        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            bmpUri = Uri.fromFile(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
+    }
+
 
     private void frienddeaalmethod() {
 
@@ -681,7 +969,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                     product_qty = quty_value.getText().toString();
                     MyhelperSql myhelperSql = new MyhelperSql(this);
                     SQLiteDatabase sqLiteDatabase = myhelperSql.getWritableDatabase();
-                    myhelperSql.dataAddCard(product_id, product_name, product_qty, product_colorbtn.getText().toString(), select_size, product_Image, actual_price, discount_price, product_type, gst, vendor_id, dicount_price_text.getText().toString(),prepaid, sqLiteDatabase);
+                    myhelperSql.dataAddCard(product_id, product_name, product_qty, product_colorbtn.getText().toString(), select_size, product_Image, actual_price, discount_price, product_type, gst, vendor_id, dicount_price_text.getText().toString(), prepaid, sqLiteDatabase);
                     cardcount();
                     add_card_btn.setVisibility(View.GONE);
                     go_to_card.setVisibility(View.VISIBLE);
@@ -975,10 +1263,10 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                                                 referCode = jsonHelper.GetResult("code");
                                                 Totalcount = jsonHelper.GetResult("count");
                                                 referCount = jsonHelper.GetResult("user_share_count");
-                                                if(referCount == null){
+                                                if (referCount == null) {
                                                     referCount = "0";
                                                 }
-                                                if(Totalcount == null){
+                                                if (Totalcount == null) {
                                                     Totalcount = "0";
                                                 }
                                                 CountCheck.setText("Your Share Complete " + referCount);

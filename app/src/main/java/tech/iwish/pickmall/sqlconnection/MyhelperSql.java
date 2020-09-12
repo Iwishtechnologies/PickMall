@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 public class MyhelperSql extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "product_card";
-    public static final int version = 2;
+    public static final int version = 3;
 
     public MyhelperSql(Context context) {
         super(context, DB_NAME, null, version);

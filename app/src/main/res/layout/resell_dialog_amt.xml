@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="@dimen/dimen_16dp">
+
+    <tech.iwish.pickmall.extended.TextViewFont
+        android:id="@+id/TextViewAmt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Amount"
+        android:textColor="@color/black"
+        app:fonttype="black"
+        android:textSize="@dimen/dimen_16dp" />
+
+    <ImageView
+        android:id="@+id/cross_img"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/crossicon"
+        android:layout_alignParentRight="true"/>
+
+
+    <EditText
+        android:id="@+id/EditTextAmt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextViewAmt"
+        android:layout_marginStart="@dimen/dimen_8dp"
+        android:layout_marginTop="@dimen/dimen_8dp"
+        android:hint="Resell Amount"
+        android:inputType="number"
+        android:backgroundTint="@color/orangeColor"/>
+
+    <TextView
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/EditTextAmt"
+        android:layout_marginTop="@dimen/dimen_8dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/resell_btn_design"
+        android:textColor="@color/whiteColor"
+        android:text="Share"
+        android:paddingStart="@dimen/dimen_8dp"
+        android:paddingEnd="@dimen/dimen_8dp"
+        android:paddingTop="@dimen/dimen_8dp"
+        android:paddingBottom="@dimen/dimen_8dp"/>
+
+</RelativeLayout>

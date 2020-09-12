@@ -149,10 +149,12 @@ public class Constants {
     public static String FINDGUESTORDER = URL + "Guestorder";
     public static String CHENNELID_ORDERID = URL + "ChennelID";
     public static String TOKEN_SEND = URL + "refreshedToken";
+    public static String PRODUCT_FRONT_SHARE = URL + "FrontProductShare";
 
     public static String RETURNCHECK = URL + "CheckReturn";
     public static String NOTIFICATION = URL + "Notification";
     public static String NotiFIcationCount = URL + "NotificationCount";
+    public static String CENCELORDER = URL + "CancelOrder";
 
     public static String PAYTMS = URL + "paytm";
 

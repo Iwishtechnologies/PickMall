@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -47,17 +48,17 @@ import tech.iwish.pickmall.extended.TextViewFont;
 import tech.iwish.pickmall.session.Share_session;
 
 public class OrderDetailActivity extends AppCompatActivity implements InternetConnectivityListener {
-    TextViewFont name, orderid, color, seller, price, cname, street, city, state, phone, approvedate, delivery_status, cencelled_statement, order_approved, colony, actual_price, selling_price, discount_amount, shipping_fee, total_amount, qty,cencelled_date;
+    TextViewFont name, orderid, color, seller, price, cname, street, city, state, phone, approvedate, delivery_status, cencelled_statement, order_approved, colony, actual_price, selling_price, discount_amount, shipping_fee, total_amount, qty, cencelled_date;
     ShapedImageView image;
     ImageView progress;
     Intent intent;
     Share_session share_session;
     String dis_amt;
     LinearLayout returnview, ratingview, sell, extra, ship;
-    Button help,track;
+    Button help, track;
     RatingBar RatingBar;
     ShimmerFrameLayout shimmer;
-    Button returnorder;
+    Button returnorder, cancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         mActionBar.setDisplayHomeAsUpEnabled(true);
         setTitle("Order Detail");
         setContentView(R.layout.activity_order_detail);
-        Log.e("status",getIntent().getExtras().getString("orderStatus"));
+        Log.e("status", getIntent().getExtras().getString("orderStatus"));
         InitializeActivity();
         SetActivityData();
         ActivityAction();
@@ -111,6 +112,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
         ship = findViewById(R.id.ship);
         qty = findViewById(R.id.qty);
         track = findViewById(R.id.track);
+        cancel = findViewById(R.id.cancel);
         GetAddress(getIntent().getExtras().getString("address"));
         GetVendorDetail(getIntent().getExtras().getString("vendor_id"));
         Connectivity();
@@ -118,6 +120,9 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
     }
 
     private void ActivityAction() {
+        cancel.setOnClickListener(v -> {
+            CencelOrder(getIntent().getExtras().getString("uniqueid"));
+        });
         help.setOnClickListener(view -> startActivity(new Intent(OrderDetailActivity.this, SupportActivity.class)));
         RatingBar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
 
@@ -197,6 +202,9 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
             delivery_status.setText("Pending");
             order_approved.setText("Pending");
             cencelled_statement.setVisibility(View.GONE);
+            if (!getIntent().getExtras().getString("ordertype").equals("freinddeal")) {
+                cancel.setVisibility(View.VISIBLE);
+            }
             returnview.setVisibility(View.GONE);
             ratingview.setVisibility(View.GONE);
         } else if (getIntent().getExtras().getString("orderStatus").equals("DELIVERED")) {
@@ -215,7 +223,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
             order_approved.setText("Ordered And Approvep");
             cencelled_statement.setVisibility(View.VISIBLE);
             ratingview.setVisibility(View.GONE);
-            CheckReturnRequest( getIntent().getExtras().getString("orderid"));
+            CheckReturnRequest(getIntent().getExtras().getString("orderid"));
         } else if (getIntent().getExtras().getString("orderStatus").equals("APPROVED")) {
             progress.setImageResource(R.drawable.half_fill_progressbar);
             delivery_status.setText("Pending");
@@ -520,13 +528,13 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
 //        dialog.show();
     }
 
-    private void CheckReturnRequest(String orderid){
+    private void CheckReturnRequest(String orderid) {
 
         OkHttpClient client = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("id",orderid);
+            jsonObject.put("id", orderid);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -540,6 +548,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
             }
+
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
@@ -554,14 +563,12 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
                                 jsonHelper.setChildjsonObj(jsonArray, i);
                             }
                             OrderDetailActivity.this.runOnUiThread(() -> {
-                                if(jsonHelper.GetResult("cencel_status").equals("1")){
+                                if (jsonHelper.GetResult("cencel_status").equals("1")) {
                                     cencelled_date.setText(jsonHelper.GetResult("cencel_date"));
                                 }
                             });
 
-                        }
-                        else
-                        {
+                        } else {
                         }
                     }
 
@@ -569,6 +576,44 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
             }
         });
 
+
+    }
+
+
+    private void CencelOrder(String id) {
+        OkHttpClient client = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id", id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request = new Request.Builder().post(body)
+                .url(Constants.CENCELORDER).build();
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+
+                    final JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            new Handler(getMainLooper()).post(() -> startActivity(new Intent(OrderDetailActivity.this, MyOederActitvity.class)));
+                        }
+                    }
+
+                }
+            }
+        });
 
     }
 

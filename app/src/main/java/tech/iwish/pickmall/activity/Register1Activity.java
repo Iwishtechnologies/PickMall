@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -277,15 +279,7 @@ public class Register1Activity extends AppCompatActivity  implements InternetCon
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
-                Register1Activity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-//                        progressBar.setVisibility(View.GONE);
-//                        mainview.setAlpha(1);
-                        Toast.makeText(Register1Activity.this, "Connection Timeout", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
+                new Handler(getMainLooper()).post(() -> Toast.makeText(Register1Activity.this, "Connection Timeout", Toast.LENGTH_SHORT).show());
             }
 
             @Override
@@ -298,30 +292,17 @@ public class Register1Activity extends AppCompatActivity  implements InternetCon
                     if (jsonHelper.isValidJson()) {
                         String responses = jsonHelper.GetResult("response");
                         if (responses.equals("NEW")) {
-                            Register1Activity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-//                                    Log.e("image",jsonHelper.GetResult("data"));
-//                                    Log.e("image",jsonHelper.GetResult("data"));
-//                                    share_session.SetProfileImage(jsonHelper.GetResult("data"));
-                                    share_session.CreateSession(mobile);
-                                    share_session.user_number_check();
-                                    GetAddress(mobile);
-
-
-                                }
+                            new Handler(getMainLooper()).post(() -> {
+                                share_session.CreateSession(mobile);
+                                share_session.user_number_check();
+                                GetAddress(mobile);
                             });
                         }
                         else {
                             Register1Activity.this.runOnUiThread(() -> {
-//                                    Log.e("image",jsonHelper.GetResult("data"));
-//                                    Log.e("image",jsonHelper.GetResult("data"));
-//                                    share_session.SetProfileImage(jsonHelper.GetResult("data"));
                                 share_session.CreateSession(mobile);
                                 share_session.user_number_check();
                                 GetAddress(mobile);
-
-
                             });
                         }
                     }
@@ -347,11 +328,7 @@ public class Register1Activity extends AppCompatActivity  implements InternetCon
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
-                Register1Activity.this.runOnUiThread(() -> {
-//                    progressBar.setVisibility(View.GONE);
-//                    mainview.setAlpha(1);
-                    Toast.makeText(Register1Activity.this, "Connection Time Out", Toast.LENGTH_SHORT).show();
-                });
+                new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(Register1Activity.this, "Connection Time Out", Toast.LENGTH_SHORT).show());
             }
 
             @Override
@@ -372,7 +349,6 @@ public class Register1Activity extends AppCompatActivity  implements InternetCon
 
                             }
                             GetUserProfile(share_session.getUserDetail().get("UserMobile"));
-
 
                         }
                         else {
@@ -436,11 +412,8 @@ public class Register1Activity extends AppCompatActivity  implements InternetCon
                             }
 
                             Register1Activity.this.runOnUiThread(() -> {
-//                                progressBar.setVisibility(View.GONE);
-//                                mainview.setAlpha(1);
                                 Intent intent= new Intent(Register1Activity.this,MainActivity.class);
                                 startActivity(intent);
-//                                    Animatoo.animateFade(UserDetail.this);
                             });
 
                         }

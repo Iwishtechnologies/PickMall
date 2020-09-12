@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,146 +10,167 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/light_brown_color">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:background="@color/dark_brown_color">
-
-            <ImageView
-                android:id="@+id/back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:src="@drawable/leftarrow" />
-
-            <LinearLayout
-                android:id="@+id/search_product"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/search_design_product"
-                android:gravity="center">
-
-                <tech.iwish.pickmall.extended.TextViewFont
-                    android:id="@+id/itme_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="3dp"
-                    app:fonttype="text_semi_bold"
-                    android:paddingStart="10dp"
-                    android:text="Men" />
-            </LinearLayout>
-        </LinearLayout>
-
-<!--        <View-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="0.5dp"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:background="@color/tint" />-->
-<!--        -->
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@drawable/product_design_layout"
-        android:layout_marginTop="15dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="4"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="center">
-            <TextView
-                android:id="@+id/shorts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Short"/>
-            <TextView
-                android:id="@+id/best_sellers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:visibility="gone"
-                android:gravity="center"
-                android:text="Best Sellers"/>
-            <TextView
-                android:id="@+id/pricefilter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Price"/>
-            <TextView
-                android:id="@+id/filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Filter"/>
-        </LinearLayout>
+            android:background="@color/light_brown_color"
+            android:orientation="vertical">
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:background="@color/dark_brown_color"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:src="@drawable/leftarrow" />
 
                 <LinearLayout
-                    android:id="@+id/item_image_layout"
+                    android:id="@+id/search_product"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp">
-                    <ImageView
-                        android:id="@+id/image_item"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/search_design_product"
+                    android:gravity="center">
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:id="@+id/itme_name"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:paddingStart="10dp"
+                        android:text="Men"
+                        app:fonttype="text_semi_bold" />
                 </LinearLayout>
+            </LinearLayout>
+
+            <!--        <View-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="0.5dp"-->
+            <!--            android:layout_marginTop="10dp"-->
+            <!--            android:background="@color/tint" />-->
+            <!--        -->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/product_design_layout"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <TextView
+                    android:id="@+id/shorts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Short" />
+
+                <TextView
+                    android:id="@+id/best_sellers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Best Sellers"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/pricefilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Price" />
+
+                <TextView
+                    android:id="@+id/filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Filter" />
+            </LinearLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_marginTop="5dp">
-                    <ScrollView
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:id="@+id/item_image_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp">
+
+                        <ImageView
+                            android:id="@+id/image_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scrollbars="vertical">
-                        <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:orientation="vertical">
+
+                        <ScrollView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical">
-                            <FrameLayout
-                                android:id="@+id/product_framelayout"
+                            android:scrollbars="vertical">
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"/>
-                        </LinearLayout>
-                    </ScrollView>
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <FrameLayout
+                                    android:id="@+id/product_framelayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent" />
+                            </LinearLayout>
+                        </ScrollView>
+                    </LinearLayout>
+
                 </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
 
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+</RelativeLayout>
 
 
 
