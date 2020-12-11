@@ -54,7 +54,7 @@
                     android:layout_marginLeft="10dp"
                     android:id="@+id/status"
                     android:layout_height="wrap_content"
-                    android:text="PENDING"/>
+                    android:text="ORDER PLACED"/>
 
             </LinearLayout>
 
@@ -71,8 +71,7 @@
                 android:id="@+id/image"
                 app:shape_mode="round_rect"
                 android:layout_height="80dp"
-                app:round_radius="10dp"
-                />
+                app:round_radius="10dp" />
 
         </LinearLayout>
 

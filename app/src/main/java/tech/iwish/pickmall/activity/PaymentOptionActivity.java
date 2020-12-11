@@ -2,6 +2,8 @@ package tech.iwish.pickmall.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -62,7 +64,7 @@ import static tech.iwish.pickmall.session.Share_session.WALLET_AMOUNT;
 public class PaymentOptionActivity extends Activity implements View.OnClickListener {
 
     private RelativeLayout cases;
-    private RadioButton rayruWallet, onlinePayments, caseRadios , ResellonlinePayments ,ResellpaytmRadios;
+    private RadioButton rayruWallet, onlinePayments, caseRadios, ResellonlinePayments, ResellpaytmRadios;
     private TextView shippingCharge;
     String Checker;
     private Map data;
@@ -100,6 +102,8 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
     String tokens = "";
     public final static String TAG = "PaymentOptionActivity";
     RelativeLayout ResellLayout;
+    TextView paymentButton;
+    int version;
 
     private Integer ActivityRequestCode = 2;
 
@@ -130,7 +134,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
         ResellonlinePayments = (RadioButton) findViewById(R.id.ResellonlinePayments);
         ResellpaytmRadios = (RadioButton) findViewById(R.id.ResellpaytmRadios);
 
-        TextView paymentButton = (TextView) findViewById(R.id.paymentButton);
+        paymentButton = (TextView) findViewById(R.id.paymentButton);
         TextView pricr = (TextView) findViewById(R.id.pricr);
         total_amount_tax = (TextView) findViewById(R.id.total_amount_tax);
 
@@ -164,8 +168,16 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
 
-
         int couponamtInt;
+
+        PackageInfo pInfo = null;
+        try {
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        version = pInfo.versionCode;
+
         switch (type) {
             case "CardActivity":
                 String product_amt = intent.getStringExtra("amounts");
@@ -183,6 +195,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                     coupenview.setVisibility(View.GONE);
                     grandTotal = Integer.parseInt(product_amt);
                     finalamountsInt = grandTotal;
+                    coupen = "0";
                 }
 
                 total_amount_tax.setText(getResources().getString(R.string.rs_symbol) + grandTotal);
@@ -284,11 +297,13 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
         switch (id) {
             case R.id.paymentButton:
                 if (Checker != null) {
+                    paymentButton.setClickable(false);
                     switch (Checker) {
                         case "cod":
                             coddelivery();
                             break;
                         case "pickmall_wallet":
+                            paymentButton.setVisibility(View.GONE);
                             walletmethod();
                             break;
                         case "online_payment":
@@ -301,6 +316,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                             Toast.makeText(this, "ResellPaytm", Toast.LENGTH_SHORT).show();
                             break;
                     }
+                    paymentButton.setClickable(true);
                 } else {
                     Toast.makeText(this, "Select Payment Option", Toast.LENGTH_SHORT).show();
                 }
@@ -341,7 +357,6 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
                 break;
         }
     }
-
 
     private void setclick(View view) {
 
@@ -661,6 +676,9 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             }
         }
 
+
+        PackageInfo pInfo = null;
+
         OkHttpClient okHttpClient = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
@@ -673,7 +691,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             jsonObject.put("gst", productgst);
             jsonObject.put("product_amount", finalamountsInt);
             jsonObject.put("offer_id", coupen);
-
+            jsonObject.put("version_code", version);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -746,6 +764,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             jsonObject.put("gst", removeDout);
             jsonObject.put("item_type", item_type);
             jsonObject.put("payment_option", paymentmethod);
+            jsonObject.put("version_code", version);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -830,6 +849,7 @@ public class PaymentOptionActivity extends Activity implements View.OnClickListe
             jsonObject.put("item_type", item_type);
             jsonObject.put("offer_id", coupenamount);
             jsonObject.put("payment_option", paymentmethod);
+            jsonObject.put("version_code", version);
 
         } catch (JSONException e) {
             e.printStackTrace();

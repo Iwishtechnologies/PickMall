@@ -3,6 +3,7 @@ package tech.iwish.pickmall.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.razorpay.PaymentResultListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -40,6 +42,7 @@ public class OTPActivity extends AppCompatActivity implements  InternetConnectiv
     private String number;
     ProgressBar progressBar;
     LinearLayout mainview;
+    String   refercode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +55,7 @@ public class OTPActivity extends AppCompatActivity implements  InternetConnectiv
         otp = (EditText) findViewById(R.id.otp);
         number = getIntent().getStringExtra("number");
         next = findViewById(R.id.next);
-
+        refercodecheck();
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -152,6 +155,89 @@ public class OTPActivity extends AppCompatActivity implements  InternetConnectiv
             startActivity(new Intent(OTPActivity.this,NoInternetConnectionActivity.class));
         }
     }
+
+
+    private void refercodecheck() {
+
+        FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(getIntent())
+                .addOnSuccessListener(OTPActivity.this, pendingDynamicLinkData -> {
+                    // Get deep link from result (may be null if no link is found)
+                    Uri deepLink = null;
+                    if (pendingDynamicLinkData != null) {
+                        deepLink = pendingDynamicLinkData.getLink();
+                        String[] arrOfStr = deepLink.toString().split("=", 2);
+                        Log.e("onClick: ", arrOfStr[1]);
+                        Toast.makeText(this, ""+arrOfStr[1], Toast.LENGTH_SHORT).show();
+                        refercode = arrOfStr[1];
+
+                        refer_friend_insert();
+                    }
+                })
+                .addOnFailureListener(OTPActivity.this, e -> Log.e("onFailure", e.getMessage()));
+
+    }
+
+    private void refer_friend_insert() {
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("mobile", number);
+            jsonObject.put("refer_code", refercode);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.REFERCODE_FRIEND_INVITE).post(body).build();
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+                OTPActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+//                        progressBar.setVisibility(View.GONE);
+
+                        Toast.makeText(OTPActivity.this, "Connection Time Out", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String result = response.body().string();
+                    Log.e("response", result);
+                    final JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            OTPActivity.this.runOnUiThread(new TimerTask() {
+                                @Override
+                                public void run() {
+//                                    progressBar.setVisibility(View.GONE);
+                                }
+                            });
+                        } else {
+                            OTPActivity.this.runOnUiThread(new TimerTask() {
+                                @Override
+                                public void run() {
+//                                    progressBar.setVisibility(View.GONE);
+                                    Toast.makeText(OTPActivity.this, "Number all ready register", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
+
+
 }
 
 

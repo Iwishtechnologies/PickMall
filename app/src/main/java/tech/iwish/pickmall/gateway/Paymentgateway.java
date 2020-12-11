@@ -3,6 +3,8 @@ package tech.iwish.pickmall.gateway;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -51,6 +53,7 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
     private List<JSONObject> jsonObjects = new ArrayList<>();
     private MyhelperSql myhelperSql;
     private SQLiteDatabase sqLiteDatabase;
+    private int version;
 
 
     @Override
@@ -59,6 +62,16 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
 
         shareSession = new Share_session(this);
         data = shareSession.Fetchdata();
+
+
+        PackageInfo pInfo = null;
+        try {
+            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        version = pInfo.versionCode;
+
 
         wallet();
 
@@ -74,7 +87,7 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
         Checkout.preload(Paymentgateway.this);
 
         Checkout checkout = new Checkout();
-        checkout.setKeyID("rzp_live_GifdQTDljFMdQN");
+        checkout.setKeyID("rzp_live_j80XlcZwgEDb1W");
 
         int amount = Integer.parseInt(grandTotal);
 
@@ -169,6 +182,7 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
             jsonObject.put("gst", "");
             jsonObject.put("item_type", getIntent().getStringExtra("item_type"));
             jsonObject.put("payment_option", paymentmethod);
+            jsonObject.put("version_code", version);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -253,6 +267,7 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
             jsonObject.put("gst", "");
             jsonObject.put("offer_id", getIntent().getStringExtra("coupon_amt"));
             jsonObject.put("product_amount", getIntent().getStringExtra("finalamountsInt"));
+            jsonObject.put("version_code", version);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -309,6 +324,7 @@ public class Paymentgateway extends AppCompatActivity implements PaymentResultLi
             jsonObject.put("item_type", "");
             jsonObject.put("offer_id", getIntent().getStringExtra("coupon_amt"));
             jsonObject.put("payment_option", paymentmethod);
+            jsonObject.put("version_code", version);
 
         } catch (JSONException e) {
             e.printStackTrace();

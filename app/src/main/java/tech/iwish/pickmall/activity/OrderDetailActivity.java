@@ -226,7 +226,7 @@ public class OrderDetailActivity extends AppCompatActivity implements InternetCo
             CheckReturnRequest(getIntent().getExtras().getString("orderid"));
         } else if (getIntent().getExtras().getString("orderStatus").equals("APPROVED")) {
             progress.setImageResource(R.drawable.half_fill_progressbar);
-            delivery_status.setText("Pending");
+            delivery_status.setText("Shiped");
             order_approved.setText("Ordered And Approvep");
             cencelled_statement.setVisibility(View.GONE);
             ratingview.setVisibility(View.GONE);

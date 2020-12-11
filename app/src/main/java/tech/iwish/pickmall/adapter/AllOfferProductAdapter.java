@@ -7,6 +7,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
@@ -50,6 +51,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -212,7 +214,7 @@ public class AllOfferProductAdapter extends RecyclerView.Adapter<AllOfferProduct
                     intent.putExtra("product_name", productLists.get(position).getProductName());
                     intent.putExtra("actual_price", productLists.get(position).getActual_price());
                     intent.putExtra("discount_price", productLists.get(position).getDiscount_price());
-                    intent.putExtra("product_id", productLists.get(position).getProduct_id());
+                    intent.putExtra("product_id", String.valueOf(productLists.get(position).getProduct_id()));
                     intent.putExtra("product_Image", productLists.get(position).getPimg());
                     intent.putExtra("vendor_id", productLists.get(position).getVendor_id());
                     intent.putExtra("gst", productLists.get(position).getGst());
@@ -386,9 +388,14 @@ public class AllOfferProductAdapter extends RecyclerView.Adapter<AllOfferProduct
             intent.setType("image/jpeg");
             intent.setPackage("com.whatsapp");
             intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUriArray);
-            context.startActivity(intent);
+
+            try {
+                context.startActivity(intent);
+            } catch (Exception e) {
+                Log.e("error" , Objects.requireNonNull(e.getMessage()));
+            }
             imageUriArray.clear();
-            Toast.makeText(context, "Copy to Clipboard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Description are Copied to your Clipboard", Toast.LENGTH_SHORT).show();
             ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("label", "*" + productName + "*" + "\n\n" + msg);
             clipboard.setPrimaryClip(clip);
@@ -396,6 +403,7 @@ public class AllOfferProductAdapter extends RecyclerView.Adapter<AllOfferProduct
             progressbarStartProduct.ProgressbarStartProduct("PROGRESSBAR_STOP");
 
         }
+
 
         private Uri getLocalBitmapUri(Bitmap bmp) {
             Uri bmpUri = null;

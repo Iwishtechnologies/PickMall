@@ -243,6 +243,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="Cancelled "
                                     android:id="@+id/delivery_status"
+                                    android:visibility="gone"
                                     android:textColor="@color/black"
                                     app:fonttype="regular"/>
 <!--                                <ImageView-->

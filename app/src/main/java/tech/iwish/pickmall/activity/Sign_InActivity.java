@@ -107,7 +107,7 @@ public class Sign_InActivity extends AppCompatActivity  implements InternetConne
                             } else {
                                 Sign_InActivity.this.runOnUiThread(() -> {
                                     linearLayout.setAlpha(1);
-                                    Toast.makeText(Sign_InActivity.this, "Incorrect Email or Password", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Sign_InActivity.this, "Incorrect Number or Password", Toast.LENGTH_SHORT).show();
                                 });
                             }
                         }

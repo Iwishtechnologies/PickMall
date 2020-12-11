@@ -63,7 +63,7 @@ public class SelectGenderActivity extends AppCompatActivity implements InternetC
 
         number = getIntent().getStringExtra("number");
 
-        refercodecheck();
+        //refercodecheck();
 
         male.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,83 +96,83 @@ public class SelectGenderActivity extends AppCompatActivity implements InternetC
 
     }
 
-    private void refercodecheck() {
-
-        FirebaseDynamicLinks.getInstance()
-                .getDynamicLink(getIntent())
-                .addOnSuccessListener(SelectGenderActivity.this, pendingDynamicLinkData -> {
-                    // Get deep link from result (may be null if no link is found)
-                    Uri deepLink = null;
-                    if (pendingDynamicLinkData != null) {
-                        deepLink = pendingDynamicLinkData.getLink();
-                        String[] arrOfStr = deepLink.toString().split("=", 2);
-                        Log.e("onClick: ", arrOfStr[1]);
-                        Toast.makeText(this, ""+arrOfStr[1], Toast.LENGTH_SHORT).show();
-                        refercode = arrOfStr[1];
-                        refer_friend_insert();
-                    }
-                })
-                .addOnFailureListener(SelectGenderActivity.this, e -> Log.e("onFailure", e.getMessage()));
-
-    }
-
-    private void refer_friend_insert() {
-
-        OkHttpClient okHttpClient = new OkHttpClient();
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("mobile", getIntent().getStringExtra("number"));
-            jsonObject.put("refer_code", refercode);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        Request request1 = new Request.Builder().url(Constants.REFERCODE_FRIEND_INVITE).post(body).build();
-        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
-                SelectGenderActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBar.setVisibility(View.GONE);
-
-                        Toast.makeText(SelectGenderActivity.this, "Connection Time Out", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String result = response.body().string();
-                    Log.e("response", result);
-                    final JsonHelper jsonHelper = new JsonHelper(result);
-                    if (jsonHelper.isValidJson()) {
-                        String responses = jsonHelper.GetResult("response");
-                        if (responses.equals("TRUE")) {
-                            SelectGenderActivity.this.runOnUiThread(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    progressBar.setVisibility(View.GONE);
-                                }
-                            });
-                        } else {
-                            SelectGenderActivity.this.runOnUiThread(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    progressBar.setVisibility(View.GONE);
-                                    Toast.makeText(SelectGenderActivity.this, "Number all ready register", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    }
-                }
-            }
-        });
-
-    }
+//    private void refercodecheck() {
+//
+//        FirebaseDynamicLinks.getInstance()
+//                .getDynamicLink(getIntent())
+//                .addOnSuccessListener(SelectGenderActivity.this, pendingDynamicLinkData -> {
+//                    // Get deep link from result (may be null if no link is found)
+//                    Uri deepLink = null;
+//                    if (pendingDynamicLinkData != null) {
+//                        deepLink = pendingDynamicLinkData.getLink();
+//                        String[] arrOfStr = deepLink.toString().split("=", 2);
+//                        Log.e("onClick: ", arrOfStr[1]);
+//                        Toast.makeText(this, ""+arrOfStr[1], Toast.LENGTH_SHORT).show();
+//                        refercode = arrOfStr[1];
+//                        refer_friend_insert();
+//                    }
+//                })
+//                .addOnFailureListener(SelectGenderActivity.this, e -> Log.e("onFailure", e.getMessage()));
+//
+//    }
+//
+//    private void refer_friend_insert() {
+//
+//        OkHttpClient okHttpClient = new OkHttpClient();
+//        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+//        JSONObject jsonObject = new JSONObject();
+//        try {
+//            jsonObject.put("mobile", getIntent().getStringExtra("number"));
+//            jsonObject.put("refer_code", refercode);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+//        Request request1 = new Request.Builder().url(Constants.REFERCODE_FRIEND_INVITE).post(body).build();
+//        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+//            @Override
+//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                e.printStackTrace();
+//                SelectGenderActivity.this.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        progressBar.setVisibility(View.GONE);
+//
+//                        Toast.makeText(SelectGenderActivity.this, "Connection Time Out", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                if (response.isSuccessful()) {
+//                    String result = response.body().string();
+//                    Log.e("response", result);
+//                    final JsonHelper jsonHelper = new JsonHelper(result);
+//                    if (jsonHelper.isValidJson()) {
+//                        String responses = jsonHelper.GetResult("response");
+//                        if (responses.equals("TRUE")) {
+//                            SelectGenderActivity.this.runOnUiThread(new TimerTask() {
+//                                @Override
+//                                public void run() {
+//                                    progressBar.setVisibility(View.GONE);
+//                                }
+//                            });
+//                        } else {
+//                            SelectGenderActivity.this.runOnUiThread(new TimerTask() {
+//                                @Override
+//                                public void run() {
+//                                    progressBar.setVisibility(View.GONE);
+//                                    Toast.makeText(SelectGenderActivity.this, "Number all ready register", Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
+//                        }
+//                    }
+//                }
+//            }
+//        });
+//
+//    }
 
     private void genderselect(String gender) {
 

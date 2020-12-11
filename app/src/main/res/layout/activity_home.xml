@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.HomeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/aaa"
+        android:orientation="vertical">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/light_brown_color">
+
+                    <LinearLayout
+                        android:id="@+id/flag"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="0.2"
+                            android:src="@drawable/indian_flag_icon" />
+
+
+                        <RelativeLayout
+                            android:id="@+id/search_bar_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="-15dp"
+                            android:layout_weight="2.6"
+                            android:elevation="1dp"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="10dp"
+                            android:weightSum="2">
+
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="10dp"
+
+                                android:background="@drawable/search_design"
+                                android:backgroundTint="@color/whiteColor"
+                                android:paddingStart="40dp"
+                                android:paddingTop="5dp"
+                                android:paddingBottom="5dp"
+                                android:text="Watch"
+                                android:textSize="16sp" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="20dp"
+                                android:src="@drawable/serach_icon" />
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:id="@+id/message"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:layout_weight="0.2"
+                                android:contentDescription="TODO"
+                                android:src="@drawable/message" />
+
+                        </LinearLayout>
+
+
+                        <ImageView
+                            android:id="@+id/Notification"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_weight="0.2"
+                            android:contentDescription="TODO"
+                            android:src="@drawable/ic_baseline_notifications_24"
+                            android:visibility="visible" />
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:id="@+id/notificationCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="-18dp"
+                            android:layout_marginTop="-12dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="@color/redColor"
+                            android:padding="2dp"
+                            android:text="2"
+                            android:textColor="@color/white"
+                            android:visibility="gone"
+                            app:fonttype="text_semi_bold" />
+
+
+                    </LinearLayout>
+
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/viewPages"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:layout_below="@id/flag"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/silder_desing" />
+
+
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:id="@+id/title_free_shiping"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/viewPages"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/dimen_8dp"
+                        android:layout_marginBottom="@dimen/dimen_8dp"
+                        android:text="@string/free_shipping_for_everything"
+                        android:textColor="@color/white" />
+
+                    <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+                        android:id="@+id/itemCateroryrecycle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/title_free_shiping"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        app:shimmer_demo_child_count="10"
+                        app:shimmer_demo_shimmer_color="@color/lightgray"
+                        app:shimmer_demo_layout="@layout/row_item_cat"
+                        app:shimmer_demo_layout_manager_type="linear_vertical"
+                        app:shimmer_demo_angle="-45"/>
+
+                    <!--   Flash sale  -->
+                    <LinearLayout
+                        android:id="@+id/flash_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/itemCateroryrecycle"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/whiteColor"
+                        android:orientation="vertical"
+                        android:paddingBottom="10dp"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginEnd="30dp"
+                            android:background="@drawable/top_flash_design"
+                            android:orientation="horizontal"
+                            android:paddingStart="25dp"
+                            android:paddingTop="4dp"
+                            android:paddingEnd="5dp"
+                            android:paddingBottom="4dp"
+                            android:weightSum="2">
+
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:text="Flash Sale"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                app:fonttype="regular" />
+
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="3dp"
+                                android:text="End in"
+                                android:textColor="@color/redColor"
+                                android:visibility="gone"
+                                app:fonttype="text_semi_bold" />
+
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:id="@+id/time_countDown"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginEnd="5dp"
+                                android:gravity="center"
+                                android:text=""
+                                android:textColor="@color/white"
+                                app:fonttype="text_semi_bold" />
+
+                            <LinearLayout
+                                android:id="@+id/viewAll_FreshSale"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:layout_weight="2"
+                                android:gravity="end"
+                                android:orientation="horizontal">
+
+                                <tech.iwish.pickmall.extended.TextViewFont
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:drawableRight="@drawable/right_arrow"
+                                    android:gravity="end|center"
+                                    android:text="View all"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp"
+                                    app:fonttype="text_semi_bold" />
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:orientation="vertical">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/flash_sale_main_recycle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="5dp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                    <!--            Friend Deal         -->
+                    <LinearLayout
+                        android:id="@+id/friendLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/flash_line"
+                        android:layout_marginTop="15dp"
+                        android:background="@color/whiteColor"
+                        android:orientation="vertical"
+                        android:paddingBottom="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginEnd="30dp"
+                            android:background="@drawable/top_flash_design"
+                            android:orientation="horizontal"
+                            android:paddingStart="20dp"
+                            android:paddingTop="4dp"
+                            android:paddingEnd="5dp"
+                            android:paddingBottom="4dp"
+                            android:weightSum="2">
+
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="2"
+                                android:text="Rs 1 Friend Deal"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                app:fonttype="regular" />
+
+
+                            <LinearLayout
+                                android:id="@+id/viewall_friend_deal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:gravity="end"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="end|center"
+                                    android:text="View all"
+                                    android:textColor="@color/white                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         "
+                                    android:textSize="12sp" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:src="@drawable/right_arrow" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:text="Win prizes 1 by inviting friend"
+                            android:textColor="@color/black"
+                            android:textSize="10sp"
+                            android:visibility="gone"
+                            app:fonttype="text_semi_bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical">
+
+                            <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                                app:shimmer_demo_child_count="10"
+                                app:shimmer_demo_shimmer_color="@color/lightgray"
+                                app:shimmer_demo_layout="@layout/row_flash_sale_main"
+                                app:shimmer_demo_layout_manager_type="linear_vertical"
+                                app:shimmer_demo_angle="-45"
+                                android:id="@+id/friend_deal_recycleview"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="5dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!--        Hot Product            -->
+
+                    <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/hotproductRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/friendLinearLayout"
+                        app:shimmer_demo_child_count="10"
+                        app:shimmer_demo_shimmer_color="@color/lightgray"
+                        app:shimmer_demo_layout="@layout/row_product_recycle"
+                        app:shimmer_demo_layout_manager_type="linear_vertical"
+                        app:shimmer_demo_angle="-45"/>
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/aaa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="2dp"
+        android:background="@color/whiteColor"
+        android:elevation="1dp"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/row_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+</RelativeLayout>

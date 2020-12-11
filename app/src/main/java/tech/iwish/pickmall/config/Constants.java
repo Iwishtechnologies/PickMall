@@ -150,11 +150,14 @@ public class Constants {
     public static String CHENNELID_ORDERID = URL + "ChennelID";
     public static String TOKEN_SEND = URL + "refreshedToken";
     public static String PRODUCT_FRONT_SHARE = URL + "FrontProductShare";
+    public static String GET_TOKEN = URL + "jwt_signup";
 
     public static String RETURNCHECK = URL + "CheckReturn";
     public static String NOTIFICATION = URL + "Notification";
     public static String NotiFIcationCount = URL + "NotificationCount";
     public static String CENCELORDER = URL + "CancelOrder";
+//    new retofit
+public static String SILDER_CATEGORY = URL + "Topdata";
 
     public static String PAYTMS = URL + "paytm";
 
@@ -177,6 +180,8 @@ public class Constants {
 
     public static String NEW_POST =  "new_post";
     public static String ALLNEWS =  "news";
+
+    public static int VERSION_CODE =  25;
 
 }
 

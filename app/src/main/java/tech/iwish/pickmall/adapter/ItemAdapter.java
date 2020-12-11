@@ -24,8 +24,10 @@ import java.util.Map;
 
 import tech.iwish.pickmall.Interface.ItemCategoryInterface;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.RetrofitModel.silderCategory.Category;
 import tech.iwish.pickmall.activity.Account;
 import tech.iwish.pickmall.activity.FriendsDealsAllActivity;
+import tech.iwish.pickmall.activity.HomeActivity;
 import tech.iwish.pickmall.activity.InviteActivity;
 import tech.iwish.pickmall.activity.MainActivity;
 import tech.iwish.pickmall.activity.One_winActivity;
@@ -39,7 +41,9 @@ import tech.iwish.pickmall.session.Share_session;
 import static tech.iwish.pickmall.session.Share_session.USERMOBILE;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
-    private List<ItemList> itemLists;
+
+    private final List<Category> itemLists;
+    //    private List<ItemList> itemLists;
     private Context context;
     private Share_session share_session;
     private int lastposition = -1;
@@ -48,9 +52,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
     private String checker = null;
     private int cuurentposition = RecyclerView.NO_POSITION;
 
-    public ItemAdapter(Context context, List<ItemList> itemLists, ItemCategoryInterface itemCategoryInterface) {
+//    public ItemAdapter(Context context, List<ItemList> itemLists, ItemCategoryInterface itemCategoryInterface) {
+//        this.context = context;
+//        this.itemLists = itemLists;
+//        this.itemCategoryInterface = itemCategoryInterface;
+//    }
+
+    public ItemAdapter(Context context, List<Category> category, ItemCategoryInterface itemCategoryInterface) {
         this.context = context;
-        this.itemLists = itemLists;
+        this.itemLists = category;
         this.itemCategoryInterface = itemCategoryInterface;
     }
 
@@ -62,15 +72,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
         if (context instanceof MainActivity) {
             View view = LayoutInflater.from(context).inflate(R.layout.row_item_cat, parent, false);
             viewholder = new Viewholder(view);
-            if (itemLists.get(viewType).getItem_name().equals("")) {
-                Animation animation = AnimationUtils.loadAnimation(viewholder.itemView.getContext(), R.anim.fade_item_animation);
-                viewholder.itemView.setAnimation(animation);
-                lastposition = viewType;
-            }
-        } else {
-            View view = LayoutInflater.from(context).inflate(R.layout.row_all_category_item, parent, false);
-            viewholder = new Viewholder(view);
-
+//            if (itemLists.get(viewType).getItemName().equals("")) {
+//                Animation animation = AnimationUtils.loadAnimation(viewholder.itemView.getContext(), R.anim.fade_item_animation);
+//                viewholder.itemView.setAnimation(animation);
+//                lastposition = viewType;
+//            }
         }
 
 
@@ -82,87 +88,61 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Viewholder> {
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, final int position) {
 
-        if (!itemLists.get(position).getItem_name().equals("")) {
+        if (!itemLists.get(position).getItemName().equals("")) {
             if (context instanceof MainActivity) {
 
-                holder.layoutItem.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent;
-                        switch (itemLists.get(position).getItem_type()) {
-                            case "friend_deal":
-                            case "90_Rs":
-                                intent = new Intent(context, FriendsDealsAllActivity.class);
-                                intent.putExtra("item_id",itemLists.get(position).getItem_id());
-                                intent.putExtra("item_type",itemLists.get(position).getItem_type());
+                holder.layoutItem.setOnClickListener(view -> {
+                    Intent intent;
+                    switch (itemLists.get(position).getItemType()) {
+                        case "friend_deal":
+                        case "90_Rs":
+                            intent = new Intent(context, FriendsDealsAllActivity.class);
+                            intent.putExtra("item_id",String.valueOf(itemLists.get(position).getItemId()));
+                            intent.putExtra("item_type",itemLists.get(position).getItemType());
+                            context.startActivity(intent);
+                            break;
+                        case "one_win":
+                            Intent intent1 = new Intent(context, One_winActivity.class);
+                            intent1.putExtra("item_id",String.valueOf(itemLists.get(position).getItemId()));
+                            intent1.putExtra("item_type",itemLists.get(position).getItemType());
+                            context.startActivity(intent1);
+                            break;
+                        case "winner":
+                            Intent intent2 = new Intent(context, WinningDetailActivity.class);
+                            intent2.putExtra("item_id",String.valueOf(itemLists.get(position).getItemId()));
+                            intent2.putExtra("item_type",itemLists.get(position).getItemType());
+                            context.startActivity(intent2);
+                            break;
+                        case "share":
+                             Map data = null;
+                            share_session = new Share_session(context);
+                            data = share_session.Fetchdata();
+                            if (data.get(USERMOBILE) != null) {
+                                intent = new Intent(context, InviteActivity.class);
                                 context.startActivity(intent);
-                                break;
-                            case "one_win":
-                                Intent intent1 = new Intent(context, One_winActivity.class);
-                                intent1.putExtra("item_id",itemLists.get(position).getItem_id());
-                                intent1.putExtra("item_type",itemLists.get(position).getItem_type());
-                                context.startActivity(intent1);
-                                break;
-                            case "winner":
-                                Intent intent2 = new Intent(context, WinningDetailActivity.class);
-                                intent2.putExtra("item_id",itemLists.get(position).getItem_id());
-                                intent2.putExtra("item_type",itemLists.get(position).getItem_type());
-                                context.startActivity(intent2);
-                                break;
-                            case "share":
-                                 Map data = null;
-                                share_session = new Share_session(context);
-                                data = share_session.Fetchdata();
-                                if (data.get(USERMOBILE) != null) {
-                                    intent = new Intent(context, InviteActivity.class);
-                                    context.startActivity(intent);
-                                } else {
-                                    intent = new Intent(context, Register1Activity.class);
-                                    context.startActivity(intent);
-                                }
-                                break;
-                            case "product":
-                            default:
-                                Bundle bundle = new Bundle();
-                                intent = new Intent(context, ProductActivity.class);
-                                bundle.putString("item_id", itemLists.get(position).getItem_id());
-                                bundle.putString("item_name", itemLists.get(position).getItem_name());
-                                bundle.putString("type", "MainActivity_product");
-                                intent.putExtras(bundle);
+                            } else {
+                                intent = new Intent(context, Register1Activity.class);
                                 context.startActivity(intent);
-                                break;
-                        }
-
+                            }
+                            break;
+                        case "product":
+                        default:
+                            Bundle bundle = new Bundle();
+                            intent = new Intent(context, ProductActivity.class);
+                            bundle.putString("item_id", String.valueOf(itemLists.get(position).getItemId()));
+                            bundle.putString("item_name", itemLists.get(position).getItemName());
+                            bundle.putString("type", "MainActivity_product");
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+                            break;
                     }
+
                 });
-                String a = Constants.IMAGES + itemLists.get(position).getIcon_img();
+                String a = Constants.IMAGES + itemLists.get(position).getIconImg();
                 Glide.with(context).load(a).into(holder.image);
-                holder.nameCat.setText(itemLists.get(position).getItem_name());
+                holder.nameCat.setText(itemLists.get(position).getItemName());
 
 
-            } else {
-
-                holder.nameCat.setText(itemLists.get(position).getItem_name());
-                if (checker == null) {
-                    this.checker = "sdsdcdd";
-                    itemCategoryInterface.itemcatinterface(itemLists.get(0).getItem_id());
-                    cuurentposition = 0;
-
-                }
-                holder.main_layout_category.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        itemCategoryInterface.itemcatinterface(itemLists.get(position).getItem_id());
-                        cuurentposition = position;
-                        notifyDataSetChanged();
-                    }
-                });
-
-                if (cuurentposition == position) {
-                    holder.main_layout_category.setBackgroundColor(context.getResources().getColor(android.R.color.white));
-                } else {
-                    holder.main_layout_category.setBackgroundColor(context.getResources().getColor(R.color.silderColor));
-                }
             }
 
         } else {

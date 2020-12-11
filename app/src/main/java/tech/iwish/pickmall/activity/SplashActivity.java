@@ -8,6 +8,8 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,54 +45,46 @@ import static tech.iwish.pickmall.session.Share_session.USER_NUMBER_CHECK;
 
 public class SplashActivity extends AppCompatActivity {
     Share_session share_session;
-    private Map data ;
-    String banner="null";
+    private Map data;
+    String banner = "null";
 
     private final int SPLASH_DISPLAY_LENGTH = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        share_session= new Share_session(SplashActivity.this);
+        share_session = new Share_session(SplashActivity.this);
         GetOfferBanner();
         setContentView(R.layout.activity_splash);
 
 
 
 
-
-
         new Handler().postDelayed(() -> {
             data = share_session.Fetchdata();
-            if(data.get(USER_NUMBER_CHECK) != null){
+            if (data.get(USER_NUMBER_CHECK) != null) {
                 GetCount();
                 if (banner.equals("null")) {
-                    startActivity(new Intent(SplashActivity.this , MainActivity.class));
-                 }
-                else {
-                    startActivity(new Intent(SplashActivity.this , OfferBannerActivity.class).putExtra("banner",banner));
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                } else {
+                    startActivity(new Intent(SplashActivity.this, OfferBannerActivity.class).putExtra("banner", banner));
                 }
-                   }
-            else
-            {
-                if(share_session.GetFirsttime())
-                {
+            } else {
+                if (share_session.GetFirsttime()) {
 
                     GetCount();
                     if (banner.equals("null")) {
-                        startActivity(new Intent(SplashActivity.this , MainActivity.class));
-                    }
-                    else {
-                        startActivity(new Intent(SplashActivity.this , OfferBannerActivity.class).putExtra("banner",banner));
+                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    } else {
+                        startActivity(new Intent(SplashActivity.this, OfferBannerActivity.class).putExtra("banner", banner));
 
                     }
 
-                }
-                else {
+                } else {
                     share_session.SetCount(String.valueOf(0));
                     share_session.SetUnread(String.valueOf(0));
                     GetCount();
-                    startActivity(new Intent(SplashActivity.this , Register1Activity.class));
+                    startActivity(new Intent(SplashActivity.this, Register1Activity.class));
                 }
 //                Intent mainIntent = new Intent(SplashActivity.this,Register1Activity.class);
 //                startActivity(mainIntent);
@@ -100,8 +94,7 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-    public void GetCount()
-    {
+    public void GetCount() {
         OkHttpClient okHttpClient1 = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
@@ -132,7 +125,17 @@ public class SplashActivity extends AppCompatActivity {
                             JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                int unread= Integer.valueOf(jsonHelper.GetResult("sno"))-Integer.valueOf(share_session.GetCount());
+
+                                int a = Integer.parseInt(jsonHelper.GetResult("sno"));
+                                int b = 0;
+                                if (share_session.GetCount() == null) {
+                                    b = 0;
+                                } else {
+                                    b = Integer.parseInt(share_session.GetCount());
+                                }
+
+
+                                int unread = a - b;
                                 share_session.SetUnread(String.valueOf(unread));
                             }
                         }
@@ -147,8 +150,7 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
-    public void GetOfferBanner()
-    {
+    public void GetOfferBanner() {
         OkHttpClient okHttpClient1 = new OkHttpClient();
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         JSONObject jsonObject = new JSONObject();
@@ -180,7 +182,7 @@ public class SplashActivity extends AppCompatActivity {
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
-                                 banner=jsonHelper.GetResult("image");
+                                banner = jsonHelper.GetResult("image");
                             }
                         }
 

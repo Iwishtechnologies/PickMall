@@ -1,230 +1,251 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EDEDEF"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activity.TrackOrderActivity">
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:orientation="vertical"
         android:layout_height="match_parent">
 
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:gravity="center"
-            android:padding="20dp"
-            android:background="@color/dark_brown_color"
-            android:layout_height="wrap_content">
-
-            <tech.iwish.pickmall.extended.TextViewFont
-                android:layout_width="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                app:fonttype="medium_text"
-                android:layout_height="wrap_content"
-                android:text="Track Shipment"/>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/truck_image"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-           android:layout_marginLeft="20dp"
-            android:layout_marginTop="-40dp"
-            android:layout_marginRight="20dp"
-            android:orientation="vertical"
-            android:background="@drawable/track_rectangle"
-            android:layout_height="wrap_content">
-
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:padding="20dp"
-               android:orientation="vertical"
-               android:layout_height="wrap_content">
-               <tech.iwish.pickmall.extended.TextViewFont
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:textSize="18dp"
-                   android:id="@+id/orderid"
-                   android:text="OrderID : 0248688"
-                   android:textColor="@color/black"/>
-               <tech.iwish.pickmall.extended.TextViewFont
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:textSize="15dp"
-                   app:fonttype="light"
-                   android:id="@+id/date"
-                   android:text="Purchase Date - 26 May 2020"
-                   android:textColor="@color/light_black"/>
-
-           </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/lightgray"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:padding="20dp"
+                android:layout_height="wrap_content"
+                android:background="@color/dark_brown_color"
                 android:gravity="center"
-                android:layout_height="match_parent">
+                android:padding="20dp">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:id="@+id/recycle"/>
+                    android:text="Track Shipment"
+                    android:textColor="@color/white"
+                    android:textSize="18dp"
+                    app:fonttype="medium_text" />
 
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/truck_image" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="-40dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/track_rectangle"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_weight="0.2"
-                    android:gravity="center"
-                    android:id="@+id/shi"
-                    android:paddingBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_height="match_parent">
+                    android:padding="20dp">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/round_dot"/>
-
-                    <ImageView
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:id="@+id/orderid"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/packed"
-                        android:src="@drawable/track_blank"/>
+                        android:text="OrderID : 0248688"
+                        android:textColor="@color/black"
+                        android:textSize="18dp" />
 
-                    <ImageView
+                    <tech.iwish.pickmall.extended.TextViewFont
+                        android:id="@+id/date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/round_dot"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/shipped"
-                        android:src="@drawable/track_blank"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/round_dot"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/outfordelivery"
-                        android:src="@drawable/track_blank"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/round_dot"/>
-
+                        android:text="Purchase Date - 26 May 2020"
+                        android:textColor="@color/light_black"
+                        android:textSize="15dp"
+                        app:fonttype="light" />
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightgray" />
+
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1.8"
-                    android:paddingLeft="10dp"
-                    android:orientation="vertical"
-                    android:layout_height="match_parent">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+
+                    android:orientation="horizontal"
+                    android:padding="20dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:id="@+id/shi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:gravity="center"
+                        android:visibility="gone"
                         android:orientation="vertical"
-                        android:layout_height="wrap_content">
-                        <tech.iwish.pickmall.extended.TextViewFont
+                        android:paddingBottom="20dp">
+
+                        <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="18dp"
-                            android:text="Order Comfirmed"
-                            android:textColor="@color/black"/>
-                        <tech.iwish.pickmall.extended.TextViewFont
+                            android:layout_marginTop="5dp"
+                            android:src="@drawable/round_dot" />
+
+                        <ImageView
+                            android:id="@+id/packed"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="15dp"
-                            app:fonttype="light"
-                            android:text="Order has been Successfully Placed."
-                            android:textColor="@color/light_black"/>
+                            android:src="@drawable/track_blank" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/round_dot" />
+
+                        <ImageView
+                            android:id="@+id/shipped"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/track_blank" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/round_dot" />
+
+                        <ImageView
+                            android:id="@+id/outfordelivery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/track_blank" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/round_dot" />
+
 
                     </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:orientation="vertical"
-                        android:layout_marginTop="30dp"
-                        android:layout_height="wrap_content">
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="18dp"
-                            android:text="Order Packed"
-                            android:textColor="@color/black"/>
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="15dp"
-                            app:fonttype="light"
-                            android:text="Your order is packed Ready to Shipped."
-                            android:textColor="@color/light_black"/>
 
-                    </LinearLayout>
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.8"
+                        android:visibility="gone"
                         android:orientation="vertical"
-                        android:layout_marginTop="30dp"
-                        android:layout_height="wrap_content">
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="18dp"
-                            android:text="Order Shipped"
-                            android:textColor="@color/black"/>
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="15dp"
-                            app:fonttype="light"
-                            android:text="Your order has been shipped."
-                            android:textColor="@color/light_black"/>
+                        android:paddingLeft="10dp">
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:orientation="vertical"
-                        android:layout_marginTop="30dp"
-                        android:layout_height="wrap_content">
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="18dp"
-                            android:text="Out For Delivery"
-                            android:textColor="@color/black"/>
-                        <tech.iwish.pickmall.extended.TextViewFont
-                            android:layout_width="wrap_content"
+                            android:orientation="vertical">
+
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Order Comfirmed"
+                                android:textColor="@color/black"
+                                android:textSize="18dp" />
+
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Order has been Successfully Placed."
+                                android:textColor="@color/light_black"
+                                android:textSize="15dp"
+                                app:fonttype="light" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="15dp"
-                            app:fonttype="light"
-                            android:text="Today your order is out for Delivery."
-                            android:textColor="@color/light_black"/>
+                            android:layout_marginTop="30dp"
+                            android:orientation="vertical">
+
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Order Packed"
+                                android:textColor="@color/black"
+                                android:textSize="18dp" />
+
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Your order is packed Ready to Shipped."
+                                android:textColor="@color/light_black"
+                                android:textSize="15dp"
+                                app:fonttype="light" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:orientation="vertical">
+
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Order Shipped"
+                                android:textColor="@color/black"
+                                android:textSize="18dp" />
+
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Your order has been shipped."
+                                android:textColor="@color/light_black"
+                                android:textSize="15dp"
+                                app:fonttype="light" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:orientation="vertical">
+
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Out For Delivery"
+                                android:textColor="@color/black"
+                                android:textSize="18dp" />
+
+                            <tech.iwish.pickmall.extended.TextViewFont
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Today your order is out for Delivery."
+                                android:textColor="@color/light_black"
+                                android:textSize="15dp"
+                                app:fonttype="light" />
+
+                        </LinearLayout>
+
 
                     </LinearLayout>
 
@@ -234,34 +255,33 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/rectangle_issue"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:visibility="gone">
+
+                <tech.iwish.pickmall.extended.TextViewFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Having Issue?"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <ImageView
+                    android:id="@+id/contact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone"
+                    android:src="@drawable/contact_us_button" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:padding="20dp"
-            android:layout_margin="20dp"
-            android:orientation="vertical"
-            android:background="@drawable/rectangle_issue"
-            android:layout_height="wrap_content">
-
-            <tech.iwish.pickmall.extended.TextViewFont
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="Having Issue?"
-                android:textColor="@color/black"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:id="@+id/contact"
-                android:src="@drawable/contact_us_button"/>
-
-        </LinearLayout>
-
-
-
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
 </RelativeLayout>

@@ -660,7 +660,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
                 productChehckFriendeals();
                 break;
             case R.id.youtube_btn:
-                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://youtu.be/zkX4PXCxn5o"));
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://youtu.be/FLHhPqq-LkY"));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setPackage("com.google.android.youtube");
                 startActivity(intent);
@@ -855,7 +855,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUriArray);
         startActivity(intent);
         imageUriArray.clear();
-        Toast.makeText(ProductDetailsActivity.this, "Copy to Clipboard", Toast.LENGTH_SHORT).show();
+        Toast.makeText(ProductDetailsActivity.this, "Description are Copied to your Clipboard", Toast.LENGTH_SHORT).show();
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("label", "*" + productName + "*" + "\n\n" + msg);
         clipboard.setPrimaryClip(clip);
@@ -875,7 +875,7 @@ public class ProductDetailsActivity extends AppCompatActivity implements View.On
         intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUriArray);
         startActivity(intent);
         imageUriArray.clear();
-        Toast.makeText(ProductDetailsActivity.this, "Copy to Clipboard", Toast.LENGTH_SHORT).show();
+        Toast.makeText(ProductDetailsActivity.this, "Description are Copied to your Clipboard", Toast.LENGTH_SHORT).show();
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("label", "*" + productName + "*" + "\n\n" + msg);
         clipboard.setPrimaryClip(clip);

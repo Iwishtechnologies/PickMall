@@ -63,7 +63,15 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHold
 //        Log.e("name",orderLists.get(position).getProduct_name());
         holder.name.setText(orderLists.get(position).getProduct_name());
         Glide.with(context).load(Constants.IMAGES+orderLists.get(position).getPimg()).placeholder(R.drawable.male_icon).into(holder.image);
-        holder.status.setText(orderLists.get(position).getOrder_status());
+       if(orderLists.get(position).getOrder_status().equals("PENDING")){
+           holder.status.setText("Order Placed");
+       }else if(orderLists.get(position).getOrder_status().equals("APPROVED")){
+           holder.status.setText("Shipped");
+       }
+       else {
+           holder.status.setText(orderLists.get(position).getOrder_status());
+       }
+
         if (orderLists.get(position).getOrder_status()=="CANCELLED")
         {
           holder.dot.setImageDrawable(context.getDrawable(R.drawable.red_dot));

@@ -49,6 +49,7 @@ import tech.iwish.pickmall.Interface.Progressbar_product_inteface;
 import tech.iwish.pickmall.R;
 import tech.iwish.pickmall.RetrofitInterface.FrontShareProductImageInterface;
 import tech.iwish.pickmall.RetrofitModel.FrontProductShareList;
+import tech.iwish.pickmall.RetrofitModel.hotProduct.Datum;
 import tech.iwish.pickmall.activity.ProductDetailsActivity;
 import tech.iwish.pickmall.config.Constants;
 import tech.iwish.pickmall.other.CardCount;
@@ -56,14 +57,17 @@ import tech.iwish.pickmall.other.HotproductList;
 
 public class HotProductAdapter extends RecyclerView.Adapter<HotProductAdapter.Viewholder> {
 
-    List<HotproductList> productLists;
+
+    private final List<Datum> productLists;
+    //    List<HotproductList> productLists;
     Context context;
     int aaa, extradiscount = 0;
     private String prepaid = "noprepaid";
     Progressbar_product_inteface progressbar_product_inteface;
 
-    public HotProductAdapter(List<HotproductList> hotproductLists ,  Progressbar_product_inteface progressbar_product_inteface) {
-        this.productLists = hotproductLists;
+
+    public HotProductAdapter(List<Datum> data, Progressbar_product_inteface progressbar_product_inteface) {
+        this.productLists = data;
         this.progressbar_product_inteface = progressbar_product_inteface;
     }
 
@@ -78,7 +82,8 @@ public class HotProductAdapter extends RecyclerView.Adapter<HotProductAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         String status = productLists.get(position).getStatus();
-        if (productLists.get(position).getProduct_id().isEmpty()) {
+
+        if (String.valueOf(productLists.get(position).getProductId()).isEmpty()) {
 
         } else {
             holder.shimmer.setShimmer(null);
@@ -86,7 +91,7 @@ public class HotProductAdapter extends RecyclerView.Adapter<HotProductAdapter.Vi
             if (status.equals("TRUE")) {
 //            holder.product_rationg.setRating((float) 4.5);
                 Drawable drawable = holder.product_rationg.getProgressDrawable();
-                switch (productLists.get(position).getFakeRating()) {
+                switch (String.valueOf(productLists.get(position).getFakeRating())) {
                     case "0.1":
                     case "0.2":
                     case "0.3":
@@ -145,12 +150,12 @@ public class HotProductAdapter extends RecyclerView.Adapter<HotProductAdapter.Vi
                         break;
                 }
 
-                holder.amount.setText(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getActual_price());
-                SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getDiscount_price());
+                holder.amount.setText(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getActualPrice());
+                SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol) + productLists.get(position).getDiscountPrice());
                 content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
                 holder.discount_price.setText(content);
-                float dicountsAmt = Float.parseFloat(productLists.get(position).getActual_price());
-                float mrp = Float.parseFloat(productLists.get(position).getDiscount_price());
+                float dicountsAmt = Float.parseFloat(productLists.get(position).getActualPrice());
+                float mrp = Float.parseFloat(productLists.get(position).getDiscountPrice());
 
                 float sub = mrp - dicountsAmt;
                 float div = sub / mrp;
@@ -168,17 +173,19 @@ public class HotProductAdapter extends RecyclerView.Adapter<HotProductAdapter.Vi
                 }
 
                 holder.per_dicount.setText(" " + String.valueOf(aaa) + "% OFF");
-                holder.product_rationg.setRating(Float.parseFloat(productLists.get(position).getFakeRating()));
+                String a = String.valueOf(productLists.get(position).getFakeRating());
+                float bb = Float.parseFloat(a);
+                holder.product_rationg.setRating(bb);
 
                 holder.product_name.setText(productLists.get(position).getProductName());
 
                 CardCount cardCount = new CardCount();
-                cardCount.DicountPercent(productLists.get(position).getActual_price(), productLists.get(position).getDiscount_price());
+                cardCount.DicountPercent(productLists.get(position).getActualPrice(), productLists.get(position).getDiscountPrice());
 
-                String a = Constants.IMAGES + productLists.get(position).getPimg();
-                Glide.with(context).load(a).into(holder.product_img);
+                String ba = Constants.IMAGES + productLists.get(position).getPimg();
+                Glide.with(context).load(ba).into(holder.product_img);
 
-                if (productLists.get(position).getHot_product().equals("True")) {
+                if (productLists.get(position).getHotProduct().equals("True")) {
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     layoutParams.setMargins(0, 0, 0, 0);
                     final RelativeLayout.LayoutParams pro = (RelativeLayout.LayoutParams) holder.product_img.getLayoutParams();
@@ -192,12 +199,12 @@ public class HotProductAdapter extends RecyclerView.Adapter<HotProductAdapter.Vi
                     public void onClick(View view) {
 
                         Intent intent = new Intent(context, ProductDetailsActivity.class);
-                        intent.putExtra("product_name", productLists.get(position).getProductName());
-                        intent.putExtra("actual_price", productLists.get(position).getActual_price());
-                        intent.putExtra("discount_price", productLists.get(position).getDiscount_price());
-                        intent.putExtra("product_id", productLists.get(position).getProduct_id());
+                        intent.putExtra("product_name", String.valueOf(productLists.get(position).getProductName()));
+                        intent.putExtra("actual_price", productLists.get(position).getActualPrice());
+                        intent.putExtra("discount_price", productLists.get(position).getDiscountPrice());
+                        intent.putExtra("product_id", String.valueOf(productLists.get(position).getProductId()));
                         intent.putExtra("product_Image", productLists.get(position).getPimg());
-                        intent.putExtra("vendor_id", productLists.get(position).getVendor_id());
+                        intent.putExtra("vendor_id", String.valueOf(productLists.get(position).getVendorId()));
                         intent.putExtra("gst", productLists.get(position).getGst());
                         intent.putExtra("prepaid", prepaid);
                         intent.putExtra("product_type", "allProduct");
@@ -285,14 +292,14 @@ public class HotProductAdapter extends RecyclerView.Adapter<HotProductAdapter.Vi
                         val = Integer.parseInt(EditTextAmt.getText().toString().trim());
                     if (EditTextAmt.getText().toString().trim().isEmpty())
                         Toast.makeText(context, "Pleace Enter Amount", Toast.LENGTH_SHORT).show();
-                    else if (val < Integer.parseInt(productLists.get(getAdapterPosition()).getActual_price()))
+                    else if (val < Integer.parseInt(productLists.get(getAdapterPosition()).getActualPrice()))
                         Toast.makeText(context, "Pleace Valid Amount", Toast.LENGTH_SHORT).show();
                     else {
 
                         progressbar_product_inteface.progressbar_product_intefaces("PROGRESSBAR_START");
                         alertDialog.dismiss();
 
-                        Call<FrontProductShareList> frontProductShareListCall = FrontShareProductImageInterface.ProductFrontShare().getData(productLists.get(getAdapterPosition()).getProduct_id());
+                        Call<FrontProductShareList> frontProductShareListCall = FrontShareProductImageInterface.ProductFrontShare().getData(String.valueOf(productLists.get(getAdapterPosition()).getProductId()));
                         frontProductShareListCall.enqueue(new Callback<FrontProductShareList>() {
                             @Override
                             public void onResponse(Call<FrontProductShareList> call, Response<FrontProductShareList> response) {
@@ -320,7 +327,6 @@ public class HotProductAdapter extends RecyclerView.Adapter<HotProductAdapter.Vi
                                             int finalJ = j;
                                             String finalProductDes = productDes;
                                             String finalProductoverview = productoverview;
-                                            Log.e("onResponse: ", productLists.get(getAdapterPosition()).getProduct_id());
                                             Glide.with(context).asBitmap().load(Constants.IMAGES + list.getProductImage().get(j).getImage()).into(new CustomTarget<Bitmap>() {
                                                 @Override
                                                 public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -375,7 +381,7 @@ public class HotProductAdapter extends RecyclerView.Adapter<HotProductAdapter.Vi
             intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUriArray);
             context.startActivity(intent);
             imageUriArray.clear();
-            Toast.makeText(context, "Copy to Clipboard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Description are Copied to your Clipboard", Toast.LENGTH_SHORT).show();
             ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("label", "*" + productName + "*" + "\n\n" + msg);
             clipboard.setPrimaryClip(clip);

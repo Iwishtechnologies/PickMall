@@ -134,7 +134,7 @@ public class CoupanBottom extends BottomSheetDialogFragment {
 
                         } else {
                             getActivity().runOnUiThread(() -> {
-                                Toast.makeText(getActivity(), jsonHelper.GetResult("data"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), jsonHelper.GetResult("msg"), Toast.LENGTH_SHORT).show();
                             });
                         }
                     }

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,20 +20,26 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.RetrofitModel.FlashSale_friendDeal.Flashsaledatum;
 import tech.iwish.pickmall.activity.FlashSaleProductactivity;
+import tech.iwish.pickmall.activity.MainActivity;
 import tech.iwish.pickmall.config.Constants;
-import tech.iwish.pickmall.other.FlashSaleTopList;
-import tech.iwish.pickmall.other.ProductList;
 
 public class FlashSaleAdapter extends RecyclerView.Adapter<FlashSaleAdapter.Viewholder> {
 
+    private final List<Flashsaledatum> productListList;
     //    private List<FlashsalemainList> flashsalemainLists ;
     private Context context;
-    private List<FlashSaleTopList> productListList;
+//    private List<FlashSaleTopList> productListList;
 
-    public FlashSaleAdapter(Context context, List<FlashSaleTopList> productListList) {
+//    public FlashSaleAdapter(Context context, List<FlashSaleTopList> productListList) {
+//        this.context = context;
+//        this.productListList = productListList;
+//    }
+
+    public FlashSaleAdapter(MainActivity context, List<Flashsaledatum> flashsaledata) {
         this.context = context;
-        this.productListList = productListList;
+        this.productListList = flashsaledata;
     }
 
     @NonNull
@@ -52,13 +57,13 @@ public class FlashSaleAdapter extends RecyclerView.Adapter<FlashSaleAdapter.View
         String a = Constants.IMAGES + productListList.get(position).getPimg();
         Glide.with(context).load(a).into(holder.image_flash_sale);
 
-        holder.actual_price_flash.setText(context.getResources().getString(R.string.rs_symbol) + productListList.get(position).getActual_price());
+        holder.actual_price_flash.setText(context.getResources().getString(R.string.rs_symbol) + productListList.get(position).getActualPrice());
 
-        SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol) + productListList.get(position).getDiscount_price());
+        SpannableString content = new SpannableString(context.getResources().getString(R.string.rs_symbol) + productListList.get(position).getDiscountPrice());
         content.setSpan(new StrikethroughSpan(), 0, content.length(), 0);
         holder.dicount_price_flash.setText(content);
-        float actual = Float.parseFloat(productListList.get(position).getActual_price());
-        float dis = Float.parseFloat(productListList.get(position).getDiscount_price());
+        float actual = Float.parseFloat(productListList.get(position).getActualPrice());
+        float dis = Float.parseFloat(productListList.get(position).getDiscountPrice());
         float disco = dis - actual;
         float fin = disco / dis * 100;
         int aa = (int) fin;

@@ -69,6 +69,7 @@ import tech.iwish.pickmall.other.ProductList;
 import tech.iwish.pickmall.other.WishlistList;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.facebook.FacebookSdk.getCodelessDebugLogEnabled;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewholder> {
 
@@ -217,7 +218,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
                         intent.putExtra("product_name", productLists.get(position).getProductName());
                         intent.putExtra("actual_price", productLists.get(position).getActual_price());
                         intent.putExtra("discount_price", productLists.get(position).getDiscount_price());
-                        intent.putExtra("product_id", productLists.get(position).getProduct_id());
+                        intent.putExtra("product_id", String.valueOf(productLists.get(position).getProduct_id()));
                         intent.putExtra("product_Image", productLists.get(position).getPimg());
                         intent.putExtra("vendor_id", productLists.get(position).getVendor_id());
                         intent.putExtra("gst", productLists.get(position).getGst());
@@ -391,9 +392,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
             intent.setType("image/jpeg");
             intent.setPackage("com.whatsapp");
             intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUriArray);
-            context.startActivity(intent);
+            try {
+                context.startActivity(intent);
+            } catch (Exception e) {
+                Log.e("error" ,e.getMessage());
+            }
             imageUriArray.clear();
-            Toast.makeText(context, "Copy to Clipboard", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Description are Copied to your Clipboard", Toast.LENGTH_SHORT).show();
             ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("label", "*" + productName + "*" + "\n\n" + msg);
             clipboard.setPrimaryClip(clip);

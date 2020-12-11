@@ -26,9 +26,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import tech.iwish.pickmall.Interface.AllCategoryInterface;
 import tech.iwish.pickmall.Interface.ItemCategoryInterface;
 import tech.iwish.pickmall.ProgressBar.CustomProgressbar;
 import tech.iwish.pickmall.R;
+import tech.iwish.pickmall.adapter.AllItemAdapter;
 import tech.iwish.pickmall.adapter.CategoryAdapter;
 import tech.iwish.pickmall.adapter.ItemAdapter;
 import tech.iwish.pickmall.config.Constants;
@@ -42,8 +44,8 @@ public class AllcategoryActivity extends AppCompatActivity  {
 
     private RecyclerView all_itemrecycleview ;
     private List<ItemList> itemLists = new ArrayList<>();
-    private ItemAdapter itemAdapter;
-    private ItemCategoryInterface itemCategoryInterface;
+    private AllItemAdapter itemAdapter;
+    private AllCategoryInterface itemCategoryInterface;
     private List<CategoryList> categoryLists = new ArrayList<>();
     private ImageView back,FeedBottom;
 
@@ -65,30 +67,21 @@ public class AllcategoryActivity extends AppCompatActivity  {
 
         allItemCategory();
 
-        itemCategoryInterface = new ItemCategoryInterface() {
-            @Override
-            public void itemcatinterface(String value) {
-
-                Bundle bundle = new Bundle();
-                Categoryfragment categoryfragment = new Categoryfragment();
-                bundle.putString("value",value);
-                categoryfragment.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.categorylayout , categoryfragment).commit();
-
-            }
+        itemCategoryInterface = value -> {
+            Bundle bundle = new Bundle();
+            Categoryfragment categoryfragment = new Categoryfragment();
+            bundle.putString("value",value);
+            categoryfragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.categorylayout , categoryfragment).commit();
         };
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        back.setOnClickListener(view -> onBackPressed());
 
     }
 
 
     private void allItemCategory() {
+
+    /*
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -116,13 +109,60 @@ public class AllcategoryActivity extends AppCompatActivity  {
                                 jsonHelper.setChildjsonObj(jsonArray, i);
                                 itemLists.add(new ItemList(jsonHelper.GetResult("item_id"), jsonHelper.GetResult("item_name"), jsonHelper.GetResult("icon_img"), jsonHelper.GetResult("type"), jsonHelper.GetResult("item_type")));
                             }
+                            AllcategoryActivity.this.runOnUiThread(() -> {
+                                    itemAdapter = new AllItemAdapter(itemLists, itemCategoryInterface);
+                                    all_itemrecycleview.setAdapter(itemAdapter);
+
+                            });
+
+                        }
+                    }
+                }
+            }
+        });
+
+*/
+
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("item_id", "7");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        Request request1 = new Request.Builder().url(Constants.ALL_CATEGORY_ITEM).post(body).build();
+
+
+        okHttpClient.newCall(request1).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+
+                    String result = response.body().string();
+                    Log.e("output", result);
+                    JsonHelper jsonHelper = new JsonHelper(result);
+                    if (jsonHelper.isValidJson()) {
+                        String responses = jsonHelper.GetResult("response");
+                        if (responses.equals("TRUE")) {
+                            JSONArray jsonArray = jsonHelper.setChildjsonArray(jsonHelper.getCurrentJsonObj(), "data");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                jsonHelper.setChildjsonObj(jsonArray, i);
+                                itemLists.add(new ItemList(jsonHelper.GetResult("item_id"), jsonHelper.GetResult("item_name"), jsonHelper.GetResult("icon_img"), jsonHelper.GetResult("type"), jsonHelper.GetResult("item_type")));
+                            }
                             AllcategoryActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    itemAdapter = new ItemAdapter(AllcategoryActivity.this, itemLists, itemCategoryInterface);
+                                    itemAdapter = new AllItemAdapter(itemLists, itemCategoryInterface);
                                     all_itemrecycleview.setAdapter(itemAdapter);
-//                                    all_itemrecycleview.addItemDecoration(new GridSpacingItemDecoration(50));
-
                                 }
                             });
 
@@ -131,6 +171,9 @@ public class AllcategoryActivity extends AppCompatActivity  {
                 }
             }
         });
+
+
+
 
     }
 
